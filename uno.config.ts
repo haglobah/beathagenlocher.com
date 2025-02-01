@@ -47,7 +47,8 @@ export default defineConfig({
     presetWebFonts({
       provider: 'google',
       fonts: {
-        sans: 'IBM Plex Sans',
+        sans: 'Fira Sans',
+        mono: 'Fira Code',
         serif: 'IBM Plex Serif'
       },
     },
