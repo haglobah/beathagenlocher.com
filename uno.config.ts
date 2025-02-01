@@ -47,10 +47,10 @@ export default defineConfig({
     presetWebFonts({
       provider: 'google',
       fonts: {
-        sans: 'Fira Sans:100,200,300,400,500,600,700,800,900',
-        inter: 'Inter:100,200,300,400,500,600,700,800,900',
-        mono: 'Fira Code:100,200,300,400,500,600,700,800,900',
-        serif: 'IBM Plex Serif:100,200,300,400,500,600,700,800,900'
+        sans: 'Fira Sans:100,200,300,400,500,600,700,800,900:italic',
+        inter: 'Inter:100,200,300,400,500,600,700,800,900:italic',
+        mono: 'Fira Code:100,200,300,400,500,600,700,800,900:italic',
+        serif: 'IBM Plex Serif:100,200,300,400,500,600,700,800,900:italic'
       },
     },
   ),
