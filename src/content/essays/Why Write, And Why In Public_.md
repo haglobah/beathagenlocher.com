@@ -1,0 +1,24 @@
+---
+title: Why Write, And Why In Public? 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+Do you want to get better at:
+1. Thinking clearly
+2. Communicating your thoughts
+3. Improving your reasoning?
+
+I want to, and I think Writing in Public might be the way to go.
+## Here's why:
+1. _Writing_ forces me to think.
+2. _Writing with an audience in mind_ forces me to make my thoughts concrete, explain context, and spot gaps.
+3. _Writing in public_ invites discussions, enables people to point out flaws—giving me the opportunity to improve my reasoning.
+---
+I recently signed up for Dickie Bush & Nicolas Cole's cohort-based course, Ship 30 for 30.
+
+Over the next 30 days, I plan on writing about (functional) programming, living a simple(r) life, and whatever comes to mind.
+
+Join me on this adventure—and let me know if you have any questions along the way!  
+I'm excited to start sharing my thinking online.

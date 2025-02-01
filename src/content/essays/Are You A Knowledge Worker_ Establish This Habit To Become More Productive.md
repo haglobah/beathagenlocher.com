@@ -1,0 +1,30 @@
+---
+title: Are You A Knowledge Worker? Establish This Habit To Become More Productive
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+topics:
+- Typing
+---
+
+TL;DR: Establish a typing practice.
+
+Chances are you've never practiced to type done that—so this is quite the low-hanging fruit.
+
+Let's assume you spend a bit more than a quarter of your workday typing. That can be writing a document, coding, but also things like searching the web, filling out forms, and of course, prompting ChatGPT.
+
+Let's also assume you type at average speed: 40 words per minute (wpm).
+
+That would mean you spend at least two hours per day typing at your slow speed, at 40 wpm. Just raising your typing speed to 60 wpm would reduce that time to 1 hour and 20 minutes, shaving 40 typing minutes off your day.
+
+But we can do more than that.
+
+The typing practice website keybr has [anecdotal evidence](https://www.keybr.com/help) that **if you type at 40 wpm, a speed improvement to 70 wpm in under 10 hours of practice is realistic.**
+
+So, so you want to tackle typing faster. You resolve that you practice typing first thing after starting your PC, for 10 minutes. It would take 12 weeks until you reach 70 wpm. But the real question is: How long does it take until you don't have to start earlier anymore?
+
+You only need 44 wpm for that.
+
+With linear progress (conservative guess)**, that's 8 days**.
+
+8 days you need to start to work 10 minutes earlier so that after 3 months, you save 30 minutes per day _while continuing the habit_.

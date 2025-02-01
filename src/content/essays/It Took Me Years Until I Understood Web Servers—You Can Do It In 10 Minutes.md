@@ -1,0 +1,28 @@
+---
+title: It Took Me Years Until I Understood Web Servers—You Can Do It In 10 Minutes 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+Web Servers are surprisingly simple.
+
+A Web Server is a program that takes in a string and returns a string. The incoming and the outgoing string both adhere to rules: They follow a _protocol_. The protocol defines how the Web Server has to react to the incoming string. The protocol Web Servers follow is called [HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP).
+
+A Web Server is a program that reads _HTTP requests_ and returns _HTTP_ _responses_. There are a [number of requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) (e.g. GET, POST, PUT, DELETE), as well as [possible responses](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) (e.g. 200 Ok, 301 Moved permanently, 404 Not found). Those HTTP requests and responses get transmitted by another protocol, [TCP](https://developer.mozilla.org/en-US/docs/Glossary/TCP).
+
+A Web Server is a program that typically runs on a machine somewhere on the [World Wide Web](https://developer.mozilla.org/en-US/docs/Glossary/World_Wide_Web). (And yes, this machine is called _Server_, too.) The World Wide Web is not the same as the [Internet](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/How_does_the_Internet_work)—it's an application that runs on top of it. This machine has a lot of _ports_ (65535, to be exact), and if it has a Web Server on it, at least one of these ports is open: Port 80.
+
+You know what? We can write a HTTP request by hand. Launch a terminal and type:
+
+```shell
+> curl --verbose telnet://google.com:80 (Enter)
+* Host google.com:80 was resolved (... rest of telnet answer)
+GET / HTTP/1.1
+Host: google.com (Hit Enter twice)
+
+HTTP/1.1 301 Moved Permanently
+(... rest of HTTP response)
+```
+
+In case it took under five minutes to read this once, you can [read it again](https://practicaltypography.com/typography-in-ten-minutes.html).

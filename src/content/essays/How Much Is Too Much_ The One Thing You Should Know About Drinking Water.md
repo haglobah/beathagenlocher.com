@@ -1,0 +1,28 @@
+---
+title: How Much Is Too Much? The One Thing You Should Know About Drinking Water 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+We all know it already: It's important to stay hydrated throughout the day.
+
+There may be something you don't know yet:
+
+**You can drink too much water, too.**
+
+For a long time, I did. I felt dizzy. Exhausted. Had Headaches. That should have been something for me to notice and do something against—right? The crazy thing is this: For me, the symptoms of drinking too much and too little water were so similar that I didn't notice.
+
+People around did notice.
+
+They mentioned it, and I wasn't convinced that I could be drinking too much water. I knew there had been times when I was dehydrated and felt very similar. But then, I learned that overhydration can feel very similar to dehydration: A good friend heard sent me an excerpt from a podcast featuring a story about overhydration and what it feels like.
+
+I reduced my water intake, especially in the evening—and the symptoms almost instantly improved.
+
+So, if you regularly feel dizzy, have headaches, need to go to the toilet often (especially during the night) and your urine is relatively light:
+
+**Chances are you're not dehydrated, but overhydrated.**
+
+Try to drink less for about three days, and you'll see whether you are.
+
+I even found [the episode](https://youtu.be/q37ARYnRDGc?feature=shared&t=1659) again.

@@ -1,0 +1,32 @@
+---
+title: Does Your Repo's Getting Started Section Take More Than 10 Minutes? Just Use Nix. 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+topics:
+- Nix
+---
+
+Let's first ask ourselves: What _should_ the Getting Started section of a project look like?
+
+Abstractly, I think it should be something like this:
+
+1. `git clone <repo-name> && cd <repo-name>`
+2. "Install the necessary dependencies"
+3. "Run the app as intended"
+
+And well, we all know what it _can_ look like—I won't go into that here.
+
+---
+With a `devShell` from a [Nix Flake](https://zero-to-nix.com/concepts/flakes), we can get to this:
+0. (You probably need to [install Nix](https://zero-to-nix.com/start/install) first: )
+```shell
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+```
+1. `git clone <repo-name> && cd <repo-name>`
+2. `nix develop`
+3. "Run the app as intended"—if your `flake.nix`-Person did it right, `nix develop` should make clear how to do that.
+
+And the best part? _One person_ can setup this flake, _once_—and the 'works on my machine'-days [are gone](https://mitchellh.com/writing/nix-with-dockerfiles).
+
+That's all I've got for today. See you tomorrow! 🚢 👋

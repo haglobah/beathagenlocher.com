@@ -1,0 +1,28 @@
+---
+title: The 3 Strategies I Used To Remove Neck Pain From My Life 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+From 2018 to 2023, I really struggled with Neck Pain.
+
+About every other week, I would wake up in the morning, turn my head a little, and immediately feel my muscles tighten. And then I didn't even need to bother anymore: Even just trying to turn my head would be really painful. The only two things that would help were: Blackrolling extensively (1), and sitting perfectly upright for long periods, with only observing my breath (2).
+
+In the summer of 2021, everything changed.
+
+I decided to consistently do something against it—and not only treat the symptoms. And as with most of the pain from strained muscles, it came down to three things:
+
+1. Reducing the stressors
+2. Relieving the muscles
+3. Strenghtening the muscles (and/or their antagonists)
+
+I tackled my two biggest stressors (1): Since then, I've been sleeping on my back, and whenever I write by hand, I'm changing positions frequently.
+
+That alone greatly reduced the effect my neck pain had on my life.
+
+(2) is something I did troughout, via blackrolling—but what I still didn't do for a long time was actually strengthening them (3). That is something I've been doing for the last one and a half years only: And since about a year, I really feel the effect of it.
+
+Now, I don't even remember when the last time was I woke up with a pain like that.
+
+It's certainly been more than a few months—my 2021-self would be astonished.

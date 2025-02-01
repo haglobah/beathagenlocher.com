@@ -1,0 +1,32 @@
+---
+title: The 2 Ways Merino T-Shirts Help You To Be More Minimalist
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+Not that long ago, I was dismissive towards Merino T-Shirts:
+
+- "Why would anybody spend 80€ plus for a T-Shirt?"
+- "It has to be an accessoire for people who need to spend money to get themselves to go hiking."
+
+Then, I realized something: Merino T-Shirts are **more versatile** than cotton ones, are **five T-Shirts in one**, and with that, **a real alternative** to normal clothing.
+
+## Way #1: You can wear them in many more environments.
+
+Ever feared riding up that hill and then being cold afterwards?  
+**They keep you warm even when they're wet.**
+
+Ever feared you'd smell too much after that?  
+**They smell way less.**
+
+And now the big one:
+
+## Way #2: They are five T-Shirts in one
+
+- They take up less space
+- They reduce your choices of what to wear
+- You don't need to wash that often, etc.
+- They are cheaper: Assuming a normal T-Shirt costs 20€, a T-Shirt you can wear for 5 days straight but costs 80€ suddenly sounds like a good deal, doesn't it?
+
+(What do you think about Merino T-Shirts? Is there anything I've missed?)

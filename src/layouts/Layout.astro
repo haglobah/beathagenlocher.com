@@ -1,0 +1,55 @@
+---
+import { SEO } from "astro-seo";
+
+export interface Props {
+	title?: string;
+	desc?: string;
+	type?: string;
+	coverImage?: string;
+}
+
+const { title, desc, type, coverImage } = Astro.props;
+
+/* const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString(); */
+
+// Generate OG image URL
+const currentPath = Astro.url.pathname;
+const contentId = currentPath.split("/").filter(Boolean).join("/");
+
+// Use localhost URL in development, production URL otherwise
+const baseUrl = import.meta.env.DEV ? "http://localhost:4321" : Astro.site;
+
+// Construct OG image URL - now just using the content ID directly
+const ogImageURL = type
+	? new URL(`/og/${contentId}.png`, baseUrl)
+	: new URL(`/og.png`, baseUrl);
+
+// Only add search params for non-content pages (like the homepage)
+if (!type) {
+	if (title) ogImageURL.searchParams.set("title", title);
+	if (desc) ogImageURL.searchParams.set("description", desc);
+	if (coverImage) ogImageURL.searchParams.set("coverImage", coverImage);
+}
+
+// Google Analytics type declarations
+declare global {
+	interface Window {
+		dataLayer: any[];
+		gtag: (...args: any[]) => void;
+	}
+}
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+	</head>
+	<body class="font-serif">
+		<!-- <Navbar /> -->
+		<main>
+			<slot />
+		</main>
+	</body>
+</html>

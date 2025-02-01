@@ -1,0 +1,30 @@
+---
+title: How Programming Changes Your Thinking—And You Can't Even Explain 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+A few weeks ago, I realized something: Programming makes your thinking _accurate_.
+
+I was showing friends of mine what Software Engineering in a larger project could look like. They were newbies—they knew little about `bash`, weren't used to Build Systems, and didn't have much Linux experience. I let them try to set things up with a guide. The guide didn't provide them with all the information, and they got errors.
+
+But when I asked them about what they did so far, they surprised me.
+
+They just casually answered what they 'tried to do'.
+
+When pressing them about what _exactly_ they did, they had a hard time grasping the question. I asked again what _specific commands they typed in, and in which order_—but they just stared back.
+
+In their view, they'd already said what could be said.
+
+And then I realized that I once felt that way, too.
+
+I remember being confused that people wanted to understand what exactly I had typed in, and getting irritated when my answers weren't satisfactory to them.
+
+I think this comes down to how we as humans interact with each other and with technology. Surprisingly often, we're able to get away with 'trying to do something', and the other side (be it tech or human) _guessing our intention_ and doing the approximately correct thing.
+
+Or at least it's not painful enough to change our behaviour.
+
+Learning to program is just that: Many, many opportunities to make your thinking more accurate. With time, people that program just 'get it'. And then, someday, when they want to tell newbies to 'think more accurately', they have their own moment of realization:
+
+I've been there, too.

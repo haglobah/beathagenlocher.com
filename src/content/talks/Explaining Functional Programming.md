@@ -1,0 +1,98 @@
+---
+title: Explaining Functional Programming
+description: Most of us have been there—explaining functional programming is hard. This talk first gathers the prerequisites for understanding functional programming and then provides a template for explaining it. In the meantime, it touches on the history of programming, programming languages, and some general concepts such as coupling and complexity.
+startDate: 2024-12-20
+updated: 2025-01-15
+growthStage: budding
+topics: ["Functional Programming", "Good Explanations", "Programming Concepts"]
+conferences:
+  [
+    { name: "Tü-λ | Functional Programming Meetup Tübingen", date: "2025-01-15", location: "itdesign" },
+  ]
+
+---
+
+-<>- [[What Is Functional Programming]]
+-<>- [[Good Explanations]]
+-<>- [[Programming Concepts]]
+-<>- [[Which Functional Programming Language Should I Start With]]
+
+# Abstract
+Most of us have been there—explaining functional programming is hard.
+
+This talk first gathers the prerequisites for understanding functional programming and then provides a template for explaining it. In the meantime, it touches on the history of programming, programming languages, coupling, complexity and some general concepts.
+
+# End
+
+- What constitutes a good explanation?
+1. It should actually make you able to predict things you couldn't predict before: No [[Mysterious Answers to Mysterious Questions]]
+2. It should provide context to embed it in—you should be able to regenerate the explanation from the context given. And maybe even able to explain other stuff? [[Regenerate the Knowledge]]
+3. It should have enough open threads to make you curious for more.
+4. It should be hard-to-vary: If it can explain anything, it really explains nothing. 
+
+  - Depends on the context, but _"[[Math]]"_ probably isn't one.
+
+- Those paradigm names are _bad_: No one would name a whole field of stuff after one of the main elements—well, it turns out that people do, and always did. ([[Computer Science]], [[Algebra]])
+  - Those paradigms would be more adequately named _Machine State Programming_, _Machine State programming independent from the machine_, _Object Oriented Programming_—this one's okay, it describes things quite well, I think—and decoupled programming.
+
+5. Replace the symbol with the substance: ~~functional programming~~ -> \[[[Low Coupling]], [[Declarative Coding]], [[Immutability]]\]
+6. What is a programming language? -> [[Programming languages as sets of features]]
+
+7. What is the history of [[Coupling]]?
+  1. [[Machine Code]]
+  2. [[Assembly]]
+  3. [[Structured Programming]]/[[Procedural Programming]]
+  4. [[Object Oriented Programming|OOP]]
+  5. [[Functional Programming|FP]]?
+
+8.  [[Lambda Calculus]] and [[Turing Machine]]s: The two families of [[Programming Language]]s
+
+9. Jump from [[Object Oriented Programming|OO]] to [[Functional Programming|FP]]: [[Behavior Data Time]]
+10. Interpreting the [[History of Coupling]]: The complexity of our programs and systems rises, our working memory is constant, so it's really, really useful if the incidential complexity of our code _goes down_.
+
+So, what _is_ [[Functional Programming]]? A style you can write programs in that has these chracteristics/uses these features:
+- [[Low Coupling]]
+- [[Immutability]]
+- pure [[Function]]s
+- 
+
+# Start
+
+Most of us have been there: 
+- What are you doing for a job?
+- What is this meetup you go to?
+- You're interested in that?
+
+And then we try to explain.
+We use crutches: We say in which language we write code in.
+
+We say "It's ilke math", we call it "simple", but nothing of it really clicks. And we can see it.
+
+So, how _can_ we make it click?
+
+In the next couple of minutes, let's go through my attempts to explain functional programming, and maybe that even offers one or two perspectives along the way.
+
+# Proceed
+
+I regularly try to explain the point of functional programming to people, but it's hard.
+
+Read a lot of Yudkowsky: 
+We need to [[Replace the Symbol with the Substance]].
+
+Remember, you need to understand [[Programming languages as sets of features]]:
+Then, things will be way more clear.
+
+For every of these features, there is a spectrum from high [[Coupling]] to low [[Coupling]].
+
+[[Coupling]] is bad.
+[[You should not complect]]. -<>- [[Simple Made Easy]]
+
+Now it's way easier to understand programming paradigms:
+They are sets of programming languages that have sets of features which are on similar points on the coupling spectrum.
+
+To program functionally then means to draw from the features programmers in the languages of the functional programming paradigm set use.
+
+-> to use features on a certain level of abstraction, and on a certain level of coupling.
+
+1. Replace the symbol with the substance
+2. 

@@ -2,6 +2,8 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 // import { file } from "astro/loaders";
 
+const growthStageEnum = z.enum(["seedling", "budding", "evergreen"])
+
 const notesCollection = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
   schema: () =>
@@ -11,10 +13,10 @@ const notesCollection = defineCollection({
       aliases: z.array(z.string()).optional(),
       startDate: z.coerce.date(),
       updated: z.coerce.date(),
-      type: z.literal("note"),
+      // type: z.literal("note"),
       topics: z.array(z.string()).optional(),
-      growthStage: z.string(),
-      draft: z.boolean().optional(),
+      growthStage: growthStageEnum,
+      publish: z.boolean().optional(),
       toc: z.boolean().optional(),
     }),
 });
@@ -24,15 +26,15 @@ const essaysCollection = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      description: z.string(),
+      description: z.string().optional(),
       updated: z.coerce.date(),
       startDate: z.coerce.date(),
-      type: z.literal("essay"),
-      cover: image(),
+      // type: z.literal("essay"),
+      cover: image().optional(),
       topics: z.array(z.string()).optional(),
-      growthStage: z.string(),
+      growthStage: growthStageEnum,
       featured: z.boolean().optional(),
-      draft: z.boolean().optional(),
+      publish: z.boolean().optional(),
       toc: z.boolean().optional(),
       aliases: z.array(z.string()).optional(),
     }),
@@ -49,7 +51,7 @@ const essaysCollection = defineCollection({
 //       type: z.literal("pattern"),
 //       topics: z.array(z.string()).optional(),
 //       growthStage: z.string(),
-//       draft: z.boolean().optional(),
+//       publish: z.boolean().optional(),
 //       toc: z.boolean().optional(),
 //     }),
 // });
@@ -62,9 +64,9 @@ const talksCollection = defineCollection({
       description: z.string(),
       startDate: z.coerce.date(),
       updated: z.coerce.date(),
-      type: z.literal("talk"),
+      // type: z.literal("talk"),
       topics: z.array(z.string()),
-      growthStage: z.string(),
+      growthStage: growthStageEnum,
       conferences: z.array(
         z.object({
           name: z.string(),
@@ -73,7 +75,7 @@ const talksCollection = defineCollection({
         }),
       ),
       cover: image().optional(),
-      draft: z.boolean().optional(),
+      publish: z.boolean().optional(),
     }),
 });
 
@@ -124,7 +126,7 @@ const talksCollection = defineCollection({
 //     title: z.string(),
 //     date: z.coerce.date(),
 //     type: z.literal("now"),
-//     draft: z.boolean().default(false),
+//     publish: z.boolean().default(false),
 //   }),
 // });
 

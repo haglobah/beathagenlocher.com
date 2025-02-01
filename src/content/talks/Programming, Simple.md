@@ -1,0 +1,86 @@
+---
+title: Simple Development Environments With Nix
+description: Setting up development environments is more complex than it should be. Nix makes entering development environments as easy as running nix develop, making them simple and reproducible. This talk explores what an ideal workflow could look like and walks through a project setup with Nix, outlining its benefits and deficiencies.
+startDate: 2024-06-12
+updated: 2025-08-28
+growthStage: budding
+topics: ["Functional Programming", "Good Explanations", "Programming Concepts"]
+conferences:
+  [
+    { name: "Tü-λ | Functional Programming Meetup Tübingen", date: "2024-08-28", location: "itdesign" },
+  ]
+draft: true
+---
+
+What makes a program?
+
+A program is a thing we can execute on a computer.
+
+It takes something and produces something.
+
+Let's look at these somethings:
+
+Hello World:
+Nothing -> printed string
+
+Tic-Tac-Toe:
+Input -> printout
+
+Web server:
+HTTP request -> HTTP response
+
+Interpreter:
+Source Code -> World Effect
+
+Compiler:
+Program (source language) -> Program (target language)
+
+Operating System:
+Program -> Scheduled World Effect
+
+Syscalls:
+OS request -> Effect, OS response
+
+Docker:
+
+Kubernetes:
+
+Build System:
+
+
+Package Manager:
+- package.json -> node_modules
+- code, node_modules -> world effect
+
+Web Browser:
+Domain -> HTTP response
+
+Turing Machine:
+Machine State -> Machine State
+
+Lambda Calculus:
+Function -> Result
+
+Pick a target, and then move up the chain, building blocks together.
+
+Alternatively, I could pick something like a web browser, and then decompose the steps from domain to rendered screen.
+
+I want to have example code (best if it's all in different languages) that only/mostly uses functions, composition, and match statements.
+
+And then in the end, I want to have a running program, of course.
+
+As a name: Polyglot, maybe?
+Or prograph?
+
+How did I come to think about this?
+I had _another_ talk with people that didn't know why functional programming is a good idea.
+The point isn't really that it is: It's that Object Orientation is a worse one.
+
+Can you see what we didn't need to think about?
+- state
+- variables
+- time
+So, that's not completely true: We had to think about all of this stuff—but we only did when we needed to. We only had to think about it _explicitly_.
+
+-<>- [[Simple Made Easy]]
+-<>- [[Behavior Data Time]]

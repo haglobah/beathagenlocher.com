@@ -1,0 +1,78 @@
+---
+title: Things I Regularly Recommend To People
+growthStage: seedling
+startDate: 2025-02-01
+updated: 2025-02-01
+topics: []
+---
+
+I very regularly find myself in conversations with people and recommending stuff to them.
+
+# Want to know what to do with your life?
+-> Read [[Designing your Life]]
+
+# Want to type faster?
+-> Practice on [[Monkeytype]]
+
+# Eyes tired from looking on screens all day long?
+-> Use night mode as a standard, or, better yet:
+- Buy [[Blue Light Filtering Glasses]]
+
+# Ease your pain
+Whenever you have any muscle ache from tension or whatever, the way to go is the following:
+1. Find out what the straining activities are, and limit them
+2. Find out what helps immediately, and do it (like blackrolling, stretching, taking a break)
+3. Find out what helps mid- to longterm: This is almost all of the times some kind of training, maybe also fixing your posture through awareness (and training)
+
+# Forearms hurting/feeling uneasy?
+You may very well be on your way towards [[Repetitive Strain Injury]]. 
+For me, this has been a delicate dance between 
+
+## 1. Limit straining activities
+You can either
+- make the activity less straining
+- or reduce the time you spend while doing it
+
+For me, the most straining activities are/were:
+- Typing: 
+    - If you're typing with [[QWERTY]], you might want to change to a better layout like [[Colemak DH]] (one with less travel)
+    - modifier keys on their normal positions -> modifier keys on homerow mods
+    - columnar layout -> ortholinear layout
+    - heavy switches -> lighter switches
+    - non-split-keyboard -> split keyboard
+    - keyboard without splay -> keyboard with splay
+    - typing with your keyboard on a table -> typing with your keyboard strapped to your legs
+  - Writing much by hand (during studying/when journalling)
+  - being on my phone:
+    - typing
+    - just holding it for longer periods of time
+    - playing phone games 
+  - any sport that's heavy on my wrists: Turning cartwheels, general handstands, but also playing frisbee for a longer period of time
+  - Using my mouse:
+    - If you're using a normal mouse, I can heavily recommend a vertical one
+    - And most programs have keybindings you can use in them: The more seldom you need to move your hands from keyboard to mouse, the better. (And in most jobs, the keyboard is the one you have to use anyway—so optimize for using it more.)
+
+## 2. Ease your pain
+The obvious ones:
+- Stretch your forearms
+- Blackroll your forearms
+
+But very regularly, the problem is that I'm tense almost anywhere else. Sometimes it's my lower back, sometimes it's my shoulders, sometimes it's my chest I need to blackroll to feel better again.
+
+## 3. Strengthen your muscles/Balance your muscle strength 
+For [[Repetitive Strain Injury|RSI]], a part of the problem is that either your muscles are too weak in general, or that agonist and antagonist are unbalanced.
+
+So, you definitely want to pick up training your forearms.
+
+# Neck and Shoulders hurting?
+
+# Holding a talk/Writing an article
+-> [Rhetorik](https://pitch.com/v/rhetorik-8fpznr)
+
+
+
+# Notes
+
+
+# Links
+- 

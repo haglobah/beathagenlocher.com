@@ -1,0 +1,37 @@
+---
+title: Are You A Knowledge Worker? Establish This Habit To Become More Productive
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+Some time ago, I taught a course on learning at a summer school.
+
+Now, some of my students there are beginning their studies and one of them asked me how I would structure them if I were to go to university again. (He's just beginning his studies in physics.) So, I did. This is the advice I gave:
+
+## #0: Figure out what you want out of your life at university
+
+There are probably three goals you have:
+
+1. **Deeply understanding what you're doing**
+2. **Having good grades**
+3. **Enjoying your life**
+
+Try to find a mixture that has as much overlap between them as possible, but if they compete, know how to choose, choose, **and don't agonize** about your choice(s).
+
+## #1: Deeply understanding stuff
+
+- Find a good learning group, and learn with them. Do the task sheets together, and discuss stuff whenever things are unclear.
+- Don't just rely on one source of learning materials. We're not used to thinking that abstractly, and getting more than one perspective on a topic is immensely helpful. Book, Recorded Lectures, Lecture Notes. Everything that helps, counts.
+
+## #2 Having good grades
+
+- Practice. A lot. Get yourself a book with just practice tasks, especially for Analysis 1. Practice with them, from the beginning on. Try to get a hold on old exams, and practice with them, too.
+- Make this a habit: Install a habit of _practice testing_ yourself. Find a time of your day, _for every day_ where you get out your Anki cards and test yourself on things. In the beginning, this can be small definitions, later this might be whole proofs.
+
+## #3 Enjoying your life
+
+- Find some friends, both from your courses and outside of them. Try to have at least two people you can share your (emotional) struggles with (in a healthy way, ofc)
+- Find groups of people you feel belonging to: As soon as you could bring a tray of baked goods with you, and it isn't awkward, they count.
+
+And now for the hard part: Sometimes, you have to choose between the three, and actually pick priorities. Which one do you (or did you) pick?

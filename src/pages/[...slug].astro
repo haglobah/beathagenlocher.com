@@ -1,0 +1,46 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+
+import PostLayout from "../layouts/PostLayout.astro";
+
+type ContentType = "essay" | "note" | "talk";
+type Collections = "essays" | "notes" | "talks";
+
+interface Props {
+	entry: CollectionEntry<Collections>;
+	type: ContentType;
+}
+
+export async function getStaticPaths() {
+	const essays = await getCollection("essays");
+	const notes = await getCollection("notes");
+	const talks = await getCollection("talks");
+
+	return [
+		...essays.map((entry) => ({
+			params: { slug: entry.id },
+			props: { entry, type: "essay" } as const,
+		})),
+		...notes.map((entry) => ({
+			params: { slug: entry.id },
+			props: { entry, type: "note" } as const,
+		})),
+		...talks.map((entry) => ({
+			params: { slug: entry.id },
+			props: { entry, type: "talk" } as const,
+		})),
+	];
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const frontmatter = entry.data;
+---
+
+{
+	<PostLayout frontmatter={frontmatter} headings={headings}>
+		<Content/>
+	</PostLayout>
+}

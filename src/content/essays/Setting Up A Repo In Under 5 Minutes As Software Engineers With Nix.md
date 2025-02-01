@@ -1,0 +1,42 @@
+---
+title: Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+[Again](https://typeshare.co/haglobah/posts/does-your-repos-getting-started-section-have-more-than-10-minutes-just-use-nix): What _should_ setting up a new repo look like?
+
+It should be something like this:
+
+1. 'Create this kind of project'
+2. Initialize the git repo
+3. Create the first commit
+4. Create the repo upstream `origin`
+5. Then, push to `origin`, and set `origin` as upstream.
+
+---
+Okay. Let's say I want to create a new static website project. This is my workflow: (prior to this post, hehe ^^)
+```shell
+> md new-website
+> nft my#pollen-template
+> gi
+> gam "Initial commit"
+> ghi new-website
+> gpo
+```
+
+Can't understand anything? Well, all of them are aliases/shell functions/abbreviations. This is what I typed:
+
+```shell
+> mkdir new-website && cd new-website
+> nix flake init --template github:haglobah/flakes#pollen-template
+> git init
+> git add . && git commit --message "Initial commit"
+> gh repo create new-website --private --source=. --remote=origin
+> git push --set-upstream origin
+```
+
+And of course, it already brings its own [devshell](https://typeshare.co/haglobah/posts/does-your-repos-getting-started-section-have-more-than-10-minutes-just-use-nix).
+
+How do you set up a new project? And do you have any suggestions for a better workflow? Let me hear in the comments!

@@ -1,0 +1,142 @@
+---
+title: Simple Development Environments With Nix
+description: Setting up development environments is more complex than it should be. Nix makes entering development environments as easy as running nix develop, making them simple and reproducible. This talk explores what an ideal workflow could look like and walks through a project setup with Nix, outlining its benefits and deficiencies.
+startDate: 2024-06-12
+updated: 2025-08-28
+growthStage: budding
+topics: ["Functional Programming", "Good Explanations", "Programming Concepts"]
+conferences:
+  [
+    { name: "Tü-λ | Functional Programming Meetup Tübingen", date: "2024-08-28", location: "itdesign" },
+  ]
+draft: true
+---
+
+-<>- [[Slidev]]
+-<>- [[Slidev example talks]]
+
+[[David Binder]]s abstract: 
+"Functional programmers cannot use the same data structures and algorithms that imperative programmers are used to. Functional data structures make it easier to reason about what our code does, but have different performance characteristics. This talk will introduce some of the basic and advanced techniques we use when we implement functional data structures efficiently."
+
+# Abstract
+
+"Setting up development environments is more complex than it should be.
+Nix makes entering development environments as easy as running `nix develop`, making them _simple_ and _reproducible_. This talk explores what an ideal workflow could look like and walks through a project setup with Nix, outlining its benefits and deficiencies."
+
+Outcome:
+People have experienced the power & simplicity of [[Nix]], and can't wait to try it out themselves. 
+
+Beginnging:
+Regular thing—you want to try out a new project. So, you clone the repo and follow the README. Unfortunately, it's only described for [[macOS]] and [[Debian]]-based distros, and at the point you figured out how to install all the described components, it still does not work, since there's some system library the author took for granted that you don't have available.
+
+Now it's been 30 minutes, and you still haven't started trying it out locally.
+
+Let's think for a moment: What _should_ this process look like?
+
+1. `git clone repo && cd repo`
+2. 'Install all necessary dependencies'
+3. 'Run the app as intended'
+
+Now, you might ask yourself: That looks like it should be possible with a bash script. Why aren't people doing this already?
+
+-> Would need a unified interface, which we don't have (as in: Only one package manager, only one shell, ...) to be maintainable.
+
+And even if we solved that (or put in the maintenance effort): 
+- How do we ensure that it doesn't interfere with existing packages (conflicting versions)
+- 
+
+Well, there is a unified interface like that: [[Nix]]. (And by extension, [[Guix (System)]])
+
+Let's just use it:
+```bash
+> git clone git@github.com:tu-lambda/tu-lambda.github.io
+
+> cd tu-lambda.github.io
+
+> nix develop
+... downloading and building everything
+🔨 Welcome to devshell!
+
+rps        raco pollen start (Runs the project server)
+
+nix-shell> raco pollen start
+pollen: starting project server
+...
+pollen: ready to rock
+^C
+
+nix-shell> ^C
+
+> raco pollen start 
+raco: command not found
+```
+
+And for you, it's just one command more:
+```bash
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+```
+
+You might ask yourself: If this is so great, why isn't everybody using that already?
+- everything is different
+- using derivations is absolutely great, writing them is _hard_.
+- [[Nix Language]] is.. irritating.
+- Documentation has been really bad, but became okay just during the last few years.
+
+To get around that right now, let's write an example flake with basic primitives only:
+```nix
+{
+	description = "Flakes, demystified";
+
+	inputs = {
+		nixpkgs = "github:nixos/nixpkgs?ref=nixos-unstable";
+	};
+
+	outputs = { nixpkgs }:
+	{
+		devShells.default = nixpkgs.legacyPackages."x86_64-linux".mkShell {
+			packages = [ nixpkgs.legacyPackages."x86_64-linux".racket ];
+
+			shellHook = ''
+				raco pkg install --auto --skip-install pollen racket-langserver string-interpolation
+			'';
+		};
+	};
+}
+```
+
+-> [zero-to-nix/flake.nix at main · DeterminateSystems/zero-to-nix · GitHub](https://github.com/DeterminateSystems/zero-to-nix/blob/main/flake.nix)
+-> [pkgs.mkShell | nixpkgs](https://ryantm.github.io/nixpkgs/builders/special/mkshell/)
+-> [mkDerivation - nix-docs](https://blog.ielliott.io/nix-docs/mkDerivation.html)
+-> [GitHub - surrealdb/surrealdb: A scalable, distributed, collaborative, document-graph database, for the realtime web](https://github.com/surrealdb/surrealdb/tree/main)
+
+```nix
+# for the future
+packages.default = nixpkgs.legacyPackages."x86_64-linux".stdenv.mkDerivation {
+			name = "The website of functional coders Tübingen";
+			src = ./.;
+			buildInputs = [ racket ];
+
+			buildPhase = ''
+				mkdir output
+				raco pollen render ./output
+			'';
+
+			installPhase = ''
+				mkdir -p $out
+				cp output $out
+			'';
+		};
+```
+
+Trade-offs: 
+- Our OSes are not made for this.
+- Writing stuff in the [[Nix Language]] is hard.
+- A bunch of new concepts: [[Nix Flake]]s, [[Nix Derivation]]s, 
+- A bunch of commands: [[nix develop]], [[nix shell]],  
+
+# Resources
+
+-> [OOP 2023 Digital - Das Konferenzprogramm](https://www.oop-konferenz.de/oop-2023/programm/konferenzprogramm#item-5209)
+-> [Zero to Nix](https://zero-to-nix.com/)
+-> [Determinate Systems Nix installer](https://install.determinate.systems/)
+-> 

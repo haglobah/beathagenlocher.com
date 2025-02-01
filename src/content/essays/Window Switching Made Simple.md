@@ -1,0 +1,29 @@
+---
+title: Window Switching Made Simple 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+This is a piece for my self-from-2-years-ago.
+
+I am [automation obsessed](https://mitchellh.com/writing/automation-obsessed). Over the last few years, I've accumulated nice level of tooling to speed things up: Almost all of the most-used commands in my shell history are aliases, I'm creating most of my projects via Nix Flake Templates, and my keyboard layout is full of Macros. But arguably, one of the very basic things has been still missing.
+
+For the longest time in my life, I've been wasting countless keystrokes for switching between all the windows on my computer.
+
+Enter [gnome-magic-window](https://github.com/adrienverge/gnome-magic-window)—since 8 months, I've rarely been switching windows 'the normal way':
+
+- Want to open your terminal? `⌘+t` (Hold super, press t, release both)
+- Want to start to code? `⌘+c`
+- Switch back to your terminal? `⌘+t`
+- Look something up on the internet? `⌘+f` (_f_irefox)
+- Resume coding? `⌘+c`
+
+Yes, it's better, and yes, it's way faster.
+
+But for me, the key difference is that it's _simpler_—there isn't the shortest moment when I'm tabbing through my open applications trying to select the one I want to switch to.
+
+That's what I want to use automation for: Simplicity.
+
+---
+And in case anyone of you got something that's even more versatile/faster/better, _please_ do let me know! (And yes, I do know about tiling window managers.)

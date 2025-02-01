@@ -1,0 +1,30 @@
+---
+title: Less Headaches And Simpler Programs Using Pipes 
+growthStage: budding
+startDate: 2025-02-01
+updated: 2025-02-01
+---
+
+We (humans) have an astonishingly small working memory capacity.
+
+As soon as need to tackle a thought-intensive task, it's likely we hit out working memory capacity. When we do, we either have to stop that task (bad), or drop things we needed to complete the task correctly (also bad). Under normal circumstances, that makes you _feel_ bad, too.
+
+Programmers are humans.
+
+However, we (programmers) seem to enjoy working at out working memory capacity quite a lot—at least that's the only way I can come up with to explain a lot of the code we write. We juggle several dozen objects in our head at once, or write deeply nested function calls when most programming could be as simple as:
+
+## _Utilities that do one thing, and do it right, chained by Pipes._
+
+---
+We even know how to do it, and how it works:
+
+```shell
+cat reply.json | jq '.hits[] | .from, .msg' |  paste -d ':' - - 
+```
+
+Haskell has it, Clojure has them, but I personally like [Elixir](https://elixir-lang.org)'s one the most:
+
+```elixir
+iex> "Elixir" |> String.graphemes() |> Enum.frequencies()
+%{"E" => 1, "i" => 2, "l" => 1, "r" => 1, "x" => 1}
+```

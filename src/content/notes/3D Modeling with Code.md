@@ -1,0 +1,18 @@
+---
+title: 3D Modeling with Code
+description: You know Math. Math describes the world. That should suffice.
+growthStage: seedling
+startDate: 2025-02-01
+updated: 2025-02-01
+topics: []
+---
+
+Ever got annoyed by how crazily unusable [[3D Modeling]] software is?
+
+Just use [[libfive]].
+
+# Notes
+
+
+# Links
+- 
