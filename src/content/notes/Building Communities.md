@@ -10,7 +10,7 @@ topics: []
 
 What do I mean by that?
 
-- It's a [[high-uncertainty problem]] you can (and should) tackle with all the high-uncertainty problem solving methods available (aka. [[Startup Methods]])
+- It's a [[High-uncertainty problem]] you can (and should) tackle with all the high-uncertainty problem solving methods available (aka. [[Startup Methods]])
 - You don't care _at all_ about pleasing the general public. You want to create the strongest enthusiasm possible in the largest group of people—but when you need to/want to choose (and you will need to choose), you want to pick the greater enthusiasm for the smaller amount of people. _Always._
 - Your success depends on the [[Subculture]] Creators you draw to it. You want to make sure your message reaches and activates them.
 
@@ -25,3 +25,20 @@ Seems reasonable, right? Yet it has two not-so-easy-to-get-right parts about it.
 
 And [[Well-Kept Gardens Die By Pacifism]]. Meaning _you need to be very, very clear_ about whom to allow in and to participate and whom you don't allow in.
 
+Normally, if you already got found by some people, 1. is not the problem. I'm worrying you'll fail at the second one.
+
+For enforcing the rules, you 1) _need to know them_ and 2) be prepared to defend them.
+
+In the case of the [[School of Moral Amibition]], you have the rules and know them.
+
+How do you prepare to defend them? You collect every instance of someone that didn't fit/alienated people, and.
+
+From the onboarding, I think can out the following prototypes:
+
+1. People that don't want to actually work on the cause, but only be part of the community (MOPs in [[Subculture]] terms)
+2. People that only want to find people for their own cause—and not contribute to this one
+3. People that only want to show off (consciously or unconsciously)
+
+And, coincidentially: All of them are also people that make it on average less joyful for the ones that _are_ morally ambitious to participate in the community.
+
+So, [[Well-Kept Gardens Die By Pacifism|defend your garden]].
