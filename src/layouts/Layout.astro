@@ -43,12 +43,14 @@ declare global {
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
 		<link rel="stylesheet" href="preflight.css">
+		<title>Astro</title>
 	</head>
-	<body class="font-inter font-light text-lg">
-		<!-- <Navbar /> -->
+	<body class="font-sans font-light">
 		<main>
 			<slot />
 		</main>
