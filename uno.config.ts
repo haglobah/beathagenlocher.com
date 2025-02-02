@@ -4,6 +4,7 @@ import {
   presetWebFonts,
   presetIcons,
  } from 'unocss'
+import { presetFluid } from 'unocss-preset-fluid'
 
 export default defineConfig({
   cli: {
@@ -53,9 +54,27 @@ export default defineConfig({
         mono: 'Fira Code:100,200,300,400,500,600,700,800,900:italic',
         serif: 'IBM Plex Serif:100,200,300,400,500,600,700,800,900:italic'
       },
-    },
-  ),
+    }),
     presetWind(),
+    presetFluid({
+      maxWidth: 1440,
+      minWidth: 320,
+      extendMaxWidth: null,
+      extendMinWidth: null,
+      remBase: 4,
+      useRemByDefault: false,
+      ranges: {
+        xs: [3.125, 2.75],
+        sm: [3.75, 3.89],
+        md: [4.5, 5.5],
+        lg: [5.4, 7.7775],
+        xl: [6.48, 10.9975],
+        '2xl': [7.775, 15.55],
+        '3xl': [9.33, 21.9875],
+        '4xl': [11.1975, 31.09],
+      },
+      commentHelpers: false,
+    }),
   ],
   // ...
 })
