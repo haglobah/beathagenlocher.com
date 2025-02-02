@@ -1,18 +1,21 @@
 ---
 import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
 
 // Get all notes that aren't drafts
 const notes = await getCollection("notes", ({ data }) => !data.draft);
 
 // Sort notes by date
 const sortedNotes = notes.sort(
-	(a, b) =>
-		new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
+  (a, b) =>
+    new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
 );
 ---
 
+<Layout title="Notes">
 {
   sortedNotes.map((note) => (
     <a href={note.id}>{note.data.title}</a>
   ))
 }
+</Layout>

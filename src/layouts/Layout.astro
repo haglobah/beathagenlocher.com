@@ -40,7 +40,7 @@ declare global {
 }
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -48,7 +48,18 @@ declare global {
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="stylesheet" href="preflight.css">
-		<title>Astro</title>
+		<SEO
+			title={title}
+			description={ desc || "Beat's digital garden filled with written thinking" }
+			openGraph={{
+				basic: {
+				  type: "website",
+				  url: Astro.url.href,
+				  title: title || "Beat Hagenlocher",
+				  image: ogImageURL.toString(),
+				}
+			}}
+		>
 	</head>
 	<body class="font-sans font-light">
 		<main>
