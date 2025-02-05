@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro"
 import Ol from "../layouts/OuterLink.astro"
 
 import Section from "../components/Section.astro"
+import WideCard from "../components/WideCard.astro"
 ---
 
 <Layout title="Beat Hagenlocher">
@@ -19,9 +20,16 @@ import Section from "../components/Section.astro"
           I enjoy learning.
         </p>
       </div>
-      <Section title="Mee">
-        
+      <Section title="About Me">
       </Section>
     </header>
+    <div class="f-pt-xl lg:w-1/2 lg:f-py-xl">
+      <Section title="Skills & Abilities">
+        <ol class="group/list">
+          <WideCard>
+          </WideCard>
+        </ol>
+      </Section>
+    </div>
   </div>
 </Layout>

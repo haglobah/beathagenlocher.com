@@ -1,0 +1,84 @@
+---
+
+const {
+  title = "",
+  pos = "",
+  org = "",
+  link = "",
+  description = "",
+  links = [],
+  topics = "",
+  imageSrc = "",
+} = Astro.props;
+
+import RelevantLinks from './RelevantLinks.astro';
+import Badges from './Badges.astro';
+
+---
+
+<li class="mb-12">
+  <div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+    <!-- Background element -->
+    <div class="absolute -inset-x-4 -inset-y-4 z-0 rounded-md transition lg:-inset-x-6 lg:block lg:group-hover:bg-[rgb(51,51,57)] lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] group-hover:drop-shadow-lg"></div>
+
+    {description !== "" && (
+      <header class="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2">
+        {description}
+      </header>
+    )}
+
+    {imageSrc !== "" && (
+      <img
+        class="w-20 mb-2 rounded hover:drop-shadow sm:order-1 sm:col-span-2 sm:translate-y-1"
+        loading="lazy"
+        data-nimg="1"
+        width="200"
+        height="48"
+        src={imageSrc}
+        alt={title || "card image"}
+      />
+    )}
+
+    <div class="z-10 sm:col-span-6 order-0 sm:order-2">
+      {title !== "" && (
+        <>
+          <h3 class="mb-2 font-medium leading-snug text-zinc-200">
+            <div>
+              <a
+                class="inline-flex items-baseline font-medium leading-tight text-zinc-200 hover:text-[#9BBEFF] focus-visible:text-[#9BBEFF] group/link text-base"
+                href={link}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
+                <span>{title}</span>
+                {org !== "" && (
+                  <>
+                    {" "}
+                    @{" "}
+                    <span class="px-1">|</span>{" "}
+                    <span class="inline-block">{org}</span>
+                  </>
+                )}
+              </a>
+            </div>
+          </h3>
+          <div class="text-zinc-500">
+            <span>{pos}</span>
+          </div>
+        </>
+      )}
+
+      <slot/>
+
+      {links && links.length > 0 && (
+        <RelevantLinks {links} />
+      )}
+
+      {topics !== "" && (
+        <Badges topics={topics} />
+      )}
+    </div>
+  </div>
+</li>
+
