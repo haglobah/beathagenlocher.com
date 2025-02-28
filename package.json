@@ -9,12 +9,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.2.3",
+    "astro": "^5.4.0",
     "astro-seo": "^0.8.4"
   },
   "devDependencies": {
-    "unocss-preset-fluid": "^1.0.2",
     "@unocss/reset": "^65.4.3",
-    "unocss": "^65.4.3"
+    "unocss": "^65.4.3",
+    "unocss-preset-fluid": "^1.0.2"
   }
 }
