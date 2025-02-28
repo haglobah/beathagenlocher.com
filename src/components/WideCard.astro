@@ -42,7 +42,7 @@ import Badges from './Badges.astro';
     <div class="z-10 sm:col-span-6 order-0 sm:order-2">
       {title !== "" && (
         <>
-          <h3 class="mb-2 font-medium leading-snug text-zinc-200">
+          <h3 class="font-medium leading-snug text-zinc-200">
             <div>
               <a
                 class="inline-flex items-baseline font-medium leading-tight text-zinc-200 hover:text-[#9BBEFF] focus-visible:text-[#9BBEFF] group/link text-base"
@@ -68,7 +68,9 @@ import Badges from './Badges.astro';
         </>
       )}
 
-      <slot/>
+      <div class="f-text-xs f-py-sm">
+        <slot/>
+      </div>
 
       {links && links.length > 0 && (
         <RelevantLinks {links} />
