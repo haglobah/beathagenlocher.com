@@ -1,13 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro"
-import Ol from "../layouts/OuterLink.astro"
 
+import Ol from "../components/OuterLink.astro"
 import Section from "../components/Section.astro"
+import Par from "../components/Par.astro"
 import WideCard from "../components/WideCard.astro"
 ---
 
 <Layout title="Beat Hagenlocher">
-  <div class="lg:flex lg:justify-between lg:f-gap-sm">
+  <div class="f-mx-xs lg:flex lg:justify-between lg:f-gap-md">
     <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:flex-col lg:justify-between lg:f-py-2xl">
       <div class="f-my-xs">
         <h1 class="f-text-4xl font-light tracking-wide text-zinc-200">
@@ -21,7 +22,22 @@ import WideCard from "../components/WideCard.astro"
         </p>
       </div>
       <Section title="About Me">
+        <Par>
+          Human being on its quest to learn as much as possible and do good in the world.
+        </Par>
+        <Par>
+          Interested in Education, Macroeconomics, History, Organizational Forms, Distributed Systems, Mathematics, Systems Thinking, Category Theory, Learning and Programming Languages.
+        </Par>
+        <Par>
+          Currently learning how to make my life simpler with <Ol to="https://github.com/haglobah/alles">alles</Ol> & <Ol to="https://nixos.org">Nix</Ol> and practicing to type faster.
+        </Par>
+        <Par>
+          When I'm not at the Computer or deliberately learning something, you can find me on walks with nice people, doing sports, or at my <Ol to="https://www.spatzennest-tuebingen.de/">favourite kids camp</Ol> during the summer.
+        </Par>
       </Section>
+      <div class="flex justify-start">
+        <div class="i-heroicons:arrow-left"></div>
+      </div>
     </header>
     <div class="f-pt-xl lg:w-1/2 lg:f-py-xl">
       <Section title="Skills & Abilities">
