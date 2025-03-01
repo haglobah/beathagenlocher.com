@@ -75,6 +75,13 @@ import WideCard from "../components/WideCard.astro"
                     link="https://active-group.de"
                     topics="Clojure, Docker, Nix">
           </WideCard>
+          <WideCard title="zelium.io"
+                    description="Sep 2023 – May 2024"
+                    org=""
+                    link="https://active-group.de"
+                    pos="Startup Dude"
+                    topics="Elixir, Phoenix LiveView, Tailwind CSS, CodeMirror, Nix">
+          </WideCard>
           <WideCard title="Software Development"
                     description="Feb 2021 – Mar 2023"
                     org="Hacker School"
@@ -119,7 +126,78 @@ import WideCard from "../components/WideCard.astro"
         </ol>
       </Section>
       <Section title="Projects">
+        <ol class="group/section">
+          <WideCard title="Mastering 42"
+                    description=""
+                    org=""
+                    imageSrc="https://haglobah.github.io/Mastering-42/src/Images/42_logo.png"
+                    link="https://rootlinks.ch"
+                    pos=""
+                    topics="Racket, Pollen, Tailwind CSS">
+            An attempt to supply the context missing from the projects of the Common Core at 42 School.
+          </WideCard>
+          <WideCard title="ft_transcendence"
+                    description=""
+                    org=""
+                    imageSrc=""
+                    link="https://rootlinks.ch"
+                    pos=""
+                    topics="Elixir, Phoenix LiveView, PostgreSQL, Tailwind CSS">
+            The final project of the Common Core at 42: A web app for playing Pong (with chatting, accounts & stuff)—still has some rough edges.
+          </WideCard>
+        </ol>
       </Section>
+      <Section title="Education">
+        <ol class="group/section">
+          <WideCard title="42 Heilbronn"
+                    description="Mar 2022 – Sep 2023"
+                    org=""
+                    imageSrc=""
+                    link="https://42heilbronn.de"
+                    pos=""
+                    topics="C, C++, Docker, Elixir, Racket">
+          </WideCard>
+          <WideCard title="BSc Physics"
+                    description="Sep 2020 – Feb 2022"
+                    org="ETH Zürich"
+                    imageSrc=""
+                    link="https://42heilbronn.de"
+                    pos=""
+                    topics="C++, Python">
+            <p>
+              Up to the 3rd semester.
+            </p>
+            <p class="italic">
+              Participation in the rootlinks program.
+            </p>
+          </WideCard>
+          <WideCard title="Studium generale et sociale"
+                    description="Oct 2018 – July 2019"
+                    org="Leibniz Kolleg Tübingen"
+                    imageSrc=""
+                    link="https://uni-tuebingen.de/einrichtungen/verwaltung/stabsstellen/leibniz-kolleg/das-leibniz-kolleg/"
+                    pos=""
+                    topics="">
+          </WideCard>
+          <WideCard title="Carlo-Schmid-Gymnasium Tübingen"
+                    description="2010 – 2018"
+                    org=""
+                    imageSrc=""
+                    link="https://csg-tuebingen.de"
+                    pos=""
+                    topics="">
+            <p>Final grade: 1.0</p>
+            <p>Received a price for the best Abitur in Chemistry.</p>
+          </WideCard>
+        </ol>
+      </Section>
+      <footer class="f-pb-xl f-text-xs text-zinc-500">
+        <p class="f-mb-xs">
+          Written in <Ol to="https://github.com/doomemacs/doomemacs">Doom Emacs</Ol> on a <Ol to="https://github.com/andrewjrae/rae-dux">rae-dux keyboard</Ol> with a <Ol to="https://github.com/haglobah/zmk-config-tzcl">custom layout</Ol> while standing upright thanks to <Ol to="https://www.youtube.com/watch?v=iOupyi-lQZM">Ben Vallack</Ol>. Built with <Ol to="https://astro.build/">Astro</Ol> and <Ol to="https://unocss.dev/">UnoCSS</Ol> with <Ol to="https://utopia.fyi/blog/designing-with-fluid-type-scales/">Fluid Type Scales</Ol> on <Ol to="https://nixos.org/">NixOS</Ol>.
+        </p>
+        <p>
+          Layout and Design heavily inspired by <Ol to="https://brittanychiang.com">Brittany Chiang</Ol>.
+      </footer>
     </div>
   </div>
 </Layout>
