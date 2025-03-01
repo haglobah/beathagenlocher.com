@@ -12,12 +12,12 @@ const slug = slugger.slug(title)
 <section id={ slug }
          class="group/section f-scroll-mt-xl"
          aria-label={ title }>
-  <div class="sticky top-0 z-20 w-full f-mb-xs f-p-xs backdrop-blur lg:relative lg:px-0 lg:py-5 lg:top-auto lg:mx-auto lg:w-full">
+  <div class="sticky top-0 pt-1 pb-3 z-20 w-full backdrop-blur lg:relative lg:px-0 lg:py-5 lg:top-auto lg:mx-auto">
     <SectionTitle>
       { title }
     </SectionTitle>
-    <div class="f-py-xl">
-      <slot/>
-    </div>
+  </div>
+  <div class="f-py-xl">
+    <slot/>
   </div>
 </section>
