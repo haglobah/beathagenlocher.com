@@ -4,6 +4,8 @@ import { render } from "astro:content";
 
 import PostLayout from "../layouts/PostLayout.astro";
 
+import Ol from '../components/OuterLink.astro';
+
 type ContentType = "essay" | "note" | "talk";
 type Collections = "essays" | "notes" | "talks";
 
@@ -37,10 +39,12 @@ const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 
 const frontmatter = entry.data;
+
+const components = {a: Ol}
 ---
 
 {
 	<PostLayout frontmatter={frontmatter} headings={headings}>
-		<Content/>
+		<Content/ components={components}>
 	</PostLayout>
 }
