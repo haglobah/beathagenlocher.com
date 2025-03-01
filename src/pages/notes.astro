@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
+import Il from "../components/InnerLink.astro";
+
 // Get all notes that aren't drafts
 const notes = await getCollection("notes", ({ data }) => !data.draft);
 
@@ -15,7 +17,7 @@ const sortedNotes = notes.sort(
 <Layout title="Notes">
 {
   sortedNotes.map((note) => (
-    <a href={note.id}>{note.data.title}</a>
+    <Il to={note.id}>{note.data.title}</Il>
   ))
 }
 </Layout>
