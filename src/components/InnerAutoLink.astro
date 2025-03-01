@@ -1,0 +1,12 @@
+---
+import Il from './InnerLink.astro'
+
+const { to } = Astro.props
+
+import GitHubSlugger from 'github-slugger'
+
+const slugger = new GitHubSlugger()
+const slug = slugger.slug(to)
+
+---
+<Il to={ slug }>{ to }</Il>
