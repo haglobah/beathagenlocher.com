@@ -5,7 +5,7 @@ import { glob } from "astro/loaders";
 const growthStageEnum = z.enum(["seedling", "budding", "evergreen"])
 
 const notesCollection = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
+  loader: glob({ pattern: ["**/*.md", "**/*.mdx"], base: "./src/content/notes" }),
   schema: () =>
     z.object({
       title: z.string(),
