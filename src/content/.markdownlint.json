@@ -1,0 +1,10 @@
+{
+    "line-length": false,
+    "no-inline-html": false,
+    "no-multiple-blanks": false,
+    "single-title": false,
+    "blanks-around-headings": false,
+    "blanks-around-lists": false,
+    "no-duplicate-heading": false,
+    "heading-style": false
+}
