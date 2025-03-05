@@ -1,0 +1,18 @@
+---
+const { stage } = Astro.props
+---
+
+{ stage === "seedling" && (
+<span class="inline-block i-heroicons:minus text-white size-8">
+</span>
+)}
+
+{ stage === "budding" && (
+<span class="inline-block i-heroicons:bars-2 text-white size-8">
+</span>
+)}
+
+{ stage === "evergreen" && (
+<span class="inline-block i-heroicons:bars-3 text-white size-8">
+</span>
+)}
