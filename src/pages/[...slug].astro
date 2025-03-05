@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { render } from "astro:content";
 
+import Layout from "../layouts/Layout.astro";
 import PostLayout from "../layouts/PostLayout.astro";
 
 import Ol from '../components/OuterLink.astro';
@@ -44,7 +45,9 @@ const components = {a: Ol}
 ---
 
 {
+<Layout title={frontmatter.title}>
 	<PostLayout frontmatter={frontmatter} headings={headings}>
-		<Content/ components={components}>
+		<Content components={components} />
 	</PostLayout>
+</Layout>
 }

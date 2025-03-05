@@ -1,9 +1,10 @@
 ---
-import Layout from "./Layout.astro"
+const { frontmatter, headings } = Astro.props
 
 ---
-<Layout>
-    <div id="post-wrapper">
-        <slot/>
-    </div>
-</Layout>
+<div class="f-my-lg f-mx-sm">
+    <h1 class="f-text-4xl">
+        { frontmatter.title }
+    </h1>
+    <slot/>
+</div>
