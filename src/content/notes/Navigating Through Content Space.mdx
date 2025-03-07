@@ -1,0 +1,64 @@
+---
+title: Navigating Through Content Space
+growthStage: seedling
+startDate: 2025-03-07
+updated: 2025-03-07
+---
+
+There's a pattern in UIs feeling inaccessible/annoying:
+
+Quite some times this happens when the element you're navigating from/to has several properties you might want to navigate from/to, but you can only navigate along some of them.
+
+But we don't really have that.
+People implement _the thing they need right now_, not _the thing that would've been the best in the long run_ -≺≻- [[Worse Is Better]]
+And the easiest thing to implement right now/the most straightforward abstraction to use right now just isn't necessarily the best one in the long run.
+
+My prime example is code under version control (via [git](https://git-scm.com)?), but you can easily apply this to knowledge, movies, any kind of media, even any kind of information.
+
+This (that is, git) needed to happen now, and needed to work with all of the existing infrastructure in the Linux Kernel (and in Linuses' head). This is why he chose the common/easiest abstraction (files) and on main movement: Commitwise with repo-granularity.
+
+## Code under version control
+
+Basic abstraction: Maybe line, maybe top level expression, maybe module (depending on language & use case)
+
+| Moves you regularly want to make | Dimensions the basic data point needs to have |
+|--|--|
+| move a char |  |
+| move a word |  |
+| move up a paragraph/[[sexp]] |  |
+| open different file |  |
+| move up the call tree, down the call tree |  |
+| move backwards/forwards in time -> per commit (per repo) |  |
+| move backwards/forwards in time -> per commit (per file) |  |
+| move by author (what are the files someone created, has worked on recently) |  |
+
+There's also some things I'm naming here that feel like they make more sense as _movements_, and some I'd more regularly use as _filters_. Maybe there's an underlying theme to that and an important distinction I should make.
+
+Based on those learnings, _how should we organize code_?
+
+## Movies
+
+For movies, it's
+
+| Moves you regularly want to make | Dimensions the basic data point needs to have |
+|--|--|
+| move by actor/director/producer/studio "person" |  |
+| move by time |  |
+| move by genre |  |
+| open different file |  |
+| move up the call tree, down the call tree |  |
+| move backwards/forwards in time -> per commit (per repo) |  |
+| move backwards/forwards in time -> per commit (per file) |  |
+| move by author (what are the files someone created, has worked on recently) |  |
+
+# Themes
+
+Some general themes:
+- Movement is always either _one step in a direction_ (next commit, previous commit, lookup definition), or some kind of zooming in/out:
+  - zooming out to all the movies an actor played in
+  - zooming out to all the files in the same folder/project
+  - zooming out to all the call sites
+  - zooming in to only a month (Is 'zooming in' _filtering_ in general?)
+  - zooming in to a folder
+
+Yeah, maybe _filtering_ is the best approach here. Hmm.
