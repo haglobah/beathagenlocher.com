@@ -5,8 +5,6 @@ import { render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import PostLayout from "../layouts/PostLayout.astro";
 
-import Ol from '../components/OuterLink.astro';
-
 type ContentType = "essay" | "note" | "talk";
 type Collections = "essays" | "notes" | "talks";
 
@@ -41,7 +39,17 @@ const { Content, headings } = await render(entry);
 
 const frontmatter = entry.data;
 
-const components = {a: Ol}
+import Ol from '../components/OuterLink.astro';
+import Par from '../components/Par.astro';
+import Heading from '../components/Heading.astro';
+import List from '../components/List.astro';
+import ListItem from '../components/ListItem.astro';
+
+const components = {a: Ol,
+				    h1: Heading,
+				    ul: List,
+				    li: ListItem,
+				    p: Par}
 ---
 
 {
