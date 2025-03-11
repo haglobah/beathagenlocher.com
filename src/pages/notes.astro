@@ -17,7 +17,7 @@ const sortedNotes = notes.sort(
 <Layout title="Notes">
 {
   sortedNotes.map((note) => (
-    <Il to={note.id}>{note.data.title}</Il>
+    <Il to={"/" + note.id}>{note.data.title}</Il>
   ))
 }
 </Layout>
