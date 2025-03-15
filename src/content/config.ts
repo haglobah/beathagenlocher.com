@@ -14,9 +14,9 @@ const notesCollection = defineCollection({
       startDate: z.coerce.date(),
       updated: z.coerce.date(),
       // type: z.literal("note"),
-      topics: z.array(z.string()).optional(),
+      topics: z.array(z.string()).default([]),
       growthStage: growthStageEnum,
-      publish: z.boolean().optional(),
+      publish: z.boolean().default(false),
       toc: z.boolean().optional(),
     }),
 });
