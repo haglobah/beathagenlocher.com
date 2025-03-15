@@ -1,7 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+import Il from "../components/InnerLink.astro";
+import Badges from "../components/Badges.astro";
 ---
 
 <Layout title="Beat Hagenlochers Digital Garden">
-	<h1 class="text-xl">Hi there!</h1>
+  <div class="f-my-lg f-mx-sm">
+    <div class="f-py-lg f-px-lg">
+        <h1 class="text-5xl leading-snug">
+          <Il to="me">Beat Hagenlocher</Il> thinks out loud online.
+        </h1>
+        <h2 class="f-pt-lg">
+          <Badges size="f-text-md" topics="Digital Gardens, Technology, Software, Programming Languages, Software Aritecture"/>
+        </h2>
+    </div>
+  </div>
 </Layout>

@@ -3,10 +3,10 @@ export interface Props {
   topic: string;
 }
 
-const { topic } = Astro.props;
+const { topic, size = "f-text-xs" } = Astro.props;
 ---
-<li class="mr-1.5 mb-2">
-  <div class="flex items-center rounded-full bg-[#E28E78]/10 px-3 py-1 text-xs font-medium leading-5 text-[#E28E78]">
+<li class={"mr-1.5 mb-2 " + size}>
+  <div class={"flex items-center rounded-full bg-[#E28E78]/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-[#E28E78] "}>
     {topic}
   </div>
 </li>
