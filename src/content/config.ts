@@ -5,7 +5,7 @@ import { glob } from "astro/loaders";
 const growthStageEnum = z.enum(["seedling", "budding", "evergreen"])
 
 const notesCollection = defineCollection({
-  loader: glob({ pattern: ["**/*.md", "**/*.mdx"], base: "./src/content/notes" }),
+  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/notes" }),
   schema: () =>
     z.object({
       title: z.string(),
@@ -22,7 +22,7 @@ const notesCollection = defineCollection({
 });
 
 const essaysCollection = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/essays" }),
+  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/essays" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -31,10 +31,10 @@ const essaysCollection = defineCollection({
       startDate: z.coerce.date(),
       // type: z.literal("essay"),
       cover: image().optional(),
-      topics: z.array(z.string()).optional(),
+      topics: z.array(z.string()).default([]),
       growthStage: growthStageEnum,
       featured: z.boolean().optional(),
-      publish: z.boolean().optional(),
+      publish: z.boolean().default(false),
       toc: z.boolean().optional(),
       aliases: z.array(z.string()).optional(),
     }),
@@ -57,7 +57,7 @@ const essaysCollection = defineCollection({
 // });
 
 const talksCollection = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/talks" }),
+  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/talks" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -75,7 +75,7 @@ const talksCollection = defineCollection({
         }),
       ),
       cover: image().optional(),
-      publish: z.boolean().optional(),
+      publish: z.boolean().default(false),
     }),
 });
 
