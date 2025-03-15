@@ -7,6 +7,6 @@ const { topics, size } = Astro.props;
 
 import Badge from './Badge.astro';
 ---
-<ul class="flex flex-wrap" aria-label="Tools/Techniques used">
+<ul class="flex flex-wrap">
   {topics.map(topic => <Badge topic={topic} size={size} />)}
 </ul>
