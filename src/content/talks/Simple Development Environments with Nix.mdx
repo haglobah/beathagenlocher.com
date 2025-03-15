@@ -1,21 +1,21 @@
 ---
-title: Simple Development Environments With Nix
+title: Simple Development Environments with Nix
 description: Setting up development environments is more complex than it should be. Nix makes entering development environments as easy as running nix develop, making them simple and reproducible. This talk explores what an ideal workflow could look like and walks through a project setup with Nix, outlining its benefits and deficiencies.
 startDate: 2024-06-12
-updated: 2025-08-28
+updated: 2025-03-15
 growthStage: budding
-topics: ["Functional Programming", "Good Explanations", "Programming Concepts"]
+topics: ["Functional Programming", "Nix", "Simplicity", "Software Development"]
 conferences:
   [
     { name: "Tü-λ | Functional Programming Meetup Tübingen", date: "2024-08-28", location: "itdesign" },
   ]
-draft: true
+publish: true
 ---
 
 -<>- [[Slidev]]
 -<>- [[Slidev example talks]]
 
-[[David Binder]]s abstract: 
+[[David Binder]]s abstract:
 "Functional programmers cannot use the same data structures and algorithms that imperative programmers are used to. Functional data structures make it easier to reason about what our code does, but have different performance characteristics. This talk will introduce some of the basic and advanced techniques we use when we implement functional data structures efficiently."
 
 # Abstract
@@ -24,7 +24,7 @@ draft: true
 Nix makes entering development environments as easy as running `nix develop`, making them _simple_ and _reproducible_. This talk explores what an ideal workflow could look like and walks through a project setup with Nix, outlining its benefits and deficiencies."
 
 Outcome:
-People have experienced the power & simplicity of [[Nix]], and can't wait to try it out themselves. 
+People have experienced the power & simplicity of [[Nix]], and can't wait to try it out themselves.
 
 Beginnging:
 Regular thing—you want to try out a new project. So, you clone the repo and follow the README. Unfortunately, it's only described for [[macOS]] and [[Debian]]-based distros, and at the point you figured out how to install all the described components, it still does not work, since there's some system library the author took for granted that you don't have available.
@@ -41,9 +41,9 @@ Now, you might ask yourself: That looks like it should be possible with a bash s
 
 -> Would need a unified interface, which we don't have (as in: Only one package manager, only one shell, ...) to be maintainable.
 
-And even if we solved that (or put in the maintenance effort): 
+And even if we solved that (or put in the maintenance effort):
 - How do we ensure that it doesn't interfere with existing packages (conflicting versions)
-- 
+-
 
 Well, there is a unified interface like that: [[Nix]]. (And by extension, [[Guix (System)]])
 
@@ -67,7 +67,7 @@ pollen: ready to rock
 
 nix-shell> ^C
 
-> raco pollen start 
+> raco pollen start
 raco: command not found
 ```
 
@@ -128,15 +128,15 @@ packages.default = nixpkgs.legacyPackages."x86_64-linux".stdenv.mkDerivation {
 		};
 ```
 
-Trade-offs: 
+Trade-offs:
 - Our OSes are not made for this.
 - Writing stuff in the [[Nix Language]] is hard.
-- A bunch of new concepts: [[Nix Flake]]s, [[Nix Derivation]]s, 
-- A bunch of commands: [[nix develop]], [[nix shell]],  
+- A bunch of new concepts: [[Nix Flake]]s, [[Nix Derivation]]s,
+- A bunch of commands: [[nix develop]], [[nix shell]],
 
 # Resources
 
 -> [OOP 2023 Digital - Das Konferenzprogramm](https://www.oop-konferenz.de/oop-2023/programm/konferenzprogramm#item-5209)
 -> [Zero to Nix](https://zero-to-nix.com/)
 -> [Determinate Systems Nix installer](https://install.determinate.systems/)
--> 
+->

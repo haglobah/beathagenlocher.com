@@ -8,15 +8,19 @@ import WideCard from "../components/WideCard.astro";
 
 // Get all notes that should be published
 const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
-const drafts = await getCollection("notes", ({ data }) => !data.publish);
+const draftNotes = await getCollection("notes", ({ data }) => !data.publish);
+const publishedEssays = await getCollection("essays", ({ data }) => data.publish);
+const draftEssays = await getCollection("essays", ({ data }) => !data.publish);
+const publishedTalks = await getCollection("talks", ({ data }) => data.publish);
+const draftTalks = await getCollection("talks", ({ data }) => !data.publish);
 
-const allTheContent = [publishedNotes, drafts]
+const allTheContent = [publishedNotes, draftNotes, publishedEssays, draftEssays, publishedTalks, draftTalks]
 
-const topics = allTheContent
-    .flatMap((collection) =>
-      collection.flatMap(({ data }) =>
-        data.topics
-    ))
+const topics = [... new Set(allTheContent
+  .flatMap((collection) =>
+    collection.flatMap(({ data }) =>
+      data.topics
+)))]
 
 // Sort notes by date
 const sortNotes = ( notes ) => notes.sort(
@@ -30,7 +34,7 @@ const sortNotes = ( notes ) => notes.sort(
   <div class="f-my-lg f-mx-sm">
     <div class="f-p-lg">
         <h1 class="text-5xl leading-snug">
-          <Il to="me">Beat Hagenlocher</Il> thinking out loud.
+          <Il to="me">Beat Hagenlocher</Il> <br> thinking out loud.
         </h1>
         <h2 class="f-pt-lg">
           <Badges size="f-text-md" topics={topics}/>
@@ -38,7 +42,33 @@ const sortNotes = ( notes ) => notes.sort(
     </div>
     <div class="f-p-lg">
       {
-      [publishedNotes, drafts].map((noteCollection) =>
+      [publishedNotes, draftNotes].map((noteCollection) =>
+        sortNotes(noteCollection).map((note) =>
+          (
+            <WideCard to={note.id}
+                      title={note.data.title}
+                      topics={note.data.topics}
+                      >{note.data.description}</WideCard>
+          )
+        )
+      )}
+    </div>
+    <div class="f-p-lg">
+      {
+      [publishedEssays, draftEssays].map((noteCollection) =>
+        sortNotes(noteCollection).map((note) =>
+          (
+            <WideCard to={note.id}
+                      title={note.data.title}
+                      topics={note.data.topics}
+                      >{note.data.description}</WideCard>
+          )
+        )
+      )}
+    </div>
+    <div class="f-p-lg">
+      {
+      [publishedTalks, draftTalks].map((noteCollection) =>
         sortNotes(noteCollection).map((note) =>
           (
             <WideCard to={note.id}
