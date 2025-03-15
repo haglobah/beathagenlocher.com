@@ -3,21 +3,29 @@ import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 import Il from "../components/InnerLink.astro";
+import Badges from "../components/Badges.astro";
+import WideCard from "../components/WideCard.astro";
 
-// Get all notes that aren't drafts
-const notes = await getCollection("notes", ({ data }) => !data.draft);
+// Get all notes that should be published
+const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
+const drafts = await getCollection("notes", ({ data }) => !data.publish);
 
 // Sort notes by date
-const sortedNotes = notes.sort(
+const sortNotes = ( notes ) => notes.sort(
   (a, b) =>
     new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
 );
+
 ---
 
 <Layout title="Notes">
 {
-  sortedNotes.map((note) => (
-    <Il to={"/" + note.id}>{note.data.title}</Il>
-  ))
+  [publishedNotes, drafts].map((notesList) =>
+  sortNotes(notesList).map((note) =>
+  (
+  <WideCard to={"/" + note.id}
+            title={note.data.title}
+            >{note.data.description}</WideCard>
+  )))
 }
 </Layout>
