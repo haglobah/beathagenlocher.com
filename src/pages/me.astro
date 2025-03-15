@@ -57,13 +57,13 @@ import WideCard from "../components/WideCard.astro"
     <div class="f-pt-xl lg:w-1/2 lg:f-py-xl">
       <Section title="Skills & Abilities">
         <ol class="group/list">
-          <WideCard description="Programming Languages" topics="Elixir, Racket, Haskell, C, Nix, Clojure, Rust">
+          <WideCard description="Programming Languages" topics={["Elixir", "Racket", "Haskell", "C", "Nix", "Clojure", "Rust"]}>
           </WideCard>
-          <WideCard description="Programming" topics="Git, Docker, NixOS, Functional Programming, Phoenix LiveView, Tailwind CSS, PostgreSQL, SurrealDB">
+          <WideCard description="Programming" topics={["Git", "Docker", "NixOS", "Functional Programming", "Phoenix LiveView", "Tailwind CSS", "PostgreSQL", "SurrealDB"]}>
           </WideCard>
-          <WideCard description="Organizational Development" topics="Sociocracy, The Lean Startup, Start With Why, Reinventing Organizations">
+          <WideCard description="Organizational Development" topics={["Sociocracy", "The Lean Startup", "Start With Why", "Reinventing Organizations"]}>
           </WideCard>
-          <WideCard description="Design" topics="Design Thinking, Systems Design, Designing Your Life">
+          <WideCard description="Design" topics={["Design Thinking", "Systems Design", "Designing Your Life"]}>
           </WideCard>
         </ol>
       </Section>
@@ -73,21 +73,21 @@ import WideCard from "../components/WideCard.astro"
                     description="May 2024 – Present"
                     org="active group GmbH"
                     link="https://active-group.de"
-                    topics="Clojure, Docker, Nix">
+                    topics={["Clojure", "Docker", "Nix"]}>
           </WideCard>
           <WideCard title="zelium.io"
                     description="Sep 2023 – May 2024"
                     org=""
                     link="https://active-group.de"
                     pos="Startup Dude"
-                    topics="Elixir, Phoenix LiveView, Tailwind CSS, CodeMirror, Nix">
+                    topics={["Elixir", "Phoenix LiveView", "Tailwind CSS", "CodeMirror", "Nix"]}>
           </WideCard>
           <WideCard title="Software Development"
                     description="Feb 2021 – Mar 2023"
                     org="Hacker School"
                     link="https://hacker-school.de"
                     pos="Working Student"
-                    topics="Racket, Pollen, Sociocracy, Teaching">
+                    topics={["Racket", "Pollen", "Sociocracy", "Teaching"]}>
             Developed courses and the accompagnying course website. Introduced a knowledge base system.
           </WideCard>
           <WideCard title="Software Architecture"
@@ -95,7 +95,7 @@ import WideCard from "../components/WideCard.astro"
                     org="active group GmbH"
                     link="https://active-group.de"
                     pos="Intern"
-                    topics="Haskell, Clojure, Machine Learning, Emacs, magit">
+                    topics={["Haskell", "Clojure", "Machine Learning", "Emacs", "magit"]}>
             Implemented a Web Server for a Machine Learning Project in Haskell. Developed parts of a project frontend in ClojureScript.
           </WideCard>
           <WideCard title="Innovation Hacking"
@@ -103,7 +103,7 @@ import WideCard from "../components/WideCard.astro"
                     org="TNG Technology Consulting"
                     link="https://tngtech.com"
                     pos="Intern"
-                    topics="C#, Python, Unity, Reinforcement Learning, Tensorflow">
+                    topics={["C#", "Python", "Unity", "Reinforcement Learning", "Tensorflow"]}>
             Developed AI Agents for the Game Blobby VR. Looked after the TNG booth at OOP 2020.
           </WideCard>
           <HRule></HRule>
@@ -112,7 +112,7 @@ import WideCard from "../components/WideCard.astro"
                     org=""
                     link="https://schuelerakademien.de/deutsche-schuelerakademie"
                     pos="Course Instructor"
-                    topics="Learning, Teching">
+                    topics={["Learning", "Teching"]}>
             Designed and taught a 50-hour university-level course called <span class="italic">How People Learn</span>.
           </WideCard>
           <WideCard title="rootlinks"
@@ -120,7 +120,7 @@ import WideCard from "../components/WideCard.astro"
                     org=""
                     link="https://rootlinks.ch"
                     pos="Working Member"
-                    topics="Sociocracy, Design Thinking, Systems Design, Teaching, Coaching, Recruiting">
+                    topics={["Sociocracy", "Design Thinking", "Systems Design", "Teaching", "Coaching", "Recruiting"]}>
             Co-created the Learning Journey of two semesters, coached a challenge team, and recruited the 3rd batch.
           </WideCard>
         </ol>
@@ -133,7 +133,7 @@ import WideCard from "../components/WideCard.astro"
                     imageSrc="https://haglobah.github.io/Mastering-42/src/Images/42_logo.png"
                     link="https://rootlinks.ch"
                     pos=""
-                    topics="Racket, Pollen, Tailwind CSS">
+                    topics={["Racket", "Pollen", "Tailwind CSS"]}>
             An attempt to supply the context missing from the projects of the Common Core at 42 School.
           </WideCard>
           <WideCard title="ft_transcendence"
@@ -142,7 +142,7 @@ import WideCard from "../components/WideCard.astro"
                     imageSrc=""
                     link="https://rootlinks.ch"
                     pos=""
-                    topics="Elixir, Phoenix LiveView, PostgreSQL, Tailwind CSS">
+                    topics={["Elixir", "Phoenix LiveView", "PostgreSQL", "Tailwind CSS"]}>
             The final project of the Common Core at 42: A web app for playing Pong (with chatting, accounts & stuff)—still has some rough edges.
           </WideCard>
         </ol>
@@ -155,7 +155,7 @@ import WideCard from "../components/WideCard.astro"
                     imageSrc=""
                     link="https://42heilbronn.de"
                     pos=""
-                    topics="C, C++, Docker, Elixir, Racket">
+                    topics={["C", "C++", "Docker", "Elixir", "Racket"]}>
           </WideCard>
           <WideCard title="BSc Physics"
                     description="Sep 2020 – Feb 2022"
@@ -163,7 +163,7 @@ import WideCard from "../components/WideCard.astro"
                     imageSrc=""
                     link="https://42heilbronn.de"
                     pos=""
-                    topics="C++, Python">
+                    topics={["C++", "Python"]}>
             <p>
               Up to the 3rd semester.
             </p>
@@ -177,7 +177,7 @@ import WideCard from "../components/WideCard.astro"
                     imageSrc=""
                     link="https://uni-tuebingen.de/einrichtungen/verwaltung/stabsstellen/leibniz-kolleg/das-leibniz-kolleg/"
                     pos=""
-                    topics="">
+                    topics={[""]}>
           </WideCard>
           <WideCard title="Carlo-Schmid-Gymnasium Tübingen"
                     description="2010 – 2018"
@@ -185,7 +185,7 @@ import WideCard from "../components/WideCard.astro"
                     imageSrc=""
                     link="https://csg-tuebingen.de"
                     pos=""
-                    topics="">
+                    topics={[""]}>
             <p>Final grade: 1.0</p>
             <p>Received a price for the best Abitur in Chemistry.</p>
           </WideCard>

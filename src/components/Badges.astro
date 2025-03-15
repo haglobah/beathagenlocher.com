@@ -4,10 +4,9 @@ export interface Props {
 }
 
 const { topics, size } = Astro.props;
-const topicList = topics.split(",").map(topic => topic.trim()).filter(topic => topic.length > 0);
 
 import Badge from './Badge.astro';
 ---
 <ul class="flex flex-wrap" aria-label="Tools/Techniques used">
-  {topicList.map(topic => <Badge topic={topic} size={size} />)}
+  {topics.map(topic => <Badge topic={topic} size={size} />)}
 </ul>

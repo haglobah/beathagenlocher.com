@@ -1,19 +1,54 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 import Il from "../components/InnerLink.astro";
 import Badges from "../components/Badges.astro";
+import WideCard from "../components/WideCard.astro";
+
+// Get all notes that should be published
+const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
+const drafts = await getCollection("notes", ({ data }) => !data.publish);
+
+const allTheContent = [publishedNotes, drafts]
+
+const topics = allTheContent
+    .flatMap((collection) =>
+      collection.flatMap(({ data }) =>
+        data.topics
+    ))
+
+// Sort notes by date
+const sortNotes = ( notes ) => notes.sort(
+  (a, b) =>
+    new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
+);
+
 ---
 
 <Layout title="Beat Hagenlochers Digital Garden">
   <div class="f-my-lg f-mx-sm">
-    <div class="f-py-lg f-px-lg">
+    <div class="f-p-lg">
         <h1 class="text-5xl leading-snug">
-          <Il to="me">Beat Hagenlocher</Il> thinks out loud online.
+          <Il to="me">Beat Hagenlocher</Il> thinking out loud.
         </h1>
         <h2 class="f-pt-lg">
-          <Badges size="f-text-md" topics="Digital Gardens, Technology, Software, Programming Languages, Software Aritecture"/>
+          <Badges size="f-text-md" topics={topics}/>
         </h2>
+    </div>
+    <div class="f-p-lg">
+      {
+      [publishedNotes, drafts].map((noteCollection) =>
+        sortNotes(noteCollection).map((note) =>
+          (
+            <WideCard to={note.id}
+                      title={note.data.title}
+                      topics={note.data.topics}
+                      >{note.data.description}</WideCard>
+          )
+        )
+      )}
     </div>
   </div>
 </Layout>
+
