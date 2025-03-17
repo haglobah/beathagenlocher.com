@@ -21,6 +21,21 @@ const notesCollection = defineCollection({
     }),
 });
 
+const knowledgeCollection = defineCollection({
+  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/knowledge" }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      aliases: z.array(z.string()).optional(),
+      startDate: z.coerce.date(),
+      updated: z.coerce.date(),
+      // type: z.literal("note"),
+      topics: z.array(z.string()).default([]),
+      // growthStage: growthStageEnum,
+      publish: z.boolean().default(true),
+    }),
+});
+
 const essaysCollection = defineCollection({
   loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/essays" }),
   schema: ({ image }) =>
@@ -161,6 +176,7 @@ const talksCollection = defineCollection({
 export const collections = {
   // now: nowCollection,
   notes: notesCollection,
+  knowledge: knowledgeCollection,
   essays: essaysCollection,
   // patterns: patternsCollection,
   talks: talksCollection,
