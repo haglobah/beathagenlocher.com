@@ -3,6 +3,6 @@
 const { to, arrow = true } = Astro.props
 
 ---
-<a href={to} rel="noreferrer"
+<a href={(to.split(":").length > 1) && to || "/" + to} rel="noreferrer"
    class="group/innerlink"
 ><span class="cursor-pointer font-medium group-hover/innerlink:text-sienna-light transition duration-300 ease-in-out"><slot/></span>{arrow && <span class="i-heroicons:arrow-right-20-solid relative left-[0.1em] top-[0.2em] text-sienna group-hover/innerlink:text-sienna-light transition-all duration-300 ease-in-out -rotate-45 inline-block group-hover/innerlink:translate-y-[0.08em] group-hover/innerlink:rotate-0 size-[1.2em]"></span>}</a>

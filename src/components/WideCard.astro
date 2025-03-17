@@ -4,7 +4,7 @@ const {
   title = "",
   pos = "",
   org = "",
-  link = "",
+  href = "",
   to = "",
   description = "",
   links = [],
@@ -47,8 +47,8 @@ import Il from './InnerLink.astro'
         <div class="f-mb-xs">
           <h3 class="font-medium leading-snug text-zinc-200">
             <div>
-              {link &&
-              <Ol to={link}>
+              {href &&
+              <Ol href={href}>
                 <span class="absolute f-inset-x--4--6 f-inset-y--4--4 hidden rounded lg:block"></span>
                 <span>{title}</span>
                 {org !== "" && (
