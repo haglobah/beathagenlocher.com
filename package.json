@@ -13,6 +13,7 @@
     "@astrojs/mdx": "^4.1.0",
     "@iconify-json/carbon": "^1.2.8",
     "@iconify-json/heroicons": "^1.2.2",
+    "@portaljs/remark-wiki-link": "^1.2.0",
     "astro": "^5.4.0",
     "astro-seo": "^0.8.4"
   },
