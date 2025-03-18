@@ -1,8 +1,9 @@
 ---
-title: Less Headaches And Simpler Programs Using Pipes 
+title: Less Headaches And Simpler Programs Using Pipes
 growthStage: budding
 startDate: 2025-02-01
 updated: 2025-02-01
+publish: true
 ---
 
 We (humans) have an astonishingly small working memory capacity.
@@ -19,7 +20,7 @@ However, we (programmers) seem to enjoy working at out working memory capacity q
 We even know how to do it, and how it works:
 
 ```shell
-cat reply.json | jq '.hits[] | .from, .msg' |  paste -d ':' - - 
+cat reply.json | jq '.hits[] | .from, .msg' |  paste -d ':' - -
 ```
 
 Haskell has it, Clojure has them, but I personally like [Elixir](https://elixir-lang.org)'s one the most:
