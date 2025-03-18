@@ -452,7 +452,7 @@ function fromMarkdown() {
         }
       }
     } else {
-      wikiLink.data.hName = 'innerlink';
+      wikiLink.data.hName = wikiLink.data.exists ? 'innerlink' : 'innerlinkempty';
       wikiLink.data.hProperties = {
         className: classNames,
         href: hrefTemplate(link) + headingId

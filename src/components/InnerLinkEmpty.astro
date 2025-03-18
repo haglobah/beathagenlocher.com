@@ -1,0 +1,7 @@
+---
+import Il from './InnerLink.astro'
+
+const { href, arrow = true } = Astro.props
+
+---
+<span class="opacity-70"><Il href={ href }><slot/></Il></span>
