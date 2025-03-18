@@ -19,7 +19,8 @@ const permalinks = (await getPermalinks("src/content/"))
 // https://astro.build/config
 export default defineConfig({
   site: 'https://beathagenlocher.com',
-  integrations: [UnoCSS(),
+  integrations: [
+    UnoCSS(),
     mdx({
       remarkPlugins: [
         [wikiLinkPlugin, {
@@ -35,7 +36,11 @@ export default defineConfig({
             return slugger.slug(permalink);
           },
         }],
-      ]
-    }
-  )],
+      ],
+      shikiConfig: {
+        theme: "catppuccin-mocha",
+        wrap: true,
+      }
+    }),
+  ],
 })
