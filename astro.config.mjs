@@ -2,9 +2,8 @@
 import { defineConfig } from 'astro/config';
 import UnoCSS from 'unocss/astro';
 import mdx from '@astrojs/mdx';
-import wikiLinkPlugin from '@portaljs/remark-wiki-link';
-import { getPermalinks } from '@portaljs/remark-wiki-link';
-
+import wikiLinkPlugin from './src/plugins/portal-wiki-link';
+import { getPermalinks } from './src/plugins/portal-wiki-link';
 import GitHubSlugger from 'github-slugger'
 
 const slugger = new GitHubSlugger()

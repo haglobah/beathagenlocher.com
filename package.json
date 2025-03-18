@@ -13,9 +13,11 @@
     "@astrojs/mdx": "^4.1.0",
     "@iconify-json/carbon": "^1.2.8",
     "@iconify-json/heroicons": "^1.2.2",
-    "@portaljs/remark-wiki-link": "^1.2.0",
     "astro": "^5.4.0",
-    "astro-seo": "^0.8.4"
+    "astro-seo": "^0.8.4",
+    "mdast-util-wiki-link": "^0.1.2",
+    "micromark-util-symbol": "^2.0.1",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@unocss/reset": "^65.4.3",
