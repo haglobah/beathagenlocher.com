@@ -4,8 +4,8 @@ import StageIcon from '../components/StageIcon.astro'
 const { frontmatter, headings } = Astro.props
 
 ---
-<div class="f-my-lg f-mx-sm">
-  <div class="f-my-lg">
+<div class="f-my-2xl f-px-sm mx-auto max-w-4xl">
+  <div class="f-my-2xl">
     <h1 class="f-text-4xl">
       <StageIcon stage={frontmatter.growthStage as
         | "budding"
@@ -14,5 +14,7 @@ const { frontmatter, headings } = Astro.props
         { frontmatter.title }
     </h1>
   </div>
-  <slot/>
+  <div class="">
+    <slot/>
+  </div>
 </div>
