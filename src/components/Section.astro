@@ -1,15 +1,14 @@
 ---
 import SectionTitle from "./SectionTitle.astro"
 
-import GitHubSlugger from 'github-slugger'
+import { slug } from 'github-slugger'
 
 const { title } = Astro.props
 
-const slugger = new GitHubSlugger()
-const slug = slugger.slug(title)
+const theslug = slug(title)
 
 ---
-<section id={ slug }
+<section id={ theslug }
          class="group/section f-scroll-mt-xl"
          aria-label={ title }>
   <div class="sticky top-0 f-my-sm z-20 w-full backdrop-blur">

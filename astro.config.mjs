@@ -4,9 +4,7 @@ import UnoCSS from 'unocss/astro';
 import mdx from '@astrojs/mdx';
 import wikiLinkPlugin from './src/plugins/portal-wiki-link';
 import { getPermalinks } from './src/plugins/portal-wiki-link';
-import GitHubSlugger from 'github-slugger'
-
-const slugger = new GitHubSlugger()
+import { slug } from 'github-slugger'
 
 const permalinks = (await getPermalinks("src/content/"))
       .map((el) => {
@@ -14,7 +12,7 @@ const permalinks = (await getPermalinks("src/content/"))
         return contentTitle;
       })
       .filter((el) => el)
-      .map(el => slugger.slug(el));
+      .map(el => slug(el));
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,14 +24,14 @@ export default defineConfig({
         [wikiLinkPlugin, {
           pathFormat: 'obsidian-short',
           permalinks: permalinks,
-          wikiLinkResolver: function(slug) {
-            return [slug];
+          wikiLinkResolver: function(theslug) {
+            return [theslug];
           },
-          pageResolver: function(slug) {
-            return [slug];
+          pageResolver: function(theslug) {
+            return [theslug];
           },
           hrefTemplate: function(permalink) {
-            return slugger.slug(permalink);
+            return slug(permalink);
           },
         }],
       ],
