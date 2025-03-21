@@ -48,9 +48,14 @@ const sortContent = ( notes ) => notes.sort(
     </div>
     <div class="md:grid md:grid-cols-12">
       <div class="f-p-lg md:col-span-7">
-       <h2 class="f-text-2xl f-my-md">
-          Notes
-        </h2>
+        <div class="f-my-md">
+          <h2 class="f-text-2xl">
+            Notes
+          </h2>
+          <p class="italic">
+            Loose thoughts still getting formed
+          </p>
+        </div>
         <div class="sm:grid sm:grid-cols-2">
         {sortContent(publishedNotes).map((content) =>
             (
@@ -71,9 +76,14 @@ const sortContent = ( notes ) => notes.sort(
         )}
         </div>
 
-        <h2 class="f-text-2xl f-my-md">
-          Knowledge Bits
-        </h2>
+        <div class="f-my-md">
+          <h2 class="f-text-2xl">
+            Knowledge Bits
+          </h2>
+          <p class="italic">
+            What you always wanted to know
+          </p>
+        </div>
         <div class="sm:grid sm:grid-cols-4">
         {sortContent(publishedKnowledge).map((content) =>
           (
@@ -94,9 +104,15 @@ const sortContent = ( notes ) => notes.sort(
         </div>
       </div>
       <div class="f-p-lg md:col-span-5">
-        <h2 class="f-text-2xl f-my-md">
-          Atomic Essays
-        </h2>
+
+        <div class="f-my-md">
+          <h2 class="f-text-2xl">
+            Atomic Essays
+          </h2>
+          <p class="italic">
+            Short form writing capturing a single idea
+          </p>
+        </div>
         {sortContent(publishedEssays).map((content) =>
             (
               <WideCard to={content.id}
