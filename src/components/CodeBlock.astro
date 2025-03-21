@@ -1,3 +1,32 @@
 ---
+
+const { lines=false } = Astro.props
+
 ---
-<pre class="f-p-sm rounded-lg bg-zinc-900 text-wrap"><slot /></pre>
+<pre>
+<slot/>
+</pre>
+
+<style is:global>
+  pre {
+    @apply rounded-xl f-p-sm bg-zinc-900 text-wrap;
+  }
+
+ {lines &&
+  pre code {
+    counter-reset: step;
+    counter-increment: step 0;
+  }
+
+  pre code .line {
+    @apply ml-12 relative;
+  }
+
+  pre code .line::before {
+    @apply absolute overflow-hidden w-7 -left-13 -top-1.2 text-right;
+    content: counter(step);
+    counter-increment: step;
+    color: rgba(115, 138, 148, 0.4);
+  }
+ }
+</style>
