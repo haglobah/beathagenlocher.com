@@ -5,8 +5,8 @@ import { render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import PostLayout from "../layouts/PostLayout.astro";
 
-type ContentType = "essay" | "note" | "talk";
-type Collections = "essays" | "notes" | "talks";
+type ContentType = "essay" | "note" | "knowledge" | "talk";
+type Collections = "essays" | "notes" | "knowledge" | "talks";
 
 interface Props {
 	entry: CollectionEntry<Collections>;
@@ -16,6 +16,7 @@ interface Props {
 export async function getStaticPaths() {
 	const essays = await getCollection("essays");
 	const notes = await getCollection("notes");
+	const knowledge = await getCollection("knowledge");
 	const talks = await getCollection("talks");
 
 	return [
@@ -26,6 +27,10 @@ export async function getStaticPaths() {
 		...notes.map((entry) => ({
 			params: { slug: entry.id },
 			props: { entry, type: "note" } as const,
+		})),
+		...knowledge.map((entry) => ({
+			params: { slug: entry.id },
+			props: { entry, type: "knowledge" } as const,
 		})),
 		...talks.map((entry) => ({
 			params: { slug: entry.id },

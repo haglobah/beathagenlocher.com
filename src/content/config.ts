@@ -27,11 +27,8 @@ const knowledgeCollection = defineCollection({
     z.object({
       title: z.string(),
       aliases: z.array(z.string()).optional(),
-      startDate: z.coerce.date(),
       updated: z.coerce.date(),
-      // type: z.literal("note"),
       topics: z.array(z.string()).default([]),
-      // growthStage: growthStageEnum,
       publish: z.boolean().default(true),
     }),
 });
