@@ -1,5 +1,6 @@
 import {
   defineConfig,
+  transformerDirectives,
   presetWind,
   presetWebFonts,
   presetIcons,
@@ -20,6 +21,7 @@ export default defineConfig({
       }
     ], // CliEntryItem | CliEntryItem[]
   },
+  transformers: [transformerDirectives()],
   shortcuts: [],
   theme: {
     colors: {
