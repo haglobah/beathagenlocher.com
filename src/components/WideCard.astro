@@ -17,6 +17,9 @@ import Badges from './Badges.astro'
 import Ol from './OuterLink.astro'
 import Il from './InnerLink.astro'
 
+import CardHeader from './WideCard/CardHeader.astro'
+import Org from './WideCard/Org.astro'
+
 ---
 
 <div class="f-mb-xl">
@@ -47,29 +50,16 @@ import Il from './InnerLink.astro'
         <div class="f-mb-xs">
           <h3 class="font-medium leading-snug text-zinc-200">
             <div>
-              {href &&
+              {!href && !to && (
+                <CardHeader title={title} org={org}/>
+              )}
+              {href && (
               <Ol href={href}>
-                <span class="absolute f-inset-x--4--6 f-inset-y--4--4 hidden rounded lg:block"></span>
-                <span>{title}</span>
-                {org !== "" && (
-                <>
-                  {" "}
-                  <span class="px-[1px]">|</span>{" "}
-                  <span class="inline-block">{org}</span>
-                </>
-                )}
-              </Ol>}
+                <CardHeader title={title} org={org}/>
+              </Ol>)}
               {to &&
               <Il href={to}>
-                <span class="absolute f-inset-x--4--6 f-inset-y--4--4 hidden rounded lg:block"></span>
-                <span>{title}</span>
-                {org !== "" && (
-                <>
-                  {" "}
-                  <span class="px-[1px]">|</span>{" "}
-                  <span class="inline-block">{org}</span>
-                </>
-                )}
+                <CardHeader title={title} org={org}/>
               </Il>}
             </div>
           </h3>
