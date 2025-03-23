@@ -6,12 +6,12 @@ const { frontmatter, headings } = Astro.props
 ---
 <div class="f-my-2xl f-px-sm mx-auto max-w-4xl">
   <div class="f-my-2xl">
-    <h1 class="f-text-4xl">
+    <h1 class="f-text-3xl leading-[1.5] pb-3 border-b-3 border-zinc-400">
       <StageIcon stage={frontmatter.growthStage as
         | "budding"
         | "evergreen"
         | "seedling"}/>
-        { frontmatter.title }
+      <span class="f-pl-xs">{ frontmatter.title }</span>
     </h1>
   </div>
   <div class="">
