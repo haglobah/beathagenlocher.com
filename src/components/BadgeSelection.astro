@@ -1,0 +1,51 @@
+---
+export interface Props {
+  topics: string;
+}
+
+const { topics, size } = Astro.props;
+
+import Badge from './Badge.astro';
+import { slug } from 'github-slugger';
+
+---
+
+<div id="selected-topics" class="flex flex-wrap f-my-lg">
+</div>
+
+<div id="available-topics" class="flex flex-wrap f-my-lg">
+  {topics.map(topic =>
+    <div id={"btn-" + slug(topic)} data-topic={topic} class="topic-button cursor-pointer">
+      <Badge topic={topic} size={size} />
+    </div>
+  )}
+</div>
+
+<script>
+  const available = document.querySelector('#available-topics')
+  const selection = document.querySelector('#selected-topics')
+
+  const availableTopics = document.querySelectorAll('#available-topics > .topic-button')
+
+  console.log(availableTopics)
+
+  availableTopics.forEach((el) => {
+    el.addEventListener('click', (ev) => {
+      console.log(el)
+      console.log(el.dataset.topic)
+
+      console.log("Selected before: ", document.querySelectorAll('#selected-topics > .topic-button'))
+      console.log("Available before: ", document.querySelectorAll('#available-topics > .topic-button'))
+
+      if (el.parentNode === available) {
+        selection.appendChild(el)
+      }
+      else {
+        available.appendChild(el)
+      }
+
+      console.log("Selected after: ", document.querySelectorAll('#selected-topics .topic-button'))
+      console.log("Available after: ", document.querySelectorAll('#available-topics .topic-button'))
+    })
+  })
+</script>

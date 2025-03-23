@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 import Il from "../components/InnerLink.astro";
-import Badges from "../components/Badges.astro";
+import BadgeSelection from "../components/BadgeSelection.astro";
 import WideCard from "../components/WideCard.astro";
 
 // Get all notes that should be published
@@ -43,7 +43,7 @@ const sortContent = ( notes ) => notes.sort(
           <Il href="me">Beat Hagenlocher</Il> <br> thinking out loud.
         </h1>
         <h2 class="f-pt-lg">
-          <Badges size="f-text-md" topics={topics}/>
+          <BadgeSelection size="f-text-md" topics={topics}/>
         </h2>
     </div>
     <div class="md:grid md:grid-cols-12">
