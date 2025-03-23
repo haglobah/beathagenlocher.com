@@ -17,12 +17,15 @@ import Badges from './Badges.astro'
 import Ol from './OuterLink.astro'
 import Il from './InnerLink.astro'
 
+import CardHeader from './WideCard/CardHeader.astro'
+import Org from './WideCard/Org.astro'
+
 ---
 
 <div class="f-mb-xl">
   <div class="group relative grid f-pb-xs transition-all sm:grid-cols-8 sm:f-gap-xs lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
     <!-- Background element -->
-    <div class="absolute f-left--4--6 f-right-4-4 f-top--4--6 f-bottom-0-0 z-0 rounded-md transition duration-300 ease-in-out lg:block lg:group-hover:bg-[rgb(51,51,57)] lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] group-hover:drop-shadow-lg"></div>
+    <div class="absolute f-left--4--6 f-right-0-0 f-top--4--6 f-bottom-0-0 z-0 rounded-md transition duration-300 ease-in-out lg:block lg:group-hover:bg-[rgb(51,51,57)] lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] group-hover:drop-shadow-lg"></div>
 
     {description !== "" && (
       <header class="z-10 f-mb-xs f-mt-1-2 f-text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2">
@@ -31,14 +34,13 @@ import Il from './InnerLink.astro'
     )}
 
     {imageSrc !== "" && (
-      <img
-        class="w-20 f-mb-xs rounded hover:drop-shadow sm:order-1 sm:col-span-2 sm:translate-y-1"
-        loading="lazy"
-        data-nimg="1"
-        width="200"
-        height="48"
-        src={imageSrc}
-        alt={title || "card image"}
+      <img class="w-20 f-mb-xs rounded hover:drop-shadow sm:order-1 sm:col-span-2 sm:translate-y-1"
+           loading="lazy"
+           data-nimg="1"
+           width="200"
+           height="48"
+           src={imageSrc}
+           alt={title || "card image"}
       />
     )}
 
@@ -47,29 +49,16 @@ import Il from './InnerLink.astro'
         <div class="f-mb-xs">
           <h3 class="font-medium leading-snug text-zinc-200">
             <div>
-              {href &&
+              {!href && !to && (
+                <CardHeader title={title} org={org}/>
+              )}
+              {href && (
               <Ol href={href}>
-                <span class="absolute f-inset-x--4--6 f-inset-y--4--4 hidden rounded lg:block"></span>
-                <span>{title}</span>
-                {org !== "" && (
-                <>
-                  {" "}
-                  <span class="px-[1px]">|</span>{" "}
-                  <span class="inline-block">{org}</span>
-                </>
-                )}
-              </Ol>}
+                <CardHeader title={title} org={org}/>
+              </Ol>)}
               {to &&
               <Il href={to}>
-                <span class="absolute f-inset-x--4--6 f-inset-y--4--4 hidden rounded lg:block"></span>
-                <span>{title}</span>
-                {org !== "" && (
-                <>
-                  {" "}
-                  <span class="px-[1px]">|</span>{" "}
-                  <span class="inline-block">{org}</span>
-                </>
-                )}
+                <CardHeader title={title} org={org}/>
               </Il>}
             </div>
           </h3>
@@ -80,7 +69,7 @@ import Il from './InnerLink.astro'
       )}
 
       {Astro.slots.has('default') && (
-        <div class="f-text-xs f-my-xs">
+        <div class="f-text-xs f-my-xs f-mr-md">
           <slot/>
         </div>
       )}
