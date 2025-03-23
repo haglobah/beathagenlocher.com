@@ -56,7 +56,7 @@ const sortContent = ( notes ) => notes.sort(
             Loose thoughts still getting formed
           </p>
         </div>
-        <div class="sm:grid sm:grid-cols-2">
+        <div class="sm:grid sm:grid-cols-2 f-gap-lg">
         {sortContent(publishedNotes).map((content) =>
             (
               <WideCard to={content.id}
@@ -84,7 +84,7 @@ const sortContent = ( notes ) => notes.sort(
             What you always wanted to know
           </p>
         </div>
-        <div class="sm:grid sm:grid-cols-4">
+        <div class="sm:grid sm:grid-cols-4 f-gap-lg">
         {sortContent(publishedKnowledge).map((content) =>
           (
             <WideCard to={content.id}
