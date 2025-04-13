@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 import Il from "../components/InnerLink.astro";
-import Badges from "../components/Badges.astro";
+import BadgeSelection from "../components/BadgeSelection.astro";
 import WideCard from "../components/WideCard.astro";
 
 // Get all notes that should be published
@@ -20,7 +20,8 @@ const allTheContent = [
   publishedNotes, draftNotes,
   publishedKnowledge, draftKnowledge,
   publishedEssays, draftEssays,
-  publishedTalks, draftTalks]
+  publishedTalks, draftTalks
+]
 
 const topics = [... new Set(allTheContent
   .flatMap((collection) =>
@@ -29,11 +30,10 @@ const topics = [... new Set(allTheContent
 )))]
 
 // Sort notes by date
-const sortContent = ( notes ) => notes.sort(
+const sortContent = (notes) => notes.sort(
   (a, b) =>
     new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
 );
-
 ---
 
 <Layout title="Beat Hagenlochers Digital Garden">
@@ -43,7 +43,7 @@ const sortContent = ( notes ) => notes.sort(
           <Il href="me">Beat Hagenlocher</Il> <br> thinking out loud.
         </h1>
         <h2 class="f-pt-lg">
-          <Badges size="f-text-xs" topics={topics}/>
+          <BadgeSelection size="f-text-md" topics={topics}/>
         </h2>
     </div>
     <div class="md:grid md:grid-cols-12 f-gap-xl">
@@ -57,23 +57,22 @@ const sortContent = ( notes ) => notes.sort(
           </p>
         </div>
         <div class="sm:grid sm:grid-cols-2 f-gap-lg">
-        {sortContent(publishedNotes).map((content) =>
-            (
-              <WideCard to={content.id}
-                        title={content.data.title}
-                        topics={content.data.topics}
-                        >{content.data.description}</WideCard>
-            )
-        )}
-        {sortContent(draftNotes).map((content) =>
-            (<div class="opacity-50">
-              <WideCard to={content.id}
-                        title={content.data.title}
-                        topics={content.data.topics}
-                        >{content.data.description}</WideCard>
-            </div>
-            )
-        )}
+        {sortContent(publishedNotes).map((content) => (
+          <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
+            <WideCard to={content.id}
+                      title={content.data.title}
+                      topics={content.data.topics}
+                      >{content.data.description}</WideCard>
+          </div>
+        ))}
+        {sortContent(draftNotes).map((content) => (
+          <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
+            <WideCard to={content.id}
+                      title={content.data.title}
+                      topics={content.data.topics}
+                      >{content.data.description}</WideCard>
+          </div>
+        ))}
         </div>
 
         <div class="f-mt-md f-mb-2xl">
@@ -85,26 +84,25 @@ const sortContent = ( notes ) => notes.sort(
           </p>
         </div>
         <div class="sm:grid sm:grid-cols-4 f-gap-lg">
-        {sortContent(publishedKnowledge).map((content) =>
-          (
+        {sortContent(publishedKnowledge).map((content) => (
+          <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
             <WideCard to={content.id}
                       title={content.data.title}
                       topics={content.data.topics}
                       >{content.data.description}</WideCard>
-          )
-        )}
-        {sortContent(draftKnowledge).map((content) =>
-          (<div class="opacity-50">
+          </div>
+        ))}
+        {sortContent(draftKnowledge).map((content) => (
+          <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
             <WideCard to={content.id}
                       title={content.data.title}
                       topics={content.data.topics}
                       >{content.data.description}</WideCard>
-           </div>)
-        )}
+          </div>
+        ))}
         </div>
       </div>
       <div class="md:col-span-5">
-
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-xl">
             Atomic Essays
@@ -113,46 +111,72 @@ const sortContent = ( notes ) => notes.sort(
             Short form writing capturing a single idea
           </p>
         </div>
-        {sortContent(publishedEssays).map((content) =>
-            (
-              <WideCard to={content.id}
-                        title={content.data.title}
-                        topics={content.data.topics}
-                        >{content.data.description}</WideCard>
-            )
-        )}
-        {sortContent(draftEssays).map((content) =>
-            (<div class="opacity-50">
-              <WideCard to={content.id}
-                        title={content.data.title}
-                        topics={content.data.topics}
-                        >{content.data.description}</WideCard>
-            </div>
-            )
-        )}
+        {sortContent(publishedEssays).map((content) => (
+          <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
+            <WideCard to={content.id}
+                      title={content.data.title}
+                      topics={content.data.topics}
+                      >{content.data.description}</WideCard>
+          </div>
+        ))}
+        {sortContent(draftEssays).map((content) => (
+          <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
+            <WideCard to={content.id}
+                      title={content.data.title}
+                      topics={content.data.topics}
+                      >{content.data.description}</WideCard>
+          </div>
+        ))}
       </div>
       <div class="col-span-12">
         <h2 class="f-text-xl f-my-md">
           Talks
         </h2>
-        {sortContent(publishedTalks).map((content) =>
-            (
-              <WideCard to={content.id}
-                        title={content.data.title}
-                        topics={content.data.topics}
-                        >{content.data.description}</WideCard>
-            )
-        )}
-        {sortContent(draftTalks).map((content) =>
-            (<div class="opacity-50">
-              <WideCard to={content.id}
-                        title={content.data.title}
-                        topics={content.data.topics}
-                        >{content.data.description}</WideCard>
-            </div>
-            )
-        )}
+        {sortContent(publishedTalks).map((content) => (
+          <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
+            <WideCard to={content.id}
+                      title={content.data.title}
+                      topics={content.data.topics}
+                      >{content.data.description}</WideCard>
+          </div>
+        ))}
+        {sortContent(draftTalks).map((content) => (
+          <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
+            <WideCard to={content.id}
+                      title={content.data.title}
+                      topics={content.data.topics}
+                      >{content.data.description}</WideCard>
+          </div>
+        ))}
       </div>
     </div>
   </div>
 </Layout>
+
+<script>
+  import { selectedTopics } from '../store.js';
+
+  function filterContent() {
+    const selected = selectedTopics.get();
+    const contentItems = document.querySelectorAll('.content-item');
+
+    contentItems.forEach(item => {
+      const itemTopics = JSON.parse(item.dataset.topics || '[]');
+
+      if (selected.length === 0) {
+        // Show everything if no topics selected
+        item.style.display = '';
+      } else {
+        // Check if any of the item's topics match the selected topics
+        const hasMatch = itemTopics.some(topic => selected.includes(topic));
+        item.style.display = hasMatch ? '' : 'none';
+      }
+    });
+  }
+
+  // Subscribe to store changes
+  selectedTopics.subscribe(filterContent);
+
+  // Initial filter
+  filterContent();
+</script>

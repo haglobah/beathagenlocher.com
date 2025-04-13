@@ -1,0 +1,177 @@
+---
+// src/components/TopicFilter.astro
+export interface Props {
+  topics: string[];
+  size?: string;
+}
+const { topics: allTopics, size } = Astro.props; // Renamed to avoid conflict
+import Badge from './Badge.astro';
+import { slug as slugger } from 'github-slugger';
+
+// Generate slugs once for consistent IDs
+const topicsWithSlugs = allTopics.map(topic => ({
+  name: topic,
+  slug: slugger(topic)
+}));
+
+// Define Tailwind classes for reusability (optional, but can clean up template)
+const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center transition-opacity duration-300 ease-in-out";
+
+---
+<div class="topic-filter">
+  <!-- Selected topics section -->
+  <div id="selected-topics-container" class="relative f-my-lg f-min-h-lg border border-dashed border-zinc-700 rounded-xl f-p-sm">
+    <div id="selected-topics" class="flex flex-wrap gap-2 f-min-h-lg items-center w-full f-pr-sm">
+      <!-- Selected topic elements will be moved here -->
+      <span id="selected-placeholder" class="text-zinc-500 italic text-sm">Selected filters will appear here...</span>
+    </div>
+
+    <div class="absolute inset-y-3 right-3 flex items-start">
+      <button id="clear-topics" class="bg-zinc-800 border border-cornflower text-cornflower hover:bg-cornflower/10 font-medium my-auto f-py-xs f-px-sm rounded-lg f-text-sm transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none">
+        Clear
+      </button>
+    </div>
+  </div>
+
+  <!-- Instruction text container -->
+  <div id="instruction-text-container" class="f-my-lg flex justify-start gap-8 text-sm">
+    <!-- Text that appears when topics can be removed -->
+    <div id="has-selection-text" class:list={[instructionTextBaseClasses, "opacity-0"]}>
+      Click topic <span class="i-heroicons:arrow-up-20-solid inline-block relative mx-1 size-4 text-cornflower"></span> to remove
+    </div>
+    <!-- Text that appears when topics can be added -->
+    <div id="not-all-selection-text" class:list={[instructionTextBaseClasses, "opacity-100"]}>
+      Click topic <span class="i-heroicons:arrow-down-20-solid inline-block relative mx-1 size-4 text-cornflower"></span> to add filter
+    </div>
+  </div>
+
+  <!-- Available topics section - All topics start here -->
+  <div id="available-topics" class="flex flex-wrap gap-2 f-my-lg min-h-[40px]">
+    {topicsWithSlugs.map(({ name: topic, slug }) => (
+      <div
+        id={"topic-wrapper-" + slug}
+        data-topic={topic}
+        class="topic-wrapper cursor-pointer transition-[opacity,transform] duration-300 ease-in-out hover:scale-105 focus:scale-105 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cornflower focus-visible:rounded"
+        aria-label={`Toggle topic: ${topic}`}
+        role="button"
+        tabindex="0"
+      >
+        <Badge topic={topic} size={size} />
+      </div>
+    ))}
+  </div>
+</div>
+
+{/* REMOVED <style> block */}
+
+<script>
+  import { selectedTopics, toggleTopic, clearTopics } from '../store.js'; // Adjust path if needed
+
+  const selectedContainer = document.getElementById('selected-topics');
+  const availableContainer = document.getElementById('available-topics');
+  const clearButton = document.getElementById('clear-topics');
+  const notAllSelectionText = document.getElementById('not-all-selection-text');
+  const hasSelectionText = document.getElementById('has-selection-text');
+  const selectedPlaceholder = document.getElementById('selected-placeholder');
+
+  // Store references to all topic elements by their topic name
+  const topicElements = new Map();
+  document.querySelectorAll('.topic-wrapper').forEach(wrapper => {
+    const topic = wrapper.dataset.topic;
+    if (topic) {
+        topicElements.set(topic, wrapper);
+
+        // Add click listener ONCE to each original element
+        wrapper.addEventListener('click', () => {
+          toggleTopic(topic);
+        });
+        // Add keyboard accessibility
+        wrapper.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); // Prevent spacebar scrolling
+            toggleTopic(topic);
+          }
+        });
+    }
+  });
+
+  const totalTopicsCount = topicElements.size;
+
+  // Update UI declaratively based on store state
+  function updateUI(selected) { // Receive state directly from subscribe
+    const currentlySelected = new Set(selected);
+
+    // Move elements to the correct container
+    topicElements.forEach((element, topic) => {
+      const isSelected = currentlySelected.has(topic);
+      const currentParent = element.parentElement;
+
+      if (isSelected && currentParent !== selectedContainer) {
+        selectedContainer.appendChild(element);
+      } else if (!isSelected && currentParent !== availableContainer) {
+        availableContainer.appendChild(element);
+      }
+    });
+
+    // Update instruction text and clear button visibility using Tailwind classes
+    const selectedCount = selected.length;
+
+    // Placeholder visibility (using style.display is fine here as it's not animated)
+    selectedPlaceholder.style.display = selectedCount === 0 ? 'inline' : 'none';
+
+    // Instruction texts opacity
+    if (selectedCount > 0) {
+        hasSelectionText.classList.remove('opacity-0');
+        hasSelectionText.classList.add('opacity-100');
+    } else {
+        hasSelectionText.classList.remove('opacity-100');
+        hasSelectionText.classList.add('opacity-0');
+    }
+
+    if (selectedCount < totalTopicsCount) {
+        notAllSelectionText.classList.remove('opacity-0');
+        notAllSelectionText.classList.add('opacity-100');
+    } else {
+        notAllSelectionText.classList.remove('opacity-100');
+        notAllSelectionText.classList.add('opacity-0');
+    }
+
+    // Clear button visibility (using opacity and pointer-events classes)
+    if (selectedCount > 0) {
+        clearButton.classList.remove('opacity-0', 'pointer-events-none');
+        clearButton.classList.add('opacity-100', 'pointer-events-auto');
+    } else {
+        clearButton.classList.remove('opacity-100', 'pointer-events-auto');
+        clearButton.classList.add('opacity-0', 'pointer-events-none');
+    }
+  }
+
+  // Clear button handler
+  if (clearButton) {
+    clearButton.addEventListener('click', () => {
+      clearTopics();
+    });
+  }
+
+  // Subscribe to store changes
+  const unsubscribe = selectedTopics.subscribe(updateUI);
+
+  // Initial UI sync based on the current store state
+  updateUI(selectedTopics.get());
+
+  // Optional: Cleanup subscription
+  // Consider Astro's view transitions or other mechanisms if component unmounts often
+  // Example basic cleanup if the filter itself is removed:
+  // const filterElement = availableContainer.closest('.topic-filter');
+  // if (filterElement) {
+  //     const observer = new MutationObserver((mutationsList, obs) => {
+  //         if (!document.contains(filterElement)) {
+  //             unsubscribe();
+  //             obs.disconnect();
+  //             console.log('Topic filter unsubscribed and disconnected.');
+  //         }
+  //     });
+  //     observer.observe(filterElement.parentElement || document.body, { childList: true, subtree: false }); // Observe immediate parent
+  // }
+
+</script>
