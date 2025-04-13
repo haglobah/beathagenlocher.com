@@ -7,33 +7,35 @@ const { topics, size } = Astro.props;
 import Badge from './Badge.astro';
 import { slug } from 'github-slugger';
 ---
-
 <div class="topic-filter">
   <div id="selected-topics" class="flex justify-between flex-wrap f-my-lg relative min-h-[40px] items-center">
-    <!-- Initial instruction text that will be hidden when topics are selected -->
     <div class="flex flex-wrap items-center basis-4/5">
-      <div id="no-selection-text" class="text-zinc-400 px-2 group/emptyselectiontext">
-        Select topics from here <span class="i-heroicons:arrow-down-20-solid inline-block relative mx-3 top-1 size-6 group-hover/emptyselectiontext:bg-zinc-100 transition-all duration-400 group-hover/emptyselectiontext:scale-150 ease-in-out"></span> to filter content
-      </div>
-      
-      <!-- Text that appears when topics are selected -->
-      <div id="has-selection-text" class="text-zinc-400 italic px-2 hidden">
-        Click topic here <span class="i-heroicons:arrow-left-20-solid inline-block relative mx-3 top-1 size-6 group-hover/emptyselectiontext:bg-zinc-100 transition-all duration-400 group-hover/emptyselectiontext:scale-150 ease-in-out"></span> to remove filter
-      </div>
+      <!-- Selected topics will be moved here -->
     </div>
     {topics.length > 0 && (
-      <div class="">
-        <button id="clear-topics" class="basis-1/5 mx-auto bg-zinc-800 border border-cornflower text-cornflower hover:bg-cornflower/10 font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out">
+      <div>
+        <button id="clear-topics" class="bg-zinc-800 border border-cornflower text-cornflower hover:bg-cornflower/10 font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out hidden">
           Clear filters
         </button>
       </div>
     )}
   </div>
 
+  <div id="instruction-text-container" class="f-my-lg flex justify-start gap-8">
+    <!-- Text that appears when topics are selected -->
+    <div id="has-selection-text" class="text-zinc-400 f-mb-sm f-px-xs hidden">
+      Click topic <span class="i-heroicons:arrow-up-20-solid inline-block relative mx-3 top-1 size-6 transition-all duration-400 ease-in-out"></span> to remove filter
+    </div>
+    <!-- Initial instruction text that will be visible when less than all topics are selected -->
+    <div id="not-all-selection-text" class="text-zinc-400 f-mt-sm f-px-xs group/emptyselectiontext">
+      Select topics <span class="i-heroicons:arrow-down-20-solid inline-block relative mx-3 top-1 size-6 group-hover/emptyselectiontext:bg-zinc-100 transition-all duration-400 group-hover/emptyselectiontext:scale-150 ease-in-out"></span> to filter content
+    </div>
+  </div>
+
   <div id="available-topics" class="flex flex-wrap f-my-lg">
     {topics.map(topic =>
       <div id={"btn-" + slug(topic)} data-topic={topic} class="topic-button cursor-pointer">
-        <Badge topic={topic} size={size}>
+        <Badge topic={topic} size={size} />
       </div>
     )}
   </div>
@@ -44,24 +46,28 @@ import { slug } from 'github-slugger';
 
   const availableTopics = document.querySelectorAll('.topic-button');
   const clearButton = document.getElementById('clear-topics');
-  const noSelectionText = document.getElementById('no-selection-text');
+  const notAllSelectionText = document.getElementById('not-all-selection-text');
   const hasSelectionText = document.getElementById('has-selection-text');
+  const selectedContainer = document.querySelector('#selected-topics .flex');
+  const availableContainer = document.querySelector('#available-topics');
 
   // Initialize UI based on store state
   function updateUI() {
     const selected = selectedTopics.get();
-    const availableContainer = document.querySelector('#available-topics');
-    const selectedContainer = document.querySelector('#selected-topics');
 
     // Update text visibility based on selection state
-    if (selected.length > 0) {
-      noSelectionText.classList.add('hidden');
+    if (selected.length === 0) {
+      notAllSelectionText.classList.remove('hidden');
+      hasSelectionText.classList.add('hidden');
+      clearButton.classList.add('hidden');
+    } else if (selected.length < availableTopics.length) {
+      notAllSelectionText.classList.remove('hidden');
       hasSelectionText.classList.remove('hidden');
       clearButton.classList.remove('hidden');
     } else {
-      noSelectionText.classList.remove('hidden');
-      hasSelectionText.classList.add('hidden');
-      clearButton.classList.add('hidden');
+      notAllSelectionText.classList.add('hidden');
+      hasSelectionText.classList.remove('hidden');
+      clearButton.classList.remove('hidden');
     }
 
     availableTopics.forEach((el) => {
@@ -69,17 +75,11 @@ import { slug } from 'github-slugger';
       const isSelected = selected.includes(topic);
 
       if (isSelected && el.parentNode !== selectedContainer) {
-        // Move to selected and update styling
+        // Move to selected
         selectedContainer.appendChild(el);
-        // Insert after the has-selection-text element
-        hasSelectionText.before(el);
-        el.classList.remove();
-        el.classList.add();
       } else if (!isSelected && el.parentNode !== availableContainer) {
-        // Move back to available and restore original styling
+        // Move back to available
         availableContainer.appendChild(el);
-        el.classList.add();
-        el.classList.remove();
       }
     });
   }
