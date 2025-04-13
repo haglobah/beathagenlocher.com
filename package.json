@@ -17,6 +17,7 @@
     "astro-seo": "^0.8.4",
     "mdast-util-wiki-link": "^0.1.2",
     "micromark-util-symbol": "^2.0.1",
+    "nanostores": "^1.0.1",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {

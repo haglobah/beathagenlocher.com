@@ -1,51 +1,80 @@
 ---
 export interface Props {
-  topics: string;
+  topics: string[];
+  size?: string;
 }
-
 const { topics, size } = Astro.props;
-
 import Badge from './Badge.astro';
 import { slug } from 'github-slugger';
 
 ---
 
-<div id="selected-topics" class="flex flex-wrap f-my-lg">
-</div>
+<div class="topic-filter">
+  <div id="selected-topics" class="flex flex-wrap f-my-lg">
+    {topics.}
+    <!-- Selected topics will be moved here -->
+  </div>
 
-<div id="available-topics" class="flex flex-wrap f-my-lg">
-  {topics.map(topic =>
-    <div id={"btn-" + slug(topic)} data-topic={topic} class="topic-button cursor-pointer">
-      <Badge topic={topic} size={size} />
-    </div>
+  <div id="available-topics" class="flex flex-wrap f-my-lg">
+    {topics.map(topic =>
+      <div id={"btn-" + slug(topic)} data-topic={topic} class="topic-button cursor-pointer">
+        <Badge topic={topic} size={size} />
+      </div>
+    )}
+  </div>
+
+  {topics.length > 0 && (
+    <button id="clear-topics" class="bg-zinc-800 border border-cornflower text-cornflower hover:bg-cornflower/10 font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out">
+      Clear filters
+    </button>
   )}
 </div>
 
 <script>
-  const available = document.querySelector('#available-topics')
-  const selection = document.querySelector('#selected-topics')
+  import { selectedTopics, toggleTopic, clearTopics } from '../store.js';
 
-  const availableTopics = document.querySelectorAll('#available-topics > .topic-button')
+  const availableTopics = document.querySelectorAll('.topic-button');
+  const clearButton = document.getElementById('clear-topics');
 
-  console.log(availableTopics)
+  // Initialize UI based on store state
+  function updateUI() {
+    const selected = selectedTopics.get();
+    const availableContainer = document.querySelector('#available-topics');
+    const selectedContainer = document.querySelector('#selected-topics');
 
+    availableTopics.forEach((el) => {
+      const topic = el.dataset.topic;
+      const isSelected = selected.includes(topic);
+
+      if (isSelected && el.parentNode !== selectedContainer) {
+        selectedContainer.appendChild(el);
+        el.classList.add('selected');
+      } else if (!isSelected && el.parentNode !== availableContainer) {
+        availableContainer.appendChild(el);
+        el.classList.remove('selected');
+      }
+    });
+  }
+
+  // Set up event listeners
   availableTopics.forEach((el) => {
-    el.addEventListener('click', (ev) => {
-      console.log(el)
-      console.log(el.dataset.topic)
+    el.addEventListener('click', () => {
+      const topic = el.dataset.topic;
+      toggleTopic(topic);
+      updateUI();
+    });
+  });
 
-      console.log("Selected before: ", document.querySelectorAll('#selected-topics > .topic-button'))
-      console.log("Available before: ", document.querySelectorAll('#available-topics > .topic-button'))
+  if (clearButton) {
+    clearButton.addEventListener('click', () => {
+      clearTopics();
+      updateUI();
+    });
+  }
 
-      if (el.parentNode === available) {
-        selection.appendChild(el)
-      }
-      else {
-        available.appendChild(el)
-      }
+  // Subscribe to store changes
+  selectedTopics.subscribe(updateUI);
 
-      console.log("Selected after: ", document.querySelectorAll('#selected-topics .topic-button'))
-      console.log("Available after: ", document.querySelectorAll('#available-topics .topic-button'))
-    })
-  })
+  // Initial UI update
+  updateUI();
 </script>
