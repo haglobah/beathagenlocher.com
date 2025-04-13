@@ -8,95 +8,119 @@ import Badge from './Badge.astro';
 import { slug } from 'github-slugger';
 ---
 <div class="topic-filter">
-  <div id="selected-topics" class="flex justify-between flex-wrap f-my-lg relative min-h-[40px] items-center">
-    <div class="flex flex-wrap items-center basis-4/5">
-      <!-- Selected topics will be moved here -->
+  <!-- Selected topics section with better positioning -->
+  <div id="selected-topics-container" class="relative f-my-lg min-h-[40px]">
+    <div id="selected-topics" class="flex flex-wrap items-center w-full pr-32">
+      <!-- Selected topics will be rendered here -->
     </div>
-    {topics.length > 0 && (
-      <div>
-        <button id="clear-topics" class="bg-zinc-800 border border-cornflower text-cornflower hover:bg-cornflower/10 font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out hidden">
-          Clear filters
-        </button>
-      </div>
-    )}
+
+    <div class="absolute right-0 top-0 h-full flex items-center">
+      <button id="clear-topics" class="bg-zinc-800 border border-cornflower text-cornflower hover:bg-cornflower/10 font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out hidden">
+        Clear filters
+      </button>
+    </div>
   </div>
 
+  <!-- Instruction text container with both texts -->
   <div id="instruction-text-container" class="f-my-lg flex justify-start gap-8">
     <!-- Text that appears when topics are selected -->
-    <div id="has-selection-text" class="text-zinc-400 f-mb-sm f-px-xs hidden">
-      Click topic <span class="i-heroicons:arrow-up-20-solid inline-block relative mx-3 top-1 size-6 transition-all duration-400 ease-in-out"></span> to remove filter
+    <div id="has-selection-text" class="text-zinc-400 f-mb-sm f-px-xs invisible group/hasselectiontext">
+      Click topic <span class="i-heroicons:arrow-up-20-solid inline-block relative mx-3 top-1 size-6 group-hover/hasselectiontext:bg-zinc-100 transition-all duration-400 group-hover/hasselectiontext:scale-150 ease-in-out"></span> to remove filter
     </div>
-    <!-- Initial instruction text that will be visible when less than all topics are selected -->
-    <div id="not-all-selection-text" class="text-zinc-400 f-mt-sm f-px-xs group/emptyselectiontext">
-      Select topics <span class="i-heroicons:arrow-down-20-solid inline-block relative mx-3 top-1 size-6 group-hover/emptyselectiontext:bg-zinc-100 transition-all duration-400 group-hover/emptyselectiontext:scale-150 ease-in-out"></span> to filter content
+    <!-- Text that appears when less than all topics are selected -->
+    <div id="not-all-selection-text" class="text-zinc-400 f-mt-sm f-px-xs group/notallselectiontext">
+      Select topics <span class="i-heroicons:arrow-down-20-solid inline-block relative mx-3 top-1 size-6 group-hover/notallselectiontext:bg-zinc-100 transition-all duration-400 group-hover/notallselectiontext:scale-150 ease-in-out"></span> to filter content
     </div>
   </div>
 
-  <div id="available-topics" class="flex flex-wrap f-my-lg">
-    {topics.map(topic =>
-      <div id={"btn-" + slug(topic)} data-topic={topic} class="topic-button cursor-pointer">
-        <Badge topic={topic} size={size} />
+  <!-- Available topics section - all topics will be rendered here -->
+  <div id="all-topics" class="flex flex-wrap f-my-lg">
+    {topics.map(topic => (
+      <div
+        id={"topic-" + slug(topic)}
+        data-topic={topic}
+        class="topic-wrapper"
+      >
+        <div class="topic-button cursor-pointer">
+          <Badge topic={topic} size={size} />
+        </div>
       </div>
-    )}
+    ))}
   </div>
 </div>
 
 <script>
   import { selectedTopics, toggleTopic, clearTopics } from '../store.js';
 
-  const availableTopics = document.querySelectorAll('.topic-button');
+  // Get all the topic elements and their wrappers
+  const topicWrappers = document.querySelectorAll('.topic-wrapper');
   const clearButton = document.getElementById('clear-topics');
   const notAllSelectionText = document.getElementById('not-all-selection-text');
   const hasSelectionText = document.getElementById('has-selection-text');
-  const selectedContainer = document.querySelector('#selected-topics .flex');
-  const availableContainer = document.querySelector('#available-topics');
+  const selectedTopicsContainer = document.getElementById('selected-topics');
 
-  // Initialize UI based on store state
-  function updateUI() {
-    const selected = selectedTopics.get();
+  // Create a map to preserve original order
+  const topicElements = new Map();
+  topicWrappers.forEach((wrapper) => {
+    const topic = wrapper.dataset.topic;
+    const button = wrapper.querySelector('.topic-button');
+    topicElements.set(topic, button);
 
-    // Update text visibility based on selection state
-    if (selected.length === 0) {
-      notAllSelectionText.classList.remove('hidden');
-      hasSelectionText.classList.add('hidden');
-      clearButton.classList.add('hidden');
-    } else if (selected.length < availableTopics.length) {
-      notAllSelectionText.classList.remove('hidden');
-      hasSelectionText.classList.remove('hidden');
-      clearButton.classList.remove('hidden');
-    } else {
-      notAllSelectionText.classList.add('hidden');
-      hasSelectionText.classList.remove('hidden');
-      clearButton.classList.remove('hidden');
-    }
-
-    availableTopics.forEach((el) => {
-      const topic = el.dataset.topic;
-      const isSelected = selected.includes(topic);
-
-      if (isSelected && el.parentNode !== selectedContainer) {
-        // Move to selected
-        selectedContainer.appendChild(el);
-      } else if (!isSelected && el.parentNode !== availableContainer) {
-        // Move back to available
-        availableContainer.appendChild(el);
-      }
-    });
-  }
-
-  // Set up event listeners
-  availableTopics.forEach((el) => {
-    el.addEventListener('click', () => {
-      const topic = el.dataset.topic;
+    // Add click event to toggle selection
+    button.addEventListener('click', () => {
       toggleTopic(topic);
-      updateUI();
     });
   });
 
+  // Update UI based on store state in a declarative way
+  function updateUI() {
+    const selected = selectedTopics.get();
+
+    // Update selected topics display (create clones for selected topics)
+    selectedTopicsContainer.innerHTML = '';
+    selected.forEach(topic => {
+      if (topicElements.has(topic)) {
+        // Clone the button to display in selected section
+        const clone = topicElements.get(topic).cloneNode(true);
+        selectedTopicsContainer.appendChild(clone);
+
+        // Add click handler to the clone as well
+        clone.addEventListener('click', () => {
+          toggleTopic(topic);
+        });
+
+        // Visually indicate selection in the original element
+        topicElements.get(topic).classList.add('opacity-60');
+      }
+    });
+
+    // Remove selected class from unselected topics
+    topicElements.forEach((element, topic) => {
+      if (!selected.includes(topic)) {
+        element.classList.remove('opacity-60');
+      }
+    });
+
+    // Update instruction text visibility
+    if (selected.length === 0) {
+      notAllSelectionText.classList.remove('hidden');
+      hasSelectionText.classList.add('invisible');
+      clearButton.classList.add('hidden');
+    } else if (selected.length < topicElements.size) {
+      notAllSelectionText.classList.remove('hidden');
+      hasSelectionText.classList.remove('invisible');
+      clearButton.classList.remove('hidden');
+    } else {
+      notAllSelectionText.classList.add('hidden');
+      hasSelectionText.classList.remove('invisible');
+      clearButton.classList.remove('hidden');
+    }
+  }
+
+  // Clear button handler
   if (clearButton) {
     clearButton.addEventListener('click', () => {
       clearTopics();
-      updateUI();
     });
   }
 
