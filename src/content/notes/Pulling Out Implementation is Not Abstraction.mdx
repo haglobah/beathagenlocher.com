@@ -1,0 +1,26 @@
+---
+title: Pulling Out Implementation is Not Abstracting
+description: δ
+growthStage: seedling
+startDate: 2025-04-14
+updated: 2025-04-14
+topics: []
+---
+
+So, you're writing code
+1. You notice some sameness in the code you're writing.
+2. You know what to do—cause you're a good and responsible programmer!—you pull the sameness out.
+3. You call that 'abstraction', are happy with your life, and carry on.
+
+Unfortunately, this is not the whole story.  
+
+Because sometime later someone (probably you) wants to add a behavior to one of the few functions you pulled that code out from.
+Turns out the code wasn't similar for a _good reason_—it was only similar _incidentially_.
+
+And now they (that is, you) got a problem—cause they want to you only named the function `withData`
+
+- pulling sameness out => _This is something you should not do!_
+- Say "Abstraction"
+- 
+
+≺≻ [Problems With WebDev | The Primagen](https://www.youtube.com/shorts/k4MMrUX_H6Y)
