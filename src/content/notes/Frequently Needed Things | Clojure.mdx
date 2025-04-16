@@ -1,0 +1,99 @@
+---
+title: Frequently Needed Things | Clojure
+description: ""
+growthStage: seedling
+startDate: 2025-04-16
+updated: 2025-04-16
+topics: []
+publish: false
+---
+
+Welcome!
+
+This is a collection of things you might need when using <Il href="./programming-languages/clojure">Clojure</Il> and how to resolve them.
+
+# Help, I forgot the Java/JS interop syntax—again!
+
+# I want to print a value inside a function call stack
+
+Assume your code looks like this:
+
+```clojure
+(defn make-other-thing []
+  (produce-other-thing (filter-things-out (transform-thing-to-things (make-thing)))))
+```
+
+But now, you want to take a look at the result of transform-thing-to-things without interfering with the rest of the function.
+
+This would be the naive approach:
+
+```clojure
+(defn make-other-thing []
+(let [things (transform-thing-to-things (make-thing))]
+    (println things)
+    (produce-other-thing (filter-things-out things))))
+```
+
+But I think this is way better:
+
+```clojure
+(defn inspect [thing]
+  (println thing)
+  thing)
+
+(defn make-other-thing []
+  (produce-other-thing (filter-things-out (inspect (transform-thing-to-things (make-thing))))))
+```
+
+Or even:
+
+```clojure
+(defn inspect [thing]
+  (println thing)
+  thing)
+
+(defn make-other-thing []
+  (-> (make-thing)
+      transform-thing-to-things
+      inspect
+      filter-things-out
+      produce-other-thing))
+```
+
+And since `inspect` is a function that probably should've been in the standard library—we put it in our `utils` namespace:
+
+```clojure
+(ns example.utils.debug)
+
+(defn inspect [thing]
+  (println thing)
+  thing)
+```
+
+```clojure
+(ns example.main
+  (:require
+    [example.utils.debug :refer [inspect]]))
+
+(defn make-other-thing []
+  (-> (make-thing)
+      transform-thing-to-things
+      inspect
+      filter-things-out
+      produce-other-thing))
+```
+
+# `...` not found on classpath. Help!
+
+1. Check the spelling of the thing you want to include.
+   1. Really check it.
+   2. In every place.
+
+If it's not the spelling, it's probably one of the following:
+
+- The resource exists with the right name, but is not actually on the classpath.
+  - Is it in the right folder? That is, with your `:paths` looking like this (`{:paths ["src" "test" "resources"] ...}`), is it in either `./src`, `./test` or`./resourcer` from the project root?
+  - Did you add the folder to the classpath? ->
+
+
+# I struggle with creating the right namespace layout. Help!
