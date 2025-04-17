@@ -15,6 +15,7 @@
     "@iconify-json/heroicons": "^1.2.2",
     "astro": "^5.4.0",
     "astro-seo": "^0.8.4",
+    "linkedom": "^0.18.9",
     "mdast-util-wiki-link": "^0.1.2",
     "micromark-util-symbol": "^2.0.1",
     "nanostores": "^1.0.1",

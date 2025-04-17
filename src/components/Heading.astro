@@ -1,6 +1,19 @@
 ---
 
+import { Debug } from 'astro:components'
+import { parseHTML } from 'linkedom'
+import { slug } from 'github-slugger'
+
+const headingHtml = await Astro.slots.render('default')
+const { document } = parseHTML(headingHtml)
+const theID = slug(document.toString())
+const theLink = `#${theID}`
+
+console.log(theLink)
+
 ---
-<h1 class="f-text-2xl f-mt-2xl f-mb-lg leading-tighter">
-  <slot />
+
+<h1 id={theID} class="f-text-2xl f-mt-2xl f-mb-lg leading-tightergroup/heading1 relative">
+  <a href={theLink} class="absolute left--8 px-1 f-text-xl font-normal opacity-0 transition-opacity group-hover/heading1:opacity-100 duration-300 text-cornflower">§</a>
+  <Fragment set:html={document}/>
 </h1>
