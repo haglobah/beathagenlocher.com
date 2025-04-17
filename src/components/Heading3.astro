@@ -9,17 +9,9 @@ const { document } = parseHTML(headingHtml)
 const theID = slug(document.toString())
 const theLink = `#${theID}`
 
-console.log(theLink)
-
 ---
 
 <h2 id={theID} class="f-text-lg f-mt-lg f-mb-sm group/heading3 relative">
   <a href={theLink} class="absolute left--8 px-1 f-text-xl font-normal opacity-0 transition-opacity group-hover/heading3:opacity-100 duration-300 text-cornflower">§</a>
   <Fragment set:html={document}/>
 </h2>
----
-
----
-<h1 class="">
-  <slot />
-</h1>
