@@ -1,11 +1,11 @@
 import {
   defineConfig,
   transformerDirectives,
-  presetWind,
   presetWebFonts,
   presetIcons,
  } from 'unocss'
 import { presetFluid } from 'unocss-preset-fluid'
+import presetWind4 from '@unocss/preset-wind4'
 
 export default defineConfig({
   cli: {
@@ -48,6 +48,7 @@ export default defineConfig({
   presets: [
     presetIcons(),
     presetWebFonts({
+      themeKey: 'font',
       provider: 'google',
       fonts: {
         sans: 'Fira Sans:100,200,300,400,500,600,700,800,900:italic',
@@ -57,7 +58,9 @@ export default defineConfig({
         serif: 'IBM Plex Serif:100,200,300,400,500,600,700,800,900:italic'
       },
     }),
-    presetWind(),
+    presetWind4({
+      reset: true,
+    }),
     presetFluid({
       maxWidth: 1440,
       minWidth: 320,
