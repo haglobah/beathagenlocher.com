@@ -106,6 +106,7 @@ const sortContent = (notes) => notes.sort(
           </div>
         ))}
         </div>
+
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-xl">
             The Stream
@@ -114,7 +115,7 @@ const sortContent = (notes) => notes.sort(
             Tiny pieces of thinking, links and knowledge, streamified
           </p>
         </div>
-        <div class="">
+        <div class="f-mb-2xl">
         {sortContent(stream).map((content) => (
           <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
             <StreamCard title={content.data.title}
@@ -125,6 +126,7 @@ const sortContent = (notes) => notes.sort(
         ))}
         </div>
       </div>
+
       <div class="md:col-span-5">
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-xl">
@@ -151,6 +153,7 @@ const sortContent = (notes) => notes.sort(
           </div>
         ))}
       </div>
+
       <div class="col-span-12">
         <h2 class="f-text-xl f-my-md">
           Talks
