@@ -7,5 +7,6 @@
     "blanks-around-lists": false,
     "no-duplicate-heading": false,
     "no-trailing-punctuation": false,
-    "heading-style": false
+    "heading-style": false,
+    "first-line-h1": false
 }
