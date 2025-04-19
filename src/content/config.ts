@@ -142,32 +142,32 @@ const talksCollection = defineCollection({
 //   }),
 // });
 
-// const smidgeonsCollection = defineCollection({
-//   loader: glob({ pattern: "**/*.md", base: "./src/content/smidgeons" }),
-//   schema: () =>
-//     z.object({
-//       title: z.string(),
-//       startDate: z.coerce.date(),
-//       type: z.literal("smidgeon"),
-//       topics: z.array(z.string()).optional(),
-//       external: z
-//         .object({
-//           title: z.string(),
-//           url: z.string().url(),
-//           author: z.string().optional(),
-//         })
-//         .optional(),
-//       citation: z
-//         .object({
-//           title: z.string(),
-//           authors: z.array(z.string()),
-//           journal: z.string(),
-//           year: z.number(),
-//           url: z.string().optional(),
-//         })
-//         .optional(),
-//     }),
-// });
+const streamCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/stream" }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      startDate: z.coerce.date(),
+      type: z.literal("thoughts"),
+      topics: z.array(z.string()).optional(),
+      external: z
+        .object({
+          title: z.string(),
+          url: z.string().url(),
+          author: z.string().optional(),
+        })
+        .optional(),
+      citation: z
+        .object({
+          title: z.string(),
+          authors: z.array(z.string()),
+          journal: z.string(),
+          year: z.number(),
+          url: z.string().optional(),
+        })
+        .optional(),
+    }),
+});
 
 // This key should match your collection directory name in "src/content"
 export const collections = {
@@ -180,5 +180,5 @@ export const collections = {
   // podcasts: podcastsCollection,
   // books: booksCollection,
   // antibooks: antibooksCollection,
-  // smidgeons: smidgeonsCollection,
+  thestream: streamCollection,
 };
