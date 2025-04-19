@@ -143,29 +143,29 @@ const talksCollection = defineCollection({
 // });
 
 const streamCollection = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/stream" }),
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/stream" }),
   schema: () =>
     z.object({
       title: z.string(),
       startDate: z.coerce.date(),
-      type: z.literal("thoughts"),
       topics: z.array(z.string()).optional(),
-      external: z
-        .object({
-          title: z.string(),
-          url: z.string().url(),
-          author: z.string().optional(),
-        })
-        .optional(),
-      citation: z
-        .object({
-          title: z.string(),
-          authors: z.array(z.string()),
-          journal: z.string(),
-          year: z.number(),
-          url: z.string().optional(),
-        })
-        .optional(),
+      publish: z.boolean(),
+      // external: z
+      //   .object({
+      //     title: z.string(),
+      //     url: z.string().url(),
+      //     author: z.string().optional(),
+      //   })
+      //   .optional(),
+      // citation: z
+      //   .object({
+      //     title: z.string(),
+      //     authors: z.array(z.string()),
+      //     journal: z.string(),
+      //     year: z.number(),
+      //     url: z.string().optional(),
+      //   })
+      //   .optional(),
     }),
 });
 
@@ -180,5 +180,5 @@ export const collections = {
   // podcasts: podcastsCollection,
   // books: booksCollection,
   // antibooks: antibooksCollection,
-  thestream: streamCollection,
+  stream: streamCollection,
 };

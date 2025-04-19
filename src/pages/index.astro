@@ -15,13 +15,17 @@ const publishedEssays = await getCollection("essays", ({ data }) => data.publish
 const draftEssays = await getCollection("essays", ({ data }) => !data.publish);
 const publishedTalks = await getCollection("talks", ({ data }) => data.publish);
 const draftTalks = await getCollection("talks", ({ data }) => !data.publish);
+const stream = await getCollection("stream", ({ data }) => data.publish);
 
 const allTheContent = [
   publishedNotes, draftNotes,
   publishedKnowledge, draftKnowledge,
   publishedEssays, draftEssays,
-  publishedTalks, draftTalks
+  publishedTalks, draftTalks,
+  stream,
 ]
+
+console.log(stream)
 
 const topics = [... new Set(allTheContent
   .flatMap((collection) =>
@@ -94,6 +98,24 @@ const sortContent = (notes) => notes.sort(
         ))}
         {sortContent(draftKnowledge).map((content) => (
           <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
+            <WideCard to={content.id}
+                      title={content.data.title}
+                      topics={content.data.topics}
+                      >{content.data.description}</WideCard>
+          </div>
+        ))}
+        </div>
+        <div class="f-mt-md f-mb-2xl">
+          <h2 class="f-text-xl">
+            The Stream
+          </h2>
+          <p class="italic">
+            Tiny pieces of thinking, links and knowledge, streamified
+          </p>
+        </div>
+        <div class="sm:grid sm:grid-cols-4 f-gap-lg">
+        {sortContent(stream).map((content) => (
+          <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
             <WideCard to={content.id}
                       title={content.data.title}
                       topics={content.data.topics}
