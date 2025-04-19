@@ -5,6 +5,7 @@ import Layout from "../layouts/Layout.astro";
 import Il from "../components/InnerLink.astro";
 import BadgeSelection from "../components/BadgeSelection.astro";
 import WideCard from "../components/WideCard.astro";
+import StreamCard from "../components/StreamCard.astro";
 
 // Get all notes that should be published
 const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
@@ -113,13 +114,13 @@ const sortContent = (notes) => notes.sort(
             Tiny pieces of thinking, links and knowledge, streamified
           </p>
         </div>
-        <div class="sm:grid sm:grid-cols-4 f-gap-lg">
+        <div class="">
         {sortContent(stream).map((content) => (
           <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
-            <WideCard to={content.id}
-                      title={content.data.title}
-                      topics={content.data.topics}
-                      >{content.data.description}</WideCard>
+            <StreamCard title={content.data.title}
+                        topics={content.data.topics}
+                        date={content.data.startDate}
+                        >{content.body}</StreamCard>
           </div>
         ))}
         </div>
