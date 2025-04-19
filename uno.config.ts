@@ -32,6 +32,7 @@ export default defineConfig({
       },
       sienna: {
         light: '#ecb1a2',
+        mid: '#E28E78',
         DEFAULT: '#DC755C',
       },
     },
