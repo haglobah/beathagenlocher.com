@@ -146,7 +146,7 @@ const streamCollection = defineCollection({
   loader: glob({ pattern: "**/*.mdx", base: "./src/content/stream" }),
   schema: () =>
     z.object({
-      title: z.string(),
+      title: z.string().optional(),
       startDate: z.coerce.date(),
       topics: z.array(z.string()).optional(),
       publish: z.boolean(),
