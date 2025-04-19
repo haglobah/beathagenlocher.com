@@ -13,7 +13,7 @@ const {
 } = Astro.props
 
 import RelevantLinks from './RelevantLinks.astro'
-import Badges from './Badges.astro'
+import Badge from './Badge.astro'
 import Ol from './OuterLink.astro'
 import Il from './InnerLink.astro'
 
@@ -79,7 +79,9 @@ import Org from './WideCard/Org.astro'
       )}
 
       {topics !== "" && (
-        <Badges topics={topics} />
+        <div class="flex flex-wrap">
+          {topics.map(topic => <Badge topic={topic} />)}
+        </div>
       )}
     </div>
   </div>
