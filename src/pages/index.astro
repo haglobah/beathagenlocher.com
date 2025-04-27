@@ -17,6 +17,9 @@ const draftEssays = await getCollection("essays", ({ data }) => !data.publish);
 const publishedTalks = await getCollection("talks", ({ data }) => data.publish);
 const draftTalks = await getCollection("talks", ({ data }) => !data.publish);
 const stream = await getCollection("stream", ({ data }) => data.publish);
+const bskyPosts = await getCollection("bskyPosts");
+
+console.log(bskyPosts)
 
 const allTheContent = [
   publishedNotes, draftNotes,
@@ -135,6 +138,11 @@ import { components } from '../mdxcomponents.ts'
                         date={streamlet.data.startDate}
             ><streamlet.Content components={components} /></StreamCard>
           </div>
+          ))}
+          {bskyPosts.map((post) => (
+            <div>
+              {post.rendered.html}
+            </div>
           ))}
         </div>
       </div>

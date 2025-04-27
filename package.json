@@ -10,6 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@ascorbic/bluesky-loader": "^0.0.3",
     "@astrojs/mdx": "^4.1.0",
     "@astrojs/sitemap": "^3.3.1",
     "@iconify-json/carbon": "^1.2.8",

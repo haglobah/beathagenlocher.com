@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
+import { authorFeedLoader } from "@ascorbic/bluesky-loader"
 // import { file } from "astro/loaders";
 
 const growthStageEnum = z.enum(["seedling", "budding", "evergreen"])
@@ -169,6 +170,12 @@ const streamCollection = defineCollection({
     }),
 });
 
+const bskyPostCollection = defineCollection({
+  loader: authorFeedLoader({
+    identifier: "beathagenlocher.com"
+  })
+})
+
 // This key should match your collection directory name in "src/content"
 export const collections = {
   // now: nowCollection,
@@ -181,4 +188,5 @@ export const collections = {
   // books: booksCollection,
   // antibooks: antibooksCollection,
   stream: streamCollection,
+  bskyPosts: bskyPostCollection
 };
