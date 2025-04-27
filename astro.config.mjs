@@ -6,6 +6,8 @@ import wikiLinkPlugin from './src/plugins/portal-wiki-link';
 import { getPermalinks } from './src/plugins/portal-wiki-link';
 import { slug } from 'github-slugger'
 
+import sitemap from '@astrojs/sitemap';
+
 const permalinks = (await getPermalinks("src/content/"))
       .map((el) => {
         let contentTitle = el.split("/")[1]
@@ -19,6 +21,7 @@ export default defineConfig({
   site: 'https://beathagenlocher.com',
   integrations: [
     UnoCSS(),
+    sitemap(),
     mdx({
       remarkPlugins: [
         [wikiLinkPlugin, {
@@ -39,6 +42,5 @@ export default defineConfig({
         theme: "catppuccin-mocha",
         wrap: true,
       }
-    }),
-  ],
+    })]
 })
