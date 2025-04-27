@@ -6,6 +6,7 @@ import Il from "../components/InnerLink.astro";
 import BadgeSelection from "../components/BadgeSelection.astro";
 import WideCard from "../components/WideCard.astro";
 import StreamCard from "../components/StreamCard.astro";
+import { BlueskyPost } from "@astro-community/astro-embed-bluesky"
 
 // Get all notes that should be published
 const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
@@ -140,9 +141,7 @@ import { components } from '../mdxcomponents.ts'
           </div>
           ))}
           {bskyPosts.map((post) => (
-            <div>
-              {post.rendered.html}
-            </div>
+            <BlueskyPost id={post.id}/>
           ))}
         </div>
       </div>

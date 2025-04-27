@@ -172,7 +172,8 @@ const streamCollection = defineCollection({
 
 const bskyPostCollection = defineCollection({
   loader: authorFeedLoader({
-    identifier: "beathagenlocher.com"
+    identifier: "beathagenlocher.com",
+    limit: 10
   })
 })
 
