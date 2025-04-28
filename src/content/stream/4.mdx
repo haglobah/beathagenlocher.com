@@ -1,0 +1,34 @@
+---
+title: Pedantic Typers
+startDate: 2025-04-29T01:27:02
+topics: [Programming Languages, ReScript]
+publish: true
+---
+
+Currently, finally getting my feet wet with [ReScript](https://rescript-lang.org/).
+
+And I must say, I really do like what I see so far.
+The website is clear about what you get, the Docs look nice, and it's got good and readable error messages.
+
+But what on earth is this?
+
+```ocaml
+@react.component
+let make = () => {
+  let (count, setCount) = React.useState(() => 0)
+
+  <div className="p-6">
+      <h1 className="text-3xl font-semibold"> {"What is this about?" -> React.string} </h1>
+    <p>
+      {React.string("This is a simple template for a Vite project using ReScript & Tailwind CSS.")}
+    </p>
+    <Button onClick={_ => setCount(count => count + 1)}>
+      {React.string(`count is ${count->Int.toString}`)}
+    </Button>
+  </div>
+}
+```
+
+Yep, you see that right. One has to explicitly cast every `string` to a `React.string`.
+
+(Sounds like it's due to it not having the ability to form [[Union Types]] with [[Base Types]]. Hmm.)

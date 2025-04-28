@@ -1,0 +1,20 @@
+---
+startDate: 2025-04-29T01:55:27
+topics: [Programming Languages, Rescript]
+publish: true
+---
+
+Oh, and it also doesn't have a [[REPL]] nor a typeof function by default, as far as I can see.
+
+May this help me for now:
+
+```ocaml
+type theType = TheType
+
+let t = (thing: theType) => { thing }
+
+t("hoho")
+t(5)
+t(5.)
+
+```
