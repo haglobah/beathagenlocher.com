@@ -1,0 +1,14 @@
+---
+title: CSS Weirdness
+startDate: 2025-04-29T02:25:29
+topics: [TIL, CSS]
+publish: true
+---
+
+I just corrected my `<CodeBlock />` component and it inexplicably blew out of its enclosing element.
+
+Nothing ordinary helped until I found [this comment](https://www.reddit.com/r/css/comments/1do1ere/comment/laal2aj/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
+
+[[CSS]] is, indeed, quite weird sometimes.
+
+(The problem is that `grid`s try to accomodate to the size of their elements. The solution is to apply `min-w-0` to all of the elements.)
