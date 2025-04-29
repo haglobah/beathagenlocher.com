@@ -3,15 +3,11 @@
 const { lines=false } = Astro.props
 
 ---
-<pre>
+<pre class="rounded-xl f-text-sm f-p-sm f-my-xs bg-zinc-900 overflow-auto">
   <slot/>
 </pre>
 
 <style is:global>
-  pre {
-    @apply rounded-xl f-text-sm f-p-sm f-my-xs bg-zinc-900 text-wrap;
-  }
-
   :not(pre) > code {
     @apply rounded-md f-text-sm px-1 py-[2px] bg-zinc-900
   }
