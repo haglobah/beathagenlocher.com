@@ -1,0 +1,29 @@
+---
+title: Project Setup Made Simple
+description: ""
+growthStage: seedling
+startDate: 2025-05-02T01:17:49
+updated: 2025-05-02T01:17:49
+topics: [Flow, Simplicity]
+publish: true
+---
+
+I'm regularly starting projects in old and new [[Programming Languages]], with old and new tools, and in old and new frameworks.
+
+And it used to be the case that just setting the damn thing up took me already ages.
+
+Since [[Progress Happens In Jumps]], there have been a few big jumps along the way.
+
+1. Using [[Linux]]: Basically all the interesting software development happens on Linux, so [[README]]s are geared towards that.
+2. Reproducibility, Part #1: Using [[Docker]] whenever possible. This definitely adds complexity, but makes everything _way more reproducible_. [[Runs on my machine]]-type errors should be few now.
+3. Reproducibility, Part #2: Enter [[Nix(OS)]]—remove the complexity [[Docker]] added, but replace it with learning a whole ecosystem whose good part of the documentation isn't properly indexed/available by Google.
+4. Uniformity: All my flakes use [[flake.parts]].
+5. Speed, Part #1 | Setup: Setting everything up with [[Nix Flake]]s is fine, but it's tedious to write them by hand in the beginning of every project. Enter [[Flake Templates]]:  
+   [[Nix Flake]]s can define a template folder output that then gets copied to whereever you want. When you want to start a new project ([[Pollen]], in this case), you can just do this:
+   ```shell
+   mkdir pollen-project
+   cd pollen-project
+   nix flake init --template github:haglobah/flakes#pollen
+   ```
+6. Speed, Part #2 | Development: Writing and maintaining those [[Flake Templates]], however, is a pain in the ass.  
+   Flake Templates just aren't made for the usecase I'm trying to use them for. Which is why I wrote a new, small utility that just works: [[Templater]].
