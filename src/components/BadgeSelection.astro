@@ -23,7 +23,7 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   <div id="selected-topics-container" class="relative f-my-lg f-min-h-lg border border-dashed border-zinc-700 rounded-xl f-p-sm">
     <div id="selected-topics" class="flex flex-wrap gap-2 f-min-h-lg items-center w-[90%]">
       <!-- Selected topic elements will be moved here -->
-      <span id="selected-placeholder" class="text-zinc-500 italic text-sm">Selected filters will appear here...</span>
+      <span id="selected-placeholder" class="text-zinc-500 italic f-text-xs">Selected filters will appear here...</span>
     </div>
 
     <div class="absolute inset-y-3 right-3 flex items-start">
@@ -34,7 +34,7 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   </div>
 
   <!-- Instruction text container -->
-  <div id="instruction-text-container" class="f-my-lg flex justify-start gap-8 text-sm">
+  <div id="instruction-text-container" class="f-my-lg flex justify-start gap-8 f-text-xs">
     <!-- Text that appears when topics can be removed -->
     <div id="has-selection-text" class:list={[instructionTextBaseClasses, "opacity-0 text-center"]}>
       Click topic <span class="i-heroicons:arrow-up-20-solid inline-block relative mx-1 size-5 text-cornflower"></span> to remove
@@ -62,10 +62,8 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   </div>
 </div>
 
-{/* REMOVED <style> block */}
-
 <script>
-  import { selectedTopics, toggleTopic, clearTopics } from '../store.js'; // Adjust path if needed
+  import { selectedTopics, toggleTopic, clearTopics } from '../store.js';
 
   const selectedContainer = document.getElementById('selected-topics');
   const availableContainer = document.getElementById('available-topics');
