@@ -6,6 +6,7 @@ import Il from "../components/InnerLink.astro";
 import BadgeSelection from "../components/BadgeSelection.astro";
 import WideCard from "../components/WideCard.astro";
 import StreamCard from "../components/StreamCard.astro";
+import Clamp from "../components/Clamp.astro";
 
 // Get all notes that should be published
 const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
@@ -59,12 +60,13 @@ import { components } from '../mdxcomponents.ts'
       <h1 class="f-text-3xl leading-snug">
         <Il href="me">Beat Hagenlocher</Il> <br> thinking out loud.
       </h1>
-      <h2 class="f-pt-lg">
+      <Clamp>
         <BadgeSelection size="f-text-sm" topics={topics}/>
-      </h2>
+      </Clamp>
     </div>
     <div class="md:grid md:grid-cols-12 f-gap-xl">
       <div class="md:col-span-7">
+
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-sm font-bold f-pb-4-8 uppercase tracking-[0.17em]">
             Notes
