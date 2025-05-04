@@ -1,17 +1,28 @@
 ---
 ---
-<div id="reading-progress-bar" class="h-[5px] bg-cornflower sticky top-0 left-0 z-500" style="width: 0%;">
+<div class="sticky flex top-0 left-0 z-500 inline-flex w-full">
+  <span id="reading-done-bar" class="h-[5px] bg-cornflower/70" style="width: 0%;"></span>
+  <span id="reading-active-bar" class="h-[5px] bg-cornflower" style="width: 0%;"></span>
+  <span></span>
 </div>
 
 <script>
  window.onload = () => {
   const post = document.querySelector('.post');
-  const progressBar = document.querySelector('#reading-progress-bar');
-  const distance = (post.clientHeight + post.offsetTop) - window.innerHeight;
+  const doneBar = document.querySelector('#reading-done-bar');
+  const activeBar = document.querySelector('#reading-active-bar');
+
+  const fullPostHeight = (post.clientHeight + post.offsetTop)
+  const currentViewHeight = window.innerHeight
+
+  const distance = fullPostHeight - currentViewHeight;
+  const viewportPercentageOfPost = currentViewHeight / fullPostHeight * 100;
+
+  activeBar.style.width = `${viewportPercentageOfPost}%`;
 
   window.addEventListener('scroll', () => {
-    const progress = window.scrollY / distance * 100;
-    progressBar.style.width = `${progress}%`;
+    const progress = window.scrollY / distance * (100 - viewportPercentageOfPost);
+    doneBar.style.width = `${progress}%`;
   });
 }
 </script>
