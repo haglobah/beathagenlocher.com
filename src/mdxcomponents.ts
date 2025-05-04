@@ -9,7 +9,7 @@ import Heading3 from './components/Heading3.astro';
 import List from './components/List.astro';
 import OrderedList from './components/OrderedList.astro';
 import ListItem from './components/ListItem.astro';
-import CodeBlock from './components/CodeBlock.astro';
+import Code from './components/Code.astro'; // Produces a side effect: Adds the <code></code> styling.
 import BlockQuote from './components/BlockQuote.astro';
 
 export const components = {
@@ -24,7 +24,6 @@ export const components = {
     ul: List,
     ol: OrderedList,
     li: ListItem,
-    pre: CodeBlock,
     blockquote: BlockQuote,
     p: Par
 }
