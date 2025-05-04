@@ -6,6 +6,7 @@ export interface Props {
 }
 const { topics: allTopics, size } = Astro.props; // Renamed to avoid conflict
 import Badge from './Badge.astro';
+import Button from './Button.astro';
 import { slug as slugger } from 'github-slugger';
 
 // Generate slugs once for consistent IDs
@@ -27,9 +28,9 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
     </div>
 
     <div class="absolute inset-y-3 right-3 flex items-start">
-      <button id="clear-topics" class="bg-zinc-800 border border-cornflower text-cornflower hover:bg-cornflower/10 font-medium my-auto f-py-xs f-px-sm rounded-lg f-text-sm transition-opacity duration-300 ease-in-out opacity-0 pointer-events-none">
+      <Button id="clear-topics" class="my-auto f-text-sm transition-opacity opacity-0 pointer-events-none">
         Clear
-      </button>
+      </Button>
     </div>
   </div>
 
