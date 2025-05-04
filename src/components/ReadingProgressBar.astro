@@ -1,0 +1,17 @@
+---
+---
+<div id="reading-progress-bar" class="h-[5px] bg-cornflower sticky top-0 left-0 z-500" style="width: 0%;">
+</div>
+
+<script>
+ window.onload = () => {
+  const post = document.querySelector('.post');
+  const progressBar = document.querySelector('#reading-progress-bar');
+  const distance = (post.clientHeight + post.offsetTop) - window.innerHeight;
+
+  window.addEventListener('scroll', () => {
+    const progress = window.scrollY / distance * 100;
+    progressBar.style.width = `${progress}%`;
+  });
+}
+</script>

@@ -1,10 +1,12 @@
 ---
 import StageIcon from '../components/StageIcon.astro'
+import ReadingProgressBar from '../components/ReadingProgressBar.astro'
 
 const { frontmatter, headings } = Astro.props
 
 ---
-<div class="f-my-2xl f-px-sm mx-auto max-w-[65ch]">
+<ReadingProgressBar />
+<div class="post f-my-2xl f-px-sm mx-auto max-w-[65ch]">
   <div class="f-my-2xl">
     <h1 class="f-text-3xl f-px-xs leading-[1.4] f-pb-sm border-b-3 border-zinc-400">
       <!-- <StageIcon stage={frontmatter.growthStage as
