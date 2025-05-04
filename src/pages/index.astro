@@ -7,6 +7,7 @@ import BadgeSelection from "../components/BadgeSelection.astro";
 import WideCard from "../components/WideCard.astro";
 import StreamCard from "../components/StreamCard.astro";
 import Clamp from "../components/Clamp.astro";
+import ClampWrapper from "../components/ClampWrapper.astro";
 
 // Get all notes that should be published
 const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
@@ -60,9 +61,9 @@ import { components } from '../mdxcomponents.ts'
       <h1 class="f-text-3xl leading-snug">
         <Il href="me">Beat Hagenlocher</Il> <br> thinking out loud.
       </h1>
-      <Clamp>
+      <ClampWrapper clampHeight="250">
         <BadgeSelection size="f-text-sm" topics={topics}/>
-      </Clamp>
+      </ClampWrapper>
     </div>
     <div class="md:grid md:grid-cols-12 f-gap-xl">
       <div class="md:col-span-7">
