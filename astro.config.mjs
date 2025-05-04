@@ -38,9 +38,22 @@ export default defineConfig({
           },
         }],
       ],
+      syntaxHighlight: 'shiki',
       shikiConfig: {
         theme: "catppuccin-mocha",
         wrap: true,
+        transformers: [
+          {
+            preprocess(code) {
+              console.log(code)
+              console.log(code.options)
+              if (code.endsWith('\n')) {
+                code = code.slice(0, -1)
+              }
+
+              return code
+            },
+          }],
       }
     })]
 })
