@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 import Il from "../components/InnerLink.astro";
@@ -9,40 +9,21 @@ import StreamCard from "../components/StreamCard.astro";
 import Clamp from "../components/Clamp.astro";
 import ClampWrapper from "../components/ClampWrapper.astro";
 
-// Get all notes that should be published
-const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
-const draftNotes = await getCollection("notes", ({ data }) => !data.publish);
-const publishedKnowledge = await getCollection("knowledge", ({ data }) => data.publish);
-const draftKnowledge = await getCollection("knowledge", ({ data }) => !data.publish);
-const publishedEssays = await getCollection("essays", ({ data }) => data.publish);
-const draftEssays = await getCollection("essays", ({ data }) => !data.publish);
-const publishedTalks = await getCollection("talks", ({ data }) => data.publish);
-const draftTalks = await getCollection("talks", ({ data }) => !data.publish);
-const stream = await getCollection("stream", ({ data }) => data.publish);
-
-const allTheContent = [
+import {
+  allTheContent,
   publishedNotes, draftNotes,
   publishedKnowledge, draftKnowledge,
   publishedEssays, draftEssays,
   publishedTalks, draftTalks,
   stream,
-]
+  sortByUpdated, sortByStartDate
+} from '../content/content.ts'
 
 const topics = [... new Set(allTheContent
   .flatMap((collection) =>
     collection.flatMap(({ data }) =>
       data.topics
 )))]
-
-// Sort notes by date
-const sortByUpdated = (notes) => notes.sort(
-  (a, b) =>
-  new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
-);
-const sortByStartDate = (notes) => notes.sort(
-  (a, b) =>
-  new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime(),
-);
 
 const renderedStream = await Promise.all(
   sortByStartDate(stream).map(async (streamlet: CollectionEntry<"stream">) => {
