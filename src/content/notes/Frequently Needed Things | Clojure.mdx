@@ -18,7 +18,7 @@ This is a collection of things you might need using <Il href="./programming-lang
 
 Assume your code looks like this:
 
-```clojure
+```clojure showLineNumbers title=main.clj
 (defn make-other-thing []
   (produce-other-thing (filter-things-out (transform-thing-to-things (make-thing)))))
 ```
@@ -27,16 +27,16 @@ But now, you want to take a look at the result of transform-thing-to-things with
 
 This would be the naive approach:
 
-```clojure
+```clojure showLineNumbers title=main.clj
 (defn make-other-thing []
-(let [things (transform-thing-to-things (make-thing))]
+  (let [things (transform-thing-to-things (make-thing))]
     (println things)
     (produce-other-thing (filter-things-out things))))
 ```
 
 But I think this is way better:
 
-```clojure
+```clojure showLineNumbers title=main.clj
 (defn inspect [thing]
   (println thing)
   thing)
@@ -47,7 +47,7 @@ But I think this is way better:
 
 Or even:
 
-```clojure
+```clojure showLineNumbers title=main.clj
 (defn inspect [thing]
   (println thing)
   thing)
@@ -62,7 +62,7 @@ Or even:
 
 And since `inspect` is a function that probably should've been in the standard library—we put it in our `utils` namespace:
 
-```clojure
+```clojure showLineNumbers title=utils/debug.clj
 (ns example.utils.debug)
 
 (defn inspect [thing]
@@ -70,7 +70,7 @@ And since `inspect` is a function that probably should've been in the standard l
   thing)
 ```
 
-```clojure
+```clojure showLineNumbers title=main.clj
 (ns example.main
   (:require
     [example.utils.debug :refer [inspect]]))
