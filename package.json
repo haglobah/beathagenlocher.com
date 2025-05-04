@@ -12,9 +12,11 @@
   "dependencies": {
     "@astrojs/mdx": "^4.1.0",
     "@astrojs/sitemap": "^3.3.1",
+    "@expressive-code/plugin-line-numbers": "^0.41.2",
     "@iconify-json/carbon": "^1.2.8",
     "@iconify-json/heroicons": "^1.2.2",
     "astro": "^5.4.0",
+    "astro-expressive-code": "^0.41.2",
     "astro-seo": "^0.8.4",
     "linkedom": "^0.18.9",
     "mdast-util-wiki-link": "^0.1.2",

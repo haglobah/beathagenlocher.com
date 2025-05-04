@@ -5,8 +5,11 @@ import mdx from '@astrojs/mdx';
 import wikiLinkPlugin from './src/plugins/portal-wiki-link';
 import { getPermalinks } from './src/plugins/portal-wiki-link';
 import { slug } from 'github-slugger'
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 import sitemap from '@astrojs/sitemap';
+
+import expressiveCode from 'astro-expressive-code';
 
 const permalinks = (await getPermalinks("src/content/"))
       .map((el) => {
@@ -22,6 +25,13 @@ export default defineConfig({
   integrations: [
     UnoCSS(),
     sitemap(),
+    expressiveCode({
+      themes: ['catppuccin-mocha'],
+      plugins: [pluginLineNumbers()],
+      defaultProps: {
+        showLineNumbers: false
+      }
+    }),
     mdx({
       remarkPlugins: [
         [wikiLinkPlugin, {
@@ -39,8 +49,9 @@ export default defineConfig({
         }],
       ],
       shikiConfig: {
-        theme: "catppuccin-mocha",
+        theme: "catppuccin-latte",
         wrap: true,
       }
-    })]
+    })
+  ]
 })
