@@ -1,31 +1,32 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro"
 
-import Il from "../components/InnerLink.astro";
-import Badges from "../components/Badges.astro";
-import WideCard from "../components/WideCard.astro";
+import BadgeSelection from '../components/BadgeSelection.astro'
+import ClampWrapper from '../components/ClampWrapper.astro'
 
-// Get all notes that should be published
-const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
-const drafts = await getCollection("notes", ({ data }) => !data.publish);
+import Notes from '../content/notes.astro'
+import {
+  publishedNotes, draftNotes,
+  getTopics
+} from '../content/content.ts'
 
-// Sort notes by date
-const sortNotes = ( notes ) => notes.sort(
-  (a, b) =>
-    new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
-);
+const noteTopics = getTopics([publishedNotes, draftNotes])
 
 ---
 
 <Layout title="Notes">
-{
-  [publishedNotes, drafts].map((notesList) =>
-  sortNotes(notesList).map((note) =>
-  (
-  <WideCard to={"/" + note.id}
-            title={note.data.title}
-            >{note.data.description}</WideCard>
-  )))
-}
+  <div class="f-mx-md">
+    <ClampWrapper clampHeight="250">
+      <BadgeSelection size="f-text-sm" topics={noteTopics}/>
+    </ClampWrapper>
+    <div class="f-my-xl grid *:sm:grid-cols-2 *:md:grid-cols-3 *:lg:grid-cols-4">
+      <Notes />
+    </div>
+  </div>
 </Layout>
+
+<script>
+ import runInteraction from '../components/badgeSelectionInteraction.js'
+
+ runInteraction()
+</script>

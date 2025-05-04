@@ -27,3 +27,12 @@ export const sortByStartDate = (notes) => notes.sort(
   (a, b) =>
   new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime(),
 );
+
+export const getTopics = (collections) => {
+return [... new Set(collections
+  .flatMap((collection) =>
+    collection.flatMap(({ data }) =>
+      data.topics
+)))]
+
+}
