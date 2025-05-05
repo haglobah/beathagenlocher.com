@@ -20,14 +20,36 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
-      - name: Install, build, and upload your site
-        uses: withastro/action@v3
-        # with:
+      # - name: Install, build, and upload your site # https://github.com/withastro/action/blob/main/action.yml, but since I want to interact with slidev here, I can't use it as whole.
+      #   uses: withastro/action@v3
+          # with:
           # path: . # The root location of your Astro project inside the repository. (optional)
           # node-version: 20 # The specific version of Node that should be used to build your site. Defaults to 20. (optional)
           # package-manager: pnpm@latest # The Node package manager that should be used to install dependencies and build your site. Automatically detected based on your lockfile. (optional)
 
-  deploy:
+    - name: Setup Node (Astro)
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+        cache: "npm"
+        cache-dependency-path: "./package.json"
+
+    - name: Install (Astro)
+      shell: "bash"
+      working-directory: "."
+      run: npm clean-install
+
+    - name: Build (Astro)
+      shell: "bash"
+      working-directory: "."
+      run: npm run build
+
+    - name: Upload Pages Artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: "./dist/"
+
+      deploy:.
     needs: build
     runs-on: ubuntu-latest
     environment:
