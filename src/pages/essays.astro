@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro"
+
+import BadgeSelection from '../components/BadgeSelection.astro'
+import ClampWrapper from '../components/ClampWrapper.astro'
+
+import Essays from '../content/essays.astro'
+import {
+  publishedEssays, draftEssays,
+  getTopics
+} from '../content/content.ts'
+
+const essayTopics = getTopics([publishedEssays, draftEssays])
+
+---
+
+<Layout title="Essays">
+  <div class="f-mx-md">
+    <ClampWrapper clampHeight="250">
+      <BadgeSelection size="f-text-sm" topics={essayTopics}/>
+    </ClampWrapper>
+    <div class="f-my-xl grid *:sm:grid-cols-2 *:md:grid-cols-3 *:lg:grid-cols-4">
+      <Essays />
+    </div>
+  </div>
+</Layout>
+
+<script>
+ import runInteraction from '../components/badgeSelectionInteraction.js'
+
+ runInteraction()
+</script>

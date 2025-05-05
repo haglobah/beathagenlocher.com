@@ -10,9 +10,9 @@ import ClampWrapper from "../components/ClampWrapper.astro";
 import Notes from '../content/notes.astro'
 import Knowledge from '../content/knowledge.astro'
 import Stream from '../content/stream.astro'
+import Essays from '../content/essays.astro'
 import {
   allTheContent,
-  publishedEssays, draftEssays,
   publishedTalks, draftTalks,
   sortByUpdated, sortByStartDate,
   getTopics
@@ -72,28 +72,14 @@ import { components } from '../components/mdxcomponents.ts'
       <div class="md:col-span-5">
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-sm font-bold f-pb-4-8 uppercase tracking-[0.17em]">
-            Atomic Essays
+            <Il href="essays" class="font-bold">Atomic Essays</Il>
           </h2>
           <p class="italic f-text-xs">
             Short form writing capturing a single idea
           </p>
         </div>
-        {sortByUpdated(publishedEssays).map((content) => (
-        <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
-          <WideCard to={content.id}
-                    title={content.data.title}
-                    topics={content.data.topics}
-          >{content.data.description}</WideCard>
-        </div>
-        ))}
-        {sortByUpdated(draftEssays).map((content) => (
-        <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
-          <WideCard to={content.id}
-                    title={content.data.title}
-                    topics={content.data.topics}
-          >{content.data.description}</WideCard>
-        </div>
-        ))}
+        <Essays />
+
       </div>
 
       <div class="col-span-12">
