@@ -5,30 +5,20 @@ import Layout from "../layouts/Layout.astro";
 import Il from "../components/InnerLink.astro";
 import BadgeSelection from "../components/BadgeSelection.astro";
 import WideCard from "../components/WideCard.astro";
-import StreamCard from "../components/StreamCard.astro";
 import ClampWrapper from "../components/ClampWrapper.astro";
 
 import Notes from '../content/notes.astro'
 import Knowledge from '../content/knowledge.astro'
+import Stream from '../content/stream.astro'
 import {
   allTheContent,
-  publishedNotes, draftNotes,
-  publishedKnowledge, draftKnowledge,
   publishedEssays, draftEssays,
   publishedTalks, draftTalks,
-  stream,
   sortByUpdated, sortByStartDate,
   getTopics
 } from '../content/content.ts'
 
 const topics = getTopics(allTheContent)
-
-const renderedStream = await Promise.all(
-  sortByStartDate(stream).map(async (streamlet: CollectionEntry<"stream">) => {
-    const { Content } = await render(streamlet);
-    return { ...streamlet, Content };
-  }),
-);
 
 import { components } from '../components/mdxcomponents.ts'
 
@@ -68,23 +58,15 @@ import { components } from '../components/mdxcomponents.ts'
         <Knowledge />
 
         <div class="f-mt-md f-mb-2xl">
-          <h2 class="f-text-sm font-bold f-pb-4-8 uppercase tracking-[0.17em]">
-            The Stream
+          <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
+            <Il href="stream" class="font-bold">The Stream</Il>
           </h2>
           <p class="italic f-text-xs">
             Tiny pieces of thinking, links and knowledge, streamified
           </p>
         </div>
-        <div class="f-mb-2xl">
-          {renderedStream.map((streamlet) => (
-          <div class="content-item" data-topics={JSON.stringify(streamlet.data.topics)}>
-            <StreamCard title={streamlet.data.title}
-                        topics={streamlet.data.topics}
-                        date={streamlet.data.startDate}
-            ><streamlet.Content components={components} /></StreamCard>
-          </div>
-          ))}
-        </div>
+        <Stream />
+
       </div>
 
       <div class="md:col-span-5">

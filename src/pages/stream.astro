@@ -4,13 +4,13 @@ import Layout from "../layouts/Layout.astro"
 import BadgeSelection from '../components/BadgeSelection.astro'
 import ClampWrapper from '../components/ClampWrapper.astro'
 
-import Knowledge from '../content/knowledge.astro'
+import Stream from '../content/stream.astro'
 import {
-  publishedKnowledge, draftKnowledge,
+  stream,
   getTopics
 } from '../content/content.ts'
 
-const noteTopics = getTopics([publishedKnowledge, draftKnowledge])
+const noteTopics = getTopics([stream])
 
 ---
 
@@ -19,8 +19,8 @@ const noteTopics = getTopics([publishedKnowledge, draftKnowledge])
     <ClampWrapper clampHeight="250">
       <BadgeSelection size="f-text-sm" topics={noteTopics}/>
     </ClampWrapper>
-    <div class="f-my-xl grid *:sm:grid-cols-3 *:md:grid-cols-4 *:lg:grid-cols-6">
-      <Knowledge />
+    <div class="f-my-xl max-w-[65ch] mx-auto">
+      <Stream />
     </div>
   </div>
 </Layout>

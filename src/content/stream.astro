@@ -1,0 +1,36 @@
+---
+import { render } from 'astro:content'
+import StreamCard from '../components/StreamCard.astro'
+
+import {
+  stream,
+  sortByStartDate,
+} from './content.ts'
+
+const topics = [... new Set([stream]
+  .flatMap((collection) =>
+    collection.flatMap(({ data }) =>
+      data.topics
+)))]
+
+import { components } from '../components/mdxcomponents.ts'
+
+const renderedStream = await Promise.all(
+  sortByStartDate(stream).map(async (streamlet: CollectionEntry<"stream">) => {
+    const { Content } = await render(streamlet);
+    return { ...streamlet, Content };
+  }),
+);
+
+---
+
+<div class="f-mb-2xl">
+  {renderedStream.map((streamlet) => (
+    <div class="content-item" data-topics={JSON.stringify(streamlet.data.topics)}>
+      <StreamCard title={streamlet.data.title}
+                  topics={streamlet.data.topics}
+                  date={streamlet.data.startDate}
+      ><streamlet.Content components={components} /></StreamCard>
+    </div>
+  ))}
+</div>
