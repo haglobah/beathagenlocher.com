@@ -1,26 +1,22 @@
 ---
-import { render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 import Il from "../components/InnerLink.astro";
 import BadgeSelection from "../components/BadgeSelection.astro";
-import WideCard from "../components/WideCard.astro";
 import ClampWrapper from "../components/ClampWrapper.astro";
 
 import Notes from '../content/notes.astro'
 import Knowledge from '../content/knowledge.astro'
 import Stream from '../content/stream.astro'
 import Essays from '../content/essays.astro'
+import Talks from '../content/talks.astro'
 import {
   allTheContent,
-  publishedTalks, draftTalks,
   sortByUpdated, sortByStartDate,
   getTopics
 } from '../content/content.ts'
 
 const topics = getTopics(allTheContent)
-
-import { components } from '../components/mdxcomponents.ts'
 
 ---
 
@@ -35,7 +31,7 @@ import { components } from '../components/mdxcomponents.ts'
       </ClampWrapper>
     </div>
     <div class="md:grid md:grid-cols-12 f-gap-xl">
-      <div class="md:col-span-7 *:sm:grid-cols-2">
+      <div class="md:col-span-7">
 
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
@@ -45,7 +41,9 @@ import { components } from '../components/mdxcomponents.ts'
             Loose thoughts still getting formed
           </p>
         </div>
-        <Notes />
+        <div class="grid sm:grid-cols-2">
+          <Notes />
+        </div>
 
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
@@ -55,7 +53,9 @@ import { components } from '../components/mdxcomponents.ts'
             What you always wanted to know
           </p>
         </div>
-        <Knowledge />
+        <div class="grid sm:grid-cols-4 f-gap-lg">
+          <Knowledge />
+        </div>
 
         <div class="f-mt-md f-mb-2xl">
           <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
@@ -65,43 +65,34 @@ import { components } from '../components/mdxcomponents.ts'
             Tiny pieces of thinking, links and knowledge, streamified
           </p>
         </div>
-        <Stream />
+        <div class="f-mb-2xl">
+          <Stream />
+        </div>
 
       </div>
 
       <div class="md:col-span-5">
         <div class="f-mt-md f-mb-2xl">
-          <h2 class="f-text-sm font-bold f-pb-4-8 uppercase tracking-[0.17em]">
+          <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
             <Il href="essays" class="font-bold">Atomic Essays</Il>
           </h2>
           <p class="italic f-text-xs">
             Short form writing capturing a single idea
           </p>
         </div>
-        <Essays />
+        <div class="">
+          <Essays />
+        </div>
 
       </div>
 
       <div class="col-span-12">
-        <h2 class="f-text-sm font-bold f-pb-4-8 uppercase tracking-[0.17em] f-my-md">
-          Talks
+        <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em] f-my-md">
+          <Il href="talks" class="font-bold">Talks</Il>
         </h2>
-        {sortByUpdated(publishedTalks).map((content) => (
-        <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
-          <WideCard to={content.id}
-                    title={content.data.title}
-                    topics={content.data.topics}
-          >{content.data.description}</WideCard>
+        <div class="">
+          <Talks />
         </div>
-        ))}
-        {sortByUpdated(draftTalks).map((content) => (
-        <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
-          <WideCard to={content.id}
-                    title={content.data.title}
-                    topics={content.data.topics}
-          >{content.data.description}</WideCard>
-        </div>
-        ))}
       </div>
     </div>
   </div>

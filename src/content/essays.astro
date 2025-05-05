@@ -17,7 +17,6 @@ import { components } from '../components/mdxcomponents.ts'
 
 ---
 
-<div class="sm:grid sm:grid-cols-4 f-gap-lg">
   {sortByUpdated(publishedEssays).map((content) => (
     <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
       <WideCard to={content.id}
@@ -34,4 +33,3 @@ import { components } from '../components/mdxcomponents.ts'
       >{content.data.description}</WideCard>
     </div>
   ))}
-</div>

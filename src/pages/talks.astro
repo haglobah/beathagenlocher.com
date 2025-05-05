@@ -4,23 +4,23 @@ import Layout from "../layouts/Layout.astro"
 import BadgeSelection from '../components/BadgeSelection.astro'
 import ClampWrapper from '../components/ClampWrapper.astro'
 
-import Knowledge from '../content/knowledge.astro'
+import Talks from '../content/talks.astro'
 import {
-  publishedKnowledge, draftKnowledge,
+  publishedTalks, draftTalks,
   getTopics
 } from '../content/content.ts'
 
-const noteTopics = getTopics([publishedKnowledge, draftKnowledge])
+const essayTopics = getTopics([publishedTalks, draftTalks])
 
 ---
 
-<Layout title="Knowledge">
+<Layout title="Talks">
   <div class="f-mx-md">
     <ClampWrapper clampHeight="250">
-      <BadgeSelection size="f-text-sm" topics={noteTopics}/>
+      <BadgeSelection size="f-text-sm" topics={essayTopics}/>
     </ClampWrapper>
-    <div class="f-my-xl grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-      <Knowledge />
+    <div class="f-my-3xl">
+      <Talks />
     </div>
   </div>
 </Layout>

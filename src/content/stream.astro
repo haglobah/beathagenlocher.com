@@ -24,7 +24,6 @@ const renderedStream = await Promise.all(
 
 ---
 
-<div class="f-mb-2xl">
   {renderedStream.map((streamlet) => (
     <div class="content-item" data-topics={JSON.stringify(streamlet.data.topics)}>
       <StreamCard title={streamlet.data.title}
@@ -33,4 +32,3 @@ const renderedStream = await Promise.all(
       ><streamlet.Content components={components} /></StreamCard>
     </div>
   ))}
-</div>

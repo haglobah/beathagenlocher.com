@@ -3,11 +3,11 @@
 import WideCard from '../components/WideCard.astro'
 
 import {
-  publishedKnowledge, draftKnowledge,
+  publishedTalks, draftTalks,
   sortByUpdated,
 } from './content.ts'
 
-const topics = [... new Set([publishedKnowledge, draftKnowledge]
+const topics = [... new Set([publishedTalks, draftTalks]
   .flatMap((collection) =>
     collection.flatMap(({ data }) =>
       data.topics
@@ -17,7 +17,8 @@ import { components } from '../components/mdxcomponents.ts'
 
 ---
 
-  {sortByUpdated(publishedKnowledge).map((content) => (
+<div class="">
+  {sortByUpdated(publishedTalks).map((content) => (
     <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
       <WideCard to={content.id}
                 title={content.data.title}
@@ -25,7 +26,7 @@ import { components } from '../components/mdxcomponents.ts'
       >{content.data.description}</WideCard>
     </div>
   ))}
-  {sortByUpdated(draftKnowledge).map((content) => (
+  {sortByUpdated(draftTalks).map((content) => (
     <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
       <WideCard to={content.id}
                 title={content.data.title}
@@ -33,3 +34,4 @@ import { components } from '../components/mdxcomponents.ts'
       >{content.data.description}</WideCard>
     </div>
   ))}
+</div>
