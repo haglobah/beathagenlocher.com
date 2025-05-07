@@ -1,0 +1,67 @@
+---
+title: How I Use Git Worktrees
+description: |
+    TL; DR: git worktree add ../<name>
+growthStage: seedling
+startDate: 2025-05-07T17:35:17
+updated: 2025-05-07T17:35:17
+topics: [git, Software Engineering]
+publish: true
+---
+
+I've known about [[git worktree]]s for quite some time now, but they never really clicked.
+Then, I came upon this pretty good article here ([How I Use Git Worktrees](https://matklad.github.io/2024/07/25/git-worktrees.html)) and it resonates pretty well. You should definitely go read it, but the gist is this:
+
+The author proposes to use one worktree per concurrent activity while coding.
+
+And that finally clicked. This is my workflow for any git repo now:
+
+```shell
+~/projects $ gc https://github.com/haglobah/beathagenlocher.git
+~/projects/beathagenlocher.com/work/ $ # change stuff
+~/projects/beathagenlocher.com/work/ $ wt remote #
+
+~/projects/beathagenlocher.com/remote/ $ # run tests on main
+~/projects/beathagenlocher.com/remote/ $ wt scratch
+
+
+~/projects/beathagenlocher.com/scratch/ $ #
+# ... and so on
+```
+
+The magic lies in the two commands [`gc`](https://github.com/haglobah/nix-home/blob/d8bfa58c211cf2e03602d99b30f11dfe191c01ae/programs/fish.nix#L169) and [`wt`](https://github.com/haglobah/nix-home/blob/d8bfa58c211cf2e03602d99b30f11dfe191c01ae/programs/fish.nix#L193).
+
+There are quite a few articles on the internet lining out issues when using worktrees—mostly related to their bare version. (Two good ones [here](https://morgan.cugerone.com/blog/how-to-use-git-worktree-and-in-a-clean-way/) and [here](https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/).)
+
+Pretty hacky.
+
+And it's a hard problem—You (probably) want to have this kind of structure:
+
+```shell
+example-project
+|- remote
+|- scratch
+|- work
+```
+
+while at the same time not having all of these branch checkout issues.
+
+Turns out the solution is pretty simple. You can just do this:
+
+```shell
+git clone <repo> example-project/work
+cd exaple-project/work
+git worktree add ../remote
+git worktree add ../scratch
+```
+
+Yes, worktrees can refer to `.git/` folders from anywhere on your system. They don't have to go up the tree.
+Maybe that was obvious for you—for me, it wasn't.
+
+With this approach, you have the best of all possible worlds.
+
+You have one standard repo as your `work` repo (that also works for any tool assuming a `.git/` folder and breaking on `.git` file), and worktrees however you want them (while preserving this nice repo structure.)
+
+Really the only disadvantage is that you can't interact with your repo from you top-level project folder anymore—but that's a price I'm willing to pay.
+
+:)
