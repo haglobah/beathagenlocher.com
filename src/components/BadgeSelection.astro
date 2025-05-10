@@ -1,21 +1,18 @@
 ---
-// src/components/TopicFilter.astro
 export interface Props {
   topics: string[];
   size?: string;
 }
-const { topics: allTopics, size } = Astro.props; // Renamed to avoid conflict
+const { topics: allTopics, size } = Astro.props;
 import Badge from './Badge.astro';
 import Button from './Button.astro';
 import { slug as slugger } from 'github-slugger';
 
-// Generate slugs once for consistent IDs
 const topicsWithSlugs = allTopics.map(topic => ({
   name: topic,
   slug: slugger(topic)
 }));
 
-// Define Tailwind classes for reusability (optional, but can clean up template)
 const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center transition-opacity duration-300 ease-in-out";
 
 ---
