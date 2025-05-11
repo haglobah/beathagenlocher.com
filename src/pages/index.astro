@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import Il from "../components/InnerLink.astro";
 import BadgeSelection from "../components/BadgeSelection.astro";
 import ClampWrapper from "../components/ClampWrapper.astro";
+import ItemCutoff from "../components/ItemCutoff.astro";
 
 import Notes from '../content/notes.astro'
 import Knowledge from '../content/knowledge.astro'
@@ -65,9 +66,14 @@ const topics = getTopics(allTheContent)
             Tiny pieces of thinking, links and knowledge, streamified
           </p>
         </div>
-        <div class="f-mb-2xl">
+        <ItemCutoff class="flex flex-col f-mb-2xl" after={5}>
           <Stream />
-        </div>
+          <div slot="after-cutoff" class="self-end inline mr-4 z-10">
+            <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
+              <Il href="stream" arrow={"left"} class="font-bold">The Stream</Il>
+            </h2>
+          </div>
+        </ItemCutoff>
 
       </div>
 
