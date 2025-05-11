@@ -1,0 +1,16 @@
+---
+title: nix-tree
+startDate: 2025-05-11T16:03:58
+topics: [Nix]
+publish: true
+---
+
+I just learned about [`nix-tree`](https://github.com/utdemir/nix-tree). What a nice tool!
+
+It shows you a searchable dependency tree of your flake(s) + their sizes: Super nice to analyze what's taking so long when you're rebuilding your [home environment](https://github.com/haglobah/nix-home), for example. (It was my humongous [nvf config](https://github.com/haglobah/nix-home/blob/032901819908d16adfc7cd2779e269c04e8bdc57/programs/nvf.nix))
+
+You can run it like this:
+
+```shell
+nix run nixpkgs#nix-tree
+```
