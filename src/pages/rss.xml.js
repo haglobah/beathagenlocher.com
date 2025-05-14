@@ -1,18 +1,56 @@
-import rss, { pagesGlobToRssItems } from '@astrojs/rss';
+import rss from "@astrojs/rss";
+import { getCollection } from "astro:content";
+
+function stripMarkdown(text) {
+  return text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`~]/g, "");
+}
+
+function stripMDXComponents(text) {
+  return (
+    text
+      .replace(/<([A-Z][A-Za-z]*)[^>]*\/>/g, "")
+      .replace(/<([A-Z][A-Za-z]*)[\s\S]*?<\/\1>/g, "")
+  );
+}
 
 export async function GET(context) {
+  const notes = await getCollection("notes", ({ data }) => !data.draft);
+  const essays = await getCollection("essays", ({ data }) => !data.draft);
+  const talks = await getCollection("talks", ({ data }) => !data.draft);
+  const stream = await getCollection("stream", ({ data }) => !data.draft);
+
   return rss({
-    title: 'Astro Learner | Blog',
-    description: 'My journey learning Astro',
+    title: 'Beat Hagenlocher',
+    description: 'A digital garden exploring programming, minimalism and learning',
     site: context.site,
-    items: await pagesGlobToRssItems(
-      import.meta.glob([
-        '../content/notes/**/*.mdx',
-        '../content/essays/**/*.mdx',
-        '../content/talks/**/*.mdx',
-        '../content/knowledge/**/*.mdx',
-      ])
-    ),
+    items: [
+      ...notes.map((post) => ({
+        title: post.data.title,
+        pubDate: post.data.startDate,
+        description: post.data.description,
+        link: `/${post.id}/`,
+      })),
+      ...essays.map((post) => ({
+        title: post.data.title,
+        pubDate: post.data.startDate,
+        description: post.data.description,
+        link: `/${post.id}/`,
+      })),
+      ...talks.map((post) => ({
+        title: post.data.title,
+        pubDate: post.data.startDate,
+        description: post.data.description,
+        link: `/${post.id}/`,
+      })),
+      ...stream.map((post) => ({
+        title: post.data.title || " ",
+        pubDate: post.data.startDate,
+        description: post.data.description || "A streamlet",
+        link: `/${post.id}/`,
+      })),
+    ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf()),
     customData: `<language>en-us</language>`,
   });
 }
