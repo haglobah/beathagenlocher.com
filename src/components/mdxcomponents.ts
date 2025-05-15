@@ -9,6 +9,7 @@ import Heading3 from './Heading3.astro';
 import List from './List.astro';
 import OrderedList from './OrderedList.astro';
 import ListItem from './ListItem.astro';
+import ListMarker from './ListMarker.astro';
 import Code from './Code.astro'; // Produces a side effect: Adds the <code></code> styling.
 import BlockQuote from './BlockQuote.astro';
 
@@ -16,6 +17,7 @@ export const components = {
     a: Ol,
     I,
     Il,
+    ListMarker,
     innerlink: Il,
     innerlinkempty: InnerLinkEmpty,
     h1: Heading,
