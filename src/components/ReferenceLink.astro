@@ -1,0 +1,11 @@
+---
+
+import Ol from './OuterLink.astro'
+
+const { ...props } = Astro.props
+
+---
+
+<Ol {...props}>
+  <slot />
+</Ol>
