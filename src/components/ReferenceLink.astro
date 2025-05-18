@@ -2,10 +2,17 @@
 
 import Ol from './OuterLink.astro'
 
-const { ...props } = Astro.props
+const { author, ...props } = Astro.props
 
 ---
 
-<Ol {...props}>
-  <slot />
-</Ol>
+<div class="f-my-md">
+  <Ol {...props}>
+    <slot />
+  </Ol>
+  {author &&
+    <div class="text-zinc-400">
+      {author}
+    </div>
+  }
+</div>
