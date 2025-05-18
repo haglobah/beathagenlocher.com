@@ -1,0 +1,121 @@
+---
+title: Setting Up Home Manager
+description: A tutorial
+growthStage: seedling
+startDate: 2025-05-18T16:40:49
+updated: 2025-05-18T16:40:49
+topics: [Nix, Home Manager]
+publish: false
+---
+
+So, you want to have a `~` where [[works on my system]] is a thing of the past?
+
+You've come to the right place.
+
+In this tutorial, I'm gonna show you how to set up your `HOME` with [[Home Manager]] using [[Nix Flakes]] on Linux.
+
+First things first: Take one minute and look at the [docs](https://nix-community.github.io/home-manager/index.xhtml). They're not a tutorial, but a good reference, and it's definitely useful to have seen them once.
+
+First, install Nix:
+
+```shell
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+```
+
+Then, you need a place to store your [[Home Manager]] configuration. Create a folder for it (name doesn't matter) and a `flake.nix` inside (name does matter). Then, let's start writing your configuration inside the `flake.nix`:
+
+```shell
+mkdir ~/nix-home
+cd ~/nix-home
+code flake.nix # or whatever ed/itor you prefer
+```
+
+The first thing our Home Manager <Il href="nix-flakes">Flake</Il> needs is a _input_ to get packages from. We're probably going to use some packages, so we need [[`nixpkgs`]], and then we're going to use `home-manager`, too:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # nixpkgs input
+    home-manager.url {
+      url = "github:nix-community/home-manager";         # home manager input
+      inputs.nixpkgs.follows = "nixpkgs";                # that takes the versions from our nixpkgs checkout
+    };
+  };
+}
+```
+
+Then, we need to specify how to build the home configuration—we do that inside an _output_.
+For it to work, you need to know your _username_ (in case you don't know it, do a `whoami` in the shell).
+
+So for me, _`beat`_, this would look like this:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # nixpkgs input
+    home-manager.url {
+      url = "github:nix-community/home-manager";         # home manager input
+      inputs.nixpkgs.follows = "nixpkgs";                # that takes the versions from our nixpkgs checkout
+    };
+  };
+
+  outputs = { nixpkgs, home-manager, ... }:              # nix function syntax
+  let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+  in
+  {
+    homeConfigurations."beat" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+
+      modules = [
+        config = {
+          home.username = "beat";
+          home.homeDirectory = "/home/beat";
+
+          # DO NOT (AS IN: EVER) CHANGE THESE LINES
+          programs.home-manager.enable = true;
+          home.stateVersion = "25.05";
+        };
+      ];
+    };
+  };
+}
+```
+
+And with this out of the way, it's time to add stuff to your config.
+
+Let's add some packages:
+
+```nix
+# ... start of flake
+config = {
+  home.username = "beat";
+  home.homeDirectory = "/home/beat";
+
+  home.packages = [
+    pkgs.git
+    pkgs.wget
+  ];
+
+  # DO NOT (AS IN: EVER) CHANGE THESE LINES
+  programs.home-manager.enable = true;
+  home.stateVersion = "25.05";
+};
+# ... closing braces
+```
+
+This is now pretty similar to what we would've gotten in case we would've just generated the config. Do a
+
+```shell
+nix run home-manager/master -- init ~/nix-home-2
+```
+
+and compare the result.
+
+<References>
+   <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml">Home Manager Manual </ReferenceLink>
+   <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-standalone">Home Manager Manual Flakes Standalone Section </ReferenceLink>
+   <ReferenceLink href="https://nix-community.github.io/home-manager/options.xhtml">Home Manager Configuration Options</ReferenceLink>
+   <ReferenceLink href="https://www.youtube.com/watch?app=desktop&v=FcC2dzecovw" author="vimjoyer">Home Manager Tutorial</ReferenceLink>
+</References>
