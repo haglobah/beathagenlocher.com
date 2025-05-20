@@ -16,23 +16,29 @@ In this tutorial, I'm gonna show you how to set up your `HOME` with [[Home Manag
 
 First things first: Take one minute and look at the [docs](https://nix-community.github.io/home-manager/index.xhtml). They're not a tutorial, but a good reference, and it's definitely useful to have seen them once.
 
-First, install Nix:
+
+...
+
+# Chapter 1: A Basic Flake
+
+With that out of the way—you first need to make sure you have [[Nix]] installed:
 
 ```shell
 curl -fsSL https://install.determinate.systems/nix | sh -s -- install
 ```
 
-Then, you need a place to store your [[Home Manager]] configuration. Create a folder for it (name doesn't matter) and a `flake.nix` inside (name does matter). Then, let's start writing your configuration inside the `flake.nix`:
+Then, you need a place to store your [[Home Manager]] configuration.
+Create a folder for it (name doesn't matter) and a `flake.nix` inside (name does matter). Then, let's start writing your configuration inside the `flake.nix`:
 
 ```shell
 mkdir ~/nix-home
 cd ~/nix-home
-code flake.nix # or whatever ed/itor you prefer
+code flake.nix # or whatever editor you prefer
 ```
 
 The first thing our Home Manager <Il href="nix-flakes">Flake</Il> needs is a _input_ to get packages from. We're probably going to use some packages, so we need [[`nixpkgs`]], and then we're going to use `home-manager`, too:
 
-```nix
+```nix showLineNumbers title=flake.nix
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # nixpkgs input
@@ -49,7 +55,7 @@ For it to work, you need to know your _username_ (in case you don't know it, do 
 
 So for me, _`beat`_, this would look like this:
 
-```nix
+```nix showLineNumbers title=flake.nix
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # nixpkgs input
@@ -73,7 +79,7 @@ So for me, _`beat`_, this would look like this:
           home.username = "beat";
           home.homeDirectory = "/home/beat";
 
-          # DO NOT (AS IN: EVER) CHANGE THESE LINES
+          # DO NOT CHANGE THESE LINES
           programs.home-manager.enable = true;
           home.stateVersion = "25.05";
         };
@@ -83,11 +89,15 @@ So for me, _`beat`_, this would look like this:
 }
 ```
 
-And with this out of the way, it's time to add stuff to your config.
+Now's finally the time to actually add things to your config.
+You can find all of the _Home Manager Configuration Options_ here: https://nix-community.github.io/home-manager/options.xhtml
 
-Let's add some packages:
+This is a website you're probably gonna visit _a lot_ over the course of the next few months.
 
-```nix
+But enough of that—time to add some packages. We can take whatever [there is in nixpkgs](https://search.nixos.org/packages).
+Let's add `git` and `wget`:
+
+```nix showLineNumbers startLineNumber=19 title=flake.nix
 # ... start of flake
 config = {
   home.username = "beat";
@@ -98,12 +108,136 @@ config = {
     pkgs.wget
   ];
 
-  # DO NOT (AS IN: EVER) CHANGE THESE LINES
+  # DO NOT CHANGE THESE LINES
   programs.home-manager.enable = true;
   home.stateVersion = "25.05";
 };
 # ... closing braces
 ```
+
+And with that, time for our first rebuild.
+Let's test that everything worked by checking where the `git` executable comes from. So, run this first:
+
+```shell
+which git
+/usr/bin/git
+```
+
+Rebuild your `HOME`:
+
+```shell
+cd ~/nix-home
+nix run home-manager/master -- switch --flake .
+```
+
+After it's done, close and reopent the terminal once. Then, do `which git` again—it should say something like this:
+
+```shell
+which git
+~/.nix-profile/bin/git
+```
+
+Now you know how to add packages declaratively and reproducibly to your `HOME`. Yay!
+
+# Intermezzo: Version Control
+
+Before we go any further, it's time give us some more safety trying things out.
+For that, we put our `~/nix-home` under _Version Control_.
+
+Make sure you have <Il href="setting-up-git">`git` set up</Il>.
+
+Create a repository called `~/nix-home`.
+
+Copy the _SSH_ link from [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository#cloning-an-empty-repository).
+
+It should look like this: `git@github.com:<username>/nix-home.git`
+
+Then, go back to your shell and do the following:
+
+```shell
+cd ~/nix-home
+git init --initial-branch=main
+git remote add origin <the-link-you-just-copied>
+git add flake.nix
+git commit --message "Initial commit with wget and git"
+git push --set-upstream origin main
+```
+
+But since this is not a `git` tutorial, let's move on.
+
+(The [git flight rules](https://github.com/k88hudson/git-flight-rules) are pretty decent.)
+
+# Chapter 2: Transferring your `HOME`
+
+So far, the benefits of using home manager have been pretty much limited.
+I've promised no more [[Works on my Machine]] issues, remember?
+
+To do that, it's time to pull in your whole `HOME` config into your flake.
+
+Let's do it for the `bash` files, `.bash_profile` and `.bashrc`:
+
+1. Find the files:
+    ```shell
+    $ cd ~
+    $ ls -a
+    .bash_profile .bashrc
+    ```
+2. Copy them over:
+    ```shell
+    $ cp .bash_profile .bashrc ~/nix-home/
+    ```
+3. Add them to `home.file`:
+    ```nix showLineNumbers startLineNumber=19 title=flake.nix
+    # ... start of flake
+    config = {
+      home.username = "beat";
+      home.homeDirectory = "/home/beat";
+
+      home.packages = [
+        pkgs.git
+        pkgs.wget
+      ];
+
+      home.file = {
+        ".bash_profile".source = ./.bash_profile;
+        ".bashrc".source = ./.bashrc;
+      };
+
+      # DO NOT CHANGE THESE LINES
+      programs.home-manager.enable = true;
+      home.stateVersion = "25.05";
+    };
+    # ... closing braces
+    ```
+4. And rebuild your `HOME` _while backing up the old files_:
+    ```shell
+    home-manager switch --flake ~/nix-home -b backup
+    ```
+
+
+
+This general workflow works for every file in your `HOME`:
+
+1. Take any file in your `HOME` that looks like it might serve a purpose (possibly everything in `.config`, `.bash_profile`, `.bashrc`, `.vimrc` and basically any other dotfile)
+2. Copy the file over to `~/nix-home/<the-file-path>`
+3. Add the file to `home.file`
+4. Rebuild you `HOME`
+
+{/*
+# Chapter 3: Using modules
+
+Let's recap for a bit.
+
+So far, [[Home Manager]] made our system nice and reproducible, but we didn't get _that_ much in return.  
+We mostly added a layer of declarativeness around the packages we installed while preserving their own configurations.
+
+The true power of [[Home Manager]] only comes when using _modules_. Because everything is reproducible, there are plenty of prepackages software packages that hardly need any effort to use already available.
+
+Let me show you:
+
+After
+
+But git is something we also want to have configured
 
 This is now pretty similar to what we would've gotten in case we would've just generated the config. Do a
 
@@ -112,6 +246,7 @@ nix run home-manager/master -- init ~/nix-home-2
 ```
 
 and compare the result.
+*/}
 
 <References>
    <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml">Home Manager Manual </ReferenceLink>
