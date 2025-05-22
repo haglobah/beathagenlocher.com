@@ -14,14 +14,17 @@ import Code from './Code.astro'; // Produces a side effect: Adds the <code></cod
 import BlockQuote from './BlockQuote.astro';
 import References from './References.astro';
 import ReferenceLink from './ReferenceLink.astro';
+import Draft from './Draft.astro';
 
 export const components = {
-    a: Ol,
     I,
     Il,
     ListMarker,
     References,
     ReferenceLink,
+    Draft,
+    
+    a: Ol,
     innerlink: Il,
     innerlinkempty: InnerLinkEmpty,
     h1: Heading,
