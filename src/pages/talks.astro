@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro"
 
 import BadgeSelection from '../components/BadgeSelection.astro'
 import ClampWrapper from '../components/ClampWrapper.astro'
+import Heading from '../components/Heading.astro'
 
 import Talks from '../content/talks.astro'
 import {
@@ -20,6 +21,7 @@ const essayTopics = getTopics([publishedTalks, draftTalks])
       <BadgeSelection size="f-text-sm" topics={essayTopics}/>
     </ClampWrapper>
     <div class="f-my-3xl">
+      <Heading>Talks</Heading>
       <Talks />
     </div>
   </div>
