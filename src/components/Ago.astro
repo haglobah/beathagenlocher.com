@@ -1,0 +1,16 @@
+---
+
+const { when } = Astro.props
+
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+const timeAgo = new TimeAgo('en-US')
+console.log(when)
+const ago = when ? timeAgo.format(when, 'mini-now') : null
+
+---
+
+<span class="font-mono text-cornflower">
+  {ago}
+</span>
