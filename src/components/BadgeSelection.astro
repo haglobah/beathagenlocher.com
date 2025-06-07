@@ -78,12 +78,14 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   const hasSelectionText = document.getElementById('has-selection-text');
   const selectedPlaceholder = document.getElementById('selected-placeholder');
 
-  // Store references to all topic elements by their topic name
+  // Store references to all topic elements by their topic name and original order
   const topicElements = new Map();
-  document.querySelectorAll('.topic-wrapper').forEach(wrapper => {
+  const originalOrder = [];
+  document.querySelectorAll('.topic-wrapper').forEach((wrapper, index) => {
     const topic = wrapper.dataset.topic;
     if (topic) {
         topicElements.set(topic, wrapper);
+        originalOrder.push(topic);
 
         // Add click listener ONCE to each original element
         wrapper.addEventListener('click', () => {
@@ -105,15 +107,40 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   function updateUI(selected) { // Receive state directly from subscribe
     const currentlySelected = new Set(selected);
 
-    // Move elements to the correct container
+    // Helper function to insert element at correct position based on original order
+    function insertInOrder(container, element, topic) {
+      const topicIndex = originalOrder.indexOf(topic);
+      const existingElements = Array.from(container.children).filter(child =>
+        child.classList.contains('topic-wrapper')
+      );
+
+      let insertPosition = 0;
+      for (const existingElement of existingElements) {
+        const existingTopic = existingElement.dataset.topic;
+        const existingIndex = originalOrder.indexOf(existingTopic);
+        if (existingIndex < topicIndex) {
+          insertPosition++;
+        } else {
+          break;
+        }
+      }
+
+      if (insertPosition >= existingElements.length) {
+        container.appendChild(element);
+      } else {
+        container.insertBefore(element, existingElements[insertPosition]);
+      }
+    }
+
+    // Move elements to the correct container in order
     topicElements.forEach((element, topic) => {
       const isSelected = currentlySelected.has(topic);
       const currentParent = element.parentElement;
 
       if (isSelected && currentParent !== selectedContainer) {
-        selectedContainer.appendChild(element);
+        insertInOrder(selectedContainer, element, topic);
       } else if (!isSelected && currentParent !== availableContainer) {
-        availableContainer.appendChild(element);
+        insertInOrder(availableContainer, element, topic);
       }
     });
 
