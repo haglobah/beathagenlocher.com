@@ -8,10 +8,16 @@ import Badge from './Badge.astro';
 import Button from './Button.astro';
 import { slug as slugger } from 'github-slugger';
 
-const topicsWithSlugs = allTopics.map(topic => ({
-  name: topic,
-  slug: slugger(topic)
-}));
+const sortedTopics = allTopics
+  .sort((a, b) => a[0].localeCompare(b[0]))
+  .sort((a, b) => b[1] - a[1])
+
+const topicsWithSlugs = sortedTopics.map(topic => {
+    return {
+      name: topic[0],
+      count: topic[1],
+      slug: slugger(topic)
+}});
 
 const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center transition-opacity duration-300 ease-in-out";
 
@@ -45,7 +51,7 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
 
   <!-- Available topics section - All topics start here -->
   <div id="available-topics" class="flex flex-wrap gap-2 f-mx-2xs min-h-[40px] flex-1 overflow-y-auto">
-    {topicsWithSlugs.map(({ name: topic, slug }) => (
+    {topicsWithSlugs.map(({ name: topic, count: count, slug: slug }) => (
       <div
         id={"topic-wrapper-" + slug}
         data-topic={topic}
@@ -54,7 +60,7 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
         role="button"
         tabindex="0"
       >
-        <Badge topic={topic} size={size} />
+        <Badge topic={topic} count={count} size={size} />
       </div>
     ))}
   </div>
