@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro"
 
 import BadgeSelection from '../components/BadgeSelection.astro'
 import ClampWrapper from '../components/ClampWrapper.astro'
+import Heading from '../components/Heading.astro'
 
 import Stream from '../content/stream.astro'
 import {
@@ -20,6 +21,7 @@ const noteTopics = getTopics([stream])
       <BadgeSelection size="f-text-sm" topics={noteTopics}/>
     </ClampWrapper>
     <div class="f-my-xl max-w-[65ch] mx-auto">
+      <Heading>Stream</Heading>
       <Stream />
     </div>
   </div>

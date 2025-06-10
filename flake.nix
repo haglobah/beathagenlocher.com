@@ -29,8 +29,9 @@
           env = [
             # { name = "MY_ENV_VAR"; value = "SOTRUE"; }
           ];
-          packages = [
-            pkgs.nodejs_22
+          packages = with pkgs; [
+            nodejs_22
+            just
           ];
           commands = [
             { name = "run"; command = "npm run dev"; help = "A command to test devshell";}

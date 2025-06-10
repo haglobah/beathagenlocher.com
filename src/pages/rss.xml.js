@@ -48,7 +48,7 @@ export async function GET(context) {
         title: post.data.title || " ",
         pubDate: post.data.startDate,
         description: post.data.description || "A streamlet",
-        link: `/${post.id}/`,
+        link: `/stream/#${post.id}`,
       })),
     ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf()),
     customData: `<language>en-us</language>`,

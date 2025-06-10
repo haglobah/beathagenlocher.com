@@ -1,0 +1,63 @@
+---
+title: Setting Up git
+description: ""
+growthStage: seedling
+startDate: 2025-05-20T17:32:08
+updated: 2025-05-20T17:32:08
+topics: [git, ssh, Software Engineering]
+publish: true
+---
+
+So you want to use `git` like a pro but are helplessly overwhelmed?
+
+As sorry as I am to say, that's pretty standard.
+
+How about some help?
+
+To get to a working `git` setup you can use , you need a few things:
+
+1. An `ssh` key pair
+2. `git` installed
+3. A [GitHub](https://github.com/) account (or any other git repository service, but let's not overcomplicate this)
+4. Your ssh key deposited on [GitHub](https://github.com/)  
+
+# 1. Generating the ssh key pair
+
+You get your ssh key by running
+
+```shell
+ssh-keygen
+```
+
+followed by a few `<RET>`s.
+
+> _Do not use a passphrase._
+
+Now, you should have two new files in `.ssh`, `id_ed25519` and `id_ed25519.pub`:
+
+```shell
+ls ~/.ssh
+known_hosts id_ed25519 id_ed25519.pub
+```
+
+Done.
+
+# 2. Install git
+
+My favorite method is via [[Nix]], but please just refer to [git's home page](https://git-scm.com/downloads).
+
+# 3. Get a GitHub account
+
+Pretty simple: Go [here](https://github.com/signup) and follow the process.
+
+# 4. Set up ssh for GitHub
+
+Follow [this guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account#adding-a-new-ssh-key-to-your-account).
+
+And then check whether everything worked:
+
+```shell
+ssh git@github.com # should greet you nicely
+```
+
+And that's it. Nice! :)

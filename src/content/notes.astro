@@ -3,33 +3,35 @@
 import WideCard from '../components/WideCard.astro'
 
 import {
-  publishedNotes, draftNotes,
-  sortByUpdated,
+    publishedNotes, draftNotes,
+    sortByUpdated,
 } from './content.ts'
 
 const topics = [... new Set([publishedNotes, draftNotes]
-  .flatMap((collection) =>
-    collection.flatMap(({ data }) =>
-      data.topics
+    .flatMap((collection) =>
+        collection.flatMap(({ data }) =>
+            data.topics
 )))]
 
 import { components } from '../components/mdxcomponents.ts'
 
 ---
 
-    {sortByUpdated(publishedNotes).map((content) => (
-    <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
+{sortByUpdated(publishedNotes).map((content) => (
+<div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
     <WideCard to={content.id}
-                title={content.data.title}
-                topics={content.data.topics}
+              title={content.data.title}
+              topics={content.data.topics}
+              when={content.data.updated}
     >{content.data.description}</WideCard>
-    </div>
-    ))}
-    {sortByUpdated(draftNotes).map((content) => (
-    <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
+</div>
+))}
+{sortByUpdated(draftNotes).map((content) => (
+<div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
     <WideCard to={content.id}
-                title={content.data.title}
-                topics={content.data.topics}
+              title={content.data.title}
+              topics={content.data.topics}
+              when={content.data.updated}
     >{content.data.description}</WideCard>
-    </div>
-    ))}
+</div>
+))}

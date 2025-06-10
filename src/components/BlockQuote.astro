@@ -1,6 +1,9 @@
 ---
+
+const { class: className } = Astro.props
+
 ---
-<div class="flex items-center f-my-lg f-text-md">
+<div class:list={["flex items-center f-my-lg f-text-md", className]}>
   <span class="inline-block -ml-3 i-heroicons:chevron-right f-h-3xl f-w-3xl">
   </span>
   <div class="f-pl-lg text-cornflower font-mono">

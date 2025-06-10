@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro"
 
 import BadgeSelection from '../components/BadgeSelection.astro'
 import ClampWrapper from '../components/ClampWrapper.astro'
+import Heading from '../components/Heading.astro'
 
 import Knowledge from '../content/knowledge.astro'
 import {
@@ -20,6 +21,7 @@ const noteTopics = getTopics([publishedKnowledge, draftKnowledge])
       <BadgeSelection size="f-text-sm" topics={noteTopics}/>
     </ClampWrapper>
     <div class="f-my-xl grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+      <Heading>Knowledge</Heading>
       <Knowledge />
     </div>
   </div>

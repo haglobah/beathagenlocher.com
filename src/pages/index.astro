@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 
 import Il from "../components/InnerLink.astro";
+import Ol from "../components/OuterLink.astro";
 import BadgeSelection from "../components/BadgeSelection.astro";
 import ClampWrapper from "../components/ClampWrapper.astro";
 import ItemCutoff from "../components/ItemCutoff.astro";
@@ -23,10 +24,19 @@ const topics = getTopics(allTheContent)
 
 <Layout title="Beat Hagenlochers Digital Garden">
   <div class="f-my-lg f-mx-md">
-    <div class="f-py-lg">
-      <h1 class="f-text-3xl leading-snug">
-        <Il href="me">Beat Hagenlocher</Il> <br> thinking out loud.
-      </h1>
+    <div class="f-pb-lg">
+      <p class="f-text-lg f-my-md">
+        This is the website of <Il href="me">Beat Hagenlocher</Il> thinking out loud.
+      </p>
+      <p class="">
+        Welcome to my <Ol href="https://maggieappleton.com/garden-history/">digital garden</Ol>, a collection of texts and ideas growing slowly over time.
+      </p>
+      <p class="f-mt-md">
+        I write about all things Software Engineering, learning, personal stuff—and whatever else I find interesting to share.
+      </p>
+      <p class="">
+        Want to learn more? Take a look at what I've written <Il href="thinking-out-loud">about this website</Il>.
+      </p>
       <ClampWrapper clampHeight="250">
         <BadgeSelection size="f-text-sm" topics={topics}/>
       </ClampWrapper>

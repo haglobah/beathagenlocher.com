@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content'
+import _ from 'lodash'
 
 export const publishedNotes = await getCollection("notes", ({ data }) => data.publish);
 export const draftNotes = await getCollection("notes", ({ data }) => !data.publish);
@@ -21,18 +22,17 @@ export const allTheContent = [
 // Sort notes by date
 export const sortByUpdated = (notes) => notes.sort(
   (a, b) =>
-  new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
+    new Date(b.data.updated).getTime() - new Date(a.data.updated).getTime(),
 );
 export const sortByStartDate = (notes) => notes.sort(
   (a, b) =>
-  new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime(),
+    new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime(),
 );
 
 export const getTopics = (collections) => {
-return [... new Set(collections
-  .flatMap((collection) =>
-    collection.flatMap(({ data }) =>
-      data.topics
-)))]
-
-}
+  return Object.entries(
+    _.countBy(
+      collections.flatMap((collection) =>
+        collection.flatMap(({ data }) =>
+          data.topics
+                          ))))}

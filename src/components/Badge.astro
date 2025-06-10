@@ -3,10 +3,11 @@ export interface Props {
   topic: string;
 }
 
-const { topic, size = "f-text-xs" } = Astro.props;
+const { topic, count, size = "f-text-xs" } = Astro.props;
 ---
 <div class={"mx-0.75 my-1 " + size}>
-  <div class={"flex rounded-full bg-sienna-mid/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-sienna-mid"}>
+  <span class="flex rounded-full bg-sienna-mid/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-sienna-mid">
     {topic}
-  </div>
+    {count && <span class="f-text-xs pl-3">{count}</span>}
+  </span>
 </div>

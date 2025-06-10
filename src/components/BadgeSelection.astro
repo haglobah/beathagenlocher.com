@@ -8,17 +8,23 @@ import Badge from './Badge.astro';
 import Button from './Button.astro';
 import { slug as slugger } from 'github-slugger';
 
-const topicsWithSlugs = allTopics.map(topic => ({
-  name: topic,
-  slug: slugger(topic)
-}));
+const sortedTopics = allTopics
+  .sort((a, b) => a[0].localeCompare(b[0]))
+  .sort((a, b) => b[1] - a[1])
+
+const topicsWithSlugs = sortedTopics.map(topic => {
+    return {
+      name: topic[0],
+      count: topic[1],
+      slug: slugger(topic)
+}});
 
 const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center transition-opacity duration-300 ease-in-out";
 
 ---
-<div class="topic-filter">
+<div id="topic-filter" class="topic-filter flex flex-col justify-between">
   <!-- Selected topics section -->
-  <div id="selected-topics-container" class="relative f-my-lg f-min-h-lg border border-dashed border-zinc-700 rounded-xl f-p-sm">
+  <div id="selected-topics-container" class="relative shrink-0 grow f-mt-sm f-min-h-lg border border-dashed border-zinc-700 rounded-xl f-p-sm">
     <div id="selected-topics" class="flex flex-wrap gap-2 f-min-h-lg items-center w-[90%]">
       <!-- Selected topic elements will be moved here -->
       <span id="selected-placeholder" class="text-zinc-500 italic f-text-xs">Selected filters will appear here...</span>
@@ -32,7 +38,7 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   </div>
 
   <!-- Instruction text container -->
-  <div id="instruction-text-container" class="f-my-lg flex justify-start gap-8 f-text-xs">
+  <div id="instruction-text-container" class="f-my-sm f-mx-2xs flex justify-start gap-8 f-text-xs">
     <!-- Text that appears when topics can be removed -->
     <div id="has-selection-text" class:list={[instructionTextBaseClasses, "opacity-0 text-center"]}>
       Click topic <span class="i-heroicons:arrow-up-20-solid inline-block relative mx-1 size-5 text-cornflower"></span> to remove
@@ -44,8 +50,8 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   </div>
 
   <!-- Available topics section - All topics start here -->
-  <div id="available-topics" class="flex flex-wrap gap-2 f-my-lg min-h-[40px]">
-    {topicsWithSlugs.map(({ name: topic, slug }) => (
+  <div id="available-topics" class="flex flex-wrap gap-2 f-mx-2xs min-h-[40px] flex-1 overflow-y-auto">
+    {topicsWithSlugs.map(({ name: topic, count: count, slug: slug }) => (
       <div
         id={"topic-wrapper-" + slug}
         data-topic={topic}
@@ -54,7 +60,7 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
         role="button"
         tabindex="0"
       >
-        <Badge topic={topic} size={size} />
+        <Badge topic={topic} count={count} size={size} />
       </div>
     ))}
   </div>
@@ -62,20 +68,24 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
 
 <script>
   import { selectedTopics, toggleTopic, clearTopics } from '../store.js';
+  const filterWrapper = document.getElementById('topic-filter');
 
   const selectedContainer = document.getElementById('selected-topics');
   const availableContainer = document.getElementById('available-topics');
   const clearButton = document.getElementById('clear-topics');
+  const availableTopics = document.getElementById('available-topics');
   const notAllSelectionText = document.getElementById('not-all-selection-text');
   const hasSelectionText = document.getElementById('has-selection-text');
   const selectedPlaceholder = document.getElementById('selected-placeholder');
 
-  // Store references to all topic elements by their topic name
+  // Store references to all topic elements by their topic name and original order
   const topicElements = new Map();
-  document.querySelectorAll('.topic-wrapper').forEach(wrapper => {
+  const originalOrder = [];
+  document.querySelectorAll('.topic-wrapper').forEach((wrapper, index) => {
     const topic = wrapper.dataset.topic;
     if (topic) {
         topicElements.set(topic, wrapper);
+        originalOrder.push(topic);
 
         // Add click listener ONCE to each original element
         wrapper.addEventListener('click', () => {
@@ -97,15 +107,40 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
   function updateUI(selected) { // Receive state directly from subscribe
     const currentlySelected = new Set(selected);
 
-    // Move elements to the correct container
+    // Helper function to insert element at correct position based on original order
+    function insertInOrder(container, element, topic) {
+      const topicIndex = originalOrder.indexOf(topic);
+      const existingElements = Array.from(container.children).filter(child =>
+        child.classList.contains('topic-wrapper')
+      );
+
+      let insertPosition = 0;
+      for (const existingElement of existingElements) {
+        const existingTopic = existingElement.dataset.topic;
+        const existingIndex = originalOrder.indexOf(existingTopic);
+        if (existingIndex < topicIndex) {
+          insertPosition++;
+        } else {
+          break;
+        }
+      }
+
+      if (insertPosition >= existingElements.length) {
+        container.appendChild(element);
+      } else {
+        container.insertBefore(element, existingElements[insertPosition]);
+      }
+    }
+
+    // Move elements to the correct container in order
     topicElements.forEach((element, topic) => {
       const isSelected = currentlySelected.has(topic);
       const currentParent = element.parentElement;
 
       if (isSelected && currentParent !== selectedContainer) {
-        selectedContainer.appendChild(element);
+        insertInOrder(selectedContainer, element, topic);
       } else if (!isSelected && currentParent !== availableContainer) {
-        availableContainer.appendChild(element);
+        insertInOrder(availableContainer, element, topic);
       }
     });
 
@@ -140,34 +175,26 @@ const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center tran
         clearButton.classList.remove('opacity-100', 'pointer-events-auto');
         clearButton.classList.add('opacity-0', 'pointer-events-none');
     }
+
+    // Fixed filter bar when selection active
+    if (filterWrapper) {
+      if (selectedCount > 0) {
+        filterWrapper.classList.add('fixed', 'top-0', 'overflow-hidden', 'shadow-2xl', 'bg-zinc-800', 'z-50');
+        availableTopics.classList.add('max-h-[140px]');
+      } else {
+        filterWrapper.classList.remove('fixed', 'top-0', 'overflow-hidden', 'shadow-2xl', 'bg-zinc-800', 'z-50');
+        availableTopics.classList.remove('max-h-[140px]');
+      }
+    }
   }
 
-  // Clear button handler
   if (clearButton) {
     clearButton.addEventListener('click', () => {
       clearTopics();
     });
   }
 
-  // Subscribe to store changes
   const unsubscribe = selectedTopics.subscribe(updateUI);
-
-  // Initial UI sync based on the current store state
   updateUI(selectedTopics.get());
-
-  // Optional: Cleanup subscription
-  // Consider Astro's view transitions or other mechanisms if component unmounts often
-  // Example basic cleanup if the filter itself is removed:
-  // const filterElement = availableContainer.closest('.topic-filter');
-  // if (filterElement) {
-  //     const observer = new MutationObserver((mutationsList, obs) => {
-  //         if (!document.contains(filterElement)) {
-  //             unsubscribe();
-  //             obs.disconnect();
-  //             console.log('Topic filter unsubscribed and disconnected.');
-  //         }
-  //     });
-  //     observer.observe(filterElement.parentElement || document.body, { childList: true, subtree: false }); // Observe immediate parent
-  // }
 
 </script>

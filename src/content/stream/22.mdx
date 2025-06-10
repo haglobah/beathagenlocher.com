@@ -1,0 +1,26 @@
+---
+title: ""
+startDate: 2025-06-07T15:59:53
+topics: [PureScript, Haskell, Nix, Doom Emacs]
+publish: true
+---
+
+Currently at [ZuriHac](https://zfoh.ch/zurihac2025/) setting up a [PureScipt](https://www.purescript.org/) development environment with [[Nix]]—and of course, it's not issue-free.
+
+```shell
+nix shell nixpkgs#purescript nixpkgs#spago
+spago init
+spago build
+```
+
+errors. (Throws a pretty cryptic git error.) You need:
+
+```shell
+nix shell nixpkgs#purescript nixpkgs#nodejs_24
+npm install spago@next
+npx spago init
+npx spago run
+npx spago test
+```
+
+That works!

@@ -22,6 +22,7 @@ import { components } from '../components/mdxcomponents.ts'
       <WideCard to={content.id}
                 title={content.data.title}
                 topics={content.data.topics}
+                when={content.data.updated}
       >{content.data.description}</WideCard>
     </div>
   ))}
@@ -30,6 +31,7 @@ import { components } from '../components/mdxcomponents.ts'
       <WideCard to={content.id}
                 title={content.data.title}
                 topics={content.data.topics}
+                when={content.data.updated}
       >{content.data.description}</WideCard>
     </div>
   ))}

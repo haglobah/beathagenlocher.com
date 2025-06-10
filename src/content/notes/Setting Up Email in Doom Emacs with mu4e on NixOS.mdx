@@ -4,21 +4,23 @@ description: ""
 growthStage: seedling
 startDate: 2025-05-15T10:58:37
 updated: 2025-05-15T10:58:37
-topics: [Emacs, Simplicity, Email]
+topics: [Doom Emacs, Simplicity, Email, NixOS, Home Manager, mu4e]
 publish: false
 ---
 
 On some days I feel like I've dug my own grave.
 
-My day started out in a pretty innocent way. I'm currently reading [[The Great CEO Within]], and came across a section on [[Getting Things Done]] especially tailored to [[Email]].  
-Since having an [[Email Client]] + workflow I can halfway be productive with has been something I've had on top of my chore list, I gave it another try—and immediately remembered why I've always stopped the last few times:
+My day started out in a pretty innocent way. I'm currently reading [[The Great CEO Within]], and came across a section on [[Getting Things Done]] especially tailored towards [[Email]].  
+Since having an [[Email Client]] + workflow I can halfway be productive with has been something I've had on top of my chore list, I gave it another try—and immediately remembered why I've stopped the last few times:
 
 - [[Email]] itself is tech-wise insanely complex and hard to work with
-- it comes from a very different world. In this world it has [inherent and fatal flaws](https://www.youtube.com/watch?v=mrGfahzt-4Q)
+- It comes from a very different world. _In this world_, it has [inherent and fatal flaws](https://www.youtube.com/watch?v=mrGfahzt-4Q)
 - Every non-technical [[Email]] tool has some magic baked in that makes it magically go away (and you not aware of it—that's the problem)
 {/* - at the same time, every startup that tried to provide a good solution to this as soon as you do have a tool that provides a great workflow, it's lucrative to just focus on business customers, since it's a */}
 
 That taken together makes it a pretty daunting task.
+
+But this time, it didn't stop me.  
 
 ## Understanding Email
 
@@ -28,21 +30,75 @@ To work with [[Email]], you need three things:
 2. A program to read/view/search your email from that folder
 3. A program to reply to emails from that folder/send new emails
 
-The programs we're going to use in this guide are `mbsync` (<ListMarker>1.</ListMarker>), `mu`
+The programs we're going to use in this guide are `mbsync` (<ListMarker>1.</ListMarker>), `mu` (<ListMarker>2.</ListMarker>) and `msmtp`(<ListMarker>3.</ListMarker>).
 
 First, we're gonna <Il href="#1-getting-the-system-to-a-state-you-can-start-from">get your system to a state you can start from</Il>, then <Il href="2-">get it to work on the command line</Il>, and only then set it up in [[Doom Emacs]].
 
-
 ## 1. Getting the system to a state you can start from
 
-You probably know it since you got here, but the [Home Manager Email Options are definitely weird at first](https://nix-community.github.io/home-manager/options.xhtml#opt-accounts.email.accounts).
+From here on, this post assumes that you've got:
 
-The way they work is that you define an email account with everything:
+1. Nix installed
+2. <Il href="setting-up-home-manager">Home Manager installed</Il>
+
+(Since you came here you probably know it, but) The [Home Manager Email Options are weird](https://nix-community.github.io/home-manager/options.xhtml#opt-accounts.email.accounts), at least at first.
+
+The way they work is that you define an email account:
 
 ```nix
     accounts.email.accounts = {
       posteo = {
-        primary = true;
+        address = "hagenlob@posteo.de";
+        realName = "Beat Hagenlocher";
+        userName = "hagenlob@posteo.de";
+        passwordCommand = "cat ~/.posteopassword";
+      };
+    };
+```
+
+How to access the server for sending and pulling Email:
+
+```nix
+    accounts.email.accounts = {
+      posteo = {
+        # ...
+        smtp = {
+          host = "posteo.de";
+          port = 465;
+          tls.enable = true;
+        };
+        imap = {
+          host = "posteo.de";
+          port = 993;
+          tls.enable = true;
+        };
+      };
+    };
+```
+
+As well as the configuration options _per account_ for the tools you might use (`mbsync`, `mu`, and `msmtp` for us):
+
+```nix
+    accounts.email.accounts = {
+      posteo = {
+        # ...
+        mbsync = {
+          enable = true;
+          create = "both";
+          remove = "both";
+          expunge = "both";
+        };
+        mu.enable = true;
+        msmtp.enable = true;
+      };
+    };
+```
+
+Taken together:
+
+```nix
+    accounts.email.accounts = {
+      posteo = {
         address = "hagenlob@posteo.de";
         realName = "Beat Hagenlocher";
         userName = "hagenlob@posteo.de";
@@ -63,16 +119,21 @@ The way they work is that you define an email account with everything:
           create = "both";
           remove = "both";
           expunge = "both";
-          patterns = [
-            "*"
-            "!Drafts"
-            "!Deleted Messages"
-          ];
         };
-        msmtp = {
-          enable = true;
-        };
+        mu.enable = true;
+        msmtp.enable = true;
       };
+    };
+```
+
+Now, we only need to enable `mbsync`, `mu` and `msmtp`:
+
+```nix
+    programs.mbsync.enable = true;
+    programs.msmtp.enable = true;
+    programs.mu.enable = true;
+    accounts.email.accounts = {
+      # ...
     };
 ```
 
@@ -80,50 +141,7 @@ The way they work is that you define an email account with everything:
     programs.mbsync.enable = true;
     programs.msmtp.enable = true;
     programs.mu.enable = true;
-    programs.notmuch = {
-      enable = true;
-      hooks = {
-        preNew = "mbsync --all";
-      };
-    };
     accounts.email.accounts = {
-      ag = rec {
-        address = "beat.hagenlocher@active-group.de";
-        userName = address;
-        mbsync = {
-          enable = true;
-          create = "both";
-          remove = "both";
-          expunge = "both";
-          patterns = [
-            "*"
-            "!Drafts"
-            "!Deleted Messages"
-          ];
-        };
-        msmtp = {
-          enable = true;
-          extraConfig = {
-            "syslog" = "LOG_USER";
-          };
-        };
-        notmuch.enable = false;
-        mu.enable = true;
-        realName = "Beat Hagenlocher";
-        passwordCommand = "cat ~/.agpassword";
-        imap = {
-          host = "mail.active-group.de";
-          port = null;
-          tls = {
-            enable = true;
-            useStartTls = true;
-          };
-        };
-        smtp = {
-          host = "mail.active-group.de";
-          port = null;
-        };
-      };
       posteo = {
         primary = true;
         address = "hagenlob@posteo.de";
