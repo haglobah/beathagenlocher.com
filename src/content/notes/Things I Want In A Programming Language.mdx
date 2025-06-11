@@ -3,22 +3,33 @@ title: Things I Want In A Programming Language
 description: ""
 growthStage: seedling
 startDate: 2025-05-26T00:43:22
-updated: 2025-05-26T00:43:22
+updated: 2025-06-12T00:22:19
 topics: [Programming Languages]
-publish: false
+publish: true
 ---
 
-I feel like I'm a simple man and I'm not asking for much.
+I feel like I'm a simple human being and not asking for much.
 
-_[[Programming Languages Are Sets Of Features]]_. And these are the features I'd like to have in a language:
+I'm _just_ looking for a programming language that has exactly the right set of features:
 
-- Pattern matching in every _reasonable binding position_ ([[Elixir Style]])
-- Every scope returns its last element (aka. no `return` fuckery)
-- Strong and Static Gradual typing with me basically never having to write down types
-- explicit modules that can be defined, nested, and imported in the most sensible way
----
-- direct interop with JS
-- Referential Transparency ()
+1. Pattern matching in every _reasonable binding position_ ([[Elixir Style]])
+2. Everything is an expression, and every scope returns its last element (aka. no `return` fuckery)
+3. Strong and Static Gradual typing with me basically never having to write down types
+4. explicit modules that can be defined, nested, and imported in the most sensible way. That is:
+   - Modules aren't coupled with file names
+   - You can import a module locally in another module
+   - You can nest modules
+5. Some way to do piping: `(-> )`(<Il href="programming-languages/clojure">Clojure</Il>), `->`([[ReScript]]), `|>` ([[Elixir]]) and `&`([[Haskell]]) are all fine.
+6. Some very easy way to extend my standard language: `import MyPrelude`, `open Utils`, ..., all fine.
+7. Some very direct way to interact with client-side JS
+
+<Draft>
+
+## Nice to haves I could work around
+
+- good documentation _that's not hidden in some markdown files in a repo_.
+- immutability by default
+- [[Type Classes]]
 
 ## Things I'm unsure about
 
@@ -30,7 +41,7 @@ _[[Programming Languages Are Sets Of Features]]_. And these are the features I'd
 
 ### (parens (syntax))
 I think I want Racket-style macros (or at least I see their case pretty clearly, and if you want _any_ Macros, you should have Racket Macros), but I'm way less sure about syntax here.
-Elixir's syntax seems to go a long way here.
+[[Elixir]]'s syntax seems to go a long way here.
 
 
 ## Simplicity
@@ -43,3 +54,5 @@ Is that really too much to ask?
 
 
 ≺≻ [[Where ClojureScript Feels... Weird]]
+
+</Draft>

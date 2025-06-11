@@ -3,28 +3,43 @@ title: Choosing my Frontend Language
 description: ""
 growthStage: seedling
 startDate: 2025-05-26T00:59:16
-updated: 2025-05-26T00:59:16
-topics: []
-publish: false
+updated: 2025-06-12T00:59:06
+topics: [Programming Languages]
+publish: true
 ---
 
 Over the last few days, I've been evaluating [Rescript](https://rescript-lang.org/) and [Gleam](https://gleam.run/) as my go-to language for building interactive web app frontends with.
 
-This is now the probably fifth 
+This is now the probably fifth time I've re-evaluated my frontend language, and I very much expect this isn't gonna be the last.
 
 It started all out with me not liking [[JavaScript]] as much.
-The reasonable thing to do probably would've been to just go for a JS Framework, but I didn't do that. Instead, I tried to put my functional programming affinity to use and wrote my final 42 project with [[Phoenix LiveView]]. That was.. pretty nice, especially because I like [[Elixir]] so much.  
-However, it also mostly worked so well because I could know for sure the internet would work reliably.
+The reasonable thing to do probably would've been to just go for a JS Framework, but I .. didn't do that.
 
-That is something you can't know almost anywhere else.
+Instead, I tried to put my functional programming affinity to use and wrote my final [42](https://42heilbronn.de) project with [[Phoenix LiveView]]. That was.. pretty nice, especially because I like [[Elixir]] so much.  
+It also _mostly_ worked so well because I could know for sure the internet would work reliably.
 
-I originally started doing this with [[Phoenix LiveView]] but wasn't happy with the trade-offs.
+And that is something you cannot take for certain in basically every other project.
+But I didn't know that then.  
+Instead, I went and played around with my idea of [a simple project app](https://zelium.io), built it in [[Phoenix LiveView]], and found out the hard way that this is not its niche.  
 
-Currently, I'm mostly using [[ClojureScript]] for frontend stuff at work. It has quite a few things I like a lot about it (Syntax, general Lispyness), but also a lot of things feel weird, or pretty much like an afterthought. ≺≻ [[Where ClojureScript Feels... Weird]]  
+You either:
+- stay on the server and suffer from latency
+- go to the client to not suffer from the latency, but then push data from Elixir to JS and back
+
+Not a trade-off I'm willing to make.
+
+Then, I started my job, and there, I'm currently mostly using [[ClojureScript]] for frontend stuff, which works.  
+It has quite a few things I like a lot about it (Syntax, general Lispyness), but also a lot of things feel weird, or pretty much like an afterthought. ≺≻ [[Where ClojureScript Feels... Weird]]  
 Also, it doesn't have a static type system, a thing I somehow especially value on the frontend.
 
+And currently I'm in the process of accepting that since I want to build [[Local-first Software]] and don't want to write my own sync engine (yet, who knows), I have to rely on JS libraries.
 
+So now I'm looking for a language/framework combination that lets me write simple declarative frontends with a strong and static type system with as close interoperability with JS/JS libraries as possible.
 
-Well, at least for Rescript, there's a few things<Il href="what-i-wish-i-knew-when-learning-rescript">I wish I would've known</Il>.
+Which now made me jump back and forth between learning [[Gleam]]/[[Lustre]], [[ReScript]], and [[PureScript]]/[[Halogen]].
+
+Well, what can I say?
+At least I very much enjoy learning programming languages ^^
 
 ≺≻ [[Things I want in a programming language]]
+≺≻ [[What I Wish I Knew When Learning ReScript]]
