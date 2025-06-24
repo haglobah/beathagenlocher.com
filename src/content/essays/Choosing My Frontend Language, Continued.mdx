@@ -1,0 +1,24 @@
+---
+title: Choosing My Frontend Stack, Part II
+description: ""
+growthStage: seedling
+startDate: 2025-06-24T22:41:49
+updated: 2025-06-24T22:41:49
+topics: [Programming Languages, Functional Programming]
+publish: false
+---
+
+What started out as me [[Choosing my Frontend Language]] evolved into me playing around with more and more parts of the frontend stack.
+
+Some learnings:
+
+- The longer I interact with it, the more I'm getting the feeling that the [[ClojureScript]] heavy reliance on the [Google Closure Compiler](https://developers.google.com/closure) is actually pretty bad.
+- [bun](https://bun.sh) is _pretty darn fast_.
+- It's highly confusing what exactly bun provides when comparing it to basically any other DX tool in the JS ecosystem.
+  - It's a bundler like webpack/esbuild
+  - It's a JS runtime like Node.js and Deno
+  - It has a webserver—but no _dev server_ with HMR. For that, you can/probably want to use [Vite](https://vite.dev/).
+- But Vite is also basically everything you need on the JS side, except for being a JS runtime.
+- There's two [[cljs]]-dialecty things called [[squint]] and [[cherry]] by [[borkdude]].
+
+It's weird.
