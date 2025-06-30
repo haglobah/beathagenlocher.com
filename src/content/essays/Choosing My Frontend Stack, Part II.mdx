@@ -3,22 +3,26 @@ title: Choosing My Frontend Stack, Part II
 description: ""
 growthStage: seedling
 startDate: 2025-06-24T22:41:49
-updated: 2025-06-24T23:58:00
+updated: 2025-07-01T01:39:21
 topics: [Programming Languages, Functional Programming]
-publish: false
+publish: true
 ---
 
 What started out as me [[Choosing my Frontend Language]] evolved into me playing around with more and more parts of the frontend stack.
 
 Some learnings:
 
-- The longer I interact with it, the more I'm getting the feeling that the [[ClojureScript]] heavy reliance on the [Google Closure Compiler](https://developers.google.com/closure) is actually pretty bad.
-- [bun](https://bun.sh) is _pretty darn fast_.
-- It's highly confusing what exactly bun provides when comparing it to basically any other DX tool in the JS ecosystem.
+- The longer I interact with it, the more I'm getting the feeling that [[ClojureScript]]s heavy reliance on the [Google Closure Compiler](https://developers.google.com/closure) is actually pretty bad.
+- [bun](https://bun.sh) is _pretty darn fast_.  
+It's highly confusing what exactly bun provides when comparing it to basically any other DX tool in the JS ecosystem:
   - It's a bundler like webpack/esbuild
   - It's a JS runtime like Node.js and Deno
   - It has a webserver—but no _dev server_ with HMR. For that, you can/probably want to use [Vite](https://vite.dev/).
 - But Vite is also basically everything you need on the JS side, except for being a JS runtime.
-- There's two [[cljs]]-dialecty things called [[squint]] and [[cherry]] by [[borkdude]].
+- There's two [[cljs]]-dialecty things called [squint](https://github.com/squint-cljs/squint) and [cherry](https://github.com/squint-cljs/cherry) by [borkdude](https://github.com/borkdude).
+- [nanostores](https://github.com/nanostores/nanostores) are pretty neat.
+  - no more shuffling state around
+  - can define my reactive values super declaratively (computed stores)
+- SolidJS (+nanostores) is actually pretty nice. I can shell out to React-as-it-should've-been whenever I like to, but can have my reactive values in a pretty declarative style in my store.
 
-It's weird.
+As of now, I'm relatively confident that bun/Vite/squint/SolidJS/nanostores is my new favourite frontend stack.
