@@ -6,14 +6,14 @@ const { frontmatter, headings } = Astro.props
 
 ---
 <ReadingProgressBar />
-<div class="post f-my-2xl f-px-sm mx-auto max-w-[65ch]">
-  <div class="f-my-2xl">
-    <h1 class="f-text-3xl f-px-xs leading-[1.4] f-pb-sm border-b-3 border-zinc-400">
-      <!-- <StageIcon stage={frontmatter.growthStage as
-           | "budding"
-           | "evergreen"
-           | "seedling"}/> -->
-      <span class="">{ frontmatter.title }</span>
+<div class="post f-mb-2xl f-px-sm mx-auto max-w-[65ch]">
+  <div class="f-mb-2xl flex flex-col items-center gap-4">
+    <StageIcon stage={frontmatter.growthStage as
+                     | "seedling"
+                     | "budding"
+                     | "evergreen"}/>
+    <h1 class="font-mono f-text-2xl f-px-xs leading-[1.3] tracking-tighter f-pb-sm border-b-3 border-zinc-400">
+      { frontmatter.title }
     </h1>
   </div>
   <div class="mx-auto">
