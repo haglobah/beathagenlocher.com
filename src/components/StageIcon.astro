@@ -2,17 +2,87 @@
 const { stage } = Astro.props
 ---
 
-{ stage === "seedling" && (
-<span class="inline-block i-heroicons:minus text-white size-8">
-</span>
-)}
+<div class="text-sienna-light/80">
+  { stage === "seedling" && (
+  <svg class="size-24" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="4">
+    <path d="
+             M 99 18
+             A 40 40 0 0 1 99 82
+             A 40 40 0 0 1 99 18
+             M 101 18
+             A 40 40 0 0 0 101 82
+             A 40 40 0 0 0 101 18
+             Z" />
+  </svg>
+  )}
 
-{ stage === "budding" && (
-<span class="inline-block i-heroicons:bars-2 text-white size-8">
-</span>
-)}
+  { stage === "budding" && (
+  <svg class="size-24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="4">
+    <g transform="translate(100,100)">
+      <!-- Lens 1 -->
+      <g transform="rotate(-30)">
+        <path d="
+                 M -1 -82
+                 A 40 40 0 0 1 -1 -18
+                 A 40 40 0 0 1 -1 -82
+                 M 1 -82
+                 A 40 40 0 0 0 1 -18
+                 A 40 40 0 0 0 1 -82
+                 Z"/>
+      </g>
+      <!-- Lens 2 -->
+      <g transform="rotate(30)">
+        <path d="
+                 M -1 -82
+                 A 40 40 0 0 1 -1 -18
+                 A 40 40 0 0 1 -1 -82
+                 M 1 -82
+                 A 40 40 0 0 0 1 -18
+                 A 40 40 0 0 0 1 -82
+                 Z"/>
+      </g>
+    </g>
+  </svg>
+  )}
 
-{ stage === "evergreen" && (
-<span class="inline-block i-heroicons:bars-3 text-white size-8">
-</span>
-)}
+  { stage === "evergreen" && (
+
+  <svg class="size-24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="4">
+    <g transform="translate(100,100)">
+      <!-- Center (vertical) -->
+      <g transform="rotate(0)">
+        <path d="
+                 M -1 -82
+                 A 40 40 0 0 1 -1 -18
+                 A 40 40 0 0 1 -1 -82
+                 M 1 -82
+                 A 40 40 0 0 0 1 -18
+                 A 40 40 0 0 0 1 -82
+                 Z"/>
+      </g>
+      <!-- Left (rotated -60°) -->
+      <g transform="rotate(-60)">
+        <path d="
+                 M -1 -82
+                 A 40 40 0 0 1 -1 -18
+                 A 40 40 0 0 1 -1 -82
+                 M 1 -82
+                 A 40 40 0 0 0 1 -18
+                 A 40 40 0 0 0 1 -82
+                 Z"/>
+      </g>
+      <!-- Right (rotated +60°) -->
+      <g transform="rotate(60)">
+        <path d="
+                 M -1 -82
+                 A 40 40 0 0 1 -1 -18
+                 A 40 40 0 0 1 -1 -82
+                 M 1 -82
+                 A 40 40 0 0 0 1 -18
+                 A 40 40 0 0 0 1 -82
+                 Z"/>
+      </g>
+    </g>
+  </svg>
+  )}
+</div>
