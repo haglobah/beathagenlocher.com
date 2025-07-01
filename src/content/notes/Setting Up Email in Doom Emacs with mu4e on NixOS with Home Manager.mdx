@@ -1,11 +1,11 @@
 ---
 title: Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager
 description: ""
-growthStage: evergreen
+growthStage: budding
 startDate: 2025-05-15T10:58:37
 updated: 2025-07-01T17:27:39
 topics: [Doom Emacs, Simplicity, Email, NixOS, Home Manager, mu4e]
-publish: false
+publish: true
 ---
 
 On some days I feel like I've dug my own grave.
@@ -224,7 +224,7 @@ Taken together:
 Now a simple
 
 ```shell
-home-manager switch
+home-manager switch --flake ~/nix-home/
 ```
 
 and you should be good to go.
@@ -232,6 +232,23 @@ and you should be good to go.
 And since [[Nix]] sprinkles everything it touches with magic "works on every machine" sauce, this (minus correct configuration for your Email provider) should work on your machine, too.
 
 Happy mailing :)
+
+...
+
+Actually, not yet.
+
+There's still the whole [[Doom Emacs]] part to be resolved.
+
+This is what my config for that looks like:  
+https://github.com/haglobah/doom/blob/c4004efa3c1f9cac71252dead8f2b2765142e290/config/email.el#L5
+
+(The workflow-relevant part being [the bookmarks](https://github.com/haglobah/doom/blob/c4004efa3c1f9cac71252dead8f2b2765142e290/config/email.el#L29) and [this horrendous `kmacro`-fuckery](https://github.com/haglobah/doom/blob/c4004efa3c1f9cac71252dead8f2b2765142e290/config/email.el#L77C1-L92C8))
+
+If you squint a bit, you can see the [[Getting Things Done]] influence there.
+
+But that's for another time.
+
+Now, finally: Happy Mailing!
 
 ---
 In case that's helpful, this is what my full config looks like:
