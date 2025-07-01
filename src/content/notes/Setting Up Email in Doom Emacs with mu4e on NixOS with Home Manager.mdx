@@ -3,7 +3,7 @@ title: Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager
 description: ""
 growthStage: seedling
 startDate: 2025-05-15T10:58:37
-updated: 2025-05-15T10:58:37
+updated: 2025-07-01T17:27:39
 topics: [Doom Emacs, Simplicity, Email, NixOS, Home Manager, mu4e]
 publish: false
 ---
@@ -11,16 +11,51 @@ publish: false
 On some days I feel like I've dug my own grave.
 
 My day started out in a pretty innocent way. I'm currently reading [[The Great CEO Within]], and came across a section on [[Getting Things Done]] especially tailored towards [[Email]].  
-Since having an [[Email Client]] + workflow I can halfway be productive with has been something I've had on top of my chore list, I gave it another try—and immediately remembered why I've stopped the last few times:
+Having an [[Email Client]] + workflow I can halfway be productive with is something that's been on my mind for quite some time.  
+So I gave it another try—and immediately remembered why I've stopped the last few times.
 
-- [[Email]] itself is tech-wise insanely complex and hard to work with
-- It comes from a very different world. _In this world_, it has [inherent and fatal flaws](https://www.youtube.com/watch?v=mrGfahzt-4Q)
-- Every non-technical [[Email]] tool has some magic baked in that makes it magically go away (and you not aware of it—that's the problem)
-{/* - at the same time, every startup that tried to provide a good solution to this as soon as you do have a tool that provides a great workflow, it's lucrative to just focus on business customers, since it's a */}
+What this boils down to for me is that:
+1. [[Email]] itself is tech-wise insanely complex and hard to work with
+2. It comes from a very different world. _In this world_, it has [inherent and fatal flaws](https://www.youtube.com/watch?v=mrGfahzt-4Q)
 
+and incentives around it make basically any startup with a decent personal offering [pivot to business customers](https://superhuman.com/pricing) pretty fast. ([or just get bought](https://www.infoq.com/presentations/Running-a-Startup-on-Haskell/))
+
+## What I Want
+
+What I want is:
+
+1. That it "just works"
+2. Decent speed
+3. Customizable keybindings
+4. Generally affordable (\<= 5$/month)
+5. Tight integration into my other workflows  
+
+## What the World looks like
+
+I think you can put Email Clients in three buckets:
+
+A. free GUI apps (e.g. Thunderbird)  
+B. paid apps (e.g. Superhuman)  
+C. free Terminal clients, and their Emacs/NeoVim counterparts  (e.g. `mu`, `notmuch`)
+
+For <ListMarker>1.</ListMarker> ("just works"-ness):
+- free GUI apps work, but those are:  
+  - barely customizable (failing <ListMarker>3.</ListMarker>)
+  - and tend to be slow (failing <ListMarker>2.</ListMarker>)
+- paid apps work
+- free terminal clients just don't
+
+For <ListMarker>2.</ListMarker> and <ListMarker>3.</ListMarker>, there's:
+- [[TUI]]/[[Emacs]] stuff, but that fails <ListMarker>1.</ListMarker>
+- paid apps work
+- free apps don't
+
+The paid apps fail <ListMarker>4.</ListMarker>, and tight integration (<ListMarker>5.</ListMarker>) is hard to achieve basically anywhere except for [[Emacs]] or my shell.
+
+This left me with either paying a lot for "just works"-ness and speed, or finally spending the time to understand Email, setting up something in my shell, and using it from [[Emacs]].  
 That taken together makes it a pretty daunting task.
 
-But this time, it didn't stop me.  
+But this time, it didn't stop me.
 
 ## Understanding Email
 
@@ -137,6 +172,8 @@ Now, we only need to enable `mbsync`, `mu` and `msmtp`:
     };
 ```
 
+Taken together:
+
 ```nix
     programs.mbsync.enable = true;
     programs.msmtp.enable = true;
@@ -184,7 +221,18 @@ Now, we only need to enable `mbsync`, `mu` and `msmtp`:
     };
 ```
 
+Now a simple
+
+```shell
+home-manager switch
+```
+
+and you should be good to go.
+
+And since [[Nix]] sprinkles everything it touches with magic "works on every machine" sauce, this (minus correct configuration for your Email provider) should work on your machine, too.
+
+Happy mailing :)
 
 ---
-This is what my full config looks like:
+In case that's helpful, this is what my full config looks like:
 https://github.com/haglobah/nix-home/blob/main/home.nix#L187
