@@ -3,9 +3,9 @@ title: Setting Up Home Manager
 description: A tutorial
 growthStage: seedling
 startDate: 2025-05-18T16:40:49
-updated: 2025-05-18T16:40:49
+updated: 2025-07-01T17:38:29
 topics: [Nix, Home Manager]
-publish: false
+publish: true
 ---
 
 So, you want to have a `~` where [[works on my system]] is a thing of the past?
@@ -223,7 +223,7 @@ This general workflow works for every file in your `HOME`:
 3. Add the file to `home.file`
 4. Rebuild you `HOME`
 
-{/*
+<Draft>
 # Chapter 3: Using modules
 
 Let's recap for a bit.
@@ -231,13 +231,17 @@ Let's recap for a bit.
 So far, [[Home Manager]] made our system nice and reproducible, but we didn't get _that_ much in return.  
 We mostly added a layer of declarativeness around the packages we installed while preserving their own configurations.
 
-The true power of [[Home Manager]] only comes when using _modules_. Because everything is reproducible, there are plenty of prepackages software packages that hardly need any effort to use already available.
+The true power of [[Home Manager]] only comes when using _modules_. Because everything is reproducible, there are plenty of prepackaged software packets (aka. Home Manager Modules) already available.
+
+
 
 Let me show you:
 
 After
 
 But git is something we also want to have configured
+
+# Wrap-up
 
 This is now pretty similar to what we would've gotten in case we would've just generated the config. Do a
 
@@ -246,7 +250,7 @@ nix run home-manager/master -- init ~/nix-home-2
 ```
 
 and compare the result.
-*/}
+</Draft>
 
 <References>
    <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml">Home Manager Manual </ReferenceLink>
