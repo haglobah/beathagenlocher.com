@@ -4,4 +4,5 @@ help:
 dev:
     npm run dev
 
-
+setup:
+    npm clean-install
