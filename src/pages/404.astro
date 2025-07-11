@@ -5,18 +5,22 @@ import Layout from '../layouts/Layout.astro'
 import Heading2 from '../components/Heading2.astro'
 import Highlight from '../components/Highlight.astro'
 import Ol from '../components/OuterLink.astro'
+import Il from '../components/InnerLink.astro'
 
 ---
 
 <Layout title="Beat Hagenlochers Digital Garden">
-  <div class="text-center">
+  <div class="text-center f-mx-lg">
     <Highlight class="f-text-3xl f-mt-3xl">
       404
     </Highlight>
     <Heading2>
-      This page doesn't exist (yet).
+      This page doesn't exist yet.
     </Heading2>
-    <div class="">
+    <div class="mx-auto my-2 max-w-prose">
+      That is, the linked you clicked on probably was a valid link, but I (<Il href="./">Beat</Il>) didn't write the content of the page you wanted to see yet.
+    </div>
+    <div class="mx-auto my-2 max-w-prose">
       In case you would like to see it exist, please <Ol href="https://bsky.app/profile/beathagenlocher.com" class="italic">bug me about it.</Ol>
     </div>
   </div>
