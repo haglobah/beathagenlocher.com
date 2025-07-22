@@ -42,6 +42,25 @@ const topics = getTopics(allTheContent)
       </ClampWrapper>
     </div>
     <div class="md:grid md:grid-cols-12 f-gap-xl">
+      <div class="md:col-span-12 max-w-lg mx-auto">
+        <div class="f-mt-md f-mb-2xl">
+          <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
+            <Il href="stream" class="font-bold">The Stream</Il>
+          </h2>
+          <p class="italic f-text-xs">
+            Tiny pieces of thinking, links and knowledge – <Ol href="https://hapgood.us/2015/10/17/the-garden-and-the-stream-a-technopastoral/">streamified.</Ol>
+          </p>
+        </div>
+        <ItemCutoff class="flex flex-col f-mb-2xl" after={5}>
+          <Stream />
+          <div slot="after-cutoff" class="self-end inline mr-4 z-10">
+            <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
+              <Il href="stream" arrow={"left"} class="font-bold">The Stream</Il>
+            </h2>
+          </div>
+        </ItemCutoff>
+      </div>
+
       <div class="md:col-span-7">
 
         <div class="f-mt-md f-mb-2xl">
@@ -67,23 +86,6 @@ const topics = getTopics(allTheContent)
         <div class="grid sm:grid-cols-4 f-gap-lg">
           <Knowledge />
         </div>
-
-        <div class="f-mt-md f-mb-2xl">
-          <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
-            <Il href="stream" class="font-bold">The Stream</Il>
-          </h2>
-          <p class="italic f-text-xs">
-            Tiny pieces of thinking, links and knowledge, streamified
-          </p>
-        </div>
-        <ItemCutoff class="flex flex-col f-mb-2xl" after={5}>
-          <Stream />
-          <div slot="after-cutoff" class="self-end inline mr-4 z-10">
-            <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
-              <Il href="stream" arrow={"left"} class="font-bold">The Stream</Il>
-            </h2>
-          </div>
-        </ItemCutoff>
 
       </div>
 
