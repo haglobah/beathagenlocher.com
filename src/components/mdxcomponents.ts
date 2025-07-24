@@ -23,7 +23,7 @@ export const components = {
     References,
     ReferenceLink,
     Draft,
-    
+
     a: Ol,
     innerlink: Il,
     innerlinkempty: InnerLinkEmpty,
