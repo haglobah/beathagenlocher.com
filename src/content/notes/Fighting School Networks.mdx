@@ -1,0 +1,30 @@
+---
+title: Fighting School Networks
+description: ""
+growthStage: seedling
+startDate: 2025-07-26T21:17:16
+updated: 2025-07-26T21:27:31
+topics: []
+publish: false
+---
+
+Just recently, I taught a course at a [Deutsche SchülerAkademie](https://www.schuelerakademien.de/deutsche-schuelerakademie) and had access to and troubles with a school network.
+
+I always knew they would be troublesome, but when I last had to live in one, I didn't have both of needs and knowledge to do anything about it.
+
+This time, I've encountered the following problems:
+
+# Websites connect only after a very long time
+
+Reason: The network can disable IPv6 traffic (or just not speak it at all)
+
+Apparently Windows still only uses IPv4, so they experience any issues.
+
+Solution: You need to disable IPv6 either for the network, or on your device in general (if you're one of the non-stupid clients)
+
+# I lost internet access permanently (across all of Wifi on/off, reconnects and restarts)
+
+# I regularly lost the connection (Wifi on/off did resolve that)
+
+# `ssh`, `SMB` & others didn't work at all
+
