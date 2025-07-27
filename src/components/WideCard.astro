@@ -64,7 +64,13 @@ import Ago from './Ago.astro'
             </Il>}
           </>
         </h3>
-        <div class="text-zinc-500">
+
+        {Astro.slots.has('context') &&
+        <div class="f-mb-xs mt-1 f-text-xs text-zinc-400">
+          <slot name="context"/>
+        </div>
+        }
+        <div class="font-light text-zinc-200">
           <span>{pos}</span>
         </div>
         <div class="absolute top-0 right-0">
