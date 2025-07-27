@@ -6,6 +6,8 @@ import Section from "../components/Section.astro"
 import HRule from "../components/HRule.astro"
 import Par from "../components/Par.astro"
 import WideCard from "../components/WideCard.astro"
+import List from "../components/List.astro"
+import ListItem from "../components/ListItem.astro"
 ---
 
 <Layout title="Beat Hagenlocher">
@@ -156,13 +158,21 @@ import WideCard from "../components/WideCard.astro"
       </Section>
       <Section title="Education">
         <ol class="group/section">
-          <WideCard title="42 Heilbronn"
+          <WideCard title="Common Core"
                     description="Mar 2022 – Sep 2023"
-                    org=""
+                    org="42 Heilbronn"
                     imageSrc=""
                     href="https://42heilbronn.de"
                     pos=""
                     topics={["C", "C++", "Docker", "Elixir", "Racket"]}>
+            Completed 24 projects that included writing, amongst other things:
+            <List>
+              <ListItem>Libc functions</ListItem>
+              <ListItem>A shell</ListItem>
+              <ListItem>A ray tracer</ListItem>
+              <ListItem>An IRC server</ListItem>
+              <ListItem>A full-blown web app</ListItem>
+            </List>
           </WideCard>
           <WideCard title="BSc Physics"
                     description="Sep 2020 – Feb 2022"
