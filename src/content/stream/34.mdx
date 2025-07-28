@@ -1,0 +1,23 @@
+---
+title: Referencing git commits sensibly
+startDate: 2025-07-28T22:54:13
+topics: [git, Software Engineering, TIL]
+publish: true
+---
+
+Lol. Today I learned that you can reference commits in git by searching through their messages:
+
+In this commit graph:
+
+```shell
+* 30997b5 (HEAD -> main, bugFix) Add lala
+* ceeae15 Add hehe
+* c4a2cd2 Add hoho
+* b2627b3 Add a
+```
+
+```shell
+git show :/hoho
+```
+
+does the thing you'd expect—it shows commit `c4a2cd2`. Nice!
