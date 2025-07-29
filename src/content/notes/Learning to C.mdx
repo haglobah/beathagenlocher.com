@@ -1,0 +1,111 @@
+---
+title: Learning to C
+description: "A mastery guide for the ugly side of programming"
+growthStage: seedling
+startDate: 2025-07-29T00:52:40
+updated: 2025-07-29T00:52:40
+topics: [C, Programming, Learning]
+publish: true
+---
+
+Would you like to learn to C?
+
+Let's go.
+
+# -1. This is not your normal guide
+
+This guide is weird.
+
+It's written to get a smart and persevering person started with nitty-gritty side of programming that doesn't get discussed as often.
+
+It's goal is to supply _a lot_ of information, tasks, and real-world projects.
+
+For this, it will utilize whatever good guide/task sheet/project description there already is.
+
+When following this guide, things should become harder and harder, but you shouldn't ever be clueless.
+If that happens, it's not your fault, it's mine.
+I just made a wild guess on how hard something would be which turned out to be wrong.
+If that happens to you, it probably will happen to other people reading this, too. Please let me fix it: [Tell me about it](mailto:bah@posteo.de) so that I can correct it. (Or, as soon as you're that advanced: Just open a pull request on GitHub ^^)
+
+Remember, this guide assumes you're smart—behave like a smart person:
+- Whenever you encounter a problem and have thought about it for a few minutes, _you google it_. (Good sites include StackOverflow)
+- When you don't know how something works in general, try to read its documentation (online or via _man pages_—we'll get to that)
+- When you really get stuck, _ask for help_. Ask people you know that might know the answer, or [just ask me directly](mailto:bah@posteo.de). When asking questions there's a few things to keep in mind: [1](https://dontasktoask.com/), [2](https://xyproblem.info/), and every site's got its own FAQ on asking ([StackOverflow](https://stackoverflow.com/help/how-to-ask), for example)
+
+Oh, and just to do some expectation management up front: _Don't be fooled by how short this guide appears to be._ This will be enough material for months.
+
+# 0. Setup
+
+## A. Unix
+
+Get your hands on a [Unix](https://en.wikipedia.org/wiki/Unix) system.
+
+This means either:
+- [Installing WSL](https://www.youtube.com/watch?v=gTf32sX9ci0) (docs here: [https://learn.microsoft.com/en-us/windows/wsl/install](https://learn.microsoft.com/en-us/windows/wsl/install))
+- Being on macOS—already done.
+- Being on Linux—already done, too. :)
+
+## B. Terminal
+
+Open up a [Terminal Emulator](https://en.wikipedia.org/wiki/Terminal_emulator).
+
+It should show something like this:
+
+```shell
+username@system:~ $ 
+```
+
+Verify everything works by typing your first shell command:
+
+```shell
+username@system:~ $ ls
+```
+
+This should _list_ the contents of your _home directory_—you should recognize some folder names.
+
+And with that, we're ready for Part 1: Navigating the command line
+
+# 1. Navigating the command line
+
+Well, there's a pretty good guide available.
+
+1. Work through all of [The Unix Shell | Software Carpentry](https://swcarpentry.github.io/shell-novice/).
+
+{/*  Review via [Orbit](https://docs.withorbit.com/] */}
+
+2. Test your knowledge: Complete the [Twelve days of shell](https://12days.cmdchallenge.com/), and, if you're feeling adventurous, as much of the [cmdchallenge](https://cmdchallenge.com/) as you can (or want to) do.
+
+# Intermezzo: Installing stuff
+
+So far, everything you needed to use came preinstalled with your Operating System.
+
+This is about to change.
+
+To exclude a <Il href="works-on-my-machine">whole class of problems</Il> from happening whatsoever, we will install things via [[Nix]].
+
+So, let's get back to your terminal window, and install [[Nix]]:
+
+```shell
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+```
+
+- Create a new folder in `~`: `learning-to-c`
+- Create a new file in that folder: `flake.nix`
+- Start editing that file. It should end up with the following content:
+
+<Draft>
+
+```nix
+
+```
+
+
+# 2. C basics, Part I
+
+# Intermezzo: Editor
+
+# 3. C basics, Part II
+
+# Intermezzo: Version Control
+
+</Draft>
