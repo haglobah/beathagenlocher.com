@@ -1,0 +1,11 @@
+---
+export interface Props {
+  color?: string;
+}
+
+const { color = "cyan" } = Astro.props;
+---
+
+<orbit-reviewarea color={color}>
+  <slot />
+</orbit-reviewarea>

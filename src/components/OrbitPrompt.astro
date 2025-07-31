@@ -1,0 +1,16 @@
+
+---
+export interface Props {
+  question: string;
+  answer: string;
+  questionAttachments?: string;
+}
+
+const { question, answer, questionAttachments } = Astro.props;
+---
+
+<orbit-prompt
+  question={question}
+  answer={answer}
+  question-attachments={questionAttachments}
+></orbit-prompt>

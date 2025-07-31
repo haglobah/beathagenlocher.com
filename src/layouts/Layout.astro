@@ -22,8 +22,8 @@ const baseUrl = import.meta.env.DEV ? "http://localhost:4321" : Astro.site;
 
 // Construct OG image URL - now just using the content ID directly
 const ogImageURL = type
-	? new URL(`/og/${contentId}.png`, baseUrl)
-	: new URL(`/og.png`, baseUrl);
+? new URL(`/og/${contentId}.png`, baseUrl)
+: new URL(`/og.png`, baseUrl);
 
 // Only add search params for non-content pages (like the homepage)
 if (!type) {
@@ -50,17 +50,18 @@ declare global {
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="stylesheet" href="/preflight.css">
+		<script type="module" src="https://js.withorbit.com/orbit-web-component.js"></script>
 		<SEO
 			title={title}
-			description={ desc || "Beat's digital garden filled with written thinking" }
-			openGraph={{
-				basic: {
+				  description={ desc || "Beat's digital garden filled with written thinking" }
+				  openGraph={{
+				  basic: {
 				  type: "website",
 				  url: Astro.url.href,
 				  title: title || "Beat Hagenlocher",
 				  image: ogImageURL.toString(),
-				}
-			}}
+				  }
+				  }}
 		>
 	</head>
 	<body class="font-sans font-normal f-text-sm bg-zinc-800 text-zinc-300 leading-[1.6] antialiased selection:bg-sienna-light selection:text-zinc-800 max-w-screen-xl mx-auto scroll-smooth">

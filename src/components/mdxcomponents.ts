@@ -15,6 +15,8 @@ import BlockQuote from './BlockQuote.astro';
 import References from './References.astro';
 import ReferenceLink from './ReferenceLink.astro';
 import Draft from './Draft.astro';
+import OrbitArea from './OrbitArea.astro';
+import OrbitPrompt from './OrbitPrompt.astro';
 
 export const components = {
     I,
@@ -23,6 +25,8 @@ export const components = {
     References,
     ReferenceLink,
     Draft,
+    OrbitArea,
+    OrbitPrompt,
 
     a: Ol,
     innerlink: Il,
