@@ -16,23 +16,31 @@ Let's go.
 
 This guide is weird.
 
-It's written to get a smart and persevering person started with nitty-gritty side of programming that doesn't get discussed as often.
+It's written to get a smart and persevering person started with the nitty-gritty side of programming that doesn't get discussed as often.
 
-It's goal is to supply _a lot_ of information, tasks, and real-world projects.
+Its goal is to supply _a lot_ of information, tasks, and real-world projects while using real-world tools.
+For example, this means that this guide will introduce `git` when I think the time has come (which is when you would encounter it in real life). `git`, therefore, will probably be introduced while doing a project.
 
-For this, it will utilize whatever good guide/task sheet/project description there already is.
+For this, this guide will alternate between:
+- Giving a high-level overview (where we're coming from, where we're going)
+- And then diving into guides/projects
+- Utilizing whatever good guide/task sheet/project description there already is.
+- And supplying the things I found missing when I first learned all of this.
 
 When following this guide, things should become harder and harder, but you shouldn't ever be clueless.
 If that happens, it's not your fault, it's mine.
 I just made a wild guess on how hard something would be which turned out to be wrong.
-If that happens to you, it probably will happen to other people reading this, too. Please let me fix it: [Tell me about it](mailto:bah@posteo.de) so that I can correct it. (Or, as soon as you're that advanced: Just open a pull request on GitHub ^^)
+If that happens to you, it probably will happen to other people reading this, too.
+When something irritates you, please [tell me about it](mailto:bah@posteo.de) so that I can correct it.
+(Or, as soon as you're that advanced: Just open a pull request on GitHub ^^)
 
 Remember, this guide assumes you're smart—behave like a smart person:
 - Whenever you encounter a problem and have thought about it for a few minutes, _you google it_. (Good sites include StackOverflow)
 - When you don't know how something works in general, try to read its documentation (online or via _man pages_—we'll get to that)
 - When you really get stuck, _ask for help_. Ask people you know that might know the answer, or [just ask me directly](mailto:bah@posteo.de). When asking questions there's a few things to keep in mind: [1](https://dontasktoask.com/), [2](https://xyproblem.info/), and every site's got its own FAQ on asking ([StackOverflow](https://stackoverflow.com/help/how-to-ask), for example)
 
-Oh, and just to do some expectation management up front: _Don't be fooled by how short this guide appears to be._ This will be enough material for months.
+Oh, and just to do some expectation management up front: _Don't be fooled by how short this guide appears to be._
+Expect that it will will be enough material for _months_.
 
 # 0. Setup
 
@@ -52,7 +60,7 @@ Open up a [Terminal Emulator](https://en.wikipedia.org/wiki/Terminal_emulator).
 It should show something like this:
 
 ```shell
-username@system:~ $ 
+username@system:~ $
 ```
 
 Verify everything works by typing your first shell command:
@@ -67,13 +75,81 @@ And with that, we're ready for Part 1: Navigating the command line
 
 # 1. Navigating the command line
 
-Well, there's a pretty good guide available.
+Well, for navigating the command line, there's a pretty good guide available.
 
-1. Work through all of [The Unix Shell | Software Carpentry](https://swcarpentry.github.io/shell-novice/).
+The way this is going to work is the following:
 
-{/*  Review via [Orbit](https://docs.withorbit.com/] */}
+The next guide has chapters, and after enough content has been handled, I'll ask you spaced repetition questions to increase your learning.
 
-2. Test your knowledge: Complete the [Twelve days of shell](https://12days.cmdchallenge.com/), and, if you're feeling adventurous, as much of the [cmdchallenge](https://cmdchallenge.com/) as you can (or want to) do.
+1. Work through _1. Introducing the Shell_ and _2. Navigating Files and Directories_ of [The Unix Shell | Software Carpentry](https://swcarpentry.github.io/shell-novice/).
+
+Done?
+
+Time for a review:
+
+<OrbitArea>
+  <OrbitPrompt question="How do you find out your current working directory?" answer="`pwd`"/>
+  <OrbitPrompt question="How do you show the contents of the current directory?" answer="`ls`"/>
+  <OrbitPrompt question="How do you show the contents of the directory `/home/beat/`?" answer="`ls /home/beat/`"/>
+  <OrbitPrompt question="How do you show the contents of the `lala` inside your current folder?" answer="`ls ./lala`"/>
+  <OrbitPrompt question="How do you show the contents of the directory one level above the one you're currently in?" answer="`ls ..`"/>
+  <OrbitPrompt question="Show all hidden files and folders." answer="`ls -a`"/>
+  <OrbitPrompt question="Change into the directory `lala`." answer="`cd lala`"/>
+  <OrbitPrompt question="Go one level up the directory tree." answer="`cd ..`"/>
+  <OrbitPrompt question="Jump to your home directory." answer="`cd ~`"/>
+  <OrbitPrompt question="Jump to the last visited directory." answer="`cd -`"/>
+  <OrbitPrompt question="Assume you don't know anymore what `ls` does (and you don't have internet). How would you find help?"
+  answer="- `ls --help`
+  - `man ls`"/>
+  <OrbitPrompt question="Let's do that for another command. How would you find out what `cp` does?"
+  answer="- `cp --help`
+  - `man cp`"/>
+</OrbitArea>
+
+That was [Orbit](https://withorbit.com/), a tool for blending learning with text.
+This guide assumes that you know all of these questions from now on (and then for forever)—so, please, check your email regularly from now on :)
+
+And with that, on to the next part: [3. Working With Files and Directories](https://swcarpentry.github.io/shell-novice/03-create.html#top)
+
+Done?
+
+Then it's review time, again:
+
+<OrbitArea>
+  <OrbitPrompt question="Create directory a directory called `this_dir`." answer="`mkdir this_dir`"/>
+  <OrbitPrompt question="Create two directories consecutively: `outer_dir` and `inner_dir`." answer="`mkdir -p outer_dir/inner_dir`"/>
+  <OrbitPrompt question="Create a new file (two ways)" answer="
+  - `touch newfile`
+  - `nano newfile`, follwed by `Ctrl+o` & `Ctrl+x`
+  "/>
+  <OrbitPrompt question="What are the ways tools indicate 'Hold Control, then press x'?" answer="
+  - `Control-X`
+  - `Control+X`
+  - `Ctrl-X`
+  - `Ctrl+X`
+  - `^X`
+  - `C-x`
+  "/>
+  <OrbitPrompt question="Delete a file" answer="`rm filepath`"/>
+  <OrbitPrompt question="Delete a directory" answer="`rm -r mydir`"/>
+  <OrbitPrompt question="Rename a file" answer="`mv oldname newname`"/>
+  <OrbitPrompt question="Move a file" answer="`mv filepath destination_folder/`"/>
+  <OrbitPrompt question="Copy all pdf files to `./pdfs/`" answer="`cp *.pdf ./pdfs/`"/>
+</OrbitArea>
+
+And on to [4. Pipes and Filters](https://swcarpentry.github.io/shell-novice/04-pipefilter.html):
+
+<OrbitArea>
+  <OrbitPrompt question="Print a file's contents to the shell" answer="`cat file.txt`"/>
+  <OrbitPrompt question="Print a file's contents, but sort the lines" answer="`cat file.txt | sort`"/>
+  <OrbitPrompt question="Print a file's contents, but sort the lines (now they contain numbers), and take only the last five lines" answer="`cat file.txt | sort -n | tail -n 5`"/>
+  <OrbitPrompt question="Append one line to an existing file `file.txt` (not using an editor)" answer="`echo 'the new line' >> file.txt`"/>
+</OrbitArea>
+
+
+
+Now, in case you'd like to have some fun and test your knowledge a bit more thoroughly:  
+> Complete the [Twelve days of shell](https://12days.cmdchallenge.com/), and, if you're feeling adventurous, as much of the [cmdchallenge](https://cmdchallenge.com/) as you can (or want to) do.
 
 # Intermezzo: Installing stuff
 
