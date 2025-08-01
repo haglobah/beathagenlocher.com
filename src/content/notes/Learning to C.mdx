@@ -339,10 +339,16 @@ $ which gcc
 /nix/store/...-hello-2.12.2/bin/hello
 ```
 
-And we've installed gcc!
+And we've installed gcc.
+
+Review time :)
 
 <OrbitArea>
-  <OrbitPrompt question="" answer="" />
+  <OrbitPrompt question="What does 'installing a program' mean in the context of command line tools?" answer="Making it available for execution - so you can run the command from anywhere"/>
+  <OrbitPrompt question="What file defines a Nix development environment?" answer="`flake.nix`"/>
+  <OrbitPrompt question="How do you enter a Nix development shell?" answer="`nix develop`"/>
+  <OrbitPrompt question="How do you check if a command is available and where it's located?" answer="`which commandname`"/>
+  <OrbitPrompt question="In a Nix flake, where do you specify which packages should be available in your development shell?" answer="In the `packages = [ ... ]` list inside `devShells.default`"/>
 </OrbitArea>
 
 <Draft>
