@@ -3,7 +3,7 @@ title: Learning to C
 description: "A mastery guide for the ugly side of programming"
 growthStage: seedling
 startDate: 2025-07-29T00:52:40
-updated: 2025-08-01T02:35:48
+updated: 2025-08-26T00:47:12
 topics: [C, Programming, Learning]
 publish: true
 ---
@@ -336,7 +336,7 @@ Another `nix develop` and it should be there:
 
 ```shell
 $ which gcc
-/nix/store/...-hello-2.12.2/bin/hello
+/nix/store/1d75h3ii...-gcc-wrapper-15.1.0/bin/gcc
 ```
 
 And we've installed gcc.
@@ -351,11 +351,91 @@ Review time :)
   <OrbitPrompt question="In a Nix flake, where do you specify which packages should be available in your development shell?" answer="In the `packages = [ ... ]` list inside `devShells.default`"/>
 </OrbitArea>
 
-<Draft>
 
 # 2. C basics, Part I
 
-## 
+Okay, so now we've finally got a C compiler available. Let's write our first C program, and compile it with it.
+
+You know the drill by now:
+1. Open up an editor
+2. Write the program
+3. Save the file
+
+So, staying in the directory with the `flake.nix` file, _after_ you've executed `nix develop`:
+
+```shell
+nano main.c
+```
+
+Add the following content:
+
+```c
+#include <stdio.h>
+
+int main() {
+  printf("Hello, World!");
+  return (0);
+}
+```
+
+
+Save the file, And then, compile it:
+
+```shell
+gcc main.c
+```
+
+This produces a new file `a.out` you can execute via:
+
+```shell
+./a.out
+Hello, World!⏎
+```
+
+And with this, you've completed the first part of basically any programming language introduction: The [Hello, World! program](https://en.wikipedia.org/wiki/%22Hello,_World!%22_program)
+
+<Callout>
+Now, let's take some time to practice reading unfamiliar code.
+When trying to read unfamiliar code, you should:
+
+1. Check what you don't understand
+2. Find out what to google
+3. Google that
+4. Try to explain the piece of code to yourself.
+
+<ListMarker>1.</ListMarker>, you need to do yourself.  
+For <ListMarker>2.</ListMarker>, [[LLM]]s can be quite helpful.  
+<ListMarker>3.</ListMarker> just needs proper googling, and <ListMarker>4.</ListMarker>, you can only do yourself (again).
+
+In our example, that might mean:
+
+1. Getting that you don't understand what happening on the first line
+2. Asking claude what up with that, and it telling you that this tells the _C preprocessor_ to include a _header file_.
+3. Googling something among the lines of "C include statement", "C header file", "C preprocessor", "C preprocessor header file", "C header file example"
+4. And with this newfound knowledge: Trying to explain it again :)
+</Callout>
+
+Okay, nice! It's review time :)
+
+<OrbitArea>
+  <OrbitPrompt question="What's the file extension for C source code files?" answer="`.c`"/>
+  <OrbitPrompt question="How do you compile a C file called `main.c` using gcc?" answer="`gcc main.c`"/>
+  <OrbitPrompt question="What's the default name of the executable file created by gcc?" answer="`a.out`"/>
+  <OrbitPrompt question="How do you run an executable file called `a.out` in the current directory?" answer="`./a.out`"/>
+  <OrbitPrompt question="What does `#include <stdio.h>` do in a C program?" answer="It tells the C preprocessor to include the standard input/output header file"/>
+  <OrbitPrompt question="What does the `main()` function return in a typical C program?" answer="An integer (usually 0 for success)"/>
+  <OrbitPrompt question="What C function is used to print text to the console?" answer="`printf()`"/>
+  <OrbitPrompt question="Write the basic structure of a Hello World program in C." answer='```c
+#include <stdio.h>
+
+int main() {
+  printf("Hello, World!\");
+  return (0);
+}
+```'/>
+</OrbitArea>
+
+<Draft>
 
 # Intermezzo: Editor
 
