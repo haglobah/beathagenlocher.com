@@ -17,6 +17,7 @@ import ReferenceLink from './ReferenceLink.astro';
 import Draft from './Draft.astro';
 import OrbitArea from './OrbitArea.astro';
 import OrbitPrompt from './OrbitPrompt.astro';
+import Callout from './Callout.astro';
 
 export const components = {
     I,
@@ -27,6 +28,7 @@ export const components = {
     Draft,
     OrbitArea,
     OrbitPrompt,
+    Callout,
 
     a: Ol,
     innerlink: Il,
