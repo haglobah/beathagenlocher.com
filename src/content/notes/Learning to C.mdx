@@ -354,6 +354,8 @@ Review time :)
 
 # 2. C basics, Part I
 
+## Hello World
+
 Okay, so now we've finally got a C compiler available. Let's write our first C program, and compile it with it.
 
 You know the drill by now:
@@ -415,7 +417,9 @@ In our example, that might mean:
 4. And with this newfound knowledge: Trying to explain it again :)
 </Callout>
 
-Okay, nice! It's review time :)
+Now: Well, _do that_.
+
+And when you're finished: Review time! :)
 
 <OrbitArea>
   <OrbitPrompt question="What's the file extension for C source code files?" answer="`.c`"/>
@@ -433,14 +437,74 @@ int main() {
   return (0);
 }
 ```'/>
+
 </OrbitArea>
 
 <Draft>
 
 # Intermezzo: Editor
 
+Using `nano` surely has gotten a bit tedious by this point. Right?
+
+Let's fix that and use an editor people actually use as their daily driver.
+
+- depending on windows/unix, setup conection to WSL
+- install C extension
+- `keybindings.json`
+- `config.json`
+
+And with that: Onto some more functions.
+
 # 3. C basics, Part II
 
+- syscalls
+- strcmp
+- putchar
+
 # Intermezzo: Version Control
+
+So far, you've only worked locally and on one state of your file system.
+
+In the future, you might want to:
+- work on different PCs
+- collaborate on a codebase with different people
+- jump back in time
+- work on several avenue/features/chunks of code separately
+
+For all of this, one uses something called [[Version Control]].
+The main _Version Control System_ in distribution is something called _Git_.
+
+- With Git, you have repositories in which your code lives (similar to folders in which you can branch and time travel)
+- in those repositories, you store a snapshot of the folder in time (that's called a _commit_)
+- those commits form a directed acyclic graph
+- you can traverse and manipulate this graph
+- you can have these graphs on different machines by adding _remotes_
+
+Git has a command line tool, `git` with which all of this happens.
+
+Let's start and use it.
+
+First, install it. (Pause here and think: How can you install things again?)
+
+<Spoiler>
+
+Go to your `flake.nix` and add the following (gotten through searching `git` on https://search.nixos.org/)
+
+```nix
+packages = [
+  # ...other packages
+  pkgs.git
+]
+```
+
+</Spoiler>
+
+
+
+# Intermezzo: Testing
+
+# Intermezzo: Shell aliases
+
+# Intermezzo: Fish shell (+ abbreviations)
 
 </Draft>
