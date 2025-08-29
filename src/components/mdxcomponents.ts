@@ -18,6 +18,7 @@ import Draft from './Draft.astro';
 import OrbitArea from './OrbitArea.astro';
 import OrbitPrompt from './OrbitPrompt.astro';
 import Callout from './Callout.astro';
+import Spoiler from './Spoiler.astro';
 
 export const components = {
     I,
@@ -29,6 +30,7 @@ export const components = {
     OrbitArea,
     OrbitPrompt,
     Callout,
+    Spoiler,
 
     a: Ol,
     innerlink: Il,
