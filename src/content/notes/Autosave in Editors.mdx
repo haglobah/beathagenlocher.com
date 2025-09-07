@@ -1,0 +1,42 @@
+---
+title: Autosave in Editors
+description: "Saving by hand is just less simple"
+growthStage: seedling
+startDate: 2025-09-07T13:31:15
+updated: 2025-09-07T13:31:15
+topics: [Simplicity, Editors, Doom Emacs, Neovim, VS Code]
+publish: true
+---
+
+I think you very, very unambigiously want autosave in editors.
+
+# Emacs
+
+This is how you do it in [[Doom Emacs]]:
+
+```elisp
+(setq auto-save-visited-interval 0.1)
+(auto-save-visited-mode t)
+(global-auto-revert-mode t)
+(setq! doom-modeline-buffer-modification-icon nil)
+```
+
+# Neovim
+
+For Neovim, there's the `auto-save` package:
+
+```lua
+{
+    "Pocco81/auto-save.nvim",
+    config = function()
+       require("auto-save").setup {
+        -- your config goes here
+        -- or just leave it empty :)
+       }
+    end,
+  }
+```
+
+# VS Code
+
+For VS Code, it's super easy. Just search the settings for autosave :)
