@@ -91,6 +91,16 @@ const talksCollection = defineCollection({
     }),
 });
 
+const poemsCollection = defineCollection({
+  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/poems" }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      source: z.string(),
+      publish: z.boolean().default(false),
+    }),
+});
+
 // const podcastsCollection = defineCollection({
 //   loader: file("src/content/podcasts.json"),
 //   schema: ({ image }) =>
@@ -177,6 +187,7 @@ export const collections = {
   essays: essaysCollection,
   // patterns: patternsCollection,
   talks: talksCollection,
+  poems: poemsCollection,
   // podcasts: podcastsCollection,
   // books: booksCollection,
   // antibooks: antibooksCollection,

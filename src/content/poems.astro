@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content'
+
+const poems = await getCollection("poems")
+
+console.log(poems)
+
+---
+
+<div>
+  {poems.map((content) => {
+    <div class="content-item">
+      <WideCard to={content.id}
+                title={content.data.title}>
+      </WideCard>
+    </div>
+  })}
+</div>

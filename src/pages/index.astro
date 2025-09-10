@@ -12,6 +12,7 @@ import Knowledge from '../content/knowledge.astro'
 import Stream from '../content/stream.astro'
 import Essays from '../content/essays.astro'
 import Talks from '../content/talks.astro'
+import Poems from '../content/poems.astro'
 import {
   allTheContent,
   sortByUpdated, sortByStartDate,
@@ -110,6 +111,14 @@ const topics = getTopics(allTheContent)
         </h2>
         <div class="">
           <Talks />
+        </div>
+      </div>
+      <div class="col-span-12">
+        <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em] f-my-md">
+          Poems I enjoy
+        </h2>
+        <div class="">
+          <Poems />
         </div>
       </div>
     </div>
