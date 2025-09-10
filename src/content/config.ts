@@ -91,6 +91,17 @@ const talksCollection = defineCollection({
     }),
 });
 
+
+const quotesCollection = defineCollection({
+  loader: file("src/content/quotes.json"),
+  schema: () =>
+    z.object({
+      content: z.string(),
+      source: z.string(),
+      id: z.number(),
+    }),
+});
+
 // const podcastsCollection = defineCollection({
 //   loader: file("src/content/podcasts.json"),
 //   schema: ({ image }) =>
@@ -177,6 +188,7 @@ export const collections = {
   essays: essaysCollection,
   // patterns: patternsCollection,
   talks: talksCollection,
+  quotes: quotesCollection,
   // podcasts: podcastsCollection,
   // books: booksCollection,
   // antibooks: antibooksCollection,
