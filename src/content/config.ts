@@ -1,6 +1,5 @@
 import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
-// import { file } from "astro/loaders";
+import { glob, file } from "astro/loaders";
 
 const growthStageEnum = z.enum(["seedling", "budding", "evergreen"])
 
