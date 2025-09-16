@@ -1,0 +1,41 @@
+---
+title: Automations
+startDate: 2025-09-16T11:17:46
+topics: [Flow, Simplicity, Automation, Emacs]
+publish: true
+---
+
+Ever got annoyed by having to do a lot of very simple and repetitive actions?
+
+For solving that, being able to control your whole editor programmatically is _pretty neat_.
+
+It's not much, but just now I added a small new capability to my Emacs, which is:
+
+Being able to create those small blog post files from whereever I am.
+
+This is what it looks like:
+
+```elisp
+(defun bah/new-streamlet ()
+ (interactive)
+ (let* ((dg-root "~/beathagenlocher.com")
+        (stream-folder (doom-path dg-root "src" "content" "stream"))
+        (next-number (->> (directory-files stream-folder nil (rx ".mdx"))
+                          (map 'list
+                               (lambda (filename)
+                                 (string-to-number (file-name-sans-extension filename))))
+                          (sort)
+                          (reverse)
+                          (first)
+                          (+ 1)))
+        (next-streamlet-filename (concat (number-to-string next-number) ".mdx"))
+        (next-streamlet-path (doom-path stream-folder next-streamlet-filename)))
+   (with-temp-file next-streamlet-path (insert "stream"))
+   (find-file next-streamlet-path)
+   (move-end-of-line nil)
+   (evil-append 0)))
+
+(map! :leader
+      :prefix ("e" . "personal")
+      :desc "Writing: Streamlet" :nv "s" #'bah/new-streamlet)
+```
