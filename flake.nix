@@ -31,6 +31,7 @@
           ];
           packages = with pkgs; [
             nodejs_22
+            typescript-language-server
             just
           ];
           commands = [

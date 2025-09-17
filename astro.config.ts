@@ -11,7 +11,7 @@ import sitemap from '@astrojs/sitemap';
 
 import expressiveCode from 'astro-expressive-code';
 
-const permalinks = (await getPermalinks("src/content/"))
+const permalinks = getPermalinks("src/content/")
       .map((el) => {
         let contentTitle = el.split("/")[1]
         return contentTitle;
@@ -37,13 +37,13 @@ export default defineConfig({
         [wikiLinkPlugin, {
           pathFormat: 'obsidian-short',
           permalinks: permalinks,
-          wikiLinkResolver: function(theslug) {
+          wikiLinkResolver: function(theslug: string) {
             return [theslug];
           },
-          pageResolver: function(theslug) {
+          pageResolver: function(theslug: string) {
             return [theslug];
           },
-          hrefTemplate: function(permalink) {
+          hrefTemplate: function(permalink: string) {
             return slug(permalink);
           },
         }],
