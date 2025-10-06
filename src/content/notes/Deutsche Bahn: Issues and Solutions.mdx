@@ -38,7 +38,12 @@ Aand this is what it looks/looked like on NixOS:
 
 ```nix
 virtualisation.docker.daemon.settings = {
-  
+  default-address-pools = [
+    {
+      base = "172.30.0.0/16";
+      size = 24;
+    }
+  ];
 };
 ```
 
