@@ -1,6 +1,7 @@
 ---
 import { SEO } from "astro-seo";
 import MainPageIconButton from "../components/MainPageIconButton.astro";
+import CommandPalette from '../components/CommandPalette.astro'
 
 export interface Props {
 	title?: string;
@@ -66,6 +67,7 @@ declare global {
 		>
 	</head>
 	<body class="font-sans font-normal f-text-sm bg-zinc-800 text-zinc-300 leading-[1.6] antialiased selection:bg-sienna-light selection:text-zinc-800 max-w-screen-xl mx-auto scroll-smooth">
+		<CommandPalette />
 		<div class="flex f-my-xl justify-center">
 			<MainPageIconButton classStyle="f-w-128-164"/>
 		</div>
@@ -74,3 +76,22 @@ declare global {
 		</main>
 	</body>
 </html>
+
+<script>
+  import { registerCommands } from '../store.ts';
+
+  registerCommands([
+    {
+      id: 'home',
+      name: 'Go Home',
+      description: 'Navigate to homepage',
+      handler: () => window.location.href = '/',
+      keywords: ['navigate', 'index']
+    },
+    {
+      id: 'theme',
+      name: 'Toggle Theme',
+      handler: () => console.log('Toggle theme'),
+    },
+  ]);
+</script>

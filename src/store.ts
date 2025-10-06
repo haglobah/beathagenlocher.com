@@ -1,4 +1,4 @@
-import { atom, computed } from 'nanostores';
+import { atom, computed } from "nanostores";
 
 // Store for selected topics
 export const selectedTopics = atom([]);
@@ -9,7 +9,7 @@ export function toggleTopic(topic) {
 
   if (currentTopics.includes(topic)) {
     // Remove topic if already selected
-    selectedTopics.set(currentTopics.filter(t => t !== topic));
+    selectedTopics.set(currentTopics.filter((t) => t !== topic));
   } else {
     // Add topic if not selected
     selectedTopics.set([...currentTopics, topic]);
@@ -28,6 +28,26 @@ export const shouldShowContent = computed(selectedTopics, (topics) => {
 
   // Otherwise, check if content has at least one of the selected topics
   return (contentTopics) => {
-    return contentTopics.some(topic => topics.includes(topic));
+    return contentTopics.some((topic) => topics.includes(topic));
   };
 });
+
+export interface CommandItem {
+  id: string;
+  name: string;
+  description?: string;
+  handler: () => void;
+  keywords?: string[];
+}
+// Store for command items
+export const $commandItems = atom<CommandItem[]>([]);
+
+// Register commands
+export function registerCommands(items: CommandItem[]) {
+  $commandItems.set(items);
+}
+
+// Add commands (append to existing)
+export function addCommands(items: CommandItem[]) {
+  $commandItems.set([...$commandItems.get(), ...items]);
+}
