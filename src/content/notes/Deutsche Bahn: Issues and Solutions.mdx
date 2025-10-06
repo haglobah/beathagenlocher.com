@@ -18,14 +18,28 @@ If a few of the following apply:
 
 Then it's probable that the sockets have been worn out by the slightly bigger Schuko chargers, and you need to use one of them as well.
 
-<Draft>
-
 # Help! My Wifi doesn't work!
 
 1. Do you have a Docker installation on your laptop?
 -> DB seems to sometimes use one of the IPs the Docker Daemon uses, which results in a conflict, which renders the wifi nonfunctional
 
 - Possible solution #1: Disable Docker for the Time being
-- Possible solution #2: Make the Docker Daemon use another IP (you apparently can configure something like that, I haven't researched it yet.)
+- Possible solution #2: Make the Docker Daemon use another IP
+
+## #2: Make the Daemon use another IP
+There's possible solutions here
+- https://unix.stackexchange.com/questions/539257/wlan-wifionice-deutsche-bahn-not-working-with-docker-installed
+- https://dev.to/ingosteinke/comment/21075
+- https://www.erikdonner.dev/2024/11/01/wlan-im-ice-mit-linux-und-docker/
+- https://gist.github.com/sunsided/7840e89ff4e11b64a2d7503fafa0290c
+
+<Draft>
+Aand this is what it looks/looked like on NixOS:
+
+```nix
+virtualisation.docker.daemon.settings = {
+  
+};
+```
 
 </Draft>
