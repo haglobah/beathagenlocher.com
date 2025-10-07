@@ -1,9 +1,9 @@
 ---
-title: "Deutsche Bahn: Issues and Solutions"
+title: Deutsche Bahn | Issues and Solutions
 description: "Things that can go wrong in DB trains and how to (sometimes) resolve them"
 growthStage: seedling
 startDate: 2025-10-04T21:53:29
-updated: 2025-10-04T21:53:31
+updated: 2025-10-08T01:21:57
 topics: [DB]
 publish: true
 ---
@@ -20,21 +20,26 @@ Then it's probable that the sockets have been worn out by the slightly bigger Sc
 
 # Help! My Wifi doesn't work!
 
-1. Do you have a Docker installation on your laptop?
+## #1: Do you have a Docker installation on your laptop?
 -> DB seems to sometimes use one of the IPs the Docker Daemon uses, which results in a conflict, which renders the wifi nonfunctional
 
 - Possible solution #1: Disable Docker for the Time being
 - Possible solution #2: Make the Docker Daemon use another IP
 
 ## #2: Make the Daemon use another IP
-There's possible solutions here
+There's possible solutions here:
 - https://unix.stackexchange.com/questions/539257/wlan-wifionice-deutsche-bahn-not-working-with-docker-installed
 - https://dev.to/ingosteinke/comment/21075
 - https://www.erikdonner.dev/2024/11/01/wlan-im-ice-mit-linux-und-docker/
 - https://gist.github.com/sunsided/7840e89ff4e11b64a2d7503fafa0290c
 
-<Draft>
-Aand this is what it looks/looked like on NixOS:
+All of them coming down to variations of:
+
+- IPs in `172.18.0.0/16` seem to collide with the DB wifi capitive portal login page
+- You need to tell docker to not use these IPs.
+- There's a few ways to do that, but the least intrusive one seems to tell docker to use another address pool for its networks.
+
+So, this is what the solution looks like for me on NixOS (probably, I'm gonna try it out the next time I'm on an ICE)
 
 ```nix
 virtualisation.docker.daemon.settings = {
@@ -46,5 +51,3 @@ virtualisation.docker.daemon.settings = {
   ];
 };
 ```
-
-</Draft>
