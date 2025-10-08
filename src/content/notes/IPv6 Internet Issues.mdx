@@ -1,0 +1,37 @@
+---
+title: IPv6 Internet Issues
+startDate: 2025-10-09T01:20:25
+topics: [IPv6, Networking]
+publish: true
+---
+
+For the second time in a few months, I've had a pretty annoying experience regarding computer networks:
+
+I had internet access, but websites would take ages to load.
+
+Turns out that there's routers that just don't support IPv6 _at all_.
+
+But my OS always tries to establish an IPv6 connection first, backs off for a bit, and then falls back to IPv4, which then works.
+
+So if:
+
+- websites take relatively long to resolve, but then load fast
+- but pings are fast `ping github.com`
+
+You might want to check whether IPv6 works:
+
+```shell
+curl --verbose -4 github.com # should resolve
+curl --verbose -6 github.com # should break if IPv6 is the issue
+```
+
+Then you need to somehow disable IPv6 to resolve those long loading times.
+
+What worked on NixOS for me was the nuclear option—disabling IPv6 in the kernel:
+
+```nix
+# in configuration.nix
+config = {
+  boot.kernelParams = [ "ipv6.disable=1" ];
+}
+```
