@@ -32,3 +32,10 @@ publish: true
       :desc "Change to framework font size" :g "!" (cmd! (doom/increase-font-size 4))
       :desc "Reset UI font size" :g "=" #'doom/reset-font-size)
 ```
+
+# Don't pollute the kill ring
+
+```elisp
+(map! :i "C-<backspace>" #'doom/delete-backward-word
+      :i "C-<delete>" #'delete-word)
+```
