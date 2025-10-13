@@ -1,0 +1,34 @@
+---
+title: (Doom) Emacs Config Bits
+description: "Configuration parts you might want know"
+growthStage: seedling
+startDate: 2025-10-13T18:13:59
+updated: 2025-10-13T18:14:04
+topics: [Emacs]
+publish: true
+---
+
+# Speeding up lsp-mode
+
+- [emacs-lsp-booster](https://github.com/blahgeek/emacs-lsp-booster)
+- [lsp-mode | performance](https://emacs-lsp.github.io/lsp-mode/page/performance/)
+
+# Setting the battery indicator
+
+```elisp
+;; config.el
+(custom-set-variables
+ '(display-battery-mode +1)
+ '(battery-load-low 30)
+ '(battery-load-critical 15))
+```
+
+# Easier font setting
+
+```elisp
+(map! :leader
+      :desc "Decrease UI font size" :g "-" #'doom/decrease-font-size
+      :desc "Increase UI font size" :g "+" #'doom/increase-font-size
+      :desc "Change to framework font size" :g "!" (cmd! (doom/increase-font-size 4))
+      :desc "Reset UI font size" :g "=" #'doom/reset-font-size)
+```
