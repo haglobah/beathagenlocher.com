@@ -55,7 +55,8 @@ export default defineConfig({
         inter: 'Inter:100,200,300,400,500,600,700,800,900:italic',
         noto: 'Noto Serif:100,200,300,400,500,600,700,800,900:italic',
         mono: 'Fira Code:100,200,300,400,500,600,700,800,900:italic',
-        serif: 'IBM Plex Serif:100,200,300,400,500,600,700,800,900:italic'
+        serif: 'IBM Plex Serif:100,200,300,400,500,600,700,800,900:italic',
+        headline: 'Mozilla Headline:100,200,300,400,500,600,700,800,900:italic'
       },
     }),
     presetWind(),
