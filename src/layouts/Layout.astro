@@ -4,10 +4,10 @@ import MainPageIconButton from "../components/MainPageIconButton.astro";
 import CommandPalette from '../components/CommandPalette.astro'
 
 export interface Props {
-	title?: string;
-	desc?: string;
-	type?: string;
-	coverImage?: string;
+  title?: string;
+  desc?: string;
+  type?: string;
+  coverImage?: string;
 }
 
 const { title, desc, type, coverImage } = Astro.props;
@@ -28,53 +28,53 @@ const ogImageURL = type
 
 // Only add search params for non-content pages (like the homepage)
 if (!type) {
-	if (title) ogImageURL.searchParams.set("title", title);
-	if (desc) ogImageURL.searchParams.set("description", desc);
-	if (coverImage) ogImageURL.searchParams.set("coverImage", coverImage);
+  if (title) ogImageURL.searchParams.set("title", title);
+  if (desc) ogImageURL.searchParams.set("description", desc);
+  if (coverImage) ogImageURL.searchParams.set("coverImage", coverImage);
 }
 
 // Google Analytics type declarations
 declare global {
-	interface Window {
-		dataLayer: any[];
-		gtag: (...args: any[]) => void;
-	}
+  interface Window {
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
 }
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="sitemap" href="/sitemap-index.xml" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<link rel="stylesheet" href="/preflight.css">
-		<link rel="stylesheet" href="/style.css">
-		<script type="module" src="https://js.withorbit.com/orbit-web-component.js"></script>
-		<SEO
-			title={title}
-				  description={ desc || "Beat's digital garden filled with written thinking" }
-				  openGraph={{
-				  basic: {
-				  type: "website",
-				  url: Astro.url.href,
-				  title: title || "Beat Hagenlocher",
-				  image: ogImageURL.toString(),
-				  }
-				  }}
-		>
-	</head>
-	<body class="font-sans font-normal f-text-sm bg-zinc-800 text-zinc-300 leading-[1.6] antialiased selection:bg-sienna-light selection:text-zinc-800 max-w-screen-xl mx-auto scroll-smooth">
-		<CommandPalette />
-		<div class="flex f-my-xl justify-center">
-			<MainPageIconButton classStyle="f-w-128-164"/>
-		</div>
-		<main class="f-mb-md min-h-screen">
-			<slot />
-		</main>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="stylesheet" href="/preflight.css">
+    <link rel="stylesheet" href="/style.css">
+    <script type="module" src="https://js.withorbit.com/orbit-web-component.js"></script>
+    <SEO
+      title={title}
+          description={ desc || "Beat's digital garden filled with written thinking" }
+          openGraph={{
+          basic: {
+          type: "website",
+          url: Astro.url.href,
+          title: title || "Beat Hagenlocher",
+          image: ogImageURL.toString(),
+          }
+          }}
+    >
+  </head>
+  <body class="font-sans font-normal f-text-sm bg-zinc-800 text-zinc-300 leading-[1.6] antialiased selection:bg-sienna-light selection:text-zinc-800 max-w-screen-xl mx-auto scroll-smooth">
+    <CommandPalette />
+    <div class="flex f-my-xl justify-center">
+      <MainPageIconButton classStyle="f-w-128-164"/>
+    </div>
+    <main class="f-mb-md min-h-screen">
+      <slot />
+    </main>
+  </body>
 </html>
 
 <script>
