@@ -25,6 +25,9 @@
     "mdast-util-wiki-link": "^0.1.2",
     "micromark-util-symbol": "^2.0.1",
     "nanostores": "^1.0.1",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.7.0",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
