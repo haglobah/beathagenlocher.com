@@ -29,14 +29,37 @@ const { placeholder = 'Search commands...' } = Astro.props
   import { atom } from 'nanostores'
   import { $commandItems } from '../store.ts'
 
+  interface SearchResult {
+    id: string
+    type: string
+    title: string
+    description: string
+    url: string
+    body: string
+  }
+
   let isOpen = false
   let selectedIndex = 0
-  let filteredItems: CommandItem[] = []
+  let filteredItems: (CommandItem | SearchResult)[] = []
+  let searchIndex: SearchResult[] = []
+  let searchIndexLoaded = false
 
   const palette = document.getElementById('command-palette')!
   const input = document.getElementById('palette-input') as HTMLInputElement
   const results = document.getElementById('palette-results')!
   const backdrop = document.getElementById('palette-backdrop')!
+
+  // Load search index
+  async function loadSearchIndex() {
+    if (searchIndexLoaded) return
+    try {
+      const response = await fetch('/api/search-index.json')
+      searchIndex = await response.json()
+      searchIndexLoaded = true
+    } catch (error) {
+      console.error('Failed to load search index:', error)
+    }
+  }
 
   function open() {
     isOpen = true
@@ -44,6 +67,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     palette.classList.add('flex')
     input.focus()
     selectedIndex = 0
+    loadSearchIndex() // Load index when opening
     render()
   }
 
@@ -65,10 +89,23 @@ const { placeholder = 'Search commands...' } = Astro.props
     return qi === q.length
   }
 
-  function filter(query: string): CommandItem[] {
-    if (!query) return $commandItems.get()
+  function searchContent(query: string): SearchResult[] {
+    if (!query || !searchIndexLoaded) return []
+    
+    return searchIndex
+      .filter((item) => {
+        const searchText = [
+          item.title,
+          item.description,
+          item.body,
+        ].join(' ')
+        return fuzzyMatch(query, searchText)
+      })
+      .slice(0, 10) // Limit results
+  }
 
-    return $commandItems.get().filter((item) => {
+  function filter(query: string): (CommandItem | SearchResult)[] {
+    const commands = $commandItems.get().filter((item) => {
       const searchText = [
         item.name,
         item.description || '',
@@ -76,6 +113,18 @@ const { placeholder = 'Search commands...' } = Astro.props
       ].join(' ')
       return fuzzyMatch(query, searchText)
     })
+
+    const contentResults = searchContent(query)
+
+    // If no query, show only commands
+    if (!query) return commands
+
+    // Combine commands and content results
+    return [...commands, ...contentResults]
+  }
+
+  function isSearchResult(item: any): item is SearchResult {
+    return 'url' in item && 'type' in item
   }
 
   function render() {
@@ -84,26 +133,46 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     if (filteredItems.length === 0) {
       results.innerHTML =
-        '<div class="px-4 py-8 text-center text-zinc-500">No commands found</div>'
+        '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
       return
     }
 
     results.innerHTML = filteredItems
       .map((item, index) => {
         const isSelected = index === selectedIndex
-        return `
-          <div
-            class="px-4 py-3 cursor-pointer transition-colors ${
-              isSelected
-                ? 'bg-zinc-800 text-zinc-100'
-                : 'text-zinc-300 hover:bg-zinc-800'
-            }"
-            data-index="${index}"
-          >
-            <div class="font-medium">${item.name}</div>
-            ${item.description ? `<div class="text-sm text-zinc-500">${item.description}</div>` : ''}
-          </div>
-        `
+        
+        if (isSearchResult(item)) {
+          return `
+            <div
+              class="px-4 py-3 cursor-pointer transition-colors ${
+                isSelected
+                  ? 'bg-zinc-800 text-zinc-100'
+                  : 'text-zinc-300 hover:bg-zinc-800'
+              }"
+              data-index="${index}"
+            >
+              <div class="flex items-center gap-2">
+                <span class="text-xs px-2 py-0.5 rounded bg-zinc-700 text-zinc-400">${item.type}</span>
+                <div class="font-medium">${item.title}</div>
+              </div>
+              ${item.description ? `<div class="text-sm text-zinc-500 mt-1">${item.description}</div>` : ''}
+            </div>
+          `
+        } else {
+          return `
+            <div
+              class="px-4 py-3 cursor-pointer transition-colors ${
+                isSelected
+                  ? 'bg-zinc-800 text-zinc-100'
+                  : 'text-zinc-300 hover:bg-zinc-800'
+              }"
+              data-index="${index}"
+            >
+              <div class="font-medium">${item.name}</div>
+              ${item.description ? `<div class="text-sm text-zinc-500">${item.description}</div>` : ''}
+            </div>
+          `
+        }
       })
       .join('')
 
@@ -116,9 +185,13 @@ const { placeholder = 'Search commands...' } = Astro.props
     })
   }
 
-  function execute(item: CommandItem) {
+  function execute(item: CommandItem | SearchResult) {
     close()
-    item.handler()
+    if (isSearchResult(item)) {
+      window.location.href = item.url
+    } else {
+      item.handler()
+    }
   }
 
   function moveSelection(delta: number) {
