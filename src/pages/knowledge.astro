@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from '../layouts/Layout.astro'
 
 import BadgeSelection from '../components/BadgeSelection.astro'
 import ClampWrapper from '../components/ClampWrapper.astro'
@@ -7,18 +7,18 @@ import Heading from '../components/Heading.astro'
 
 import Knowledge from '../content/knowledge.astro'
 import {
-  publishedKnowledge, draftKnowledge,
-  getTopics
+  publishedKnowledge,
+  draftKnowledge,
+  getTopics,
 } from '../content/content.ts'
 
 const noteTopics = getTopics([publishedKnowledge, draftKnowledge])
-
 ---
 
 <Layout title="Knowledge">
   <div class="f-mx-md">
     <ClampWrapper clampHeight="250">
-      <BadgeSelection size="f-text-sm" topics={noteTopics}/>
+      <BadgeSelection size="f-text-sm" topics={noteTopics} />
     </ClampWrapper>
     <div class="f-my-xl grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
       <Heading>Knowledge</Heading>
@@ -28,7 +28,7 @@ const noteTopics = getTopics([publishedKnowledge, draftKnowledge])
 </Layout>
 
 <script>
- import runInteraction from '../components/badgeSelectionInteraction.js'
+  import runInteraction from '../components/badgeSelectionInteraction.js'
 
- runInteraction()
+  runInteraction()
 </script>

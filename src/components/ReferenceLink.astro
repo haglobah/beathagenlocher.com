@@ -1,18 +1,12 @@
 ---
-
 import Ol from './OuterLink.astro'
 
 const { author, ...props } = Astro.props
-
 ---
 
 <div class="f-my-md">
   <Ol {...props}>
     <slot />
   </Ol>
-  {author &&
-    <div class="text-zinc-400">
-      {author}
-    </div>
-  }
+  {author && <div class="text-zinc-400">{author}</div>}
 </div>

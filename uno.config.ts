@@ -4,7 +4,7 @@ import {
   presetWind,
   presetWebFonts,
   presetIcons,
- } from 'unocss'
+} from 'unocss'
 import { presetFluid } from 'unocss-preset-fluid'
 
 export default defineConfig({
@@ -12,13 +12,17 @@ export default defineConfig({
     entry: [
       {
         patterns: [
-          '**/*.html', '*.html',
-          '**/*.md', '*.md',
-          '**/*.mdx', '*.mdx',
-          '**/*.astro', '*.astro',
+          '**/*.html',
+          '*.html',
+          '**/*.md',
+          '*.md',
+          '**/*.mdx',
+          '*.mdx',
+          '**/*.astro',
+          '*.astro',
         ],
-        outFile: 'public/uno.css'
-      }
+        outFile: 'public/uno.css',
+      },
     ], // CliEntryItem | CliEntryItem[]
   },
   transformers: [transformerDirectives()],
@@ -42,8 +46,8 @@ export default defineConfig({
       ...theme,
       breakpoints: {
         xs: '520px',
-        ...theme.breakpoints
-      }
+        ...theme.breakpoints,
+      },
     }
   },
   presets: [
@@ -56,7 +60,7 @@ export default defineConfig({
         noto: 'Noto Serif:100,200,300,400,500,600,700,800,900:italic',
         mono: 'Fira Code:100,200,300,400,500,600,700,800,900:italic',
         serif: 'IBM Plex Serif:100,200,300,400,500,600,700,800,900:italic',
-        headline: 'Mozilla Headline:100,200,300,400,500,600,700,800,900:italic'
+        headline: 'Mozilla Headline:100,200,300,400,500,600,700,800,900:italic',
       },
     }),
     presetWind(),
@@ -74,9 +78,9 @@ export default defineConfig({
         '2xl': [25.63, 43.95],
         xl: [22.78, 35.16],
         lg: [20.25, 28.13],
-        md: [18.00, 22.50],
-        sm: [16.00, 18.00],
-        xs: [14.22, 14.40],
+        md: [18.0, 22.5],
+        sm: [16.0, 18.0],
+        xs: [14.22, 14.4],
         '2xs': [12.64, 11.52],
       },
       commentHelpers: false,

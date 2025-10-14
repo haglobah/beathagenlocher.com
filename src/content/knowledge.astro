@@ -1,35 +1,45 @@
 ---
-
 import WideCard from '../components/WideCard.astro'
 
-import {
-  publishedKnowledge, draftKnowledge,
-  sortByUpdated,
-} from './content.ts'
+import { publishedKnowledge, draftKnowledge, sortByUpdated } from './content.ts'
 
-const topics = [... new Set([publishedKnowledge, draftKnowledge]
-  .flatMap((collection) =>
-    collection.flatMap(({ data }) =>
-      data.topics
-)))]
+const topics = [
+  ...new Set(
+    [publishedKnowledge, draftKnowledge].flatMap((collection) =>
+      collection.flatMap(({ data }) => data.topics),
+    ),
+  ),
+]
 
 import { components } from '../components/mdxcomponents.ts'
-
 ---
 
-  {sortByUpdated(publishedKnowledge).map((content) => (
+{
+  sortByUpdated(publishedKnowledge).map((content) => (
     <div class="content-item" data-topics={JSON.stringify(content.data.topics)}>
-      <WideCard to={content.id}
-                title={content.data.title}
-                topics={content.data.topics}
-      >{content.data.description}</WideCard>
+      <WideCard
+        to={content.id}
+        title={content.data.title}
+        topics={content.data.topics}
+      >
+        {content.data.description}
+      </WideCard>
     </div>
-  ))}
-  {sortByUpdated(draftKnowledge).map((content) => (
-    <div class="content-item opacity-50" data-topics={JSON.stringify(content.data.topics)}>
-      <WideCard to={content.id}
-                title={content.data.title}
-                topics={content.data.topics}
-      >{content.data.description}</WideCard>
+  ))
+}
+{
+  sortByUpdated(draftKnowledge).map((content) => (
+    <div
+      class="content-item opacity-50"
+      data-topics={JSON.stringify(content.data.topics)}
+    >
+      <WideCard
+        to={content.id}
+        title={content.data.title}
+        topics={content.data.topics}
+      >
+        {content.data.description}
+      </WideCard>
     </div>
-  ))}
+  ))
+}

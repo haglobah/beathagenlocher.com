@@ -1,200 +1,245 @@
 ---
 export interface Props {
-  topics: string[];
-  size?: string;
+  topics: string[]
+  size?: string
 }
-const { topics: allTopics, size } = Astro.props;
-import Badge from './Badge.astro';
-import Button from './Button.astro';
-import { slug as slugger } from 'github-slugger';
+const { topics: allTopics, size } = Astro.props
+import Badge from './Badge.astro'
+import Button from './Button.astro'
+import { slug as slugger } from 'github-slugger'
 
 const sortedTopics = allTopics
   .sort((a, b) => a[0].localeCompare(b[0]))
   .sort((a, b) => b[1] - a[1])
 
-const topicsWithSlugs = sortedTopics.map(topic => {
-    return {
-      name: topic[0],
-      count: topic[1],
-      slug: slugger(topic)
-}});
+const topicsWithSlugs = sortedTopics.map((topic) => {
+  return {
+    name: topic[0],
+    count: topic[1],
+    slug: slugger(topic),
+  }
+})
 
-const instructionTextBaseClasses = "text-zinc-400 f-px-xs flex items-center transition-opacity duration-300 ease-in-out";
-
+const instructionTextBaseClasses =
+  'text-zinc-400 f-px-xs flex items-center transition-opacity duration-300 ease-in-out'
 ---
+
 <div id="topic-filter" class="topic-filter flex flex-col justify-between">
   <!-- Selected topics section -->
-  <div id="selected-topics-container" class="relative shrink-0 grow f-mt-sm f-min-h-lg border border-dashed border-zinc-700 rounded-xl f-p-sm">
-    <div id="selected-topics" class="flex flex-wrap gap-2 f-min-h-lg items-center w-[90%]">
+  <div
+    id="selected-topics-container"
+    class="relative shrink-0 grow f-mt-sm f-min-h-lg border border-dashed border-zinc-700 rounded-xl f-p-sm"
+  >
+    <div
+      id="selected-topics"
+      class="flex flex-wrap gap-2 f-min-h-lg items-center w-[90%]"
+    >
       <!-- Selected topic elements will be moved here -->
-      <span id="selected-placeholder" class="text-zinc-500 italic f-text-xs">Selected filters will appear here...</span>
+      <span id="selected-placeholder" class="text-zinc-500 italic f-text-xs"
+        >Selected filters will appear here...</span
+      >
     </div>
 
     <div class="absolute inset-y-3 right-3 flex items-start">
-      <Button id="clear-topics" class="my-auto f-text-sm transition-opacity opacity-0 pointer-events-none">
+      <Button
+        id="clear-topics"
+        class="my-auto f-text-sm transition-opacity opacity-0 pointer-events-none"
+      >
         Clear
       </Button>
     </div>
   </div>
 
   <!-- Instruction text container -->
-  <div id="instruction-text-container" class="f-my-sm f-mx-2xs flex justify-start gap-8 f-text-xs">
+  <div
+    id="instruction-text-container"
+    class="f-my-sm f-mx-2xs flex justify-start gap-8 f-text-xs"
+  >
     <!-- Text that appears when topics can be removed -->
-    <div id="has-selection-text" class:list={[instructionTextBaseClasses, "opacity-0 text-center"]}>
-      Click topic <span class="i-heroicons:arrow-up-20-solid inline-block relative mx-1 size-5 text-cornflower"></span> to remove
+    <div
+      id="has-selection-text"
+      class:list={[instructionTextBaseClasses, 'opacity-0 text-center']}
+    >
+      Click topic <span
+        class="i-heroicons:arrow-up-20-solid inline-block relative mx-1 size-5 text-cornflower"
+      ></span> to remove
     </div>
     <!-- Text that appears when topics can be added -->
-    <div id="not-all-selection-text" class:list={[instructionTextBaseClasses, "opacity-100 text-center"]}>
-      Click topic <span class="i-heroicons:arrow-down-20-solid inline-block relative mx-1 size-5 text-cornflower"></span> to add filter
+    <div
+      id="not-all-selection-text"
+      class:list={[instructionTextBaseClasses, 'opacity-100 text-center']}
+    >
+      Click topic <span
+        class="i-heroicons:arrow-down-20-solid inline-block relative mx-1 size-5 text-cornflower"
+      ></span> to add filter
     </div>
   </div>
 
   <!-- Available topics section - All topics start here -->
-  <div id="available-topics" class="flex flex-wrap gap-2 f-mx-2xs min-h-[40px] flex-1 overflow-y-auto">
-    {topicsWithSlugs.map(({ name: topic, count: count, slug: slug }) => (
-      <div
-        id={"topic-wrapper-" + slug}
-        data-topic={topic}
-        class="topic-wrapper cursor-pointer transition-[opacity,transform] duration-300 ease-in-out hover:scale-105 focus:scale-105 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cornflower focus-visible:rounded"
-        aria-label={`Toggle topic: ${topic}`}
-        role="button"
-        tabindex="0"
-      >
-        <Badge topic={topic} count={count} size={size} />
-      </div>
-    ))}
+  <div
+    id="available-topics"
+    class="flex flex-wrap gap-2 f-mx-2xs min-h-[40px] flex-1 overflow-y-auto"
+  >
+    {
+      topicsWithSlugs.map(({ name: topic, count: count, slug: slug }) => (
+        <div
+          id={'topic-wrapper-' + slug}
+          data-topic={topic}
+          class="topic-wrapper cursor-pointer transition-[opacity,transform] duration-300 ease-in-out hover:scale-105 focus:scale-105 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cornflower focus-visible:rounded"
+          aria-label={`Toggle topic: ${topic}`}
+          role="button"
+          tabindex="0"
+        >
+          <Badge topic={topic} count={count} size={size} />
+        </div>
+      ))
+    }
   </div>
 </div>
 
 <script>
-  import { selectedTopics, toggleTopic, clearTopics } from '../store.ts';
-  const filterWrapper = document.getElementById('topic-filter');
+  import { selectedTopics, toggleTopic, clearTopics } from '../store.ts'
+  const filterWrapper = document.getElementById('topic-filter')
 
-  const selectedContainer = document.getElementById('selected-topics');
-  const availableContainer = document.getElementById('available-topics');
-  const clearButton = document.getElementById('clear-topics');
-  const availableTopics = document.getElementById('available-topics');
-  const notAllSelectionText = document.getElementById('not-all-selection-text');
-  const hasSelectionText = document.getElementById('has-selection-text');
-  const selectedPlaceholder = document.getElementById('selected-placeholder');
+  const selectedContainer = document.getElementById('selected-topics')
+  const availableContainer = document.getElementById('available-topics')
+  const clearButton = document.getElementById('clear-topics')
+  const availableTopics = document.getElementById('available-topics')
+  const notAllSelectionText = document.getElementById('not-all-selection-text')
+  const hasSelectionText = document.getElementById('has-selection-text')
+  const selectedPlaceholder = document.getElementById('selected-placeholder')
 
   // Store references to all topic elements by their topic name and original order
-  const topicElements = new Map();
-  const originalOrder = [];
+  const topicElements = new Map()
+  const originalOrder = []
   document.querySelectorAll('.topic-wrapper').forEach((wrapper, index) => {
-    const topic = wrapper.dataset.topic;
+    const topic = wrapper.dataset.topic
     if (topic) {
-        topicElements.set(topic, wrapper);
-        originalOrder.push(topic);
+      topicElements.set(topic, wrapper)
+      originalOrder.push(topic)
 
-        // Add click listener ONCE to each original element
-        wrapper.addEventListener('click', () => {
-          toggleTopic(topic);
-        });
-        // Add keyboard accessibility
-        wrapper.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault(); // Prevent spacebar scrolling
-            toggleTopic(topic);
-          }
-        });
+      // Add click listener ONCE to each original element
+      wrapper.addEventListener('click', () => {
+        toggleTopic(topic)
+      })
+      // Add keyboard accessibility
+      wrapper.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault() // Prevent spacebar scrolling
+          toggleTopic(topic)
+        }
+      })
     }
-  });
+  })
 
-  const totalTopicsCount = topicElements.size;
+  const totalTopicsCount = topicElements.size
 
   // Update UI declaratively based on store state
-  function updateUI(selected) { // Receive state directly from subscribe
-    const currentlySelected = new Set(selected);
+  function updateUI(selected) {
+    // Receive state directly from subscribe
+    const currentlySelected = new Set(selected)
 
     // Helper function to insert element at correct position based on original order
     function insertInOrder(container, element, topic) {
-      const topicIndex = originalOrder.indexOf(topic);
-      const existingElements = Array.from(container.children).filter(child =>
-        child.classList.contains('topic-wrapper')
-      );
+      const topicIndex = originalOrder.indexOf(topic)
+      const existingElements = Array.from(container.children).filter((child) =>
+        child.classList.contains('topic-wrapper'),
+      )
 
-      let insertPosition = 0;
+      let insertPosition = 0
       for (const existingElement of existingElements) {
-        const existingTopic = existingElement.dataset.topic;
-        const existingIndex = originalOrder.indexOf(existingTopic);
+        const existingTopic = existingElement.dataset.topic
+        const existingIndex = originalOrder.indexOf(existingTopic)
         if (existingIndex < topicIndex) {
-          insertPosition++;
+          insertPosition++
         } else {
-          break;
+          break
         }
       }
 
       if (insertPosition >= existingElements.length) {
-        container.appendChild(element);
+        container.appendChild(element)
       } else {
-        container.insertBefore(element, existingElements[insertPosition]);
+        container.insertBefore(element, existingElements[insertPosition])
       }
     }
 
     // Move elements to the correct container in order
     topicElements.forEach((element, topic) => {
-      const isSelected = currentlySelected.has(topic);
-      const currentParent = element.parentElement;
+      const isSelected = currentlySelected.has(topic)
+      const currentParent = element.parentElement
 
       if (isSelected && currentParent !== selectedContainer) {
-        insertInOrder(selectedContainer, element, topic);
+        insertInOrder(selectedContainer, element, topic)
       } else if (!isSelected && currentParent !== availableContainer) {
-        insertInOrder(availableContainer, element, topic);
+        insertInOrder(availableContainer, element, topic)
       }
-    });
+    })
 
     // Update instruction text and clear button visibility using Tailwind classes
-    const selectedCount = selected.length;
+    const selectedCount = selected.length
 
     // Placeholder visibility (using style.display is fine here as it's not animated)
-    selectedPlaceholder.style.display = selectedCount === 0 ? 'inline' : 'none';
+    selectedPlaceholder.style.display = selectedCount === 0 ? 'inline' : 'none'
 
     // Instruction texts opacity
     if (selectedCount > 0) {
-        hasSelectionText.classList.remove('opacity-0');
-        hasSelectionText.classList.add('opacity-100');
+      hasSelectionText.classList.remove('opacity-0')
+      hasSelectionText.classList.add('opacity-100')
     } else {
-        hasSelectionText.classList.remove('opacity-100');
-        hasSelectionText.classList.add('opacity-0');
+      hasSelectionText.classList.remove('opacity-100')
+      hasSelectionText.classList.add('opacity-0')
     }
 
     if (selectedCount < totalTopicsCount) {
-        notAllSelectionText.classList.remove('opacity-0');
-        notAllSelectionText.classList.add('opacity-100');
+      notAllSelectionText.classList.remove('opacity-0')
+      notAllSelectionText.classList.add('opacity-100')
     } else {
-        notAllSelectionText.classList.remove('opacity-100');
-        notAllSelectionText.classList.add('opacity-0');
+      notAllSelectionText.classList.remove('opacity-100')
+      notAllSelectionText.classList.add('opacity-0')
     }
 
     // Clear button visibility (using opacity and pointer-events classes)
     if (selectedCount > 0) {
-        clearButton.classList.remove('opacity-0', 'pointer-events-none');
-        clearButton.classList.add('opacity-100', 'pointer-events-auto');
+      clearButton.classList.remove('opacity-0', 'pointer-events-none')
+      clearButton.classList.add('opacity-100', 'pointer-events-auto')
     } else {
-        clearButton.classList.remove('opacity-100', 'pointer-events-auto');
-        clearButton.classList.add('opacity-0', 'pointer-events-none');
+      clearButton.classList.remove('opacity-100', 'pointer-events-auto')
+      clearButton.classList.add('opacity-0', 'pointer-events-none')
     }
 
     // Fixed filter bar when selection active
     if (filterWrapper) {
       if (selectedCount > 0) {
-        filterWrapper.classList.add('fixed', 'top-0', 'overflow-hidden', 'shadow-2xl', 'bg-zinc-800', 'z-50');
-        availableTopics.classList.add('max-h-[140px]');
+        filterWrapper.classList.add(
+          'fixed',
+          'top-0',
+          'overflow-hidden',
+          'shadow-2xl',
+          'bg-zinc-800',
+          'z-50',
+        )
+        availableTopics.classList.add('max-h-[140px]')
       } else {
-        filterWrapper.classList.remove('fixed', 'top-0', 'overflow-hidden', 'shadow-2xl', 'bg-zinc-800', 'z-50');
-        availableTopics.classList.remove('max-h-[140px]');
+        filterWrapper.classList.remove(
+          'fixed',
+          'top-0',
+          'overflow-hidden',
+          'shadow-2xl',
+          'bg-zinc-800',
+          'z-50',
+        )
+        availableTopics.classList.remove('max-h-[140px]')
       }
     }
   }
 
   if (clearButton) {
     clearButton.addEventListener('click', () => {
-      clearTopics();
-    });
+      clearTopics()
+    })
   }
 
-  const unsubscribe = selectedTopics.subscribe(updateUI);
-  updateUI(selectedTopics.get());
-
+  const unsubscribe = selectedTopics.subscribe(updateUI)
+  updateUI(selectedTopics.get())
 </script>

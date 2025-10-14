@@ -1,23 +1,23 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import UnoCSS from 'unocss/astro';
-import mdx from '@astrojs/mdx';
-import wikiLinkPlugin from './src/plugins/portal-wiki-link';
-import { getPermalinks } from './src/plugins/portal-wiki-link';
+import { defineConfig } from 'astro/config'
+import UnoCSS from 'unocss/astro'
+import mdx from '@astrojs/mdx'
+import wikiLinkPlugin from './src/plugins/portal-wiki-link'
+import { getPermalinks } from './src/plugins/portal-wiki-link'
 import { slug } from 'github-slugger'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
-import sitemap from '@astrojs/sitemap';
+import sitemap from '@astrojs/sitemap'
 
-import expressiveCode from 'astro-expressive-code';
+import expressiveCode from 'astro-expressive-code'
 
-const permalinks = getPermalinks("src/content/")
-      .map((el) => {
-        let contentTitle = el.split("/")[1]
-        return contentTitle;
-      })
-      .filter((el) => el)
-      .map(el => slug(el));
+const permalinks = getPermalinks('src/content/')
+  .map((el) => {
+    let contentTitle = el.split('/')[1]
+    return contentTitle
+  })
+  .filter((el) => el)
+  .map((el) => slug(el))
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,29 +29,32 @@ export default defineConfig({
       themes: ['catppuccin-mocha'],
       plugins: [pluginLineNumbers()],
       defaultProps: {
-        showLineNumbers: false
-      }
+        showLineNumbers: false,
+      },
     }),
     mdx({
       remarkPlugins: [
-        [wikiLinkPlugin, {
-          pathFormat: 'obsidian-short',
-          permalinks: permalinks,
-          wikiLinkResolver: function(theslug: string) {
-            return [theslug];
+        [
+          wikiLinkPlugin,
+          {
+            pathFormat: 'obsidian-short',
+            permalinks: permalinks,
+            wikiLinkResolver: function (theslug: string) {
+              return [theslug]
+            },
+            pageResolver: function (theslug: string) {
+              return [theslug]
+            },
+            hrefTemplate: function (permalink: string) {
+              return slug(permalink)
+            },
           },
-          pageResolver: function(theslug: string) {
-            return [theslug];
-          },
-          hrefTemplate: function(permalink: string) {
-            return slug(permalink);
-          },
-        }],
+        ],
       ],
       shikiConfig: {
-        theme: "catppuccin-latte",
+        theme: 'catppuccin-latte',
         wrap: true,
-      }
-    })
-  ]
+      },
+    }),
+  ],
 })

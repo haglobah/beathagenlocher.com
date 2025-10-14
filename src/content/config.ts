@@ -1,10 +1,10 @@
-import { defineCollection, z } from "astro:content";
-import { glob, file } from "astro/loaders";
+import { defineCollection, z } from 'astro:content'
+import { glob, file } from 'astro/loaders'
 
-const growthStageEnum = z.enum(["seedling", "budding", "evergreen"])
+const growthStageEnum = z.enum(['seedling', 'budding', 'evergreen'])
 
 const notesCollection = defineCollection({
-  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/notes" }),
+  loader: glob({ pattern: ['**/*.mdx'], base: './src/content/notes' }),
   schema: () =>
     z.object({
       title: z.string(),
@@ -18,10 +18,10 @@ const notesCollection = defineCollection({
       publish: z.boolean().default(false),
       toc: z.boolean().optional(),
     }),
-});
+})
 
 const knowledgeCollection = defineCollection({
-  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/knowledge" }),
+  loader: glob({ pattern: ['**/*.mdx'], base: './src/content/knowledge' }),
   schema: () =>
     z.object({
       title: z.string(),
@@ -30,10 +30,10 @@ const knowledgeCollection = defineCollection({
       topics: z.array(z.string()).default([]),
       publish: z.boolean().default(true),
     }),
-});
+})
 
 const essaysCollection = defineCollection({
-  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/essays" }),
+  loader: glob({ pattern: ['**/*.mdx'], base: './src/content/essays' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -49,7 +49,7 @@ const essaysCollection = defineCollection({
       toc: z.boolean().optional(),
       aliases: z.array(z.string()).optional(),
     }),
-});
+})
 
 // const patternsCollection = defineCollection({
 //   loader: glob({ pattern: "**/*.md", base: "./src/content/patterns" }),
@@ -68,7 +68,7 @@ const essaysCollection = defineCollection({
 // });
 
 const talksCollection = defineCollection({
-  loader: glob({ pattern: ["**/*.mdx"], base: "./src/content/talks" }),
+  loader: glob({ pattern: ['**/*.mdx'], base: './src/content/talks' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -88,18 +88,17 @@ const talksCollection = defineCollection({
       cover: image().optional(),
       publish: z.boolean().default(false),
     }),
-});
-
+})
 
 const quotesCollection = defineCollection({
-  loader: file("src/content/quotes.json"),
+  loader: file('src/content/quotes.json'),
   schema: () =>
     z.object({
       content: z.string(),
       source: z.string(),
       id: z.number(),
     }),
-});
+})
 
 // const podcastsCollection = defineCollection({
 //   loader: file("src/content/podcasts.json"),
@@ -153,7 +152,7 @@ const quotesCollection = defineCollection({
 // });
 
 const streamCollection = defineCollection({
-  loader: glob({ pattern: "**/*.mdx", base: "./src/content/stream" }),
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/stream' }),
   schema: () =>
     z.object({
       title: z.string().optional(),
@@ -177,7 +176,7 @@ const streamCollection = defineCollection({
       //   })
       //   .optional(),
     }),
-});
+})
 
 // This key should match your collection directory name in "src/content"
 export const collections = {
@@ -192,4 +191,4 @@ export const collections = {
   // books: booksCollection,
   // antibooks: antibooksCollection,
   stream: streamCollection,
-};
+}

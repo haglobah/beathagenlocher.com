@@ -1,8 +1,7 @@
 ---
-
-const { class: classList = "f-text-lg" } = Astro.props
-
+const { class: classList = 'f-text-lg' } = Astro.props
 ---
-<div class:list={["font-mono text-cornflower", classList]}>
- <slot />
+
+<div class:list={['font-mono text-cornflower', classList]}>
+  <slot />
 </div>

@@ -1,67 +1,74 @@
 ---
-const { clampHeight } = Astro.props;
+const { clampHeight } = Astro.props
 
 import Button from './Button.astro'
-
 ---
 
-<div class="clamp-wrapper relative" style={`--clamp-height: ${clampHeight}px`} client:load>
-  <div class="content overflow-hidden transition-all duration-300" style="max-height: var(--clamp-height);">
+<div
+  class="clamp-wrapper relative"
+  style={`--clamp-height: ${clampHeight}px`}
+  client:load
+>
+  <div
+    class="content overflow-hidden transition-all duration-300"
+    style="max-height: var(--clamp-height);"
+  >
     <slot />
-    <div class="overlay absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-zinc-800 to-transparent flex justify-center items-end pointer-events-none">
+    <div
+      class="overlay absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-zinc-800 to-transparent flex justify-center items-end pointer-events-none"
+    >
       <div class="show-more-btn-wrapper pointer-events-auto">
-        <Button class="show-more-btn f-text-xs">
-          Show More
-        </Button>
+        <Button class="show-more-btn f-text-xs"> Show More </Button>
       </div>
     </div>
   </div>
   <div class="show-less text-center mt-2 hidden">
-    <Button class="show-less-btn f-text-xs">
-      Show Less
-    </Button>
+    <Button class="show-less-btn f-text-xs"> Show Less </Button>
   </div>
 </div>
 
 <script type="module">
   function initClampWrapper() {
-  const wrappers = document.querySelectorAll('.clamp-wrapper');
+    const wrappers = document.querySelectorAll('.clamp-wrapper')
 
-  wrappers.forEach(wrapper => {
-    const content = wrapper.querySelector('.content');
-    const overlay = wrapper.querySelector('.overlay');
-    const showMoreBtn = wrapper.querySelector('.show-more-btn');
-    const showLessBtn = wrapper.querySelector('.show-less-btn');
-    const showLessContainer = wrapper.querySelector('.show-less');
+    wrappers.forEach((wrapper) => {
+      const content = wrapper.querySelector('.content')
+      const overlay = wrapper.querySelector('.overlay')
+      const showMoreBtn = wrapper.querySelector('.show-more-btn')
+      const showLessBtn = wrapper.querySelector('.show-less-btn')
+      const showLessContainer = wrapper.querySelector('.show-less')
 
-    const clampHeight = parseInt(getComputedStyle(wrapper).getPropertyValue('--clamp-height'));
+      const clampHeight = parseInt(
+        getComputedStyle(wrapper).getPropertyValue('--clamp-height'),
+      )
 
-    let isExpanded = false;
+      let isExpanded = false
 
-    const checkClamp = () => {
-      const needsClamp = content.scrollHeight > clampHeight;
-      overlay.style.display = needsClamp && !isExpanded ? 'flex' : 'none';
-      showLessContainer.style.display = isExpanded && needsClamp ? 'block' : 'none';
-      content.style.maxHeight = isExpanded ? 'none' : `${clampHeight}px`;
-    };
+      const checkClamp = () => {
+        const needsClamp = content.scrollHeight > clampHeight
+        overlay.style.display = needsClamp && !isExpanded ? 'flex' : 'none'
+        showLessContainer.style.display =
+          isExpanded && needsClamp ? 'block' : 'none'
+        content.style.maxHeight = isExpanded ? 'none' : `${clampHeight}px`
+      }
 
-    // Initial check
-    checkClamp();
+      // Initial check
+      checkClamp()
 
-    // Resize listener
-    window.addEventListener('resize', checkClamp);
+      // Resize listener
+      window.addEventListener('resize', checkClamp)
 
-    // Toggle expand/collapse
-    showMoreBtn?.addEventListener('click', () => {
-      isExpanded = true;
-      checkClamp();
-    });
+      // Toggle expand/collapse
+      showMoreBtn?.addEventListener('click', () => {
+        isExpanded = true
+        checkClamp()
+      })
 
-    showLessBtn?.addEventListener('click', () => {
-      isExpanded = false;
-      checkClamp();
-    });
-  });
-}
-  initClampWrapper();
+      showLessBtn?.addEventListener('click', () => {
+        isExpanded = false
+        checkClamp()
+      })
+    })
+  }
+  initClampWrapper()
 </script>

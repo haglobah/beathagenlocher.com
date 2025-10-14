@@ -154,5 +154,5 @@ export const codes = /** @type {const} */ ({
   // Unicode Specials block.
   byteOrderMarker: 65279,
   // Unicode Specials block.
-  replacementCharacter: 65533 // `�`
+  replacementCharacter: 65533, // `�`
 })

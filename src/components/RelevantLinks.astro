@@ -1,15 +1,16 @@
 ---
 export interface Props {
-  links: Array<{ text: string; href: string }>;
+  links: Array<{ text: string; href: string }>
 }
 
-const { links } = Astro.props;
-import RelevantLink from './RelevantLink.astro';
+const { links } = Astro.props
+import RelevantLink from './RelevantLink.astro'
 
 if (!links || links.length === 0) {
-  return;
+  return
 }
 ---
+
 <ul class="mb-2 flex flex-wrap" aria-label="Related links">
-  {links.map(link => <RelevantLink text={link.text} href={link.href} />)}
+  {links.map((link) => <RelevantLink text={link.text} href={link.href} />)}
 </ul>

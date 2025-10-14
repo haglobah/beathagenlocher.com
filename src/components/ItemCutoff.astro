@@ -1,33 +1,38 @@
 ---
-
 import Highlight from './Highlight.astro'
 
 const { class: classList, after } = Astro.props
-
 ---
 
-<div class:list={["item-cutoff-container relative", classList]} data-after={after}>
+<div
+  class:list={['item-cutoff-container relative', classList]}
+  data-after={after}
+>
   <slot />
   <slot name="after-cutoff" />
-    <div class="overlay absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-zinc-800 to-transparent flex justify-center items-end pointer-events-none">
-    </div>
-    <div class="overlay absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-zinc-800 to-transparent flex justify-center items-end pointer-events-none">
-      <Highlight>...</Highlight>
-    </div>
+  <div
+    class="overlay absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-zinc-800 to-transparent flex justify-center items-end pointer-events-none"
+  >
+  </div>
+  <div
+    class="overlay absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-zinc-800 to-transparent flex justify-center items-end pointer-events-none"
+  >
+    <Highlight>...</Highlight>
+  </div>
 </div>
 
 <script>
- const itemContainer = document.querySelector('.item-cutoff-container')
- const items = Array.from(itemContainer.children)
- const after = itemContainer.dataset.after
+  const itemContainer = document.querySelector('.item-cutoff-container')
+  const items = Array.from(itemContainer.children)
+  const after = itemContainer.dataset.after
 
- items.forEach((item, index) => {
-   if (item.classList.contains("content-item")) {
-     if (index < after) {
-       item.classList.remove('hidden')
-     }
-     else {
-       item.classList.add('hidden')
-   }}
- })
+  items.forEach((item, index) => {
+    if (item.classList.contains('content-item')) {
+      if (index < after) {
+        item.classList.remove('hidden')
+      } else {
+        item.classList.add('hidden')
+      }
+    }
+  })
 </script>

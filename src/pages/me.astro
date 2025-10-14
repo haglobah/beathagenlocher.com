@@ -1,41 +1,60 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from '../layouts/Layout.astro'
 
-import Ol from "../components/OuterLink.astro"
-import Section from "../components/Section.astro"
-import HRule from "../components/HRule.astro"
-import Par from "../components/Par.astro"
-import WideCard from "../components/WideCard.astro"
-import List from "../components/List.astro"
-import ListItem from "../components/ListItem.astro"
+import Ol from '../components/OuterLink.astro'
+import Section from '../components/Section.astro'
+import HRule from '../components/HRule.astro'
+import Par from '../components/Par.astro'
+import WideCard from '../components/WideCard.astro'
+import List from '../components/List.astro'
+import ListItem from '../components/ListItem.astro'
 ---
 
 <Layout title="Beat Hagenlocher">
   <div class="f-mx-xs lg:flex lg:justify-between lg:f-gap-4xl lg:f-px-xl">
-    <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:f-mr-4xl lg:flex-col lg:justify-between lg:f-py-2xl">
+    <header
+      class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:f-mr-4xl lg:flex-col lg:justify-between lg:f-py-2xl"
+    >
       <div class="f-mt-xs">
         <h1 class="f-text-3xl leading-tighter tracking-wide text-zinc-200">
           Beat Hagenlocher
         </h1>
         <h2 class="f-text-lg text-zinc-200">
-          Software Architect <span class="font-light">@</span><Ol href="https://active-group.de">active group</Ol>
+          Software Architect <span class="font-light">@</span><Ol
+            href="https://active-group.de">active group</Ol
+          >
         </h2>
-        <p class="f-my-sm">
-          I enjoy learning.
-        </p>
+        <p class="f-my-sm">I enjoy learning.</p>
       </div>
       <Section title="About Me">
         <Par>
-          Human being on its quest to learn as much as possible and do good in the world.
+          Human being on its quest to learn as much as possible and do good in
+          the world.
         </Par>
         <Par>
-          Interested in Education, Macroeconomics, History, Organizational Forms, Distributed Systems, Mathematics, Systems Thinking, Category Theory, Learning and Programming Languages.
+          Interested in Education, Macroeconomics, History, Organizational
+          Forms, Distributed Systems, Mathematics, Systems Thinking, Category
+          Theory, Learning and Programming Languages.
         </Par>
         <Par>
-          Currently building my <Ol href="https://github.com/haglobah/beathagenlocher.com">digital garden</Ol>, playing around with my <Ol href="https://github.com/haglobah/doom">Doom Emacs config</Ol> and <Ol href="https://stackoverflow.com/questions/1218390/what-is-your-most-productive-shortcut-with-vim/1220118#1220118">learning Vim keybindings</Ol>.
+          Currently building my <Ol
+            href="https://github.com/haglobah/beathagenlocher.com"
+            >digital garden</Ol
+          >, playing around with my <Ol href="https://github.com/haglobah/doom"
+            >Doom Emacs config</Ol
+          > and <Ol
+            href="https://stackoverflow.com/questions/1218390/what-is-your-most-productive-shortcut-with-vim/1220118#1220118"
+            >learning Vim keybindings</Ol
+          >.
         </Par>
         <Par>
-          When I'm not at the Computer or deliberately learning something, you can find me on walks with nice people, doing sports, or at one of my <Ol href="https://www.spatzennest-tuebingen.de/">favourite</Ol> <Ol href="https://www.schuelerakademien.de/deutsche-schuelerakademie">youth camps</Ol> during the summer.
+          When I'm not at the Computer or deliberately learning something, you
+          can find me on walks with nice people, doing sports, or at one of my <Ol
+            href="https://www.spatzennest-tuebingen.de/">favourite</Ol
+          >
+          <Ol href="https://www.schuelerakademien.de/deutsche-schuelerakademie"
+            >youth camps</Ol
+          > during the summer.
         </Par>
       </Section>
       <div class="flex justify-start f-gap-md">
@@ -44,7 +63,10 @@ import ListItem from "../components/ListItem.astro"
         </Ol>
         <Ol href="https://bsky.app/profile/beathagenlocher.com" arrow={false}>
           <svg class="f-w-xl f-h-xl" fill="none" viewBox="0 0 64 57">
-            <path fill="currentColor" d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z">
+            <path
+              fill="currentColor"
+              d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"
+            >
             </path>
           </svg>
         </Ol>
@@ -59,130 +81,252 @@ import ListItem from "../components/ListItem.astro"
     <div class="f-pt-xl lg:w-1/2 lg:f-py-xl">
       <Section title="Skills & Abilities">
         <ol class="group/list">
-          <WideCard description="Programming Languages" topics={["Clojure", "Elixir", "Racket", "Haskell", "C", "Nix", "Rust"]}>
-          </WideCard>
-          <WideCard description="Programming" topics={["Git", "Docker", "NixOS", "Software Architecture","Functional Programming", "Local-first Software", "Phoenix LiveView", "Tailwind CSS", "UnoCSS", "PostgreSQL"]}>
-          </WideCard>
-          <WideCard description="Organizational Development" topics={["Sociocracy", "The Lean Startup", "Start With Why", "Reinventing Organizations"]}>
-          </WideCard>
-          <WideCard description="Design" topics={["Design Thinking", "Systems Practice", "Designing Your Life", "Customer Development"]}>
-          </WideCard>
+          <WideCard
+            description="Programming Languages"
+            topics={[
+              'Clojure',
+              'Elixir',
+              'Racket',
+              'Haskell',
+              'C',
+              'Nix',
+              'Rust',
+            ]}
+          />
+          <WideCard
+            description="Programming"
+            topics={[
+              'Git',
+              'Docker',
+              'NixOS',
+              'Software Architecture',
+              'Functional Programming',
+              'Local-first Software',
+              'Phoenix LiveView',
+              'Tailwind CSS',
+              'UnoCSS',
+              'PostgreSQL',
+            ]}
+          />
+          <WideCard
+            description="Organizational Development"
+            topics={[
+              'Sociocracy',
+              'The Lean Startup',
+              'Start With Why',
+              'Reinventing Organizations',
+            ]}
+          />
+          <WideCard
+            description="Design"
+            topics={[
+              'Design Thinking',
+              'Systems Practice',
+              'Designing Your Life',
+              'Customer Development',
+            ]}
+          />
         </ol>
       </Section>
       <Section title="Experience">
         <ol class="group/list">
-          <WideCard title="active group GmbH"
-                    description="May 2024 – Present"
-                    org=""
-                    pos="Software Architect"
-                    href="https://active-group.de"
-                    topics={["Software Architecture", "Clojure", "ClojureScript", "Docker", "Nix", "UnoCSS", "Emacs", "nvim"]}>
-          </WideCard>
-          <WideCard title="zelium.io"
-                    description="Sep 2023 – May 2024"
-                    org=""
-                    href="https://zelium.io"
-                    pos="Startup Dude"
-                    topics={["Systems Practice", "Design Thinking", "Elixir", "Phoenix LiveView", "Tailwind CSS", "CodeMirror", "Nix"]}>
+          <WideCard
+            title="active group GmbH"
+            description="May 2024 – Present"
+            org=""
+            pos="Software Architect"
+            href="https://active-group.de"
+            topics={[
+              'Software Architecture',
+              'Clojure',
+              'ClojureScript',
+              'Docker',
+              'Nix',
+              'UnoCSS',
+              'Emacs',
+              'nvim',
+            ]}
+          />
+          <WideCard
+            title="zelium.io"
+            description="Sep 2023 – May 2024"
+            org=""
+            href="https://zelium.io"
+            pos="Startup Dude"
+            topics={[
+              'Systems Practice',
+              'Design Thinking',
+              'Elixir',
+              'Phoenix LiveView',
+              'Tailwind CSS',
+              'CodeMirror',
+              'Nix',
+            ]}
+          >
             <div slot="context">A platform enabling simpler collaboration.</div>
             <List>
-              <ListItem>Applied <Ol href="https://oecd-opsi.org/toolkits/systems-practice-workbook/">Systems Practice</Ol> to the problem of digital collaboration</ListItem>
+              <ListItem
+                >Applied <Ol
+                  href="https://oecd-opsi.org/toolkits/systems-practice-workbook/"
+                  >Systems Practice</Ol
+                > to the problem of digital collaboration</ListItem
+              >
               <ListItem>Built prototypes</ListItem>
               <ListItem>Conducted Customer Development Interviews</ListItem>
               <ListItem>Set up a tech stack ensuring velocity</ListItem>
               <ListItem>Built an MVP</ListItem>
             </List>
           </WideCard>
-          <WideCard title="Software Development"
-                    description="Feb 2021 – Mar 2023"
-                    org="Hacker School"
-                    href="https://hacker-school.de"
-                    pos="Working Student"
-                    topics={["Racket", "Pollen", "Sociocracy", "Teaching"]}>
-            Developed courses and the accompanying course website; introduced a knowledge base system.
+          <WideCard
+            title="Software Development"
+            description="Feb 2021 – Mar 2023"
+            org="Hacker School"
+            href="https://hacker-school.de"
+            pos="Working Student"
+            topics={['Racket', 'Pollen', 'Sociocracy', 'Teaching']}
+          >
+            Developed courses and the accompanying course website; introduced a
+            knowledge base system.
           </WideCard>
-          <WideCard title="Software Architecture"
-                    description="Mar – May 2020"
-                    org="active group GmbH"
-                    href="https://active-group.de"
-                    pos="Intern"
-                    topics={["Haskell", "Clojure", "Machine Learning", "Emacs", "magit"]}>
-            Implemented a Web Server for a Machine Learning Project in Haskell. Developed parts of a project frontend in ClojureScript.
+          <WideCard
+            title="Software Architecture"
+            description="Mar – May 2020"
+            org="active group GmbH"
+            href="https://active-group.de"
+            pos="Intern"
+            topics={[
+              'Haskell',
+              'Clojure',
+              'Machine Learning',
+              'Emacs',
+              'magit',
+            ]}
+          >
+            Implemented a Web Server for a Machine Learning Project in Haskell.
+            Developed parts of a project frontend in ClojureScript.
           </WideCard>
-          <WideCard title="Innovation Hacking"
-                    description="Dec 2019 – Mar 2020"
-                    org="TNG Technology Consulting"
-                    href="https://tngtech.com"
-                    pos="Intern"
-                    topics={["C#", "Python", "Unity", "Reinforcement Learning", "Tensorflow"]}>
-            Developed AI Agents for the Game Blobby VR. Looked after the TNG booth at OOP 2020.
+          <WideCard
+            title="Innovation Hacking"
+            description="Dec 2019 – Mar 2020"
+            org="TNG Technology Consulting"
+            href="https://tngtech.com"
+            pos="Intern"
+            topics={[
+              'C#',
+              'Python',
+              'Unity',
+              'Reinforcement Learning',
+              'Tensorflow',
+            ]}
+          >
+            Developed AI Agents for the Game Blobby VR. Looked after the TNG
+            booth at OOP 2020.
           </WideCard>
-          <HRule></HRule>
-          <WideCard title="Tü.λ | Functional Programming Meetup Tübingen"
-                    description="Summer 2024 – Now"
-                    org=""
-                    href="https://tu-lambda.github.io/"
-                    pos="Meetup Host"
-                    topics={[]}>
-          </WideCard><WideCard title="Deutsche Schülerakademie"
-                    description="Summer 2025 | 16 Days"
-                    org=""
-                    href="https://schuelerakademien.de/deutsche-schuelerakademie"
-                    pos="Course Instructor"
-                    topics={["Science", "Teaching"]}>
-            <div slot="context">A 17-day summer program for high-achieving students ages 16 to 19.</div>
-            Designed and taught a 50-hour university-level course about empirical methods and science.
-          </WideCard><WideCard title="Deutsche Schülerakademie"
-                    description="Summer 2022 | 16 Days"
-                    org=""
-                    href="https://schuelerakademien.de/deutsche-schuelerakademie"
-                    pos="Course Instructor"
-                    topics={["Learning", "Teaching"]}>
-            <div slot="context">A 17-day summer program for high-achieving students ages 16 to 19.</div>
-            Designed and taught a 50-hour university-level course called <span class="italic">How People Learn</span>.
+          <HRule />
+          <WideCard
+            title="Tü.λ | Functional Programming Meetup Tübingen"
+            description="Summer 2024 – Now"
+            org=""
+            href="https://tu-lambda.github.io/"
+            pos="Meetup Host"
+            topics={[]}
+          /><WideCard
+            title="Deutsche Schülerakademie"
+            description="Summer 2025 | 16 Days"
+            org=""
+            href="https://schuelerakademien.de/deutsche-schuelerakademie"
+            pos="Course Instructor"
+            topics={['Science', 'Teaching']}
+          >
+            <div slot="context">
+              A 17-day summer program for high-achieving students ages 16 to 19.
+            </div>
+            Designed and taught a 50-hour university-level course about empirical
+            methods and science.
+          </WideCard><WideCard
+            title="Deutsche Schülerakademie"
+            description="Summer 2022 | 16 Days"
+            org=""
+            href="https://schuelerakademien.de/deutsche-schuelerakademie"
+            pos="Course Instructor"
+            topics={['Learning', 'Teaching']}
+          >
+            <div slot="context">
+              A 17-day summer program for high-achieving students ages 16 to 19.
+            </div>
+            Designed and taught a 50-hour university-level course called <span
+              class="italic">How People Learn</span
+            >.
           </WideCard>
-          <WideCard title="rootlinks"
-                    description="June 2021 – Mar 2022"
-                    org=""
-                    href="https://web.archive.org/web/20240828091410/https://www.rootlinks.ch/"
-                    pos="Working Member"
-                    topics={["Sociocracy", "Design Thinking", "Systems Thinking", "Teaching", "Coaching", "Recruiting"]}>
-            <div slot="context" >A program teaching students the skills to become sustainability changemakers by solving real-world challenges.</div>
-            Co-created the Learning Journey of two semesters, coached a challenge team, and recruited the 3rd batch.
+          <WideCard
+            title="rootlinks"
+            description="June 2021 – Mar 2022"
+            org=""
+            href="https://web.archive.org/web/20240828091410/https://www.rootlinks.ch/"
+            pos="Working Member"
+            topics={[
+              'Sociocracy',
+              'Design Thinking',
+              'Systems Thinking',
+              'Teaching',
+              'Coaching',
+              'Recruiting',
+            ]}
+          >
+            <div slot="context">
+              A program teaching students the skills to become sustainability
+              changemakers by solving real-world challenges.
+            </div>
+            Co-created the Learning Journey of two semesters, coached a challenge
+            team, and recruited the 3rd batch.
           </WideCard>
         </ol>
       </Section>
       <Section title="Projects">
         <ol class="group/section">
-          <WideCard title="Mastering 42"
-                    description=""
-                    org=""
-                    imageSrc="https://haglobah.github.io/Mastering-42/src/Images/42_logo.png"
-                    href="https://haglobah.github.io/Mastering-42/"
-                    pos=""
-                    topics={["Writing", "Racket", "Pollen", "Tailwind CSS"]}>
-            A Mastery Guide for the Common Core projects at <Ol href="https://www.42heilbronn.de/en/">42 School</Ol>, providing what we found missing from the curriculum.
+          <WideCard
+            title="Mastering 42"
+            description=""
+            org=""
+            imageSrc="https://haglobah.github.io/Mastering-42/src/Images/42_logo.png"
+            href="https://haglobah.github.io/Mastering-42/"
+            pos=""
+            topics={['Writing', 'Racket', 'Pollen', 'Tailwind CSS']}
+          >
+            A Mastery Guide for the Common Core projects at <Ol
+              href="https://www.42heilbronn.de/en/">42 School</Ol
+            >, providing what we found missing from the curriculum.
           </WideCard>
-          <WideCard title="ft_transcendence"
-                    description=""
-                    org=""
-                    imageSrc=""
-                    href="https://github.com/haglobah/transcendence"
-                    pos=""
-                    topics={["Elixir", "Phoenix LiveView", "PostgreSQL", "Tailwind CSS"]}>
-            The final project of the Common Core at 42: A web app for playing Pong (with chatting, accounts & stuff)—still has some rough edges.
+          <WideCard
+            title="ft_transcendence"
+            description=""
+            org=""
+            imageSrc=""
+            href="https://github.com/haglobah/transcendence"
+            pos=""
+            topics={[
+              'Elixir',
+              'Phoenix LiveView',
+              'PostgreSQL',
+              'Tailwind CSS',
+            ]}
+          >
+            The final project of the Common Core at 42: A web app for playing
+            Pong (with chatting, accounts & stuff)—still has some rough edges.
           </WideCard>
         </ol>
       </Section>
       <Section title="Education">
         <ol class="group/section">
-          <WideCard title="Common Core"
-                    description="Mar 2022 – Sep 2023"
-                    org="42 Heilbronn"
-                    imageSrc=""
-                    href="https://42heilbronn.de"
-                    pos=""
-                    topics={["C", "C++", "Docker", "Elixir", "Racket"]}>
+          <WideCard
+            title="Common Core"
+            description="Mar 2022 – Sep 2023"
+            org="42 Heilbronn"
+            imageSrc=""
+            href="https://42heilbronn.de"
+            pos=""
+            topics={['C', 'C++', 'Docker', 'Elixir', 'Racket']}
+          >
             Completed 24 projects that included writing, amongst other things:
             <List>
               <ListItem>Libc functions</ListItem>
@@ -192,45 +336,64 @@ import ListItem from "../components/ListItem.astro"
               <ListItem>A full-blown web app</ListItem>
             </List>
           </WideCard>
-          <WideCard title="BSc Physics"
-                    description="Sep 2020 – Feb 2022"
-                    org="ETH Zürich"
-                    imageSrc=""
-                    pos=""
-                    topics={["C++", "Python"]}>
-            <p>
-              Up to the 3rd semester.
-            </p>
-            <p class="italic">
-              Participation in the rootlinks program.
-            </p>
+          <WideCard
+            title="BSc Physics"
+            description="Sep 2020 – Feb 2022"
+            org="ETH Zürich"
+            imageSrc=""
+            pos=""
+            topics={['C++', 'Python']}
+          >
+            <p>Up to the 3rd semester.</p>
+            <p class="italic">Participation in the rootlinks program.</p>
           </WideCard>
-          <WideCard title="Studium generale et sociale"
-                    description="Oct 2018 – July 2019"
-                    org="Leibniz Kolleg Tübingen"
-                    imageSrc=""
-                    href="https://uni-tuebingen.de/einrichtungen/verwaltung/stabsstellen/leibniz-kolleg/das-leibniz-kolleg/"
-                    pos=""
-                    topics={[]}>
-          </WideCard>
-          <WideCard title="Carlo-Schmid-Gymnasium Tübingen"
-                    description="2010 – 2018"
-                    org=""
-                    imageSrc=""
-                    href="https://csg-tuebingen.de"
-                    pos=""
-                    topics={[]}>
+          <WideCard
+            title="Studium generale et sociale"
+            description="Oct 2018 – July 2019"
+            org="Leibniz Kolleg Tübingen"
+            imageSrc=""
+            href="https://uni-tuebingen.de/einrichtungen/verwaltung/stabsstellen/leibniz-kolleg/das-leibniz-kolleg/"
+            pos=""
+            topics={[]}
+          />
+          <WideCard
+            title="Carlo-Schmid-Gymnasium Tübingen"
+            description="2010 – 2018"
+            org=""
+            imageSrc=""
+            href="https://csg-tuebingen.de"
+            pos=""
+            topics={[]}
+          >
             <p>Final grade: 1.0</p>
             <p>Received a price for the best Abitur in Chemistry.</p>
           </WideCard>
         </ol>
       </Section>
-      <footer id="colophon" class="-f-m-xl f-p-xl rounded-xl f-text-xs text-zinc-400 transition-all target:bg-zinc-700 ease-in-out duration-700">
+      <footer
+        id="colophon"
+        class="-f-m-xl f-p-xl rounded-xl f-text-xs text-zinc-400 transition-all target:bg-zinc-700 ease-in-out duration-700"
+      >
         <p class="f-mb-xs">
-          Written in <Ol href="https://github.com/doomemacs/doomemacs">Doom Emacs</Ol> on a <Ol href="https://github.com/andrewjrae/rae-dux">rae-dux keyboard</Ol> with a <Ol href="https://github.com/haglobah/zmk-config-tzcl">custom layout</Ol> while standing upright thanks to <Ol href="https://www.youtube.com/watch?v=iOupyi-lQZM">Ben Vallack</Ol>. Built with <Ol href="https://astro.build/">Astro</Ol> and <Ol href="https://unocss.dev/">UnoCSS</Ol> with <Ol href="https://utopia.fyi/blog/designing-with-fluid-type-scales/">Fluid Type Scales</Ol> on <Ol href="https://nixos.org/">NixOS</Ol>.
+          Written in <Ol href="https://github.com/doomemacs/doomemacs"
+            >Doom Emacs</Ol
+          > on a <Ol href="https://github.com/andrewjrae/rae-dux"
+            >rae-dux keyboard</Ol
+          > with a <Ol href="https://github.com/haglobah/zmk-config-tzcl"
+            >custom layout</Ol
+          > while standing upright thanks to <Ol
+            href="https://www.youtube.com/watch?v=iOupyi-lQZM">Ben Vallack</Ol
+          >. Built with <Ol href="https://astro.build/">Astro</Ol> and <Ol
+            href="https://unocss.dev/">UnoCSS</Ol
+          > with <Ol
+            href="https://utopia.fyi/blog/designing-with-fluid-type-scales/"
+            >Fluid Type Scales</Ol
+          > on <Ol href="https://nixos.org/">NixOS</Ol>.
         </p>
         <p>
-          Layout and Design heavily inspired by <Ol href="https://brittanychiang.com">Brittany Chiang</Ol>.
+          Layout and Design heavily inspired by <Ol
+            href="https://brittanychiang.com">Brittany Chiang</Ol
+          >.
         </p>
       </footer>
     </div>

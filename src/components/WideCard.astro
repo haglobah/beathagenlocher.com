@@ -1,16 +1,15 @@
 ---
-
 const {
-  title = "",
-  pos = "",
-  org = "",
-  href = "",
-  to = "",
-  description = "",
+  title = '',
+  pos = '',
+  org = '',
+  href = '',
+  to = '',
+  description = '',
   when,
   links = [],
-  topics = "",
-  imageSrc = "",
+  topics = '',
+  imageSrc = '',
 } = Astro.props
 
 import RelevantLinks from './RelevantLinks.astro'
@@ -21,79 +20,94 @@ import Il from './InnerLink.astro'
 import CardHeader from './WideCard/CardHeader.astro'
 import Org from './WideCard/Org.astro'
 import Ago from './Ago.astro'
-
 ---
 
 <div class="f-mb-xl">
-  <div class="group relative grid f-pb-xs transition-all sm:grid-cols-8 sm:f-gap-xs lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
+  <div
+    class="group relative grid f-pb-xs transition-all sm:grid-cols-8 sm:f-gap-xs lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
+  >
     <!-- Background element -->
-    <div class="absolute f-left--16--24 f-right-0-0 f-top--16--24 f-bottom-0-0 z-0 rounded-md transition duration-300 ease-in-out lg:block lg:group-hover:bg-[rgb(51,51,57)] lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] group-hover:drop-shadow-lg"></div>
+    <div
+      class="absolute f-left--16--24 f-right-0-0 f-top--16--24 f-bottom-0-0 z-0 rounded-md transition duration-300 ease-in-out lg:block lg:group-hover:bg-[rgb(51,51,57)] lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] group-hover:drop-shadow-lg"
+    >
+    </div>
 
-    {description !== "" && (
-    <header class="z-10 f-mb-xs f-mt-1-2 f-text-2xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2 break-words">
-      {description}
-    </header>
-    )}
+    {
+      description !== '' && (
+        <header class="z-10 f-mb-xs f-mt-1-2 f-text-2xs font-semibold uppercase tracking-wide text-zinc-500 sm:col-span-2 break-words">
+          {description}
+        </header>
+      )
+    }
 
-    {imageSrc !== "" && (
-    <img class="w-20 f-mb-xs rounded hover:drop-shadow sm:order-1 sm:col-span-2 sm:translate-y-1"
-         loading="lazy"
-         data-nimg="1"
-         width="200"
-         height="48"
-         src={imageSrc}
-         alt={title || "card image"}
-    />
-    )}
+    {
+      imageSrc !== '' && (
+        <img
+          class="w-20 f-mb-xs rounded hover:drop-shadow sm:order-1 sm:col-span-2 sm:translate-y-1"
+          loading="lazy"
+          data-nimg="1"
+          width="200"
+          height="48"
+          src={imageSrc}
+          alt={title || 'card image'}
+        />
+      )
+    }
 
     <div class="z-10 sm:col-span-6 order-0 sm:order-2 relative">
-      {title !== "" && (
-      <div class="f-mb-xs">
-        <h3 class="font-medium leading-snug text-zinc-200 max-w-[80%]">
-          <>
-            {!href && !to && (
-            <CardHeader title={title} org={org}/>
+      {
+        title !== '' && (
+          <div class="f-mb-xs">
+            <h3 class="font-medium leading-snug text-zinc-200 max-w-[80%]">
+              <>
+                {!href && !to && <CardHeader title={title} org={org} />}
+                {href && (
+                  <Ol href={href}>
+                    <CardHeader title={title} org={org} />
+                  </Ol>
+                )}
+                {to && (
+                  <Il href={to}>
+                    <CardHeader title={title} org={org} />
+                  </Il>
+                )}
+              </>
+            </h3>
+
+            {Astro.slots.has('context') && (
+              <div class="f-mb-xs mt-1 f-text-xs text-zinc-400">
+                <slot name="context" />
+              </div>
             )}
-            {href && (
-            <Ol href={href}>
-              <CardHeader title={title} org={org}/>
-            </Ol>)}
-            {to &&
-            <Il href={to}>
-              <CardHeader title={title} org={org}/>
-            </Il>}
-          </>
-        </h3>
+            <div class="font-light text-zinc-200">
+              <span>{pos}</span>
+            </div>
+            <div class="absolute top-0 right-0">
+              <Ago when={when} />
+            </div>
+          </div>
+        )
+      }
 
-        {Astro.slots.has('context') &&
-        <div class="f-mb-xs mt-1 f-text-xs text-zinc-400">
-          <slot name="context"/>
-        </div>
-        }
-        <div class="font-light text-zinc-200">
-          <span>{pos}</span>
-        </div>
-        <div class="absolute top-0 right-0">
-        <Ago when={when}/>
-        </div>
-      </div>
-      )}
+      {
+        Astro.slots.has('default') && (
+          <div class="f-text-xs f-my-xs f-mr-md">
+            <slot />
+          </div>
+        )
+      }
 
-      {Astro.slots.has('default') && (
-      <div class="f-text-xs f-my-xs f-mr-md">
-        <slot/>
-      </div>
-      )}
+      {links && links.length > 0 && <RelevantLinks {links} />}
 
-      {links && links.length > 0 && (
-      <RelevantLinks {links} />
-      )}
-
-      {topics !== "" && (
-      <div class="flex flex-wrap">
-        {topics.map(topic => <Badge topic={topic} />)}
-      </div>
-      )}
+      {
+        topics !== '' && (
+          <div class="flex flex-wrap">
+            {topics.map((topic) => (
+              <Badge topic={topic} />
+            ))}
+          </div>
+        )
+      }
     </div>
   </div>
 </div>

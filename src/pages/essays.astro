@@ -1,24 +1,20 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from '../layouts/Layout.astro'
 
 import BadgeSelection from '../components/BadgeSelection.astro'
 import ClampWrapper from '../components/ClampWrapper.astro'
 import Heading from '../components/Heading.astro'
 
 import Essays from '../content/essays.astro'
-import {
-  publishedEssays, draftEssays,
-  getTopics
-} from '../content/content.ts'
+import { publishedEssays, draftEssays, getTopics } from '../content/content.ts'
 
 const essayTopics = getTopics([publishedEssays, draftEssays])
-
 ---
 
 <Layout title="Essays">
   <div class="f-mx-md">
     <ClampWrapper clampHeight="250">
-      <BadgeSelection size="f-text-sm" topics={essayTopics}/>
+      <BadgeSelection size="f-text-sm" topics={essayTopics} />
     </ClampWrapper>
     <div class="f-my-xl grid md:grid-cols-2 lg:grid-cols-3">
       <Heading>Essays</Heading>
@@ -28,7 +24,7 @@ const essayTopics = getTopics([publishedEssays, draftEssays])
 </Layout>
 
 <script>
- import runInteraction from '../components/badgeSelectionInteraction.js'
+  import runInteraction from '../components/badgeSelectionInteraction.js'
 
- runInteraction()
+  runInteraction()
 </script>

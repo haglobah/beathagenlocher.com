@@ -1,16 +1,19 @@
 ---
-
 export interface Props {
-  placeholder?: string;
+  placeholder?: string
 }
 
-const { placeholder = "Search commands..." } = Astro.props;
-
+const { placeholder = 'Search commands...' } = Astro.props
 ---
 
-<div id="command-palette" class="hidden fixed inset-0 z-50 items-center justify-center p-4">
+<div
+  id="command-palette"
+  class="hidden fixed inset-0 z-50 items-center justify-center p-4"
+>
   <div class="fixed inset-0 bg-black bg-opacity-50" id="palette-backdrop"></div>
-  <div class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-2xl border border-zinc-700">
+  <div
+    class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-2xl border border-zinc-700"
+  >
     <input
       type="text"
       id="palette-input"
@@ -23,70 +26,71 @@ const { placeholder = "Search commands..." } = Astro.props;
 </div>
 
 <script>
-  import { atom } from 'nanostores';
+  import { atom } from 'nanostores'
   import { $commandItems } from '../store.ts'
 
-  let isOpen = false;
-  let selectedIndex = 0;
-  let filteredItems: CommandItem[] = [];
+  let isOpen = false
+  let selectedIndex = 0
+  let filteredItems: CommandItem[] = []
 
-  const palette = document.getElementById('command-palette')!;
-  const input = document.getElementById('palette-input') as HTMLInputElement;
-  const results = document.getElementById('palette-results')!;
-  const backdrop = document.getElementById('palette-backdrop')!;
+  const palette = document.getElementById('command-palette')!
+  const input = document.getElementById('palette-input') as HTMLInputElement
+  const results = document.getElementById('palette-results')!
+  const backdrop = document.getElementById('palette-backdrop')!
 
   function open() {
-    isOpen = true;
-    palette.classList.remove('hidden');
-    palette.classList.add('flex');
-    input.focus();
-    selectedIndex = 0;
-    render();
+    isOpen = true
+    palette.classList.remove('hidden')
+    palette.classList.add('flex')
+    input.focus()
+    selectedIndex = 0
+    render()
   }
 
   function close() {
-    isOpen = false;
-    palette.classList.add('hidden');
-    palette.classList.remove('flex');
-    input.value = '';
-    selectedIndex = 0;
+    isOpen = false
+    palette.classList.add('hidden')
+    palette.classList.remove('flex')
+    input.value = ''
+    selectedIndex = 0
   }
 
   function fuzzyMatch(query: string, text: string): boolean {
-    const q = query.toLowerCase();
-    const t = text.toLowerCase();
-    let qi = 0;
+    const q = query.toLowerCase()
+    const t = text.toLowerCase()
+    let qi = 0
     for (let ti = 0; ti < t.length && qi < q.length; ti++) {
-      if (t[ti] === q[qi]) qi++;
+      if (t[ti] === q[qi]) qi++
     }
-    return qi === q.length;
+    return qi === q.length
   }
 
   function filter(query: string): CommandItem[] {
-    if (!query) return $commandItems.get();
+    if (!query) return $commandItems.get()
 
-    return $commandItems.get().filter(item => {
+    return $commandItems.get().filter((item) => {
       const searchText = [
         item.name,
         item.description || '',
-        ...(item.keywords || [])
-      ].join(' ');
-      return fuzzyMatch(query, searchText);
-    });
+        ...(item.keywords || []),
+      ].join(' ')
+      return fuzzyMatch(query, searchText)
+    })
   }
 
   function render() {
-    const query = input.value;
-    filteredItems = filter(query);
+    const query = input.value
+    filteredItems = filter(query)
 
     if (filteredItems.length === 0) {
-      results.innerHTML = '<div class="px-4 py-8 text-center text-zinc-500">No commands found</div>';
-      return;
+      results.innerHTML =
+        '<div class="px-4 py-8 text-center text-zinc-500">No commands found</div>'
+      return
     }
 
     results.innerHTML = filteredItems
       .map((item, index) => {
-        const isSelected = index === selectedIndex;
+        const isSelected = index === selectedIndex
         return `
           <div
             class="px-4 py-3 cursor-pointer transition-colors ${
@@ -99,74 +103,77 @@ const { placeholder = "Search commands..." } = Astro.props;
             <div class="font-medium">${item.name}</div>
             ${item.description ? `<div class="text-sm text-zinc-500">${item.description}</div>` : ''}
           </div>
-        `;
+        `
       })
-      .join('');
+      .join('')
 
     // Add click handlers
     results.querySelectorAll('[data-index]').forEach((el) => {
       el.addEventListener('click', () => {
-        const index = parseInt((el as HTMLElement).dataset.index!);
-        execute(filteredItems[index]);
-      });
-    });
+        const index = parseInt((el as HTMLElement).dataset.index!)
+        execute(filteredItems[index])
+      })
+    })
   }
 
   function execute(item: CommandItem) {
-    close();
-    item.handler();
+    close()
+    item.handler()
   }
 
   function moveSelection(delta: number) {
-    selectedIndex = Math.max(0, Math.min(filteredItems.length - 1, selectedIndex + delta));
-    render();
+    selectedIndex = Math.max(
+      0,
+      Math.min(filteredItems.length - 1, selectedIndex + delta),
+    )
+    render()
   }
 
   // Global keyboard handler
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
+      e.preventDefault()
       if (isOpen) {
-        close();
+        close()
       } else {
-        open();
+        open()
       }
-      return;
+      return
     }
 
-    if (!isOpen) return;
+    if (!isOpen) return
 
     switch (e.key) {
       case 'Escape':
-        e.preventDefault();
-        close();
-        break;
+        e.preventDefault()
+        close()
+        break
       case 'ArrowDown':
-        e.preventDefault();
-        moveSelection(1);
-        break;
+        e.preventDefault()
+        moveSelection(1)
+        break
       case 'ArrowUp':
-        e.preventDefault();
-        moveSelection(-1);
-        break;
+        e.preventDefault()
+        moveSelection(-1)
+        break
       case 'Enter':
-        e.preventDefault();
+        e.preventDefault()
         if (filteredItems[selectedIndex]) {
-          execute(filteredItems[selectedIndex]);
+          execute(filteredItems[selectedIndex])
         }
-        break;
+        break
     }
-  });
+  })
 
   // Input handler
   input.addEventListener('input', () => {
-    selectedIndex = 0;
-    render();
-  });
+    selectedIndex = 0
+    render()
+  })
 
   // Backdrop click
-  backdrop.addEventListener('click', close);
+  backdrop.addEventListener('click', close)
 
   // Initial render
-  render();
+  render()
 </script>
