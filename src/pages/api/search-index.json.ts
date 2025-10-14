@@ -12,7 +12,7 @@ export async function GET() {
       type: 'note',
       title: entry.data.title,
       description: entry.data.description || '',
-      url: `/notes/${entry.slug}`,
+      url: `/${entry.id}`,
       body: entry.body,
     })),
     ...essays.map(entry => ({
@@ -20,7 +20,7 @@ export async function GET() {
       type: 'essay',
       title: entry.data.title,
       description: entry.data.description || '',
-      url: `/essays/${entry.slug}`,
+      url: `/${entry.id}`,
       body: entry.body,
     })),
     ...talks.map(entry => ({
@@ -28,7 +28,7 @@ export async function GET() {
       type: 'talk',
       title: entry.data.title,
       description: entry.data.description || '',
-      url: `/talks/${entry.slug}`,
+      url: `/${entry.id}`,
       body: entry.body,
     })),
     ...stream.map(entry => ({
@@ -36,7 +36,7 @@ export async function GET() {
       type: 'stream',
       title: entry.data.title,
       description: entry.data.description || '',
-      url: `/stream/${entry.slug}`,
+      url: `/${entry.id}`,
       body: entry.body,
     })),
   ]
