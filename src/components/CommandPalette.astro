@@ -26,7 +26,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 </div>
 
 <script>
-  import { atom } from 'nanostores'
+  import Fuse from 'fuse.js'
   import { $commandItems } from '../store.ts'
 
   interface SearchResult {
@@ -43,6 +43,8 @@ const { placeholder = 'Search commands...' } = Astro.props
   let filteredItems: (CommandItem | SearchResult)[] = []
   let searchIndex: SearchResult[] = []
   let searchIndexLoaded = false
+  let contentFuse: Fuse<SearchResult> | null = null
+  let commandFuse: Fuse<CommandItem> | null = null
 
   const palette = document.getElementById('command-palette')!
   const input = document.getElementById('palette-input') as HTMLInputElement
@@ -56,6 +58,18 @@ const { placeholder = 'Search commands...' } = Astro.props
       const response = await fetch('/api/search-index.json')
       searchIndex = await response.json()
       searchIndexLoaded = true
+
+      // Initialize Fuse for content search
+      contentFuse = new Fuse(searchIndex, {
+        keys: [
+          { name: 'title', weight: 2 },
+          { name: 'description', weight: 1.5 },
+          { name: 'body', weight: 1 }
+        ],
+        threshold: 0.4,
+        includeScore: true,
+        minMatchCharLength: 2,
+      })
     } catch (error) {
       console.error('Failed to load search index:', error)
     }
@@ -68,6 +82,19 @@ const { placeholder = 'Search commands...' } = Astro.props
     input.focus()
     selectedIndex = 0
     loadSearchIndex() // Load index when opening
+
+    // Initialize command Fuse
+    const commands = $commandItems.get()
+    commandFuse = new Fuse(commands, {
+      keys: [
+        { name: 'name', weight: 2 },
+        { name: 'description', weight: 1.5 },
+        { name: 'keywords', weight: 1 }
+      ],
+      threshold: 0.3,
+      includeScore: true,
+    })
+
     render()
   }
 
@@ -79,41 +106,22 @@ const { placeholder = 'Search commands...' } = Astro.props
     selectedIndex = 0
   }
 
-  function fuzzyMatch(query: string, text: string): boolean {
-    const q = query.toLowerCase()
-    const t = text.toLowerCase()
-    let qi = 0
-    for (let ti = 0; ti < t.length && qi < q.length; ti++) {
-      if (t[ti] === q[qi]) qi++
-    }
-    return qi === q.length
+  function searchContent(query: string): SearchResult[] {
+    if (!query || !searchIndexLoaded || !contentFuse) return []
+
+    const results = contentFuse.search(query)
+    return results.slice(0, 10).map(result => result.item)
   }
 
-  function searchContent(query: string): SearchResult[] {
-    if (!query || !searchIndexLoaded) return []
-    
-    return searchIndex
-      .filter((item) => {
-        const searchText = [
-          item.title,
-          item.description,
-          item.body,
-        ].join(' ')
-        return fuzzyMatch(query, searchText)
-      })
-      .slice(0, 10) // Limit results
+  function searchCommands(query: string): CommandItem[] {
+    if (!query || !commandFuse) return $commandItems.get()
+
+    const results = commandFuse.search(query)
+    return results.map(result => result.item)
   }
 
   function filter(query: string): (CommandItem | SearchResult)[] {
-    const commands = $commandItems.get().filter((item) => {
-      const searchText = [
-        item.name,
-        item.description || '',
-        ...(item.keywords || []),
-      ].join(' ')
-      return fuzzyMatch(query, searchText)
-    })
-
+    const commands = searchCommands(query)
     const contentResults = searchContent(query)
 
     // If no query, show only commands
@@ -140,7 +148,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     results.innerHTML = filteredItems
       .map((item, index) => {
         const isSelected = index === selectedIndex
-        
+
         if (isSearchResult(item)) {
           return `
             <div
