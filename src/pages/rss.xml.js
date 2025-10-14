@@ -16,10 +16,10 @@ function stripMDXComponents(text) {
 }
 
 export async function GET(context) {
-  const notes = await getCollection("notes", ({ data }) => !data.draft);
-  const essays = await getCollection("essays", ({ data }) => !data.draft);
-  const talks = await getCollection("talks", ({ data }) => !data.draft);
-  const stream = await getCollection("stream", ({ data }) => !data.draft);
+  const notes = await getCollection("notes", ({ data }) => data.publish);
+  const essays = await getCollection("essays", ({ data }) => data.publish);
+  const talks = await getCollection("talks", ({ data }) => data.publish);
+  const stream = await getCollection("stream", ({ data }) => data.publish);
 
   return rss({
     title: 'Beat Hagenlocher',
