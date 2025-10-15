@@ -19,6 +19,7 @@
     "astro": "^5.10.1",
     "astro-expressive-code": "^0.41.2",
     "astro-seo": "^0.8.4",
+    "flexsearch": "^0.8.212",
     "fuse.js": "^7.1.0",
     "javascript-time-ago": "^2.5.11",
     "linkedom": "^0.18.9",
