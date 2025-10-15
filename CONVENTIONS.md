@@ -1,0 +1,2 @@
+- use Astro syntax for components, then SolidJS syntax
+- use TypeScript
