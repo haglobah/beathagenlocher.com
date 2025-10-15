@@ -12,16 +12,24 @@ const { placeholder = 'Search commands...' } = Astro.props
 >
   <div class="fixed inset-0 bg-black bg-opacity-50" id="palette-backdrop"></div>
   <div
-    class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-2xl border border-zinc-700"
+    class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-5xl border border-zinc-700 flex"
   >
-    <input
-      type="text"
-      id="palette-input"
-      class="w-full px-4 py-3 bg-transparent text-zinc-100 placeholder-zinc-500 outline-none border-b border-zinc-700"
-      placeholder={placeholder}
-      autocomplete="off"
-    />
-    <div id="palette-results" class="max-h-96 overflow-y-auto"></div>
+    <div class="flex-1 flex flex-col min-w-0">
+      <input
+        type="text"
+        id="palette-input"
+        class="w-full px-4 py-3 bg-transparent text-zinc-100 placeholder-zinc-500 outline-none border-b border-zinc-700"
+        placeholder={placeholder}
+        autocomplete="off"
+      />
+      <div id="palette-results" class="max-h-96 overflow-y-auto"></div>
+    </div>
+    <div
+      id="palette-preview"
+      class="hidden w-96 border-l border-zinc-700 p-4 overflow-y-auto max-h-96 bg-zinc-950"
+    >
+      <div id="preview-content" class="text-sm text-zinc-400"></div>
+    </div>
   </div>
 </div>
 
@@ -50,6 +58,8 @@ const { placeholder = 'Search commands...' } = Astro.props
   const input = document.getElementById('palette-input') as HTMLInputElement
   const results = document.getElementById('palette-results')!
   const backdrop = document.getElementById('palette-backdrop')!
+  const previewPane = document.getElementById('palette-preview')!
+  const previewContent = document.getElementById('preview-content')!
 
   async function loadSearchIndex() {
     if (searchIndexLoaded) return
@@ -105,6 +115,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     palette.classList.remove('flex')
     input.value = ''
     selectedIndex = 0
+    previewPane.classList.add('hidden')
   }
 
   function searchContent(query: string): SearchResult[] {
@@ -135,6 +146,83 @@ const { placeholder = 'Search commands...' } = Astro.props
     return 'url' in item && 'type' in item
   }
 
+  function highlightMatches(text: string, query: string): string {
+    if (!query) return text
+
+    const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
+    let result = text
+
+    terms.forEach((term) => {
+      const regex = new RegExp(`(${term})`, 'gi')
+      result = result.replace(
+        regex,
+        '<mark class="bg-yellow-600 text-zinc-100">$1</mark>',
+      )
+    })
+
+    return result
+  }
+
+  function getContextSnippet(text: string, query: string): string {
+    if (!query) return text.slice(0, 300) + '...'
+
+    const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
+    const lowerText = text.toLowerCase()
+
+    let bestIndex = -1
+    let bestScore = 0
+
+    for (let i = 0; i < lowerText.length; i++) {
+      let score = 0
+      terms.forEach((term) => {
+        if (lowerText.slice(i, i + 100).includes(term)) {
+          score++
+        }
+      })
+      if (score > bestScore) {
+        bestScore = score
+        bestIndex = i
+      }
+    }
+
+    if (bestIndex === -1) {
+      return text.slice(0, 300) + '...'
+    }
+
+    const start = Math.max(0, bestIndex - 50)
+    const end = Math.min(text.length, bestIndex + 250)
+    const snippet = text.slice(start, end)
+
+    return (start > 0 ? '...' : '') + snippet + (end < text.length ? '...' : '')
+  }
+
+  function updatePreview(item: CommandItem | SearchResult) {
+    if (isSearchResult(item)) {
+      const query = input.value
+      const snippet = getContextSnippet(item.body, query)
+      const highlighted = highlightMatches(snippet, query)
+
+      previewContent.innerHTML = `
+        <div class="mb-4">
+          <div class="text-xs text-zinc-500 uppercase mb-1">${item.type}</div>
+          <div class="text-lg font-medium text-zinc-100 mb-2">${item.title}</div>
+          ${item.description ? `<div class="text-sm text-zinc-400 mb-3">${item.description}</div>` : ''}
+        </div>
+        <div class="text-zinc-300 leading-relaxed whitespace-pre-wrap">${highlighted}</div>
+      `
+      previewPane.classList.remove('hidden')
+    } else {
+      previewContent.innerHTML = `
+        <div class="mb-4">
+          <div class="text-lg font-medium text-zinc-100 mb-2">${item.name}</div>
+          ${item.description ? `<div class="text-sm text-zinc-400">${item.description}</div>` : ''}
+        </div>
+        ${item.keywords ? `<div class="text-xs text-zinc-500 mt-4">Keywords: ${item.keywords.join(', ')}</div>` : ''}
+      `
+      previewPane.classList.remove('hidden')
+    }
+  }
+
   function render() {
     const query = input.value
     filteredItems = filter(query)
@@ -142,6 +230,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     if (filteredItems.length === 0) {
       results.innerHTML =
         '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
+      previewPane.classList.add('hidden')
       return
     }
 
@@ -190,6 +279,10 @@ const { placeholder = 'Search commands...' } = Astro.props
         execute(filteredItems[index])
       })
     })
+
+    if (filteredItems[selectedIndex]) {
+      updatePreview(filteredItems[selectedIndex])
+    }
   }
 
   function execute(item: CommandItem | SearchResult) {
