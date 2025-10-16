@@ -44,6 +44,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     description: string
     url: string
     body: string
+    topics: string[]
   }
 
   let isOpen = false
@@ -79,7 +80,8 @@ const { placeholder = 'Search commands...' } = Astro.props
       })
 
       searchIndex.forEach((item, idx) => {
-        const searchableText = `${item.title} ${item.description} ${item.body}`
+        const topicsText = item.topics ? item.topics.join(' ') : ''
+        const searchableText = `${item.title} ${item.description} ${topicsText} ${item.body}`
         contentIndex!.add(idx, searchableText)
       })
     } catch (error) {

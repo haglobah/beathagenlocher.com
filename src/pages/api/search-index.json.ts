@@ -14,6 +14,7 @@ export async function GET() {
       description: entry.data.description || '',
       url: `/${entry.id}`,
       body: entry.body,
+      topics: entry.data.topics || [],
     })),
     ...essays.map(entry => ({
       id: entry.id,
@@ -22,6 +23,7 @@ export async function GET() {
       description: entry.data.description || '',
       url: `/${entry.id}`,
       body: entry.body,
+      topics: entry.data.topics || [],
     })),
     ...talks.map(entry => ({
       id: entry.id,
@@ -30,6 +32,7 @@ export async function GET() {
       description: entry.data.description || '',
       url: `/${entry.id}`,
       body: entry.body,
+      topics: entry.data.topics || [],
     })),
     ...stream.map(entry => ({
       id: entry.id,
@@ -37,6 +40,7 @@ export async function GET() {
       title: entry.data.title,
       url: `/${entry.id}`,
       body: entry.body,
+      topics: entry.data.topics || [],
     })),
   ]
 
