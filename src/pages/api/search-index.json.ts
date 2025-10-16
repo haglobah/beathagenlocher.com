@@ -8,7 +8,7 @@ export async function GET() {
 
   const allContent = [
     ...notes.map(entry => ({
-      id: entry.slug,
+      id: entry.id,
       type: 'note',
       title: entry.data.title,
       description: entry.data.description || '',
@@ -16,7 +16,7 @@ export async function GET() {
       body: entry.body,
     })),
     ...essays.map(entry => ({
-      id: entry.slug,
+      id: entry.id,
       type: 'essay',
       title: entry.data.title,
       description: entry.data.description || '',
@@ -24,7 +24,7 @@ export async function GET() {
       body: entry.body,
     })),
     ...talks.map(entry => ({
-      id: entry.slug,
+      id: entry.id,
       type: 'talk',
       title: entry.data.title,
       description: entry.data.description || '',
@@ -32,10 +32,9 @@ export async function GET() {
       body: entry.body,
     })),
     ...stream.map(entry => ({
-      id: entry.slug,
+      id: entry.id,
       type: 'stream',
       title: entry.data.title,
-      description: entry.data.description || '',
       url: `/${entry.id}`,
       body: entry.body,
     })),
