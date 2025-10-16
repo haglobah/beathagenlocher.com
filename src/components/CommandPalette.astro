@@ -12,23 +12,36 @@ const { placeholder = 'Search commands...' } = Astro.props
 >
   <div class="fixed inset-0 bg-black bg-opacity-50" id="palette-backdrop"></div>
   <div
-    class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-5xl border border-zinc-700 flex"
+    class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-5xl border border-zinc-700 flex flex-col"
   >
-    <div class="flex-1 flex flex-col min-w-0">
-      <input
-        type="text"
-        id="palette-input"
-        class="w-full px-4 py-3 bg-transparent text-zinc-100 placeholder-zinc-500 outline-none border-b border-zinc-700"
-        placeholder={placeholder}
-        autocomplete="off"
-      />
-      <div id="palette-results" class="max-h-96 overflow-y-auto"></div>
-    </div>
     <div
-      id="palette-preview"
-      class="hidden w-96 border-l border-zinc-700 p-4 overflow-y-auto bg-zinc-950"
+      id="topic-selector"
+      class="hidden border-b border-zinc-700 p-4 bg-zinc-950"
     >
-      <div id="preview-content" class="text-sm text-zinc-400"></div>
+      <div class="text-xs text-zinc-500 uppercase mb-2">Select Topic</div>
+      <div
+        id="topic-selector-items"
+        class="flex flex-wrap gap-2 max-h-32 overflow-y-auto"
+      >
+      </div>
+    </div>
+    <div class="flex flex-1 min-h-0">
+      <div class="flex-1 flex flex-col min-w-0">
+        <input
+          type="text"
+          id="palette-input"
+          class="w-full px-4 py-3 bg-transparent text-zinc-100 placeholder-zinc-500 outline-none border-b border-zinc-700"
+          placeholder={placeholder}
+          autocomplete="off"
+        />
+        <div id="palette-results" class="max-h-96 overflow-y-auto"></div>
+      </div>
+      <div
+        id="palette-preview"
+        class="hidden w-96 border-l border-zinc-700 p-4 overflow-y-auto bg-zinc-950"
+      >
+        <div id="preview-content" class="text-sm text-zinc-400"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -54,6 +67,11 @@ const { placeholder = 'Search commands...' } = Astro.props
   let searchIndexLoaded = false
   let contentIndex: FlexSearch.Index | null = null
   let commandIndex: FlexSearch.Index | null = null
+  let isTopicMode = false
+  let filteredTopics: string[] = []
+  let selectedTopicIndex = 0
+  let allTopics: string[] = []
+  let topicCounts: Map<string, number> = new Map()
 
   const palette = document.getElementById('command-palette')!
   const input = document.getElementById('palette-input') as HTMLInputElement
@@ -61,6 +79,8 @@ const { placeholder = 'Search commands...' } = Astro.props
   const backdrop = document.getElementById('palette-backdrop')!
   const previewPane = document.getElementById('palette-preview')!
   const previewContent = document.getElementById('preview-content')!
+  const topicSelector = document.getElementById('topic-selector')!
+  const topicSelectorItems = document.getElementById('topic-selector-items')!
 
   async function loadSearchIndex() {
     if (searchIndexLoaded) return
@@ -84,6 +104,17 @@ const { placeholder = 'Search commands...' } = Astro.props
         const searchableText = `${item.title} ${item.description} ${topicsText} ${item.body}`
         contentIndex!.add(idx, searchableText)
       })
+
+      const topicsMap = new Map<string, number>()
+      searchIndex.forEach((item) => {
+        if (item.topics) {
+          item.topics.forEach((topic) => {
+            topicsMap.set(topic, (topicsMap.get(topic) || 0) + 1)
+          })
+        }
+      })
+      topicCounts = topicsMap
+      allTopics = Array.from(topicsMap.keys()).sort()
     } catch (error) {
       console.error('Failed to load search index:', error)
     }
@@ -117,7 +148,87 @@ const { placeholder = 'Search commands...' } = Astro.props
     palette.classList.remove('flex')
     input.value = ''
     selectedIndex = 0
+    isTopicMode = false
+    topicSelector.classList.add('hidden')
     previewPane.classList.add('hidden')
+  }
+
+  function checkTopicMode(query: string): { isTopicMode: boolean; topicQuery: string } {
+    const hashIndex = query.lastIndexOf('#')
+    if (hashIndex === -1) {
+      return { isTopicMode: false, topicQuery: '' }
+    }
+
+    const afterHash = query.slice(hashIndex + 1)
+    const hasSpaceAfterHash = afterHash.includes(' ')
+
+    if (hasSpaceAfterHash) {
+      return { isTopicMode: false, topicQuery: '' }
+    }
+
+    return { isTopicMode: true, topicQuery: afterHash.toLowerCase() }
+  }
+
+  function filterTopics(query: string): string[] {
+    if (!query) return allTopics
+
+    return allTopics.filter((topic) =>
+      topic.toLowerCase().includes(query)
+    ).sort((a, b) => {
+      const aStarts = a.toLowerCase().startsWith(query)
+      const bStarts = b.toLowerCase().startsWith(query)
+      if (aStarts && !bStarts) return -1
+      if (!aStarts && bStarts) return 1
+      return a.localeCompare(b)
+    })
+  }
+
+  function renderTopicSelector() {
+    if (filteredTopics.length === 0) {
+      topicSelectorItems.innerHTML = '<div class="text-zinc-500 text-sm">No topics found</div>'
+      return
+    }
+
+    topicSelectorItems.innerHTML = filteredTopics
+      .map((topic, index) => {
+        const isSelected = index === selectedTopicIndex
+        const count = topicCounts.get(topic) || 0
+        return `
+          <div
+            class="f-text-xs cursor-pointer transition-all"
+            data-topic-index="${index}"
+          >
+            <span class="flex rounded-full px-[0.9em] py-[0.5em] font-medium leading-5 ${
+              isSelected ? 'bg-sienna-mid/30 text-white hover:bg-sienna-mid/40' : 'bg-sienna-mid/10 text-sienna-mid hover:bg-sienna-mid/20'
+            }">
+              ${topic}
+              <span class="ml-2 text-zinc-500">${count}</span>
+            </span>
+          </div>
+        `
+      })
+      .join('')
+
+    topicSelectorItems.querySelectorAll('[data-topic-index]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const index = parseInt((el as HTMLElement).dataset.topicIndex!)
+        selectTopic(filteredTopics[index])
+      })
+    })
+  }
+
+  function selectTopic(topic: string) {
+    const currentValue = input.value
+    const hashIndex = currentValue.lastIndexOf('#')
+
+    const beforeHash = currentValue.slice(0, hashIndex)
+    input.value = beforeHash + topic + ' '
+
+    isTopicMode = false
+    topicSelector.classList.add('hidden')
+    selectedIndex = 0
+    render()
+    input.focus()
   }
 
   function searchContent(query: string): SearchResult[] {
@@ -259,6 +370,22 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   function render() {
     const query = input.value
+    const topicModeCheck = checkTopicMode(query)
+
+    if (topicModeCheck.isTopicMode) {
+      isTopicMode = true
+      filteredTopics = filterTopics(topicModeCheck.topicQuery)
+      selectedTopicIndex = 0
+      topicSelector.classList.remove('hidden')
+      renderTopicSelector()
+      results.innerHTML = ''
+      previewPane.classList.add('hidden')
+      return
+    } else {
+      isTopicMode = false
+      topicSelector.classList.add('hidden')
+    }
+
     filteredItems = filter(query)
 
     if (filteredItems.length === 0) {
@@ -329,11 +456,19 @@ const { placeholder = 'Search commands...' } = Astro.props
   }
 
   function moveSelection(delta: number) {
-    selectedIndex = Math.max(
-      0,
-      Math.min(filteredItems.length - 1, selectedIndex + delta),
-    )
-    render()
+    if (isTopicMode) {
+      selectedTopicIndex = Math.max(
+        0,
+        Math.min(filteredTopics.length - 1, selectedTopicIndex + delta),
+      )
+      renderTopicSelector()
+    } else {
+      selectedIndex = Math.max(
+        0,
+        Math.min(filteredItems.length - 1, selectedIndex + delta),
+      )
+      render()
+    }
   }
 
   document.addEventListener('keydown', (e) => {
@@ -362,9 +497,17 @@ const { placeholder = 'Search commands...' } = Astro.props
         e.preventDefault()
         moveSelection(-1)
         break
+      case 'Tab':
+        if (isTopicMode) {
+          e.preventDefault()
+          moveSelection(e.shiftKey ? -1 : 1)
+        }
+        break
       case 'Enter':
         e.preventDefault()
-        if (filteredItems[selectedIndex]) {
+        if (isTopicMode && filteredTopics[selectedTopicIndex]) {
+          selectTopic(filteredTopics[selectedTopicIndex])
+        } else if (filteredItems[selectedIndex]) {
           execute(filteredItems[selectedIndex])
         }
         break
@@ -373,6 +516,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   input.addEventListener('input', () => {
     selectedIndex = 0
+    selectedTopicIndex = 0
     render()
   })
 
