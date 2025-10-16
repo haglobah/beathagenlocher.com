@@ -38,7 +38,7 @@ export async function GET() {
       id: entry.id,
       type: 'stream',
       title: entry.data.title,
-      url: `/${entry.id}`,
+      url: `/stream/#${entry.id}`,
       body: entry.body,
       topics: entry.data.topics || [],
     })),
