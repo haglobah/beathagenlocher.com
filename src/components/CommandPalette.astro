@@ -26,7 +26,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     </div>
     <div
       id="palette-preview"
-      class="hidden w-96 border-l border-zinc-700 p-4 overflow-y-auto max-h-96 bg-zinc-950"
+      class="hidden w-96 border-l border-zinc-700 p-4 overflow-y-auto bg-zinc-950"
     >
       <div id="preview-content" class="text-sm text-zinc-400"></div>
     </div>
@@ -273,23 +273,6 @@ const { placeholder = 'Search commands...' } = Astro.props
         const isSelected = index === selectedIndex
 
         if (isSearchResult(item)) {
-          const topicBadges =
-            item.topics && item.topics.length > 0
-              ? `<div class="mt-2 flex flex-wrap gap-2">
-                ${item.topics
-                  .map(
-                    (t) => `
-                  <div class="f-text-xs">
-                    <span class="flex rounded-full bg-sienna-mid/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-sienna-mid">
-                      ${t}
-                    </span>
-                  </div>
-                `,
-                  )
-                  .join('')}
-               </div>`
-              : ''
-
           return `
             <div
               class="px-4 py-3 cursor-pointer transition-colors ${
@@ -304,7 +287,6 @@ const { placeholder = 'Search commands...' } = Astro.props
                 <div class="font-medium">${item.title}</div>
               </div>
               ${item.description ? `<div class="text-sm text-zinc-500 mt-1">${item.description}</div>` : ''}
-              ${topicBadges}
             </div>
           `
         } else {
