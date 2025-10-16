@@ -158,7 +158,7 @@ const { placeholder = 'Search commands...' } = Astro.props
       const regex = new RegExp(`(${term})`, 'gi')
       result = result.replace(
         regex,
-        '<mark class="bg-yellow-600 text-zinc-100">$1</mark>',
+        '<mark class="bg-sienna-light text-zinc-800">$1</mark>',
       )
     })
 
@@ -204,17 +204,36 @@ const { placeholder = 'Search commands...' } = Astro.props
       const snippet = getContextSnippet(item.body, query)
       const highlighted = highlightMatches(snippet, query)
 
-      const topicBadges = item.topics && item.topics.length > 0
-        ? `<div class="flex flex-wrap gap-2 mt-3">
-            ${item.topics.map(t => `
-              <div class="f-text-xs">
-                <span class="flex rounded-full bg-sienna-mid/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-sienna-mid">
-                  ${t}
-                </span>
-              </div>
-            `).join('')}
+      const topicBadges =
+        item.topics && item.topics.length > 0
+          ? `<div class="flex flex-wrap gap-2 mt-3">
+            ${item.topics
+              .map((t) => {
+                const queryTerms = query
+                  .toLowerCase()
+                  .split(/\s+/)
+                  .filter(Boolean)
+                const isMatch = queryTerms.some((term) =>
+                  t.toLowerCase().includes(term),
+                )
+                const bgClass = isMatch
+                  ? 'bg-sienna-mid/30'
+                  : 'bg-sienna-mid/10'
+                const textClass = isMatch
+                  ? 'text-white'
+                  : 'text-sienna-mid'
+
+                return `
+                <div class="f-text-xs">
+                  <span class="flex rounded-full ${bgClass} px-[0.9em] py-[0.5em] font-medium leading-5 ${textClass}">
+                    ${t}
+                  </span>
+                </div>
+              `
+              })
+              .join('')}
            </div>`
-        : ''
+          : ''
 
       previewContent.innerHTML = `
         <div class="mb-4">
@@ -254,17 +273,22 @@ const { placeholder = 'Search commands...' } = Astro.props
         const isSelected = index === selectedIndex
 
         if (isSearchResult(item)) {
-          const topicBadges = item.topics && item.topics.length > 0
-            ? `<div class="mt-2 flex flex-wrap gap-2">
-                ${item.topics.map(t => `
+          const topicBadges =
+            item.topics && item.topics.length > 0
+              ? `<div class="mt-2 flex flex-wrap gap-2">
+                ${item.topics
+                  .map(
+                    (t) => `
                   <div class="f-text-xs">
                     <span class="flex rounded-full bg-sienna-mid/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-sienna-mid">
                       ${t}
                     </span>
                   </div>
-                `).join('')}
+                `,
+                  )
+                  .join('')}
                </div>`
-            : ''
+              : ''
 
           return `
             <div
