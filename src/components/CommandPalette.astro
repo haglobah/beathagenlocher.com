@@ -204,11 +204,24 @@ const { placeholder = 'Search commands...' } = Astro.props
       const snippet = getContextSnippet(item.body, query)
       const highlighted = highlightMatches(snippet, query)
 
+      const topicBadges = item.topics && item.topics.length > 0
+        ? `<div class="flex flex-wrap gap-2 mt-3">
+            ${item.topics.map(t => `
+              <div class="f-text-xs">
+                <span class="flex rounded-full bg-sienna-mid/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-sienna-mid">
+                  ${t}
+                </span>
+              </div>
+            `).join('')}
+           </div>`
+        : ''
+
       previewContent.innerHTML = `
         <div class="mb-4">
           <div class="text-xs text-zinc-500 uppercase mb-1">${item.type}</div>
           <div class="text-lg font-medium text-zinc-100 mb-2">${item.title}</div>
           ${item.description ? `<div class="text-sm text-zinc-400 mb-3">${item.description}</div>` : ''}
+          ${topicBadges}
         </div>
         <div class="text-zinc-300 leading-relaxed whitespace-pre-wrap">${highlighted}</div>
       `
@@ -241,6 +254,18 @@ const { placeholder = 'Search commands...' } = Astro.props
         const isSelected = index === selectedIndex
 
         if (isSearchResult(item)) {
+          const topicBadges = item.topics && item.topics.length > 0
+            ? `<div class="mt-2 flex flex-wrap gap-2">
+                ${item.topics.map(t => `
+                  <div class="f-text-xs">
+                    <span class="flex rounded-full bg-sienna-mid/10 px-[0.9em] py-[0.5em] font-medium leading-5 text-sienna-mid">
+                      ${t}
+                    </span>
+                  </div>
+                `).join('')}
+               </div>`
+            : ''
+
           return `
             <div
               class="px-4 py-3 cursor-pointer transition-colors ${
@@ -255,6 +280,7 @@ const { placeholder = 'Search commands...' } = Astro.props
                 <div class="font-medium">${item.title}</div>
               </div>
               ${item.description ? `<div class="text-sm text-zinc-500 mt-1">${item.description}</div>` : ''}
+              ${topicBadges}
             </div>
           `
         } else {
