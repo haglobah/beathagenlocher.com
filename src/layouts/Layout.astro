@@ -2,6 +2,7 @@
 import { SEO } from 'astro-seo'
 import MainPageIconButton from '../components/MainPageIconButton.astro'
 import CommandPalette from '../components/CommandPalette.astro'
+import CommandPaletteButton from '../components/CommandPaletteButton.astro'
 
 export interface Props {
   title?: string
@@ -72,20 +73,13 @@ declare global {
     <CommandPalette placeholder="Search commands and content..." />
     <div class="flex f-my-xl justify-center items-center gap-4">
       <MainPageIconButton classStyle="f-w-128-164" />
-      <button
-        id="search-button"
-        class="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 text-zinc-300 rounded-full transition-colors flex items-center gap-2 relative"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="absolute h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <span class="pl-8 pt-0.5">Search</span>
-        <span class="px-2 pt-0.5 text-lg font-bold">Ctrl K</span>
-      </button>
+      <CommandPaletteButton />
     </div>
     <main class="f-mb-md min-h-screen">
       <slot />
     </main>
+    <footer>
+    </footer>
   </body>
 </html>
 
@@ -106,16 +100,4 @@ declare global {
     //   handler: () => console.log('Toggle theme'),
     // },
   ])
-
-  const searchButton = document.getElementById('search-button')
-  if (searchButton) {
-    searchButton.addEventListener('click', () => {
-      const event = new KeyboardEvent('keydown', {
-        key: 'k',
-        metaKey: true,
-        bubbles: true,
-      })
-      document.dispatchEvent(event)
-    })
-  }
 </script>
