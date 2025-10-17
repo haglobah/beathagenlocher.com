@@ -1,8 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro'
 
-import BadgeSelection from '../components/BadgeSelection.astro'
-import ClampWrapper from '../components/ClampWrapper.astro'
 import Heading from '../components/Heading.astro'
 
 import Stream from '../content/stream.astro'
@@ -13,9 +11,6 @@ const noteTopics = getTopics([stream])
 
 <Layout title="Stream">
   <div class="f-mx-md">
-    <ClampWrapper clampHeight="250">
-      <BadgeSelection size="f-text-sm" topics={noteTopics} />
-    </ClampWrapper>
     <div class="f-my-xl max-w-[65ch] mx-auto">
       <Heading>Stream</Heading>
       <Stream />
@@ -24,7 +19,5 @@ const noteTopics = getTopics([stream])
 </Layout>
 
 <script>
-  import runInteraction from '../components/badgeSelectionInteraction.js'
 
-  runInteraction()
 </script>
