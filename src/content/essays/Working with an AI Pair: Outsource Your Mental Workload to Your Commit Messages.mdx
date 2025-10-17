@@ -1,0 +1,29 @@
+---
+title: "Working with an AI Pair: Outsource Your Mental Workload to Your Commit Messages"
+growthStage: seedling
+startDate: 2025-10-17T01:54:29
+updated: 2025-10-17T02:18:19
+topics: [AI, aider, Software Development, git]
+publish: true
+---
+
+I think I've found a new workflow I really like: In "AI mode", using the latest git commit message as a to-think-of list, and `git amend`ing it when I add/remove things.
+
+When working with an AI pair programmer/agent ([aidermacs](https://github.com/MatthewZMD/aidermacs) with `sonnet-4.5` in my case), I regularly have my mental workload maxed out.
+
+Not only do I need/want to understand most of the code it writes, I also need to:
+- keep track of what's not working from the existing stuff
+- evaluate different avenues at the same time (and be able to jump between them)
+- keep track of which features I still need.
+
+And this all the while I can test hypotheses at at least double the pre-AI speed.
+
+Normally, I'd say I should keep something like this in [[Obsidian]], and if I had my life taken over by [[Emacs]] already, org-mode, but I've found that adds more friction than I like. (In the time I think about a filename for this, it's over.)
+
+So far, my process looks/looked like adding a commit for most of the single-prompt changes aidermacs adds—so that I'm able to jump between them, and then somehow trying to keep the todos in my head in addition to everything else.
+
+Today, I had an insight:
+
+> I can just add them below the git commit message, and then constantly amend the message/commit with removed items/fixed issues in the code.
+
+Next time when I'm working on a bigger feature and have too much mental workload, I'm gonna try that out there, too.
