@@ -3,6 +3,7 @@ import { SEO } from 'astro-seo'
 import MainPageIconButton from '../components/MainPageIconButton.astro'
 import CommandPalette from '../components/CommandPalette.astro'
 import CommandPaletteButton from '../components/CommandPaletteButton.astro'
+import Il from '../components/InnerLink.astro'
 
 export interface Props {
   title?: string
@@ -57,7 +58,8 @@ declare global {
     ></script>
     <SEO
       title={title}
-      description={desc || "Beat's digital garden with notes and essays on Software Engineering, and other written thinking"}
+      description={desc ||
+        "Beat's digital garden with notes and essays on Software Engineering, and other written thinking"}
       openGraph={{
         basic: {
           type: 'website',
@@ -78,7 +80,12 @@ declare global {
     <main class="f-mb-md min-h-screen">
       <slot />
     </main>
-    <footer></footer>
+    <footer class="my-12 flex justify-center text-center">
+      <span class="font-light font-sans f-text-xs text-zinc-400 italic">
+        Thought of something you want to share with me? <br>
+        Please <Il href="contacting-me">tell me about it</Il> :)
+      </span>
+    </footer>
   </body>
 </html>
 
