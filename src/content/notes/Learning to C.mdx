@@ -116,7 +116,7 @@ Done?
 Then it's review time, again:
 
 <OrbitArea>
-  <OrbitPrompt question="Create directory a directory called `this_dir`." answer="`mkdir this_dir`"/>
+  <OrbitPrompt question="Create a directory called `this_dir`." answer="`mkdir this_dir`"/>
   <OrbitPrompt question="Create two directories consecutively: `outer_dir` and `inner_dir`." answer="`mkdir -p outer_dir/inner_dir`"/>
   <OrbitPrompt question="Create a new file (two ways)" answer="
   - `touch newfile`
@@ -157,11 +157,11 @@ And on to [4. Pipes and Filters](https://swcarpentry.github.io/shell-novice/04-p
 Continue with [5. Loops](https://swcarpentry.github.io/shell-novice/05-loop.html):
 
 <OrbitArea>
-  <OrbitPrompt question="Write a for loop that prints each file name in the current directory" answer="`for filename in *; do echo $filename; done`"/>
-  <OrbitPrompt question="Write a for loop that copies all .txt files to a backup directory" answer="`for file in *.txt; do cp $file backup/; done`"/>
+  <OrbitPrompt question="Write a `for` loop that prints each file name in the current directory" answer="`for filename in *; do echo $filename; done`"/>
+  <OrbitPrompt question="Write a `for` loop that copies all .txt files to a backup directory" answer="`for file in *.txt; do cp $file backup/; done`"/>
   <OrbitPrompt question="How do you reference a variable in bash?" answer="Use `$` before the variable name, like `$filename`"/>
-  <OrbitPrompt question="Write a for loop that processes files alice.txt and bob.txt" answer="`for file in alice.txt bob.txt; do echo $file; done`"/>
-  <OrbitPrompt question="What's the general syntax of a for loop in bash?" answer="`for variable in list; do commands; done`"/>
+  <OrbitPrompt question="Write a `for` loop that processes files alice.txt and bob.txt" answer="`for file in alice.txt bob.txt; do echo $file; done`"/>
+  <OrbitPrompt question="What's the general syntax of a `for` loop in bash?" answer="`for variable in list; do commands; done`"/>
 </OrbitArea>
 
 Continue with [6. Shell Scripts](https://swcarpentry.github.io/shell-novice/06-script.html):
