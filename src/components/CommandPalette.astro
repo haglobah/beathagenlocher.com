@@ -43,7 +43,7 @@ const { placeholder = 'Search commands...' } = Astro.props
       </div>
       <div
         id="palette-preview"
-        class="hidden w-96 border-l border-zinc-700 p-4 overflow-y-auto bg-zinc-950"
+        class="hidden md:block w-96 border-l border-zinc-700 p-4 overflow-y-auto bg-zinc-950"
       >
         <div id="preview-content" class="text-sm text-zinc-400"></div>
       </div>
@@ -87,6 +87,9 @@ const { placeholder = 'Search commands...' } = Astro.props
   const topicSelector = document.getElementById('topic-selector')!
   const topicSelectorItems = document.getElementById('topic-selector-items')!
 
+  const hidePreview = (previewPane: HTMLELement) => previewPane.classList.remove('md:block')
+  const showPreview = (previewPane: HTMLELement) => previewPane.classList.add('md:block')
+ 
   async function loadSearchIndex() {
     if (searchIndexLoaded) return
     try {
@@ -155,7 +158,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     selectedIndex = 0
     isTopicMode = false
     topicSelector.classList.add('hidden')
-    previewPane.classList.add('hidden')
+    hidePreview(previewPane)
   }
 
   function checkTopicMode(query: string): { isTopicMode: boolean; topicQuery: string } {
@@ -360,7 +363,7 @@ const { placeholder = 'Search commands...' } = Astro.props
         </div>
         <div class="text-zinc-300 leading-relaxed whitespace-pre-wrap">${highlighted}</div>
       `
-      previewPane.classList.remove('hidden')
+      showPreview(previewPane)
     } else {
       previewContent.innerHTML = `
         <div class="mb-4">
@@ -369,7 +372,7 @@ const { placeholder = 'Search commands...' } = Astro.props
         </div>
         ${item.keywords ? `<div class="text-xs text-zinc-500 mt-4">Keywords: ${item.keywords.join(', ')}</div>` : ''}
       `
-      previewPane.classList.remove('hidden')
+      showPreview(previewPane)
     }
   }
 
@@ -384,7 +387,7 @@ const { placeholder = 'Search commands...' } = Astro.props
       topicSelector.classList.remove('hidden')
       renderTopicSelector()
       results.innerHTML = ''
-      previewPane.classList.add('hidden')
+      hidePreview(previewPane)
       return
     } else {
       isTopicMode = false
@@ -396,7 +399,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     if (filteredItems.length === 0) {
       results.innerHTML =
         '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
-      previewPane.classList.add('hidden')
+      hidePreview(previewPane)
       return
     }
 
