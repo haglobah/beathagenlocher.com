@@ -10,7 +10,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
 <div
   id="command-palette"
-  class="hidden fixed inset-0 z-50 items-center justify-center p-4"
+  class="hidden fixed inset-0 top-[20%] z-50 justify-center p-4"
 >
   <div class="fixed inset-0 bg-black bg-opacity-50" id="palette-backdrop"></div>
   <div
@@ -87,9 +87,19 @@ const { placeholder = 'Search commands...' } = Astro.props
   const topicSelector = document.getElementById('topic-selector')!
   const topicSelectorItems = document.getElementById('topic-selector-items')!
 
+  const showPalette = (palette: HTMLElement) => {
+    palette.classList.remove('hidden')
+    palette.classList.add('flex')
+  }
+
+  const hidePalette = (palette: HTMLElement) => {
+    palette.classList.add('hidden')
+    palette.classList.remove('flex')
+  }
+
   const hidePreview = (previewPane: HTMLELement) => previewPane.classList.remove('md:block')
   const showPreview = (previewPane: HTMLELement) => previewPane.classList.add('md:block')
- 
+
   async function loadSearchIndex() {
     if (searchIndexLoaded) return
     try {
@@ -130,8 +140,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   function open() {
     isOpen = true
-    palette.classList.remove('hidden')
-    palette.classList.add('flex')
+    showPalette(palette)
     input.focus()
     selectedIndex = 0
     loadSearchIndex()
@@ -152,8 +161,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   function close() {
     isOpen = false
-    palette.classList.add('hidden')
-    palette.classList.remove('flex')
+    hidePalette(palette)
     input.value = ''
     selectedIndex = 0
     isTopicMode = false
