@@ -1,0 +1,46 @@
+---
+title: fast-check
+startDate: 2025-10-21T18:19:25
+topics: [Functional Programming, TypeScript, Testing]
+publish: true
+---
+
+I just tried out [fast-check](https://github.com/dubzzz/fast-check) for property testing in TypeScript, and my first impression is it's pretty sweet.
+
+With most of the things in JS, it's half pretty straightforward and half quite some steps you need to take if you're setting it up from scratch.
+
+```shell
+# -1. Have vite
+# 0. Install a test runner
+npm install --save-dev vitest
+# 1. Install fast-check
+npm install --save-dev
+```
+
+And then, for:
+
+```ts
+// modulo.ts
+export const mod = (n: number, m: number): number => {
+  return ((n % m) + m) % m
+}
+```
+
+add this
+
+```ts
+# modulo.test.ts
+import fc from 'fast-check'
+import { describe, it } from 'vitest'
+
+describe('mod', () => {
+  it('result is always in range [0, m)', () => {
+    fc.assert(
+      fc.property(fc.integer(), fc.integer({ min: 1 }), (n, m) => {
+        const result = mod(n, m)
+        return result >= 0 && result < m
+      })
+    )
+  })
+})
+```
