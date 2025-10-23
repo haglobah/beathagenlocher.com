@@ -2,6 +2,7 @@
 import StageIcon from '../components/StageIcon.astro'
 import ReadingProgressBar from '../components/ReadingProgressBar.astro'
 import Heading from '../components/Heading.astro'
+import Ago from '../components/Ago.astro'
 
 const { frontmatter, headings } = Astro.props
 ---
@@ -9,11 +10,17 @@ const { frontmatter, headings } = Astro.props
 <ReadingProgressBar />
 <div class="post f-mb-2xl f-px-sm mx-auto max-w-[65ch]">
   <div class="f-mb-2xl flex flex-col items-center gap-4">
-    <StageIcon
-      stage={frontmatter.growthStage as 'seedling' | 'budding' | 'evergreen'}
-    />
+    <StageIcon stage={frontmatter.growthStage as 'seedling' | 'budding' | 'evergreen'} />
     <div class="f-pb-sm border-b-3 border-zinc-400">
       <h1 class="f-text-2xl font-light font-headline">{frontmatter.title}</h1>
+      <div class="mt-4 flex justify-around flex-wrap-reverse gap-2">
+        <span class="flex justify-center gap-3">
+          Started <Ago when={frontmatter.startDate} format="" />
+        </span>
+        <span class="flex justify-center gap-3">
+          Last edited<Ago when={frontmatter.updated} format="" />
+        </span>
+      </div>
     </div>
   </div>
   <div class="mx-auto">
