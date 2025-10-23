@@ -8,23 +8,16 @@ export interface Props {
 const { placeholder = 'Search commands...' } = Astro.props
 ---
 
-<div
-  id="command-palette"
-  class="hidden fixed inset-0 top-[20%] z-50 justify-center p-4"
->
+<div id="command-palette" class="hidden fixed inset-0 top-[20%] z-50 justify-center p-4">
   <div class="fixed inset-0 bg-black bg-opacity-50" id="palette-backdrop"></div>
-  <div
-    class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-5xl flex flex-col"
-  >
-    <div
-      id="topic-selector"
-      class="hidden rounded-t-lg bg-zinc-950"
-    >
-      <div class="text-xs pt-4 px-4 text-zinc-500 uppercase mb-2">Select Topic (<span class="font-mono text-cornflower bg-zinc-900">TAB</span>, <span class="i-heroicons:arrow-up-20-solid text-cornflower inline-block size-[1.2em]" />, <span class="i-heroicons:arrow-down-20-solid text-cornflower inline-block size-[1.2em]" />)</div>
-      <div
-        id="topic-selector-items"
-        class="flex flex-wrap p-4 gap-2 max-h-32 overflow-y-auto"
-      >
+  <div class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-5xl flex flex-col">
+    <div id="topic-selector" class="hidden rounded-t-lg bg-zinc-950">
+      <div class="text-xs pt-4 px-4 text-zinc-500 uppercase mb-2">
+        Select Topic (<span class="font-mono text-cornflower bg-zinc-900">TAB</span>, <span
+          class="i-heroicons:arrow-up-20-solid text-cornflower inline-block size-[1.2em]"></span>, <span
+          class="i-heroicons:arrow-down-20-solid text-cornflower inline-block size-[1.2em]"></span>)
+      </div>
+      <div id="topic-selector-items" class="flex flex-wrap p-4 gap-2 max-h-32 overflow-y-auto">
       </div>
     </div>
     <div class="flex flex-1 min-h-0">
@@ -41,10 +34,7 @@ const { placeholder = 'Search commands...' } = Astro.props
         />
         <div id="palette-results" class="max-h-96 overflow-y-auto"></div>
       </div>
-      <div
-        id="palette-preview"
-        class="hidden md:block w-96 p-4 overflow-y-auto bg-zinc-950"
-      >
+      <div id="palette-preview" class="hidden md:block w-96 p-4 overflow-y-auto bg-zinc-950">
         <div id="preview-content" class="text-sm text-zinc-400"></div>
       </div>
     </div>
@@ -169,7 +159,10 @@ const { placeholder = 'Search commands...' } = Astro.props
     hidePreview(previewPane)
   }
 
-  function checkTopicMode(query: string): { isTopicMode: boolean; topicQuery: string } {
+  function checkTopicMode(query: string): {
+    isTopicMode: boolean
+    topicQuery: string
+  } {
     const hashIndex = query.lastIndexOf('#')
     if (hashIndex === -1) {
       return { isTopicMode: false, topicQuery: '' }
@@ -188,15 +181,24 @@ const { placeholder = 'Search commands...' } = Astro.props
   function filterTopics(query: string): string[] {
     if (!query) return allTopics
 
-    return allTopics.filter((topic) =>
-      topic.toLowerCase().includes(query)
-    ).sort((a, b) => {
-      const aStarts = a.toLowerCase().startsWith(query)
-      const bStarts = b.toLowerCase().startsWith(query)
-      if (aStarts && !bStarts) return -1
-      if (!aStarts && bStarts) return 1
-      return a.localeCompare(b)
-    })
+    return allTopics
+      .filter((topic) => topic.toLowerCase().includes(query))
+      .sort((a, b) => {
+        const aStarts = a.toLowerCase().startsWith(query)
+        const bStarts = b.toLowerCase().startsWith(query)
+        if (aStarts && !bStarts) return -1
+        if (!aStarts && bStarts) return 1
+        return a.localeCompare(b)
+      })
+  }
+
+  function scrollIntoView(dataSelector, index, selection) {
+    const selectedElement = selection.querySelector(
+      '[' + dataSelector + '="' + index + '"]',
+    ) as HTMLElement | null
+    if (selectedElement) {
+      selectedElement.scrollIntoView({ behavior: 'instant', block: 'nearest' })
+    }
   }
 
   function renderTopicSelector() {
@@ -215,7 +217,9 @@ const { placeholder = 'Search commands...' } = Astro.props
             data-topic-index="${index}"
           >
             <span class="flex rounded-full px-[0.9em] py-[0.5em] font-medium leading-5 ${
-              isSelected ? 'bg-sienna-mid/30 text-white hover:bg-sienna-mid/40 shadow-[0_0_12px_rgba(119,158,203,0.5)]' : 'bg-sienna-mid/10 text-sienna-mid hover:bg-sienna-mid/20'
+              isSelected
+                ? 'bg-sienna-mid/30 text-white hover:bg-sienna-mid/40 shadow-[0_0_12px_rgba(119,158,203,0.5)]'
+                : 'bg-sienna-mid/10 text-sienna-mid hover:bg-sienna-mid/20'
             }">
               ${topic}
               <span class="ml-2 text-zinc-500">${count}</span>
@@ -231,6 +235,8 @@ const { placeholder = 'Search commands...' } = Astro.props
         selectTopic(filteredTopics[index])
       })
     })
+
+    scrollIntoView("data-topic-index", selectedTopicIndex, topicSelectorItems)
   }
 
   function selectTopic(topic: string) {
@@ -283,10 +289,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     terms.forEach((term) => {
       const regex = new RegExp(`(${term})`, 'gi')
-      result = result.replace(
-        regex,
-        '<mark class="bg-sienna-light text-zinc-800">$1</mark>',
-      )
+      result = result.replace(regex, '<mark class="bg-sienna-light text-zinc-800">$1</mark>')
     })
 
     return result
@@ -336,19 +339,10 @@ const { placeholder = 'Search commands...' } = Astro.props
           ? `<div class="flex flex-wrap gap-2 mt-3">
             ${item.topics
               .map((t) => {
-                const queryTerms = query
-                  .toLowerCase()
-                  .split(/\s+/)
-                  .filter(Boolean)
-                const isMatch = queryTerms.some((term) =>
-                  t.toLowerCase().includes(term),
-                )
-                const bgClass = isMatch
-                  ? 'bg-sienna-mid/30'
-                  : 'bg-sienna-mid/10'
-                const textClass = isMatch
-                  ? 'text-white'
-                  : 'text-sienna-mid'
+                const queryTerms = query.toLowerCase().split(/\s+/).filter(Boolean)
+                const isMatch = queryTerms.some((term) => t.toLowerCase().includes(term))
+                const bgClass = isMatch ? 'bg-sienna-mid/30' : 'bg-sienna-mid/10'
+                const textClass = isMatch ? 'text-white' : 'text-sienna-mid'
 
                 return `
                 <div class="f-text-xs">
@@ -405,8 +399,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     filteredItems = filter(query)
 
     if (filteredItems.length === 0) {
-      results.innerHTML =
-        '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
+      results.innerHTML = '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
       hidePreview(previewPane)
       return
     }
@@ -419,9 +412,7 @@ const { placeholder = 'Search commands...' } = Astro.props
           return `
             <div
               class="px-4 py-3 cursor-pointer transition-colors ${
-                isSelected
-                  ? 'bg-zinc-800 text-zinc-100'
-                  : 'text-zinc-300 hover:bg-zinc-800'
+                isSelected ? 'bg-zinc-800 text-zinc-100' : 'text-zinc-300 hover:bg-zinc-800'
               }"
               data-index="${index}"
             >
@@ -436,9 +427,7 @@ const { placeholder = 'Search commands...' } = Astro.props
           return `
             <div
               class="px-4 py-3 cursor-pointer transition-colors ${
-                isSelected
-                  ? 'bg-zinc-800 text-zinc-100'
-                  : 'text-zinc-300 hover:bg-zinc-800'
+                isSelected ? 'bg-zinc-800 text-zinc-100' : 'text-zinc-300 hover:bg-zinc-800'
               }"
               data-index="${index}"
             >
@@ -459,6 +448,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     if (filteredItems[selectedIndex]) {
       updatePreview(filteredItems[selectedIndex])
+      scrollIntoView("data-index", selectedIndex, results)
     }
   }
 
@@ -479,10 +469,7 @@ const { placeholder = 'Search commands...' } = Astro.props
       )
       renderTopicSelector()
     } else {
-      selectedIndex = Math.max(
-        0,
-        Math.min(filteredItems.length - 1, selectedIndex + delta),
-      )
+      selectedIndex = Math.max(0, Math.min(filteredItems.length - 1, selectedIndex + delta))
       render()
     }
   }
