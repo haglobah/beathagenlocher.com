@@ -547,5 +547,14 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   backdrop.addEventListener('click', close)
 
-  render()
+  function initializeFromParams() {
+    const queryFromParams = getQueryFromParams()
+    if (queryFromParams) {
+      open()
+      updateQueryeParams(input.value)
+      render()
+    }
+  }
+
+  initializeFromParams()
 </script>
