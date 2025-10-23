@@ -90,6 +90,21 @@ const { placeholder = 'Search commands...' } = Astro.props
   const hidePreview = (previewPane: HTMLELement) => previewPane.classList.remove('md:block')
   const showPreview = (previewPane: HTMLELement) => previewPane.classList.add('md:block')
 
+  function updateQueryParams(query: string) {
+    const params = new URLSearchParams(window.location.search)
+    if (query) {
+      params.set('q', query)
+    } else {
+      params.delete('q')
+    }
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`)
+  }
+
+  function getQueryFromParams(): string {
+    const params = new URLSearchParams(window.location.search)
+    return params.get('q') || ''
+  }
+
   async function loadSearchIndex() {
     if (searchIndexLoaded) return
     try {
@@ -146,6 +161,10 @@ const { placeholder = 'Search commands...' } = Astro.props
       commandIndex!.add(idx, searchableText)
     })
 
+    const queryFromParams = getQueryFromParams()
+    if (queryFromParams) {
+      input.value = queryFromParams
+    }
     render()
   }
 
@@ -157,6 +176,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     isTopicMode = false
     topicSelector.classList.add('hidden')
     hidePreview(previewPane)
+    updateQueryParams('')
   }
 
   function checkTopicMode(query: string): {
@@ -249,6 +269,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     isTopicMode = false
     topicSelector.classList.add('hidden')
     selectedIndex = 0
+    updateQueryParams(input.value)
     render()
     input.focus()
   }
@@ -520,6 +541,7 @@ const { placeholder = 'Search commands...' } = Astro.props
   input.addEventListener('input', () => {
     selectedIndex = 0
     selectedTopicIndex = 0
+    updateQueryParams(input.value)
     render()
   })
 
