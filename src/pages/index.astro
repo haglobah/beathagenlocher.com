@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro'
 
 import Il from '../components/InnerLink.astro'
 import Ol from '../components/OuterLink.astro'
+import Heading from '../components/Heading.astro'
 import ItemCutoff from '../components/ItemCutoff.astro'
 
 import Notes from '../content/notes.astro'
@@ -10,12 +11,7 @@ import Knowledge from '../content/knowledge.astro'
 import Stream from '../content/stream.astro'
 import Essays from '../content/essays.astro'
 import Talks from '../content/talks.astro'
-import {
-  allTheContent,
-  sortByUpdated,
-  sortByStartDate,
-  getTopics,
-} from '../content/content.ts'
+import { allTheContent, sortByUpdated, sortByStartDate, getTopics } from '../content/content.ts'
 
 const topics = getTopics(allTheContent)
 ---
@@ -23,20 +19,21 @@ const topics = getTopics(allTheContent)
 <Layout title="Beat Hagenlochers Digital Garden">
   <div class="f-my-lg f-mx-md">
     <div class="f-pb-lg">
-      <p class="f-text-lg f-my-md">
-        This is the website of <Il href="me">Beat Hagenlocher</Il> thinking out loud.
+      <p class="text-center">
+        <Heading>
+          <Il href="me">Beat Hagenlocher</Il><br /> thinking out loud.
+        </Heading>
       </p>
       <p class="">
-        Welcome to my <Il href="digital-garden"
-          >digital garden</Il>, a collection of texts and ideas growing slowly over time.
+        Welcome to my <Il href="digital-garden">digital garden</Il>, a collection of texts and ideas
+        growing slowly over time.
       </p>
       <p class="f-mt-md">
-        I write about all things Software Engineering, learning, personal
-        stuff—and whatever else I find interesting to share.
+        I write about all things Software Engineering, learning, personal stuff—and whatever else I
+        find interesting to share.
       </p>
       <p class="">
-        Want to learn more? Take a look at what I've written <Il
-          href="thinking-out-loud"
+        Want to learn more? Take a look at what I've written <Il href="thinking-out-loud"
           ><span class="italic">about this website</span></Il
         >.
       </p>
@@ -91,9 +88,7 @@ const topics = getTopics(allTheContent)
           <h2 class="f-text-sm f-pb-4-8 uppercase tracking-[0.17em]">
             <span class="font-bold">Atomic Essays</span>
           </h2>
-          <p class="italic f-text-xs">
-            Short form writing capturing a single idea
-          </p>
+          <p class="italic f-text-xs">Short form writing capturing a single idea</p>
         </div>
         <div class="">
           <Essays />
