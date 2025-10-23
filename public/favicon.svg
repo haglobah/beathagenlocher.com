@@ -1,7 +1,7 @@
 <svg viewBox="0 0 1239 818" xmlns="http://www.w3.org/2000/svg">
   <style>
     #background-circle {
-      fill: black; /* Default: Light mode */
+      fill: white; /* Default: Light mode */
     }
     @media (prefers-color-scheme: dark) {
       #background-circle {
