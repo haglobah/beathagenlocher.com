@@ -19,6 +19,7 @@ import OrbitArea from './OrbitArea.astro'
 import OrbitPrompt from './OrbitPrompt.astro'
 import Callout from './Callout.astro'
 import Spoiler from './Spoiler.astro'
+import KB from './Keybinding.astro'
 
 export const components = {
   I,
@@ -31,6 +32,7 @@ export const components = {
   OrbitPrompt,
   Callout,
   Spoiler,
+  KB,
 
   a: Ol,
   innerlink: Il,
