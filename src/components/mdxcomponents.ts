@@ -10,7 +10,7 @@ import List from './List.astro'
 import OrderedList from './OrderedList.astro'
 import ListItem from './ListItem.astro'
 import ListMarker from './ListMarker.astro'
-import Code from './Code.astro' // Produces a side effect: Adds the <code></code> styling.
+import CodeSideEffect from './CodeSideEffect.astro' // Produces a side effect: Adds the <code></code> styling.
 import BlockQuote from './BlockQuote.astro'
 import References from './References.astro'
 import ReferenceLink from './ReferenceLink.astro'
