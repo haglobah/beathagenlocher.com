@@ -256,7 +256,7 @@ const { placeholder = 'Search commands...' } = Astro.props
       })
     })
 
-    scrollIntoView("data-topic-index", selectedTopicIndex, topicSelectorItems)
+    scrollIntoView('data-topic-index', selectedTopicIndex, topicSelectorItems)
   }
 
   function selectTopic(topic: string) {
@@ -469,7 +469,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     if (filteredItems[selectedIndex]) {
       updatePreview(filteredItems[selectedIndex])
-      scrollIntoView("data-index", selectedIndex, results)
+      scrollIntoView('data-index', selectedIndex, results)
     }
   }
 
@@ -551,7 +551,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     const queryFromParams = getQueryFromParams()
     if (queryFromParams) {
       open()
-      updateQueryeParams(input.value)
+      updateQueryParams(input.value)
       render()
     }
   }
