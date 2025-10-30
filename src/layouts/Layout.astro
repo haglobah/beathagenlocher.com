@@ -100,10 +100,19 @@ declare global {
       handler: () => (window.location.href = '/'),
       keywords: ['navigate', 'index'],
     },
-    // {
-    //   id: 'theme',
-    //   name: 'Toggle Theme',
-    //   handler: () => console.log('Toggle theme'),
-    // },
+    {
+      id: 'stream',
+      name: 'Stream',
+      description: 'Watch the stream flow',
+      handler: () => (window.location.href = '/stream'),
+      keywords: ['navigate', 'index'],
+    },
+    {
+      id: 'me',
+      name: 'About',
+      description: 'Navigate to my About page',
+      handler: () => (window.location.href = '/me'),
+      keywords: ['navigate', 'index'],
+    },
   ])
 </script>
