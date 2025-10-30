@@ -1,5 +1,6 @@
 ---
 import Highlight from '../components/Highlight.astro'
+import TopicSelector from '../components/TopicSelector.tsx'
 
 export interface Props {
   placeholder?: string
@@ -11,15 +12,6 @@ const { placeholder = 'Search commands...' } = Astro.props
 <div id="command-palette" class="hidden fixed inset-0 top-[20%] z-50 justify-center p-4">
   <div class="fixed inset-0 bg-black bg-opacity-50" id="palette-backdrop"></div>
   <div class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-5xl flex flex-col">
-    <div id="topic-selector" class="hidden rounded-t-lg bg-zinc-950">
-      <div class="text-xs pt-4 px-4 text-zinc-500 uppercase mb-2">
-        Select Topic (<span class="font-mono text-cornflower bg-zinc-900">TAB</span>, <span
-          class="i-heroicons:arrow-up-20-solid text-cornflower inline-block size-[1.2em]"></span>, <span
-          class="i-heroicons:arrow-down-20-solid text-cornflower inline-block size-[1.2em]"></span>)
-      </div>
-      <div id="topic-selector-items" class="flex flex-wrap p-4 gap-2 max-h-32 overflow-y-auto">
-      </div>
-    </div>
     <div class="flex flex-1 min-h-0">
       <div class="flex-1 flex flex-col min-w-0">
         <div class="px-4 py-2 f-text-xs font-light">
