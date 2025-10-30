@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config'
 import UnoCSS from 'unocss/astro'
 import mdx from '@astrojs/mdx'
+import solidJs from '@astrojs/solid-js'
 import wikiLinkPlugin from './src/plugins/portal-wiki-link'
 import { getPermalinks } from './src/plugins/portal-wiki-link'
 import { slug } from 'github-slugger'
@@ -23,6 +24,7 @@ const permalinks = getPermalinks('src/content/')
 export default defineConfig({
   site: 'https://beathagenlocher.com',
   integrations: [
+    solidJs(),
     UnoCSS(),
     sitemap(),
     expressiveCode({
