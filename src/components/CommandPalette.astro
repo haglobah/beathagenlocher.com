@@ -43,7 +43,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
 <script>
   import FlexSearch from 'flexsearch'
-  import { $commandItems } from '../store.ts'
+  import { $commandItems } from '../store/commandPalette.ts'
 
   interface SearchResult {
     id: string
