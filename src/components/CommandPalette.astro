@@ -44,27 +44,26 @@ const { placeholder = 'Search commands...' } = Astro.props
 
 <script>
   import FlexSearch from 'flexsearch'
-  import { $commandItems, $filteredTopics, setFilteredTopics } from '../store/commandPalette.ts'
-
-  interface SearchResult {
-    id: string
-    type: string
-    title: string
-    description: string
-    url: string
-    body: string
-    topics: string[]
-  }
+  import {
+    $commandItems,
+    $filteredTopics,
+    setFilteredTopics,
+    $selectedTopicIndex,
+    setSelectedTopicIndex,
+    $selectedIndex,
+    setSelectedIndex,
+    $filteredItems,
+    setFilteredItems,
+    type CommandItem,
+    type SearchResult,
+  } from '../store/commandPalette.ts'
 
   let isOpen = false
-  let selectedIndex = 0
-  let filteredItems: (CommandItem | SearchResult)[] = []
   let searchIndex: SearchResult[] = []
   let searchIndexLoaded = false
   let contentIndex: FlexSearch.Index | null = null
   let commandIndex: FlexSearch.Index | null = null
   let isTopicMode = false
-  let selectedTopicIndex = 0
   let allTopics: string[] = []
   let topicCounts: Map<string, number> = new Map()
 
@@ -87,8 +86,8 @@ const { placeholder = 'Search commands...' } = Astro.props
     palette.classList.remove('flex')
   }
 
-  const hidePreview = (previewPane: HTMLELement) => previewPane.classList.remove('md:block')
-  const showPreview = (previewPane: HTMLELement) => previewPane.classList.add('md:block')
+  const hidePreview = (previewPane: HTMLElement) => previewPane.classList.remove('md:block')
+  const showPreview = (previewPane: HTMLElement) => previewPane.classList.add('md:block')
 
   function updateQueryParams(query: string) {
     const params = new URLSearchParams(window.location.search)
@@ -147,7 +146,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     isOpen = true
     showPalette(palette)
     input.focus()
-    selectedIndex = 0
+    setSelectedIndex(0)
     loadSearchIndex()
 
     const commands = $commandItems.get()
@@ -172,7 +171,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     isOpen = false
     hidePalette(palette)
     input.value = ''
-    selectedIndex = 0
+    setSelectedIndex(0)
     isTopicMode = false
     topicSelector.classList.add('hidden')
     hidePreview(previewPane)
@@ -212,7 +211,7 @@ const { placeholder = 'Search commands...' } = Astro.props
       })
   }
 
-  function scrollIntoView(dataSelector, index, selection) {
+  function scrollIntoView(dataSelector: string, index: number, selection: HTMLElement) {
     const selectedElement = selection.querySelector(
       '[' + dataSelector + '="' + index + '"]',
     ) as HTMLElement | null
@@ -222,14 +221,18 @@ const { placeholder = 'Search commands...' } = Astro.props
   }
 
   function renderTopicSelector() {
-    if ($filteredTopics.get().length === 0) {
+    const filteredTopicsValue = $filteredTopics.get()
+
+    if (filteredTopicsValue.length === 0) {
       topicSelectorItems.innerHTML = '<div class="text-zinc-500 text-sm">No topics found</div>'
       return
     }
 
-    topicSelectorItems.innerHTML = $filteredTopics.get()
+    const selectedTopicIndexValue = $selectedTopicIndex.get()
+
+    topicSelectorItems.innerHTML = filteredTopicsValue
       .map((topic, index) => {
-        const isSelected = index === selectedTopicIndex
+        const isSelected = index === selectedTopicIndexValue
         const count = topicCounts.get(topic) || 0
         return `
           <div
@@ -252,11 +255,11 @@ const { placeholder = 'Search commands...' } = Astro.props
     topicSelectorItems.querySelectorAll('[data-topic-index]').forEach((el) => {
       el.addEventListener('click', () => {
         const index = parseInt((el as HTMLElement).dataset.topicIndex!)
-        selectTopic($filteredTopics.get()[index])
+        selectTopic(filteredTopicsValue[index])
       })
     })
 
-    scrollIntoView('data-topic-index', selectedTopicIndex, topicSelectorItems)
+    scrollIntoView('data-topic-index', selectedTopicIndexValue, topicSelectorItems)
   }
 
   function selectTopic(topic: string) {
@@ -268,7 +271,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     isTopicMode = false
     topicSelector.classList.add('hidden')
-    selectedIndex = 0
+    setSelectedIndex(0)
     updateQueryParams(input.value)
     render()
     input.focus()
@@ -407,7 +410,7 @@ const { placeholder = 'Search commands...' } = Astro.props
       isTopicMode = true
       const filtered = filterTopics(topicModeCheck.topicQuery)
       setFilteredTopics(filtered)
-      selectedTopicIndex = 0
+      setSelectedTopicIndex(0)
       topicSelector.classList.remove('hidden')
       renderTopicSelector()
       results.innerHTML = ''
@@ -418,17 +421,20 @@ const { placeholder = 'Search commands...' } = Astro.props
       topicSelector.classList.add('hidden')
     }
 
-    filteredItems = filter(query)
+    const filteredItemsValue = filter(query)
+    setFilteredItems(filteredItemsValue)
 
-    if (filteredItems.length === 0) {
+    if (filteredItemsValue.length === 0) {
       results.innerHTML = '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
       hidePreview(previewPane)
       return
     }
 
-    results.innerHTML = filteredItems
+    const selectedIndexValue = $selectedIndex.get()
+
+    results.innerHTML = filteredItemsValue
       .map((item, index) => {
-        const isSelected = index === selectedIndex
+        const isSelected = index === selectedIndexValue
 
         if (isSearchResult(item)) {
           return `
@@ -464,13 +470,13 @@ const { placeholder = 'Search commands...' } = Astro.props
     results.querySelectorAll('[data-index]').forEach((el) => {
       el.addEventListener('click', () => {
         const index = parseInt((el as HTMLElement).dataset.index!)
-        execute(filteredItems[index])
+        execute(filteredItemsValue[index])
       })
     })
 
-    if (filteredItems[selectedIndex]) {
-      updatePreview(filteredItems[selectedIndex])
-      scrollIntoView('data-index', selectedIndex, results)
+    if (filteredItemsValue[selectedIndexValue]) {
+      updatePreview(filteredItemsValue[selectedIndexValue])
+      scrollIntoView('data-index', selectedIndexValue, results)
     }
   }
 
@@ -485,13 +491,16 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   function moveSelection(delta: number) {
     if (isTopicMode) {
-      selectedTopicIndex = Math.max(
-        0,
-        Math.min($filteredTopics.get().length - 1, selectedTopicIndex + delta),
-      )
+      const filteredTopicsValue = $filteredTopics.get()
+      const currentIndex = $selectedTopicIndex.get()
+      const newIndex = Math.max(0, Math.min(filteredTopicsValue.length - 1, currentIndex + delta))
+      setSelectedTopicIndex(newIndex)
       renderTopicSelector()
     } else {
-      selectedIndex = Math.max(0, Math.min(filteredItems.length - 1, selectedIndex + delta))
+      const filteredItemsValue = $filteredItems.get()
+      const currentIndex = $selectedIndex.get()
+      const newIndex = Math.max(0, Math.min(filteredItemsValue.length - 1, currentIndex + delta))
+      setSelectedIndex(newIndex)
       render()
     }
   }
@@ -531,18 +540,22 @@ const { placeholder = 'Search commands...' } = Astro.props
       case 'Enter':
         e.preventDefault()
         const filteredTopicsValue = $filteredTopics.get()
-        if (isTopicMode && filteredTopicsValue[selectedTopicIndex]) {
-          selectTopic(filteredTopicsValue[selectedTopicIndex])
-        } else if (filteredItems[selectedIndex]) {
-          execute(filteredItems[selectedIndex])
+        const selectedTopicIndexValue = $selectedTopicIndex.get()
+        const filteredItemsValue = $filteredItems.get()
+        const selectedIndexValue = $selectedIndex.get()
+
+        if (isTopicMode && filteredTopicsValue[selectedTopicIndexValue]) {
+          selectTopic(filteredTopicsValue[selectedTopicIndexValue])
+        } else if (filteredItemsValue[selectedIndexValue]) {
+          execute(filteredItemsValue[selectedIndexValue])
         }
         break
     }
   })
 
   input.addEventListener('input', () => {
-    selectedIndex = 0
-    selectedTopicIndex = 0
+    setSelectedIndex(0)
+    setSelectedTopicIndex(0)
     updateQueryParams(input.value)
     render()
   })
