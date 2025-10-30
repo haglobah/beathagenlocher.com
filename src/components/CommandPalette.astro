@@ -562,10 +562,27 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   backdrop.addEventListener('click', close)
 
-  function initializeFromParams() {
+  async function initializeFromParams() {
     const queryFromParams = getQueryFromParams()
     if (queryFromParams) {
-      open()
+      isOpen = true
+      showPalette(palette)
+      input.focus()
+      setSelectedIndex(0)
+      await loadSearchIndex()
+
+      const commands = $commandItems.get()
+      commandIndex = new FlexSearch.Index({
+        tokenize: 'forward',
+        cache: true,
+      })
+
+      commands.forEach((cmd, idx) => {
+        const searchableText = `${cmd.name} ${cmd.description || ''} ${cmd.keywords?.join(' ') || ''}`
+        commandIndex!.add(idx, searchableText)
+      })
+
+      input.value = queryFromParams
       updateQueryParams(input.value)
       render()
     }
