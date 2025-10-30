@@ -7,6 +7,7 @@ export interface CommandItem {
   handler: () => void
   keywords?: string[]
 }
+
 // Store for command items
 export const $commandItems = atom<CommandItem[]>([])
 
@@ -18,4 +19,12 @@ export function registerCommands(items: CommandItem[]) {
 // Add commands (append to existing)
 export function addCommands(items: CommandItem[]) {
   $commandItems.set([...$commandItems.get(), ...items])
+}
+
+export type Topic = string
+
+export const $filteredTopics = atom<Topic[]>([])
+
+export function setFilteredTopics(topics: Topic[]) {
+  $filteredTopics.set(topics)
 }

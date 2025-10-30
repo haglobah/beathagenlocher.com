@@ -12,6 +12,15 @@ const { placeholder = 'Search commands...' } = Astro.props
 <div id="command-palette" class="hidden fixed inset-0 top-[20%] z-50 justify-center p-4">
   <div class="fixed inset-0 bg-black bg-opacity-50" id="palette-backdrop"></div>
   <div class="relative bg-zinc-900 rounded-lg shadow-xl w-full max-w-5xl flex flex-col">
+    <div id="topic-selector" class="hidden rounded-t-lg bg-zinc-950">
+      <div class="text-xs pt-4 px-4 text-zinc-500 uppercase mb-2">
+        Select Topic (<span class="font-mono text-cornflower bg-zinc-900">TAB</span>, <span
+          class="i-heroicons:arrow-up-20-solid text-cornflower inline-block size-[1.2em]"></span>, <span
+          class="i-heroicons:arrow-down-20-solid text-cornflower inline-block size-[1.2em]"></span>)
+      </div>
+      <div id="topic-selector-items" class="flex flex-wrap p-4 gap-2 max-h-32 overflow-y-auto">
+      </div>
+    </div>
     <div class="flex flex-1 min-h-0">
       <div class="flex-1 flex flex-col min-w-0">
         <div class="px-4 py-2 f-text-xs font-light">
@@ -35,7 +44,7 @@ const { placeholder = 'Search commands...' } = Astro.props
 
 <script>
   import FlexSearch from 'flexsearch'
-  import { $commandItems } from '../store/commandPalette.ts'
+  import { $commandItems, $filteredTopics, setFilteredTopics } from '../store/commandPalette.ts'
 
   interface SearchResult {
     id: string
@@ -55,7 +64,6 @@ const { placeholder = 'Search commands...' } = Astro.props
   let contentIndex: FlexSearch.Index | null = null
   let commandIndex: FlexSearch.Index | null = null
   let isTopicMode = false
-  let filteredTopics: string[] = []
   let selectedTopicIndex = 0
   let allTopics: string[] = []
   let topicCounts: Map<string, number> = new Map()
@@ -214,12 +222,12 @@ const { placeholder = 'Search commands...' } = Astro.props
   }
 
   function renderTopicSelector() {
-    if (filteredTopics.length === 0) {
+    if ($filteredTopics.get().length === 0) {
       topicSelectorItems.innerHTML = '<div class="text-zinc-500 text-sm">No topics found</div>'
       return
     }
 
-    topicSelectorItems.innerHTML = filteredTopics
+    topicSelectorItems.innerHTML = $filteredTopics.get()
       .map((topic, index) => {
         const isSelected = index === selectedTopicIndex
         const count = topicCounts.get(topic) || 0
@@ -244,7 +252,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     topicSelectorItems.querySelectorAll('[data-topic-index]').forEach((el) => {
       el.addEventListener('click', () => {
         const index = parseInt((el as HTMLElement).dataset.topicIndex!)
-        selectTopic(filteredTopics[index])
+        selectTopic($filteredTopics.get()[index])
       })
     })
 
@@ -397,7 +405,8 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     if (topicModeCheck.isTopicMode) {
       isTopicMode = true
-      filteredTopics = filterTopics(topicModeCheck.topicQuery)
+      const filtered = filterTopics(topicModeCheck.topicQuery)
+      setFilteredTopics(filtered)
       selectedTopicIndex = 0
       topicSelector.classList.remove('hidden')
       renderTopicSelector()
@@ -478,7 +487,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     if (isTopicMode) {
       selectedTopicIndex = Math.max(
         0,
-        Math.min(filteredTopics.length - 1, selectedTopicIndex + delta),
+        Math.min($filteredTopics.get().length - 1, selectedTopicIndex + delta),
       )
       renderTopicSelector()
     } else {
@@ -521,8 +530,9 @@ const { placeholder = 'Search commands...' } = Astro.props
         break
       case 'Enter':
         e.preventDefault()
-        if (isTopicMode && filteredTopics[selectedTopicIndex]) {
-          selectTopic(filteredTopics[selectedTopicIndex])
+        const filteredTopicsValue = $filteredTopics.get()
+        if (isTopicMode && filteredTopicsValue[selectedTopicIndex]) {
+          selectTopic(filteredTopicsValue[selectedTopicIndex])
         } else if (filteredItems[selectedIndex]) {
           execute(filteredItems[selectedIndex])
         }
