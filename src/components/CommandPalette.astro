@@ -220,6 +220,23 @@ const { placeholder = 'Search commands...' } = Astro.props
     }
   }
 
+  function clampIndex(index: number, max: number): number {
+    return Math.max(0, Math.min(max - 1, index))
+  }
+
+  function attachClickListeners(
+    container: HTMLElement,
+    selector: string,
+    callback: (index: number) => void,
+  ) {
+    container.querySelectorAll(selector).forEach((el) => {
+      el.addEventListener('click', () => {
+        const index = parseInt((el as HTMLElement).dataset.index!)
+        callback(index)
+      })
+    })
+  }
+
   function renderTopicSelector() {
     const filteredTopicsValue = $filteredTopics.get()
 
@@ -467,11 +484,8 @@ const { placeholder = 'Search commands...' } = Astro.props
       })
       .join('')
 
-    results.querySelectorAll('[data-index]').forEach((el) => {
-      el.addEventListener('click', () => {
-        const index = parseInt((el as HTMLElement).dataset.index!)
-        execute(filteredItemsValue[index])
-      })
+    attachClickListeners(results, '[data-index]', (index) => {
+      execute(filteredItemsValue[index])
     })
 
     if (filteredItemsValue[selectedIndexValue]) {
@@ -493,13 +507,13 @@ const { placeholder = 'Search commands...' } = Astro.props
     if (isTopicMode) {
       const filteredTopicsValue = $filteredTopics.get()
       const currentIndex = $selectedTopicIndex.get()
-      const newIndex = Math.max(0, Math.min(filteredTopicsValue.length - 1, currentIndex + delta))
+      const newIndex = clampIndex(currentIndex + delta, filteredTopicsValue.length)
       setSelectedTopicIndex(newIndex)
       renderTopicSelector()
     } else {
       const filteredItemsValue = $filteredItems.get()
       const currentIndex = $selectedIndex.get()
-      const newIndex = Math.max(0, Math.min(filteredItemsValue.length - 1, currentIndex + delta))
+      const newIndex = clampIndex(currentIndex + delta, filteredItemsValue.length)
       setSelectedIndex(newIndex)
       render()
     }
