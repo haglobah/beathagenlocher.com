@@ -1,0 +1,18 @@
+---
+title: Vite Cache
+startDate: 2025-11-03T14:01:13
+topics: [Vite, The Web]
+publish: true
+---
+
+Just today I ran into a weird issue:
+
+```shell
+The file does not exist at "<project_root>/node_modules/.vite/deps/chunk-3QUCSPQG.js?v=xxxxxxxx" which is in the optimize deps directory. The dependency might be incompatible with the dep optimizer. Try adding it to `optimizeDeps.exclude`
+```
+
+Refreshing it via the browser cache solves it:
+
+https://github.com/vitejs/vite/discussions/17738#discussioncomment-13090665
+
+Makes sense, but could use a better error message before everyone first nukes their `node_modules/` ^^
