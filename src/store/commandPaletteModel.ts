@@ -16,6 +16,7 @@ export interface Model {
   searchIndex: SearchResult[]
   commandIndex: any
   contentIndex: any
+  commands: CommandItem[]
 }
 
 export type Msg =
@@ -27,7 +28,7 @@ export type Msg =
   | { kind: 'Execute'; item: CommandItem | SearchResult }
   | { kind: 'SearchIndexLoaded'; index: SearchResult[]; topics: Map<string, number> }
   | { kind: 'KeyDown'; key: string; shiftKey: boolean }
-  | { kind: 'CommandIndexReady'; index: any}
+  | { kind: 'CommandIndexReady'; index: any; commands: CommandItem[] }
   | { kind: 'ContentIndexReady'; index: any; searchIndex: SearchResult[] }
 
 export type Cmd =
@@ -55,6 +56,7 @@ export const initModel = (): Model => ({
   searchIndex: [],
   commandIndex: null,
   contentIndex: null,
+  commands: [],
 })
 
 const clampIndex = (index: number, max: number): number =>
@@ -90,12 +92,10 @@ const searchContent = (query: string, model: Model): SearchResult[] => {
 }
 
 const searchCommands = (query: string, model: Model): CommandItem[] => {
-  if (!query || !model.commandIndex) return []
+  if (!model.commandIndex) return []
+  if (!query) return model.commands
   const results = model.commandIndex.search(query)
-  return results.map((idx) => {
-    const commands = (model.commandIndex as any)._store?.commands || []
-    return commands[idx as number]
-  })
+  return results.map((idx) => model.commands[idx as number])
 }
 
 const filter = (query: string, model: Model): (CommandItem | SearchResult)[] => {
@@ -107,8 +107,9 @@ const filter = (query: string, model: Model): (CommandItem | SearchResult)[] => 
 export const update = (msg: Msg, model: Model): [Model, Cmd] => {
   switch (msg.kind) {
     case 'Open': {
+      const filteredItems = model.commands.length > 0 ? model.commands : []
       return [
-        { ...model, isOpen: true, selectedIndex: 0 },
+        { ...model, isOpen: true, selectedIndex: 0, filteredItems },
         { kind: 'LoadSearchIndex' },
       ]
     }
@@ -201,7 +202,10 @@ export const update = (msg: Msg, model: Model): [Model, Cmd] => {
     }
 
     case 'CommandIndexReady': {
-      return [{ ...model, commandIndex: msg.index }, { kind: 'LoadSearchIndex' }]
+      return [
+        { ...model, commandIndex: msg.index, commands: msg.commands },
+        { kind: 'LoadSearchIndex' },
+      ]
     }
 
     case 'ContentIndexReady': {

@@ -1,7 +1,7 @@
 ---
 import { $commandItems } from '../store/commandPalette'
 
-export interface Props {
+export interface Props{
   placeholder?: string
 }
 
@@ -134,7 +134,7 @@ const { placeholder = 'Search commands...' } = Astro.props
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
     let result = text
     terms.forEach((term) => {
-      const regex = new RegExp(`(${term})`, 'gi')
+      const regex = new RegExp(`(${term})`,  'gi')
       result = result.replace(regex, '<mark class="bg-sienna-light text-zinc-800">$1</mark>')
     })
     return result
@@ -341,7 +341,7 @@ const { placeholder = 'Search commands...' } = Astro.props
           commandIndex.add(idx, searchableText)
         })
 
-        dispatch({ kind: 'CommandIndexReady', index: commandIndex })
+        dispatch({ kind: 'CommandIndexReady', index: commandIndex, commands: cmd.commands })
         break
       }
 
@@ -422,7 +422,6 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   input.addEventListener('input', (e) => {
     const newValue = (e.target as HTMLInputElement).value
-    console.log(newValue)
     dispatch({ kind: 'QueryChanged', query: newValue })
   })
 
@@ -435,10 +434,6 @@ const { placeholder = 'Search commands...' } = Astro.props
   // ============================================================================
 
   const initializeFromParams = () => {
-    // Build command index first, before opening the palette
-    const commands = $commandItems.get()
-    dispatch({ kind: 'BuildCommandIndex', commands })
-
     const params = new URLSearchParams(window.location.search)
     const queryFromParams = params.get('q') || ''
 
@@ -448,5 +443,19 @@ const { placeholder = 'Search commands...' } = Astro.props
     }
   }
 
-  initializeFromParams()
+  // Subscribe to command items changes
+  $commandItems.subscribe((commands) => {
+    if (commands.length > 0) {
+      dispatch({ kind: 'BuildCommandIndex', commands })
+      console.log(commands)
+      initializeFromParams()
+    }
+  })
+
+  // If commands are already loaded (shouldn't happen, but just in case)
+  const initialCommands = $commandItems.get()
+  if (initialCommands.length > 0) {
+    dispatch({ kind: 'BuildCommandIndex', initialCommands })
+    initializeFromParams()
+  }
 </script>
