@@ -1,6 +1,5 @@
 ---
-import Highlight from '../components/Highlight.astro'
-import TopicSelector from '../components/TopicSelector.tsx'
+import { $commandItems } from '../store/commandPalette'
 
 export interface Props {
   placeholder?: string
@@ -44,28 +43,12 @@ const { placeholder = 'Search commands...' } = Astro.props
 
 <script>
   import FlexSearch from 'flexsearch'
-  import {
-    $commandItems,
-    $filteredTopics,
-    setFilteredTopics,
-    $selectedTopicIndex,
-    setSelectedTopicIndex,
-    $selectedIndex,
-    setSelectedIndex,
-    $filteredItems,
-    setFilteredItems,
-    type CommandItem,
-    type SearchResult,
-  } from '../store/commandPalette.ts'
+  import { initModel, update, type Model, type Msg, type Cmd } from '../store/commandPaletteModel'
+  import { $commandItems, type CommandItem, type SearchResult } from '../store/commandPalette'
 
-  let isOpen = false
-  let searchIndex: SearchResult[] = []
-  let searchIndexLoaded = false
-  let contentIndex: FlexSearch.Index | null = null
-  let commandIndex: FlexSearch.Index | null = null
-  let isTopicMode = false
-  let allTopics: string[] = []
-  let topicCounts: Map<string, number> = new Map()
+  // ============================================================================
+  // DOM References
+  // ============================================================================
 
   const palette = document.getElementById('command-palette')!
   const input = document.getElementById('palette-input') as HTMLInputElement
@@ -76,181 +59,46 @@ const { placeholder = 'Search commands...' } = Astro.props
   const topicSelector = document.getElementById('topic-selector')!
   const topicSelectorItems = document.getElementById('topic-selector-items')!
 
-  const showPalette = (palette: HTMLElement) => {
+  // ============================================================================
+  // Model & Dispatch Loop
+  // ============================================================================
+
+  let model = initModel()
+
+  const dispatch = async (msg: Msg) => {
+    const [newModel, cmd] = update(msg, model)
+    model = newModel
+    render()
+    await performCmd(cmd)
+  }
+
+  // ============================================================================
+  // View Rendering (Pure Projections)
+  // ============================================================================
+
+  const showPalette = () => {
     palette.classList.remove('hidden')
     palette.classList.add('flex')
   }
 
-  const hidePalette = (palette: HTMLElement) => {
+  const hidePalette = () => {
     palette.classList.add('hidden')
     palette.classList.remove('flex')
   }
 
-  const hidePreview = (previewPane: HTMLElement) => previewPane.classList.remove('md:block')
-  const showPreview = (previewPane: HTMLElement) => previewPane.classList.add('md:block')
+  const hidePreview = () => previewPane.classList.remove('md:block')
+  const showPreview = () => previewPane.classList.add('md:block')
 
-  function updateQueryParams(query: string) {
-    const params = new URLSearchParams(window.location.search)
-    if (query) {
-      params.set('q', query)
-    } else {
-      params.delete('q')
-    }
-    window.history.replaceState({}, '', `${window.location.pathname}?${params}`)
-  }
-
-  function getQueryFromParams(): string {
-    const params = new URLSearchParams(window.location.search)
-    return params.get('q') || ''
-  }
-
-  async function loadSearchIndex() {
-    if (searchIndexLoaded) return
-    try {
-      const response = await fetch('/api/search-index.json')
-      searchIndex = await response.json()
-      searchIndexLoaded = true
-
-      contentIndex = new FlexSearch.Index({
-        tokenize: 'forward',
-        cache: true,
-        context: {
-          resolution: 9,
-          depth: 2,
-          bidirectional: true,
-        },
-      })
-
-      searchIndex.forEach((item, idx) => {
-        const topicsText = item.topics ? item.topics.join(' ') : ''
-        const searchableText = `${item.title} ${item.description} ${topicsText} ${item.body}`
-        contentIndex!.add(idx, searchableText)
-      })
-
-      const topicsMap = new Map<string, number>()
-      searchIndex.forEach((item) => {
-        if (item.topics) {
-          item.topics.forEach((topic) => {
-            topicsMap.set(topic, (topicsMap.get(topic) || 0) + 1)
-          })
-        }
-      })
-      topicCounts = topicsMap
-      allTopics = Array.from(topicsMap.keys()).sort()
-    } catch (error) {
-      console.error('Failed to load search index:', error)
-    }
-  }
-
-  function open() {
-    isOpen = true
-    showPalette(palette)
-    input.focus()
-    setSelectedIndex(0)
-    loadSearchIndex()
-
-    const commands = $commandItems.get()
-    commandIndex = new FlexSearch.Index({
-      tokenize: 'forward',
-      cache: true,
-    })
-
-    commands.forEach((cmd, idx) => {
-      const searchableText = `${cmd.name} ${cmd.description || ''} ${cmd.keywords?.join(' ') || ''}`
-      commandIndex!.add(idx, searchableText)
-    })
-
-    const queryFromParams = getQueryFromParams()
-    if (queryFromParams) {
-      input.value = queryFromParams
-    }
-    render()
-  }
-
-  function close() {
-    isOpen = false
-    hidePalette(palette)
-    input.value = ''
-    setSelectedIndex(0)
-    isTopicMode = false
-    topicSelector.classList.add('hidden')
-    hidePreview(previewPane)
-    updateQueryParams('')
-  }
-
-  function checkTopicMode(query: string): {
-    isTopicMode: boolean
-    topicQuery: string
-  } {
-    const hashIndex = query.lastIndexOf('#')
-    if (hashIndex === -1) {
-      return { isTopicMode: false, topicQuery: '' }
-    }
-
-    const afterHash = query.slice(hashIndex + 1)
-    const hasSpaceAfterHash = afterHash.includes(' ')
-
-    if (hasSpaceAfterHash) {
-      return { isTopicMode: false, topicQuery: '' }
-    }
-
-    return { isTopicMode: true, topicQuery: afterHash.toLowerCase() }
-  }
-
-  function filterTopics(query: string): string[] {
-    if (!query) return allTopics
-
-    return allTopics
-      .filter((topic) => topic.toLowerCase().includes(query))
-      .sort((a, b) => {
-        const aStarts = a.toLowerCase().startsWith(query)
-        const bStarts = b.toLowerCase().startsWith(query)
-        if (aStarts && !bStarts) return -1
-        if (!aStarts && bStarts) return 1
-        return a.localeCompare(b)
-      })
-  }
-
-  function scrollIntoView(dataSelector: string, index: number, selection: HTMLElement) {
-    const selectedElement = selection.querySelector(
-      '[' + dataSelector + '="' + index + '"]',
-    ) as HTMLElement | null
-    if (selectedElement) {
-      selectedElement.scrollIntoView({ behavior: 'instant', block: 'nearest' })
-    }
-  }
-
-  function clampIndex(index: number, max: number): number {
-    return Math.max(0, Math.min(max - 1, index))
-  }
-
-  function attachClickListeners(
-    container: HTMLElement,
-    selector: string,
-    callback: (index: number) => void,
-  ) {
-    container.querySelectorAll(selector).forEach((el) => {
-      el.addEventListener('click', () => {
-        const index = parseInt((el as HTMLElement).dataset.index!)
-        callback(index)
-      })
-    })
-  }
-
-  function renderTopicSelector() {
-    const filteredTopicsValue = $filteredTopics.get()
-
-    if (filteredTopicsValue.length === 0) {
+  const renderTopicSelector = () => {
+    if (model.filteredTopics.length === 0) {
       topicSelectorItems.innerHTML = '<div class="text-zinc-500 text-sm">No topics found</div>'
       return
     }
 
-    const selectedTopicIndexValue = $selectedTopicIndex.get()
-
-    topicSelectorItems.innerHTML = filteredTopicsValue
+    topicSelectorItems.innerHTML = model.filteredTopics
       .map((topic, index) => {
-        const isSelected = index === selectedTopicIndexValue
-        const count = topicCounts.get(topic) || 0
+        const isSelected = index === model.selectedTopicIndex
+        const count = model.topicCounts.get(topic) || 0
         return `
           <div
             class="f-text-xs cursor-pointer transition-all"
@@ -272,79 +120,32 @@ const { placeholder = 'Search commands...' } = Astro.props
     topicSelectorItems.querySelectorAll('[data-topic-index]').forEach((el) => {
       el.addEventListener('click', () => {
         const index = parseInt((el as HTMLElement).dataset.topicIndex!)
-        selectTopic(filteredTopicsValue[index])
+        dispatch({ kind: 'SelectTopic', topic: model.filteredTopics[index] })
       })
     })
-
-    scrollIntoView('data-topic-index', selectedTopicIndexValue, topicSelectorItems)
   }
 
-  function selectTopic(topic: string) {
-    const currentValue = input.value
-    const hashIndex = currentValue.lastIndexOf('#')
-
-    const beforeHash = currentValue.slice(0, hashIndex)
-    input.value = beforeHash + topic + ' '
-
-    isTopicMode = false
-    topicSelector.classList.add('hidden')
-    setSelectedIndex(0)
-    updateQueryParams(input.value)
-    render()
-    input.focus()
-  }
-
-  function searchContent(query: string): SearchResult[] {
-    if (!query || !searchIndexLoaded || !contentIndex) return []
-
-    const results = contentIndex.search(query, { limit: 10 })
-    return results.map((idx) => searchIndex[idx as number])
-  }
-
-  function searchCommands(query: string): CommandItem[] {
-    const commands = $commandItems.get()
-    if (!query || !commandIndex) return commands
-
-    const results = commandIndex.search(query)
-    return results.map((idx) => commands[idx as number])
-  }
-
-  function filter(query: string): (CommandItem | SearchResult)[] {
-    const commands = searchCommands(query)
-    const contentResults = searchContent(query)
-
-    if (!query) return commands
-
-    return [...commands, ...contentResults]
-  }
-
-  function isSearchResult(item: any): item is SearchResult {
+  const isSearchResult = (item: CommandItem | SearchResult): item is SearchResult => {
     return 'url' in item && 'type' in item
   }
 
-  function highlightMatches(text: string, query: string): string {
+  const highlightMatches = (text: string, query: string): string => {
     if (!query) return text
-
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
     let result = text
-
     terms.forEach((term) => {
       const regex = new RegExp(`(${term})`, 'gi')
       result = result.replace(regex, '<mark class="bg-sienna-light text-zinc-800">$1</mark>')
     })
-
     return result
   }
 
-  function getContextSnippet(text: string, query: string): string {
+  const getContextSnippet = (text: string, query: string): string => {
     if (!query) return text.slice(0, 300) + '...'
-
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
     const lowerText = text.toLowerCase()
-
     let bestIndex = -1
     let bestScore = 0
-
     for (let i = 0; i < lowerText.length; i++) {
       let score = 0
       terms.forEach((term) => {
@@ -357,34 +158,29 @@ const { placeholder = 'Search commands...' } = Astro.props
         bestIndex = i
       }
     }
-
     if (bestIndex === -1) {
       return text.slice(0, 300) + '...'
     }
-
     const start = Math.max(0, bestIndex - 50)
     const end = Math.min(text.length, bestIndex + 250)
     const snippet = text.slice(start, end)
-
     return (start > 0 ? '...' : '') + snippet + (end < text.length ? '...' : '')
   }
 
-  function updatePreview(item: CommandItem | SearchResult) {
+  const updatePreview = (item: CommandItem | SearchResult) => {
     if (isSearchResult(item)) {
-      const query = input.value
-      const snippet = getContextSnippet(item.body, query)
-      const highlighted = highlightMatches(snippet, query)
+      const snippet = getContextSnippet(item.body, model.query)
+      const highlighted = highlightMatches(snippet, model.query)
 
       const topicBadges =
         item.topics && item.topics.length > 0
           ? `<div class="flex flex-wrap gap-2 mt-3">
             ${item.topics
               .map((t) => {
-                const queryTerms = query.toLowerCase().split(/\s+/).filter(Boolean)
+                const queryTerms = model.query.toLowerCase().split(/\s+/).filter(Boolean)
                 const isMatch = queryTerms.some((term) => t.toLowerCase().includes(term))
                 const bgClass = isMatch ? 'bg-sienna-mid/30' : 'bg-sienna-mid/10'
                 const textClass = isMatch ? 'text-white' : 'text-sienna-mid'
-
                 return `
                 <div class="f-text-xs">
                   <span class="flex rounded-full ${bgClass} px-[0.9em] py-[0.5em] font-medium leading-5 ${textClass}">
@@ -406,7 +202,7 @@ const { placeholder = 'Search commands...' } = Astro.props
         </div>
         <div class="text-zinc-300 leading-relaxed whitespace-pre-wrap">${highlighted}</div>
       `
-      showPreview(previewPane)
+      showPreview()
     } else {
       previewContent.innerHTML = `
         <div class="mb-4">
@@ -415,43 +211,20 @@ const { placeholder = 'Search commands...' } = Astro.props
         </div>
         ${item.keywords ? `<div class="text-xs text-zinc-500 mt-4">Keywords: ${item.keywords.join(', ')}</div>` : ''}
       `
-      showPreview(previewPane)
+      showPreview()
     }
   }
 
-  function render() {
-    const query = input.value
-    const topicModeCheck = checkTopicMode(query)
-
-    if (topicModeCheck.isTopicMode) {
-      isTopicMode = true
-      const filtered = filterTopics(topicModeCheck.topicQuery)
-      setFilteredTopics(filtered)
-      setSelectedTopicIndex(0)
-      topicSelector.classList.remove('hidden')
-      renderTopicSelector()
-      results.innerHTML = ''
-      hidePreview(previewPane)
-      return
-    } else {
-      isTopicMode = false
-      topicSelector.classList.add('hidden')
-    }
-
-    const filteredItemsValue = filter(query)
-    setFilteredItems(filteredItemsValue)
-
-    if (filteredItemsValue.length === 0) {
+  const renderResults = () => {
+    if (model.filteredItems.length === 0) {
       results.innerHTML = '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
-      hidePreview(previewPane)
+      hidePreview()
       return
     }
 
-    const selectedIndexValue = $selectedIndex.get()
-
-    results.innerHTML = filteredItemsValue
+    results.innerHTML = model.filteredItems
       .map((item, index) => {
-        const isSelected = index === selectedIndexValue
+        const isSelected = index === model.selectedIndex
 
         if (isSearchResult(item)) {
           return `
@@ -484,122 +257,182 @@ const { placeholder = 'Search commands...' } = Astro.props
       })
       .join('')
 
-    attachClickListeners(results, '[data-index]', (index) => {
-      execute(filteredItemsValue[index])
+    results.querySelectorAll('[data-index]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const index = parseInt((el as HTMLElement).dataset.index!)
+        dispatch({ kind: 'Execute', item: model.filteredItems[index] })
+      })
     })
 
-    if (filteredItemsValue[selectedIndexValue]) {
-      updatePreview(filteredItemsValue[selectedIndexValue])
-      scrollIntoView('data-index', selectedIndexValue, results)
+    if (model.filteredItems[model.selectedIndex]) {
+      updatePreview(model.filteredItems[model.selectedIndex])
     }
   }
 
-  function execute(item: CommandItem | SearchResult) {
-    close()
-    if (isSearchResult(item)) {
-      window.location.href = item.url
-    } else {
-      item.handler()
+  const render = () => {
+    if (!model.isOpen) {
+      hidePalette()
+      return
     }
-  }
 
-  function moveSelection(delta: number) {
-    if (isTopicMode) {
-      const filteredTopicsValue = $filteredTopics.get()
-      const currentIndex = $selectedTopicIndex.get()
-      const newIndex = clampIndex(currentIndex + delta, filteredTopicsValue.length)
-      setSelectedTopicIndex(newIndex)
+    showPalette()
+
+    if (model.isTopicMode) {
+      topicSelector.classList.remove('hidden')
       renderTopicSelector()
+      results.innerHTML = ''
+      hidePreview()
     } else {
-      const filteredItemsValue = $filteredItems.get()
-      const currentIndex = $selectedIndex.get()
-      const newIndex = clampIndex(currentIndex + delta, filteredItemsValue.length)
-      setSelectedIndex(newIndex)
-      render()
+      topicSelector.classList.add('hidden')
+      renderResults()
     }
   }
+
+  // ============================================================================
+  // Command Interpreter (Impure Boundary)
+  // ============================================================================
+
+  const performCmd = async (cmd: Cmd) => {
+    switch (cmd.kind) {
+      case 'None':
+        break
+
+      case 'LoadSearchIndex': {
+        try {
+          const response = await fetch('/api/search-index.json')
+          const searchIndex = await response.json()
+
+          const topicsMap = new Map<string, number>()
+          searchIndex.forEach((item: SearchResult) => {
+            if (item.topics) {
+              item.topics.forEach((topic) => {
+                topicsMap.set(topic, (topicsMap.get(topic) || 0) + 1)
+              })
+            }
+          })
+
+          dispatch({ kind: 'SearchIndexLoaded', index: searchIndex, topics: topicsMap })
+        } catch (error) {
+          console.error('Failed to load search index:', error)
+        }
+        break
+      }
+
+      case 'BuildCommandIndex': {
+        const commandIndex = new FlexSearch.Index({
+          tokenize: 'forward',
+          cache: true,
+        })
+
+        cmd.commands.forEach((cmd, idx) => {
+          const searchableText = `${cmd.name} ${cmd.description || ''} ${cmd.keywords?.join(' ') || ''}`
+          commandIndex.add(idx, searchableText)
+        })
+
+        dispatch({ kind: 'CommandIndexReady', index: commandIndex })
+        break
+      }
+
+      case 'BuildContentIndex': {
+        const contentIndex = new FlexSearch.Index({
+          tokenize: 'forward',
+          cache: true,
+          context: {
+            resolution: 9,
+            depth: 2,
+            bidirectional: true,
+          },
+        })
+
+        cmd.searchIndex.forEach((item, idx) => {
+          const topicsText = item.topics ? item.topics.join(' ') : ''
+          const searchableText = `${item.title} ${item.description} ${topicsText} ${item.body}`
+          contentIndex.add(idx, searchableText)
+        })
+
+        dispatch({ kind: 'ContentIndexReady', index: contentIndex, searchIndex: cmd.searchIndex })
+        break
+      }
+
+      case 'Navigate': {
+        window.location.href = cmd.url
+        break
+      }
+
+      case 'ExecuteHandler': {
+        cmd.handler()
+        break
+      }
+
+      case 'UpdateQueryParams': {
+        const params = new URLSearchParams(window.location.search)
+        if (cmd.query) {
+          params.set('q', cmd.query)
+        } else {
+          params.delete('q')
+        }
+        window.history.replaceState({}, '', `${window.location.pathname}?${params}`)
+        break
+      }
+
+      case 'FocusInput': {
+        input.focus()
+        break
+      }
+
+      case 'ScrollIntoView': {
+        const element = document.querySelector(
+          `[${cmd.selector}="${cmd.index}"]`,
+        ) as HTMLElement | null
+        if (element) {
+          element.scrollIntoView({ behavior: 'instant', block: 'nearest' })
+        }
+        break
+      }
+    }
+  }
+
+  // ============================================================================
+  // Event Listeners
+  // ============================================================================
 
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault()
-      if (isOpen) {
-        close()
-      } else {
-        open()
-      }
+      dispatch(model.isOpen ? { kind: 'Close' } : { kind: 'Open' })
       return
     }
 
-    if (!isOpen) return
+    if (!model.isOpen) return
 
-    switch (e.key) {
-      case 'Escape':
-        e.preventDefault()
-        close()
-        break
-      case 'ArrowDown':
-        e.preventDefault()
-        moveSelection(1)
-        break
-      case 'ArrowUp':
-        e.preventDefault()
-        moveSelection(-1)
-        break
-      case 'Tab':
-        if (isTopicMode) {
-          e.preventDefault()
-          moveSelection(e.shiftKey ? -1 : 1)
-        }
-        break
-      case 'Enter':
-        e.preventDefault()
-        const filteredTopicsValue = $filteredTopics.get()
-        const selectedTopicIndexValue = $selectedTopicIndex.get()
-        const filteredItemsValue = $filteredItems.get()
-        const selectedIndexValue = $selectedIndex.get()
-
-        if (isTopicMode && filteredTopicsValue[selectedTopicIndexValue]) {
-          selectTopic(filteredTopicsValue[selectedTopicIndexValue])
-        } else if (filteredItemsValue[selectedIndexValue]) {
-          execute(filteredItemsValue[selectedIndexValue])
-        }
-        break
-    }
+    e.preventDefault()
+    dispatch({ kind: 'KeyDown', key: e.key, shiftKey: e.shiftKey })
   })
 
   input.addEventListener('input', () => {
-    setSelectedIndex(0)
-    setSelectedTopicIndex(0)
-    updateQueryParams(input.value)
-    render()
+    dispatch({ kind: 'QueryChanged', query: input.value })
   })
 
-  backdrop.addEventListener('click', close)
+  backdrop.addEventListener('click', () => {
+    dispatch({ kind: 'Close' })
+  })
 
-  async function initializeFromParams() {
-    const queryFromParams = getQueryFromParams()
+  // ============================================================================
+  // Initialization
+  // ============================================================================
+
+  const initializeFromParams = async () => {
+    const params = new URLSearchParams(window.location.search)
+    const queryFromParams = params.get('q') || ''
+
     if (queryFromParams) {
-      isOpen = true
-      showPalette(palette)
-      input.focus()
-      setSelectedIndex(0)
-      await loadSearchIndex()
-
-      const commands = $commandItems.get()
-      commandIndex = new FlexSearch.Index({
-        tokenize: 'forward',
-        cache: true,
-      })
-
-      commands.forEach((cmd, idx) => {
-        const searchableText = `${cmd.name} ${cmd.description || ''} ${cmd.keywords?.join(' ') || ''}`
-        commandIndex!.add(idx, searchableText)
-      })
-
+      dispatch({ kind: 'Open' })
       input.value = queryFromParams
-      updateQueryParams(input.value)
-      render()
+      dispatch({ kind: 'QueryChanged', query: queryFromParams })
     }
+
+    const commands = $commandItems.get()
+    dispatch({ kind: 'BuildCommandIndex', commands })
   }
 
   initializeFromParams()
