@@ -216,6 +216,13 @@ const { placeholder = 'Search commands...' } = Astro.props
   }
 
   const renderResults = () => {
+    // Guard: if indices aren't built yet, show a loading state
+    if (!model.commandIndex && !model.contentIndex) {
+      results.innerHTML = '<div class="px-4 py-8 text-center text-zinc-500">Loading search index...</div>'
+      hidePreview()
+      return
+    }
+
     if (model.filteredItems.length === 0) {
       results.innerHTML = '<div class="px-4 py-8 text-center text-zinc-500">No results found</div>'
       hidePreview()
@@ -428,6 +435,10 @@ const { placeholder = 'Search commands...' } = Astro.props
   // ============================================================================
 
   const initializeFromParams = () => {
+    // Build command index first, before opening the palette
+    const commands = $commandItems.get()
+    dispatch({ kind: 'BuildCommandIndex', commands })
+
     const params = new URLSearchParams(window.location.search)
     const queryFromParams = params.get('q') || ''
 
@@ -435,9 +446,6 @@ const { placeholder = 'Search commands...' } = Astro.props
       dispatch({ kind: 'Open' })
       dispatch({ kind: 'QueryChanged', query: queryFromParams })
     }
-
-    const commands = $commandItems.get()
-    dispatch({ kind: 'BuildCommandIndex', commands })
   }
 
   initializeFromParams()

@@ -132,7 +132,6 @@ export const update = (msg: Msg, model: Model): [Model, Cmd] => {
       const { isTopicMode, topicQuery } = checkTopicMode(msg.query)
       const filteredTopics = isTopicMode ? filterTopics(topicQuery, model.allTopics) : []
       const filteredItems = isTopicMode ? [] : filter(msg.query, model)
-      console.log(msg.query)
 
       return [
         {
@@ -197,23 +196,22 @@ export const update = (msg: Msg, model: Model): [Model, Cmd] => {
           topicCounts: msg.topics,
           searchIndex: msg.index,
         },
-        { kind: 'FocusInput' },
+        { kind: 'BuildContentIndex', searchIndex: msg.index },
       ]
     }
 
     case 'CommandIndexReady': {
-      return [{ ...model, commandIndex: msg.index }, { kind: 'None' }]
+      return [{ ...model, commandIndex: msg.index }, { kind: 'LoadSearchIndex' }]
     }
 
     case 'ContentIndexReady': {
       return [
         { ...model, contentIndex: msg.index, searchIndex: msg.searchIndex },
-        { kind: 'None' },
+        { kind: 'FocusInput' },
       ]
     }
 
     case 'KeyDown': {
-      console.log(msg)
       if (msg.key === 'Escape') return update({ kind: 'Close' }, model)
       if (msg.key === 'ArrowDown') return update({ kind: 'MoveSelection', delta: 1 }, model)
       if (msg.key === 'ArrowUp') return update({ kind: 'MoveSelection', delta: -1 }, model)
