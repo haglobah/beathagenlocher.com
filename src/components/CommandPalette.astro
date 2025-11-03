@@ -65,11 +65,11 @@ const { placeholder = 'Search commands...' } = Astro.props
 
   let model = initModel()
 
-  const dispatch = async (msg: Msg) => {
+  const dispatch = (msg: Msg) => {
     const [newModel, cmd] = update(msg, model)
     model = newModel
     render()
-    await performCmd(cmd)
+    performCmd(cmd)
   }
 
   // ============================================================================
@@ -277,6 +277,11 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     showPalette()
 
+    // Sync input value from model (only if not currently focused to avoid disrupting typing)
+    if (document.activeElement !== input) {
+      input.value = model.query
+    }
+
     if (model.isTopicMode) {
       topicSelector.classList.remove('hidden')
       renderTopicSelector()
@@ -292,29 +297,29 @@ const { placeholder = 'Search commands...' } = Astro.props
   // Command Interpreter (Impure Boundary)
   // ============================================================================
 
-  const performCmd = async (cmd: Cmd) => {
+  const performCmd = (cmd: Cmd) => {
     switch (cmd.kind) {
       case 'None':
         break
 
       case 'LoadSearchIndex': {
-        try {
-          const response = await fetch('/api/search-index.json')
-          const searchIndex = await response.json()
+        fetch('/api/search-index.json')
+          .then((response) => response.json())
+          .then((searchIndex) => {
+            const topicsMap = new Map<string, number>()
+            searchIndex.forEach((item: SearchResult) => {
+              if (item.topics) {
+                item.topics.forEach((topic) => {
+                  topicsMap.set(topic, (topicsMap.get(topic) || 0) + 1)
+                })
+              }
+            })
 
-          const topicsMap = new Map<string, number>()
-          searchIndex.forEach((item: SearchResult) => {
-            if (item.topics) {
-              item.topics.forEach((topic) => {
-                topicsMap.set(topic, (topicsMap.get(topic) || 0) + 1)
-              })
-            }
+            dispatch({ kind: 'SearchIndexLoaded', index: searchIndex, topics: topicsMap })
           })
-
-          dispatch({ kind: 'SearchIndexLoaded', index: searchIndex, topics: topicsMap })
-        } catch (error) {
-          console.error('Failed to load search index:', error)
-        }
+          .catch((error) => {
+            console.error('Failed to load search index:', error)
+          })
         break
       }
 
@@ -381,9 +386,9 @@ const { placeholder = 'Search commands...' } = Astro.props
       }
 
       case 'ScrollIntoView': {
-        const element = document.querySelector(
-          `[${cmd.selector}="${cmd.index}"]`,
-        ) as HTMLElement | null
+        const element =
+          document.querySelector(`[data-topic-index="${cmd.index}"]`) ||
+          document.querySelector(`[data-index="${cmd.index}"]`)
         if (element) {
           element.scrollIntoView({ behavior: 'instant', block: 'nearest' })
         }
@@ -405,12 +410,13 @@ const { placeholder = 'Search commands...' } = Astro.props
 
     if (!model.isOpen) return
 
-    e.preventDefault()
     dispatch({ kind: 'KeyDown', key: e.key, shiftKey: e.shiftKey })
   })
 
-  input.addEventListener('input', () => {
-    dispatch({ kind: 'QueryChanged', query: input.value })
+  input.addEventListener('input', (e) => {
+    const newValue = (e.target as HTMLInputElement).value
+    console.log(newValue)
+    dispatch({ kind: 'QueryChanged', query: newValue })
   })
 
   backdrop.addEventListener('click', () => {
@@ -421,13 +427,12 @@ const { placeholder = 'Search commands...' } = Astro.props
   // Initialization
   // ============================================================================
 
-  const initializeFromParams = async () => {
+  const initializeFromParams = () => {
     const params = new URLSearchParams(window.location.search)
     const queryFromParams = params.get('q') || ''
 
     if (queryFromParams) {
       dispatch({ kind: 'Open' })
-      input.value = queryFromParams
       dispatch({ kind: 'QueryChanged', query: queryFromParams })
     }
 
