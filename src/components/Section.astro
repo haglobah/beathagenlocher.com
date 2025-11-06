@@ -3,12 +3,12 @@ import SectionTitle from './SectionTitle.astro'
 
 import { slug } from 'github-slugger'
 
-const { title } = Astro.props
+const { title, class: className } = Astro.props
 
 const theslug = slug(title)
 ---
 
-<section id={theslug} class="group/section f-scroll-mt-xl" aria-label={title}>
+<section id={theslug} class:list={["group/section f-scroll-mt-xl", className]} aria-label={title}>
   <div class="sticky top-0 f-my-sm z-20 w-full backdrop-blur">
     <SectionTitle>
       {title}
