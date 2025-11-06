@@ -1,0 +1,40 @@
+---
+title: Battery Warning
+startDate: 2025-11-06T22:55:26
+topics: [GNOME, OS]
+publish: true
+---
+
+Lol. Just now I learned that GNOME doesn't give you a way of changing the battery percentage. You somehow got to know that there's another service, UPower, that does this.
+
+So for changing the battery warning percentage, you got to edit `/etc/UPower/UPower.conf`:
+
+```conf
+# UPower.conf
+[UPower]
+AllowRiskyCriticalPowerAction=false
+CriticalPowerAction=HybridSleep
+EnableWattsUpPro=false
+IgnoreLid=false
+NoPollBatteries=false
+PercentageAction=2
+PercentageCritical=5
+PercentageLow=20 # set this to 30 or whatever
+TimeAction=120
+TimeCritical=300
+TimeLow=1200
+UsePercentageForPolicy=true
+```
+
+Or on [[NixOS]]:
+
+```nix
+# configuration.nix
+
+{
+  config = {
+    services.upower.percentageLow = 30;
+  };
+}
+
+```
