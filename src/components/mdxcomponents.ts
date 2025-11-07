@@ -24,6 +24,7 @@ import KB from './Keybinding.astro'
 export const components = {
   I,
   Il,
+  Ol,
   ListMarker,
   References,
   ReferenceLink,
