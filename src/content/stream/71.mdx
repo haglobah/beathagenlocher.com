@@ -9,8 +9,9 @@ Lol. Just now I learned that GNOME doesn't give you a way of changing the batter
 
 So for changing the battery warning percentage, you got to edit `/etc/UPower/UPower.conf`:
 
-```conf
+```toml
 # UPower.conf
+
 [UPower]
 AllowRiskyCriticalPowerAction=false
 CriticalPowerAction=HybridSleep
