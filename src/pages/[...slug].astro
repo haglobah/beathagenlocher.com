@@ -4,6 +4,7 @@ import { render } from 'astro:content'
 
 import Layout from '../layouts/Layout.astro'
 import PostLayout from '../layouts/PostLayout.astro'
+import { renderMarkdownInline } from '../lib/markdown'
 
 type ContentType = 'essay' | 'note' | 'knowledge' | 'talk'
 type Collections = 'essays' | 'notes' | 'knowledge' | 'talks'
@@ -43,6 +44,9 @@ const { entry } = Astro.props
 const { Content, headings } = await render(entry)
 
 const frontmatter = entry.data
+const renderedDescription = frontmatter.description
+  ? await renderMarkdownInline(frontmatter.description)
+  : ''
 
 import { components } from '../components/mdxcomponents.ts'
 ---
@@ -50,7 +54,7 @@ import { components } from '../components/mdxcomponents.ts'
 {
   (
     <Layout title={frontmatter.title}>
-      <PostLayout frontmatter={frontmatter} headings={headings}>
+      <PostLayout frontmatter={{ ...frontmatter, description: renderedDescription }} headings={headings}>
         <Content components={components} />
       </PostLayout>
     </Layout>
