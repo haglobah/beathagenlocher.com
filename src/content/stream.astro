@@ -5,11 +5,7 @@ import StreamCard from '../components/StreamCard.astro'
 import { stream, sortByStartDate } from './content.ts'
 
 const topics = [
-  ...new Set(
-    [stream].flatMap((collection) =>
-      collection.flatMap(({ data }) => data.topics),
-    ),
-  ),
+  ...new Set([stream].flatMap((collection) => collection.flatMap(({ data }) => data.topics))),
 ]
 
 import { components } from '../components/mdxcomponents.ts'
@@ -26,9 +22,15 @@ const renderedStream = await Promise.all(
   renderedStream.map((streamlet) => (
     <div
       id={streamlet.id}
-      class="content-item"
+      class="content-item group/streamlet relative"
       data-topics={JSON.stringify(streamlet.data.topics)}
     >
+      <a
+        href={`#${streamlet.id}`}
+        class="absolute top-3 left--8 px-1 f-text-xl font-normal opacity-0 transition-opacity group-hover/streamlet:opacity-100 duration-300 text-cornflower"
+      >
+        §
+      </a>
       <StreamCard
         title={streamlet.data.title}
         topics={streamlet.data.topics}
