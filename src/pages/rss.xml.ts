@@ -48,7 +48,7 @@ export async function GET(context: APIContext) {
         link: `/${post.id}/`,
       })),
       ...stream.map((post) => ({
-        title: post.data.title || ' ',
+        title: post.data.title || 'A Streamlet',
         pubDate: post.data.startDate,
         description: stripMarkdown(stripMDXComponents(post.body!)),
         link: `/stream/#${post.id}`,
