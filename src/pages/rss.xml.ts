@@ -23,11 +23,6 @@ export async function GET(context: APIContext) {
     description:
       'A digital garden exploring programming, minimalism and learning',
     site: context.site,
-    image: {
-      url: 'https://beathagenlocher.com/favicon.svg',
-      title: 'beathagenlocher.com',
-      link: context.site,
-    },
     items: [
       ...notes.map((post) => ({
         title: post.data.title,
@@ -54,6 +49,12 @@ export async function GET(context: APIContext) {
         link: `/stream/#${post.id}`,
       })),
     ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf()),
-    customData: `<language>en-us</language>`,
+    customData: `<language>en-us</language>
+<image>
+  <url>https://beathagenlocher.com/favicon.png</url>
+  <title>beathagenlocher.com</title>
+  <link>${context.site}</link>
+</image>
+`,
   })
 }
