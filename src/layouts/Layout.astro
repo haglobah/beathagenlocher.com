@@ -24,9 +24,7 @@ const contentId = currentPath.split('/').filter(Boolean).join('/')
 const baseUrl = import.meta.env.DEV ? 'http://localhost:4321' : Astro.site
 
 // Construct OG image URL - now just using the content ID directly
-const ogImageURL = type
-  ? new URL(`/og/${contentId}.png`, baseUrl)
-  : new URL(`/og.png`, baseUrl)
+const ogImageURL = type ? new URL(`/og/${contentId}.png`, baseUrl) : new URL(`/og.png`, baseUrl)
 
 // Only add search params for non-content pages (like the homepage)
 if (!type) {
@@ -54,8 +52,22 @@ declare global {
     <meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="/preflight.css" />
     <link rel="stylesheet" href="/style.css" />
-    <script type="module" src="https://js.withorbit.com/orbit-web-component.js"
-    ></script>
+    <script type="module" src="https://js.withorbit.com/orbit-web-component.js"></script>
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-ZRVBiABYnlryH-8eiXH29.js"></script>
+    <script>
+      ;((window.plausible =
+        window.plausible ||
+        function () {
+          ;(plausible.q = plausible.q || []).push(arguments)
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {}
+          }))
+      plausible.init()
+    </script>
     <SEO
       title={title}
       description={desc ||
@@ -82,7 +94,7 @@ declare global {
     </main>
     <footer class="my-12 flex justify-center text-center">
       <span class="font-light font-sans f-text-xs text-zinc-400 italic">
-        Thought of something you want to share with me? <br>
+        Thought of something you want to share with me? <br />
         Please <Il href="contacting-me">tell me about it</Il> :)
       </span>
     </footer>
