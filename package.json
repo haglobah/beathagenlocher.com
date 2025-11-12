@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@unocss/reset": "^65.4.3",
+    "rollup-plugin-visualizer": "^6.0.5",
     "unocss": "^65.4.3",
     "unocss-preset-fluid": "^1.0.2"
   }

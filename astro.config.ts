@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config'
+import { visualizer } from 'rollup-plugin-visualizer'
 import UnoCSS from 'unocss/astro'
 import mdx from '@astrojs/mdx'
 import solidJs from '@astrojs/solid-js'
@@ -23,6 +24,12 @@ const permalinks = getPermalinks('src/content/')
 // https://astro.build/config
 export default defineConfig({
   site: 'https://beathagenlocher.com',
+  vite: {
+    plugins: [visualizer({
+      emitFile: true,
+      filename: "stats.html"
+    })],
+  },
   integrations: [
     solidJs(),
     UnoCSS(),
