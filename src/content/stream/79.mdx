@@ -1,0 +1,14 @@
+---
+title: git ssh command
+startDate: 2025-11-13T12:59:52Z
+topics: [git, ssh]
+publish: true
+---
+
+TIL I learned that git can pick up its ssh command from the environment:
+
+```shell
+GIT_SSH_COMMAND="ssh -v" git pull
+```
+
+Especially the `-v` option is pretty useful to see if something's not working right now.
