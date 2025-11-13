@@ -4,6 +4,7 @@ import MainPageIconButton from '../components/MainPageIconButton.astro'
 import CommandPalette from '../components/CommandPalette.astro'
 import CommandPaletteButton from '../components/CommandPaletteButton.astro'
 import Il from '../components/InnerLink.astro'
+import PostHog from '../components/posthog.astro'
 
 export interface Props {
   title?: string
@@ -13,8 +14,6 @@ export interface Props {
 }
 
 const { title, desc, type, coverImage } = Astro.props
-
-/* const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString(); */
 
 // Generate OG image URL
 const currentPath = Astro.url.pathname
@@ -81,6 +80,7 @@ declare global {
         },
       }}
     />
+    <PostHog />
   </head><body
     class="font-sans font-normal f-text-sm bg-zinc-800 text-zinc-300 leading-[1.6] antialiased selection:bg-sienna-light selection:text-zinc-800 max-w-screen-xl mx-auto scroll-smooth"
   >
