@@ -1,0 +1,19 @@
+---
+title: Adjusting transient menus in Emacs
+startDate: 2025-11-13T16:04:52Z
+topics: [Emacs, magit, aidermacs]
+publish: true
+---
+
+Today I learned how to adjust the keybindings in transient menus (those nice hover menus you may know from [[magit]]).
+
+This is how you can do it for `aidermacs`:
+
+```elisp
+(with-eval-after-load 'aidermacs
+  (transient-replace-suffix
+    'aidermacs-transient-menu
+    "F" '("f" "Add Current File" aidermacs-add-current-file)))
+```
+
+Code here: [haglobah/doom | eval-after-load | aidermacs.el](https://github.com/haglobah/doom/blob/0a343255bd4d093b332b73119d67dc3103bbced1/packages/aidermacs.el#L11C5-L13C64)
