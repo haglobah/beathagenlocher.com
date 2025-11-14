@@ -30,7 +30,8 @@
             # { name = "MY_ENV_VAR"; value = "SOTRUE"; }
           ];
           packages = with pkgs; [
-            nodejs_22
+            nodejs_24
+            bun
             typescript-language-server
             just
           ];
