@@ -1,0 +1,19 @@
+{
+  "name": "bsky-post-server",
+  "description": "Translates Rich Text to Facets and Posts to bsky",
+  "version": "1.0.0",
+  "author": "Beat Hagenlocher <bah@posteo.de>",
+  "license": "MIT",
+  "main": "app/main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot run index.ts"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.0",
+    "hono": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.2"
+  }
+}

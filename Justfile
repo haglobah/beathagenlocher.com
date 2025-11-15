@@ -4,8 +4,14 @@ help:
 setup:
     npm clean-install
 
-dev:
+[parallel]
+dev: astro bsky-server
+
+astro:
     npm run dev
+
+bsky-server:
+    cd bsky-post-server && bun run dev
 
 open cmd="":
     #!/usr/bin/env bash
