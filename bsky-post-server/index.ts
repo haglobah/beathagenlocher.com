@@ -33,16 +33,13 @@ app.post('/post', async (c) => {
   const rt = new RichText({ text })
   await rt.detectFacets(agent)
 
-  inspect(merge(facets, rt.facets))
-  inspect(rt.facets)
-
   const payload = {
     text: rt.text,
     facets: merge(facets, rt.facets),
   }
 
   inspect(payload)
-  // await agent.post(payload);
+  await agent.post(payload);
 
   return c.json({ success: true })
 })
