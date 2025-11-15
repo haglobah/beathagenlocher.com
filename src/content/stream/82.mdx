@@ -1,0 +1,23 @@
+---
+title: just parallel
+startDate: 2025-11-15T17:09:37Z
+topics: [Just, TIL]
+publish: true
+---
+
+Today I learned that [[Just]] can finally run [recipes in parallel](just.systems/man/en/parallelism.html).
+
+This is what this looks like:
+
+```just
+[parallel]
+dev: astro bsky
+
+astro:
+    npm run dev
+
+bsky:
+    cd bsky-post-server && bun run dev
+```
+
+Sweet!
