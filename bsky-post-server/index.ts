@@ -1,41 +1,53 @@
-import { AtpAgent, RichText } from '@atproto/api';
-import * as util from 'util';
+import { Hono } from 'hono'
+import { AtpAgent, RichText } from '@atproto/api'
+import * as util from 'util'
 
-const agent = new AtpAgent({ service: 'https://bsky.social' });
+const app = new Hono()
+const agent = new AtpAgent({ service: 'https://bsky.social' })
 
-// Auth on startup
+const inspect = <T>(thing: T) => {
+  console.log(util.inspect(thing, false, null, true))
+  return thing
+}
+
+const merge = <T>(a: T[] | undefined, b: T[] | undefined) => {
+  if (a === undefined && b === undefined) {
+    return []
+  } else if (a === undefined) {
+    return b
+  } else if (b === undefined) {
+    return a
+  } else {
+    return a.concat(b)
+  }
+}
+
 await agent.login({
   identifier: 'beathagenlocher.com',
   password: process.env.BLUESKY_APP_SECRET!,
-});
+})
 
-const server = Bun.serve({
+app.post('/post', async (c) => {
+  const { text, facets } = await c.req.json()
+
+  const rt = new RichText({ text })
+  await rt.detectFacets(agent)
+
+  inspect(merge(facets, rt.facets))
+  inspect(rt.facets)
+
+  const payload = {
+    text: rt.text,
+    facets: merge(facets, rt.facets),
+  }
+
+  inspect(payload)
+  // await agent.post(payload);
+
+  return c.json({ success: true })
+})
+
+export default {
   port: 3000,
-  async fetch(req) {
-    const url = new URL(req.url);
-
-    if (url.pathname === '/post' && req.method === 'POST') {
-      const { text } = await req.json();
-
-      const rt = new RichText({ text });
-      await rt.detectFacets(agent);
-
-      const payload = {
-        text: rt.text,
-        facets: rt.facets,
-      };
-
-      console.log(util.inspect(payload, false, null, true));
-
-      await agent.post(payload);
-
-      return new Response(JSON.stringify({ success: true }), {
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
-    return new Response('Not Found', { status: 404 });
-  },
-});
-
-console.log(`Server running on http://localhost:${server.port}`);
+  fetch: app.fetch,
+}
