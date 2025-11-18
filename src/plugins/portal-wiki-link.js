@@ -2,6 +2,7 @@ import { toMarkdown } from 'mdast-util-wiki-link'
 import { codes } from './codes.js'
 import fs from 'fs'
 import path from 'path'
+import { slug } from 'github-slugger'
 
 function _iterableToArrayLimit(arr, i) {
   var _i =
@@ -67,7 +68,7 @@ function _toConsumableArray(arr) {
   return (
     _arrayWithoutHoles(arr) ||
     _iterableToArray(arr) ||
-    _unsupportedIterableToArray(arr) ||
+    _unsupportedIterableToArray(arr, i) ||
     _nonIterableSpread()
   )
 }
@@ -383,7 +384,7 @@ function fromMarkdown() {
   var permalinks = opts.permalinks || []
   var wikiLinkResolver = opts.wikiLinkResolver || defaultWikiLinkResolver
   var newClassName = opts.newClassName || 'new'
-  var wikiLinkClassName = opts.wikiLinkClassName || 'internal'
+  var wikiLinkClassName = opts.wikiLinkClassName || 'font-medium'
   var defaultHrefTemplate = function defaultHrefTemplate(permalink) {
     return permalink
   }
@@ -436,24 +437,30 @@ function fromMarkdown() {
       _target$match2$ = _target$match2[2],
       heading = _target$match2$ === void 0 ? '' : _target$match2$
     var possibleWikiLinkPermalinks = wikiLinkResolver(path)
+    
+    // FIXED: Compare slugified versions for matching
     var matchingPermalink = permalinks.find(function (e) {
       return possibleWikiLinkPermalinks.find(function (p) {
+        var eSlug = slug(e)
+        var pSlug = slug(p)
+        
         if (pathFormat === 'obsidian-short') {
-          if (e === p || e.endsWith(p)) {
+          if (eSlug === pSlug || eSlug.endsWith('/' + pSlug)) {
             return true
           }
         } else if (pathFormat === 'obsidian-absolute') {
-          if (e === '/' + p) {
+          if (eSlug === '/' + pSlug) {
             return true
           }
         } else {
-          if (e === p) {
+          if (eSlug === pSlug) {
             return true
           }
         }
         return false
       })
     })
+    
     // TODO this is ugly
     var link =
       matchingPermalink ||
