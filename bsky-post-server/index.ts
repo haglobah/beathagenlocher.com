@@ -1,26 +1,9 @@
 import { Hono } from 'hono'
 import { AtpAgent, RichText } from '@atproto/api'
-import * as util from 'util'
+import { inspect, cond, merge, graphemeLength } from './utils'
 
 const app = new Hono()
 const agent = new AtpAgent({ service: 'https://bsky.social' })
-
-const inspect = <T>(thing: T) => {
-  console.log(util.inspect(thing, false, null, true))
-  return thing
-}
-
-const merge = <T>(a: T[] | undefined, b: T[] | undefined) => {
-  if (a === undefined && b === undefined) {
-    return []
-  } else if (a === undefined) {
-    return b
-  } else if (b === undefined) {
-    return a
-  } else {
-    return a.concat(b)
-  }
-}
 
 await agent.login({
   identifier: 'beathagenlocher.com',
@@ -33,15 +16,26 @@ app.post('/post', async (c) => {
   const rt = new RichText({ text })
   await rt.detectFacets(agent)
 
-  const payload = {
-    text: rt.text,
-    facets: merge(facets, rt.facets),
-  }
+  cond(
+    graphemeLength(rt.text) <= 300,
+    async () => {
+      const payload = {
+        text: rt.text,
+        facets: merge(facets, rt.facets),
+      }
 
-  inspect(payload)
-  await agent.post(payload);
+      inspect(payload)
+      await agent.post(payload)
 
-  return c.json({ success: true })
+      return c.json({ success: true })
+    },
+    () => {
+      inspect(rt.text)
+      inspect(
+        `'s grapheme count is _${graphemeLength(rt.text)}_, and with that over 300 graphemes long.`,
+      )
+    },
+  )
 })
 
 export default {
