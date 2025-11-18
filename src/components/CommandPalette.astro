@@ -397,12 +397,17 @@ const { placeholder = 'Search commands...' } = Astro.props
            </div>`
           : ''
 
+      const publishedBadge = !item.published
+        ? '<div class="flex f-text-xs mt-3"><span class="flex rounded-full bg-zinc-700/50 px-[0.9em] py-[0.5em] font-medium leading-5 text-zinc-500">Unpublished</span></div>'
+        : ''
+
       previewContent.innerHTML = `
         <div class="mb-4">
           <div class="text-xs text-zinc-500 uppercase mb-1">${item.type}</div>
           <div class="text-lg font-medium text-zinc-100 mb-2">${item.title}</div>
           ${item.description ? `<div class="text-sm text-zinc-400 mb-3">${item.description}</div>` : ''}
           ${topicBadges}
+          ${publishedBadge}
         </div>
         <div class="text-zinc-300 leading-relaxed whitespace-pre-wrap">${highlighted}</div>
       `
@@ -454,16 +459,23 @@ const { placeholder = 'Search commands...' } = Astro.props
         const isSelected = index === selectedIndexValue
 
         if (isSearchResult(item)) {
+          const isUnpublished = !item.published
+          const rowClass = isUnpublished ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+          const bgClass = isSelected
+            ? 'bg-zinc-800 text-zinc-100'
+            : isUnpublished
+              ? 'text-zinc-500 hover:bg-zinc-800/50'
+              : 'text-zinc-300 hover:bg-zinc-800'
+
           return `
             <div
-              class="px-4 py-3 cursor-pointer transition-colors ${
-                isSelected ? 'bg-zinc-800 text-zinc-100' : 'text-zinc-300 hover:bg-zinc-800'
-              }"
+              class="px-4 py-3 transition-colors ${rowClass} ${bgClass}"
               data-index="${index}"
             >
               <div class="flex items-center gap-2">
                 <span class="text-xs px-2 py-0.5 rounded bg-zinc-700 text-zinc-400">${item.type}</span>
                 <div class="font-medium">${item.title}</div>
+                ${isUnpublished ? '<span class="text-xs px-2 py-0.5 rounded bg-zinc-700 text-zinc-500">Unpublished</span>' : ''}
               </div>
               ${item.description ? `<div class="text-sm text-zinc-500 mt-1">${item.description}</div>` : ''}
             </div>

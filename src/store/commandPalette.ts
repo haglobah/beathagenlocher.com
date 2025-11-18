@@ -16,6 +16,7 @@ export interface SearchResult {
   url: string
   body: string
   topics: string[]
+  published: boolean
 }
 
 // Store for command items

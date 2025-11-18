@@ -1,10 +1,10 @@
 import { getCollection } from 'astro:content'
 
 export async function GET() {
-  const notes = await getCollection('notes', ({ data }) => data.publish)
-  const essays = await getCollection('essays', ({ data }) => data.publish)
-  const talks = await getCollection('talks', ({ data }) => data.publish)
-  const stream = await getCollection('stream', ({ data }) => data.publish)
+  const notes = await getCollection('notes')
+  const essays = await getCollection('essays')
+  const talks = await getCollection('talks')
+  const stream = await getCollection('stream')
 
   const allContent = [
     ...notes.map(entry => ({
@@ -15,6 +15,7 @@ export async function GET() {
       url: `/${entry.id}`,
       body: entry.body,
       topics: entry.data.topics || [],
+      published: entry.data.publish ?? true,
     })),
     ...essays.map(entry => ({
       id: entry.id,
@@ -24,6 +25,7 @@ export async function GET() {
       url: `/${entry.id}`,
       body: entry.body,
       topics: entry.data.topics || [],
+      published: entry.data.publish ?? true,
     })),
     ...talks.map(entry => ({
       id: entry.id,
@@ -33,6 +35,7 @@ export async function GET() {
       url: `/${entry.id}`,
       body: entry.body,
       topics: entry.data.topics || [],
+      published: entry.data.publish ?? true,
     })),
     ...stream.map(entry => ({
       id: entry.id,
@@ -41,6 +44,7 @@ export async function GET() {
       url: `/stream/#${entry.id}`,
       body: entry.body,
       topics: entry.data.topics || [],
+      published: entry.data.publish ?? true,
     })),
   ]
 
