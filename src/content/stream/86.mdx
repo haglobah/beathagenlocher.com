@@ -1,0 +1,22 @@
+---
+title: "mu4e: Show the time in email list"
+startDate: 2025-11-25T12:34:36Z
+topics: [TIL, Email, Emacs, mu4e]
+publish: true
+---
+
+Today I learned how to also show the time in [[mu4e]]'s email list.
+
+This is how you do it:
+
+```elisp
+(setq mu4e-headers-date-format "%Y-%m-%d %H:%M")
+
+(setq mu4e-headers-fields
+  '((:human-date . 18) ; this needs to be there
+    (:flags . 6)
+    (:from . 22)
+    (:subject)))
+```
+
+Sweet!
