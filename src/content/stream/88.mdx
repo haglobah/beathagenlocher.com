@@ -1,0 +1,16 @@
+---
+title: "magit/evil interaction weirdess"
+startDate: 2025-11-26T16:57:03Z
+topics: [magit, Emacs, Evil Mode]
+publish: true
+---
+
+In [[magit]]'s diff view ([[evil mode]]), it happens semi-regularly to me that I want to extract some code out of there to apply to my current state.
+
+There's the option to apply a full hunk `a`
+
+But sometimes, I just want to select a piece of text from there. For that, I could view the buffer at the current state by clicking <KB>Enter</KB> on the hunk, and then selecting it from the normal buffer, but even that gets annoying fast.
+
+Today I realized that I can just set a mark with <KB>C-SPC</KB>, and then select the text normally.
+
+Nice!
