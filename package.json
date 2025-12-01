@@ -28,6 +28,7 @@
     "mdast-util-wiki-link": "^0.1.2",
     "micromark-util-symbol": "^2.0.1",
     "nanostores": "^1.0.1",
+    "playwright": "^1.57.0",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.0",
