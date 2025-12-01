@@ -1,0 +1,36 @@
+---
+title: "Setting up a Win 11 VM on NixOS"
+description: "Getting Win "
+growthStage: seedling
+startDate: 2025-12-01T02:11:17Z
+updated: 2025-12-01T02:16:38Z
+topics: [QEMU, quickemu, NixOS, Windows, VM]
+publish: true
+---
+
+Today, I just wanted to try how easy it would be to have a Windows VM on [[NixOS]].
+
+I ran into two issues, both of which there thankfully were Github threads about.
+
+This is what you need to do to get Windows 11 running on [[NixOS]]:
+
+```shell
+nix shell nixpkgs#quickemu
+quickget windows 11
+# then, comment out the fixed_iso line in windows-11.conf
+nvim windows-11.conf
+# Then, you can run the VM
+quickemu --vm windows-11.conf --extra_args "--drive media=cdrom,index=3,file=windows-11/virtio-win.iso"
+```
+
+But after booting, it doesn't find a disk to install windows to.
+
+For that, we need to have drivers, which we can find in `E:\amd64\viostor\w11\`. Select that folder, and from there, `viostor.inf`.
+
+With that done, the Windows installer finds a disk.
+
+That lets the installation succeed.
+
+After being in Win 11, you probably want internet/other drivers—for that, you can go to `File Explorer -> virtio-win CD` and run `virtio-win-gt-x64`.
+
+With that, you're set :)
