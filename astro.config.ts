@@ -23,12 +23,15 @@ const permalinks = getPermalinks('src/content/')
 
 // https://astro.build/config
 export default defineConfig({
+  devToolbar: { enabled: false },
   site: 'https://beathagenlocher.com',
   vite: {
-    plugins: [visualizer({
-      emitFile: true,
-      filename: "stats.html"
-    })],
+    plugins: [
+      visualizer({
+        emitFile: true,
+        filename: 'stats.html',
+      }),
+    ],
   },
   integrations: [
     solidJs(),
