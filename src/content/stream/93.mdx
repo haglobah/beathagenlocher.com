@@ -1,0 +1,18 @@
+---
+title: nixpkgs: Number of Packages
+startDate: 2025-12-04T11:04:00Z
+topics: [Nix, nixpkgs, Package Repositories, Guix, Guix System, NixOS]
+publish: true
+---
+
+Yesterday was [Tü.λ](https://tu-lambda.github.io) again and the topic of the day was [Guix](https://guix.gnu.org/) (and with it, reproducible package management).
+
+There's also an [[Operating System]] based on Guix, _Guix System_ (as there is with [[Nix]] and [[NixOS]]) with basically the same trade-offs.
+
+One of these trade-offs is that due to the nature of reproducible packages, you can't just run any linux binary directly on your system (cause they normally rely on dynamically linked libraries).
+
+(There are some pretty easy workarounds to that, though)
+
+That's why it's doubly important and useful to have as many packages packaged in Guix's and Nix's package repos [Guix Packages](https://packages.guix.gnu.org) and [nixpkgs](https://search.nixos.org/packages)
+
+After coming to that point at Tü.λ, I showed people the package repo [size/freshness graph from repology](https://repology.org/repositories/graphs), and could rest assured that basically everything you'll need that's available on Linux is also in nixpkgs.
