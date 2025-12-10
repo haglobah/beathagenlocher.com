@@ -1,0 +1,28 @@
+---
+title: "Unmap Return in company's completion menu"
+startDate: 2025-12-10T17:20:27Z
+topics: [Emacs, Doom Emacs, ]
+publish: true
+---
+
+(Mostly just a note to my future self)
+
+Somehow I just had issues with [[Doom Emacs]]'s `map!` function and unmapping the <KB>Return</KB> key in company mode. 
+
+This didn't work: 
+
+```elisp
+(map! :map company-active-mode
+  "RET" nil
+  "TAB" #'company-complete-selection)
+```
+
+but this did:
+
+```elisp
+(after! company
+  (keymap-unset company-active-map "<return>" t)
+  (define-key company-active-map (kbd "<tab>") #'company-complete-selection))
+```
+
+Maybe I'm gonna investigate this later.
