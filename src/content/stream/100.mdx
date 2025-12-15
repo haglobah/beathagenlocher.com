@@ -1,0 +1,36 @@
+---
+title: "Vimium NixOS"
+startDate: 2025-12-15T15:54:13Z
+topics: [Vim, Browser, Nix, Efficiency, TIL]
+publish: true
+---
+
+Today I learned that there's a home manager module for generating a [Vimium](https://github.com/philc/vimium) config.
+
+You can find it here: https://github.com/uimataso/vimium-nixos
+
+Nothing crazy, but still pretty nice.
+
+This is what my config looks like now
+
+```nix
+home.vimiumOptions = {
+  enable = true;
+
+  outputFilePath = ".cache/vimium-options.json";
+
+  keyMappings = {
+  unmapAll = true;
+  map = {
+      j = "goBack";
+      y = "goForward";
+      l = "scrollPageDown";
+      u = "scrollPageUp";
+      f = "LinkHints.activateMode";
+      p = "LinkHints.activateModeToOpenInNewTab";
+    };
+  };
+};
+```
+
+(You can find it here: https://github.com/haglobah/mynix/blob/f3277da86ff0834d5f1371ba5b5af1550e9da967/home/home.nix#L298)
