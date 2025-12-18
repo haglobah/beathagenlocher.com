@@ -1,6 +1,7 @@
 import { chromium, devices } from 'playwright'
 
 const iPhone = devices['iPhone 15']
+const iPadMini = devices['iPad Mini']
 
 type Box = { x: number; y: number; width: number; height: number }
 type Padding = { top: number; right: number; bottom: number; left: number }
@@ -21,15 +22,19 @@ export const makeStreamshot = async (streamId: number, padding: Padding) => {
     executablePath: execPath,
   })
   const context = await browser.newContext({
-    ...iPhone,
+    ...iPadMini,
   })
   const page = await context.newPage()
   await page.goto('http://localhost:4321/stream', { waitUntil: 'networkidle' })
 
-  const handle = await page.$(`[id="${streamId}"]`)
+  const streamIdPadded = streamId.toString().padStart(5, '0')
+  const handle = await page.$(`[id="${streamIdPadded}"]`)
+  const codeHandle = await page
+    .locator(`[id="${streamIdPadded}"] .expressive-code .frame pre`)
+    .evaluate((el) => el.classList.add('wrap'))
   const box = await handle!.boundingBox()
   await page.screenshot({
-    path: `stream/${streamId}.png`,
+    path: `stream/${streamIdPadded}.png`,
     clip: computeClip(box!, padding),
     fullPage: true,
   })
@@ -58,5 +63,5 @@ export const makeScreenshot = async (path: string, padding: Padding) => {
   await browser.close()
 }
 
-// makeStreamshot(91, 10)
+makeStreamshot(91, { left: 10, top: 10, right: 10, bottom: 10 })
 // makeScreenshot('emacs', {left: 30, top: -10, right: 30, bottom: 40})
