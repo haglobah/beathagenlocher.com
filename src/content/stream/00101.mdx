@@ -1,0 +1,42 @@
+---
+title: "clan.lol Backups"
+startDate: 2025-12-18T10:09:58Z
+topics: [Clan, Nix, NixOS]
+publish: true
+---
+
+Yesterday, I added a new service to my server ([Actual](https://actualbudget.org/)), and then tried to get backups in clan to work.
+
+This is the (very simple) result:
+
+```nix
+  inventory.instances = {
+    # https://docs.clan.lol/services/official/borgbackup/
+    borgbackup = {
+      module = {
+        name = "borgbackup";
+        input = "clan-core";
+      };
+      roles.client.machines."formenos".settings = {
+        destinations."storagebox" = {
+          repo = "u366465-sub5@u366465-sub5.your-storagebox.de:/./borgbackup";
+          rsh = ''ssh -p 23 -oStrictHostKeyChecking=accept-new -i /run/secrets/vars/borgbackup/borgbackup.ssh'';
+        };
+      };
+    };
+  machines.formenos = {
+    # https://docs.clan.lol/guides/backups/backup-intro/
+    clan.core.state.actual = {
+      folders = [
+        "/var/lib/actual"
+      ];
+    };
+    # https://search.nixos.org/options?channel=unstable&query=services.actual
+    services.actual = {
+      enable = true;
+      settings = {
+        port = 5006;
+      };
+    };
+  };
+```
