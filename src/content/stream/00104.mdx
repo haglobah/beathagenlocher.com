@@ -1,0 +1,32 @@
+---
+title: "Auth"
+startDate: 2026-01-10T00:06:27Z
+topics: [Auth, Automerge]
+publish: false
+---
+
+I've spent the last few days figuring out how to add Auth to a side project I'm building right now, and it's absolutely crazy just how many solutions are out there.
+
+(And they seem pretty straightforward, most of the time).
+
+The thing is that what I'm building relies on [[Automerge]]
+
+(In hindsight, I probably just should've committed to one of the many, many different frameworks and approaches that are out there).
+
+Just for a short listing of what I considered:
+
+- Supertokens
+- Logto
+- Auth0
+- Keycloak
+- Supabase
+
+In the end I settled on logto (for now), but I'm not so sure anymore whether that was the right solution.
+
+I wanted it to be:
+- independent of my db (since I don't need one except for my root automerge doc id)
+- self-hostable
+
+- I thought custom jwt token claims would be nice (not sure they're _that_ important anymore)
+
+(One of the reasons was that I don't have a )
