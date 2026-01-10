@@ -1,0 +1,107 @@
+---
+title: "Why Tailwind"
+description: ""
+growthStage: seedling
+startDate: 2025-11-13T16:27:09Z
+updated: 2025-11-13T16:27:12Z
+topics: [Archtecture Decision Record]
+publish: false
+---
+
+Traditional frontend styling approaches exist on a spectrum between two dependency directions:
+
+1. **CSS depends on HTML**—naming classes based on content (e.g., `.author-bio`) makes HTML independent but CSS non-reusable. This is the "semantic CSS" approach exemplified by CSS Zen Garden.
+
+2. **HTML depends on CSS**—naming classes based on repeating UI patterns (e.g., `.media-card`, `.btn`) makes CSS reusable—but HTML dependent on the CSS layer. This is the approach taken by UI frameworks like Bootstrap.
+
+Both of these traditional main approaches lead to problems:
+
+- **Duplication**: Similar components require duplicated styles or fragile `@extend` mechanisms
+- **Coupling**: CSS becomes tightly coupled to markup structure through nested selectors
+- **Inconsistency**: Without constraints, developers create hundreds of unique color, font size, and spacing values across a codebase
+- **Premature abstraction**: Components are created for single-use patterns, adding unnecessary complexity
+
+One way out of this is to greatly reduce the surface of CSS one actively uses. The simplest way to do this is via directly styling your components with _inline CSS_ `<div style="background-color: green; width: 100px;">...</div>"`.
+
+But this can get pretty verbose, and suffers from the Inconsistency problem from above, too.
+
+For escaping this dilemma, people have developed utility class-based frameworks.
+
+The utility-first approach solves these problems by:
+
+- **Greatly reducing the complexity surface of CSS**: You only ever write CSS `<div class="..some classes...">...</div>`.
+- **Enforcing consistency**: Developers choose from a curated, finite set of design tokens
+- **Enabling composition**: Complex UIs are built by combining small, single-purpose utilities
+- **Improving maintainability**: No hidden dependencies between markup and stylesheets; styling decisions are explicit in HTML _and as local as possible_.
+
+## Decision
+
+We will use **TailwindCSS** as our primary styling framework for all frontend development.
+
+TailwindCSS is a utility-first CSS framework that provides:
+
+- A comprehensive set of low-level utility classes for spacing, sizing, colors, typography, flexbox, and more
+- A configuration system to define design tokens (colors, spacing scale, breakpoints) that enforce consistency
+- First-class support for responsive design and state variants (hover, focus, dark mode)
+
+### Example: Inline Styles vs. TailwindCSS
+
+**With inline styles** (verbose, inconsistent, no constraints):
+
+```html
+<div style="background-color: #f3f4f6; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+  <h2 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 8px;">
+    Product Card
+  </h2>
+  <p style="font-size: 14px; color: #6b7280; line-height: 1.5;">
+    Description goes here
+  </p>
+  <button style="background-color: #3b82f6; color: white; padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer;">
+    Learn More
+  </button>
+</div>
+```
+
+**With TailwindCSS** (concise, consistent, constrained design tokens):
+
+```html
+<div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+  <h2 class="text-lg font-semibold text-gray-900 mb-2">
+    Product Card
+  </h2>
+  <p class="text-sm text-gray-500 leading-relaxed">
+    Description goes here
+  </p>
+  <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+    Learn More
+  </button>
+</div>
+```
+
+Notice how TailwindCSS:
+
+- Uses semantic class names that map to a design system (`bg-gray-100`, `text-lg`, `p-4`)
+- Eliminates arbitrary values; all spacing, colors, and sizes come from a predefined scale
+- Makes responsive and interactive states trivial (`hover:bg-blue-600`)
+- Keeps styling decisions visible and co-located with markup
+
+## Consequences
+
+### Positive
+
+- **Consistency**: All developers work within a constrained design system, eliminating arbitrary styling choices
+- **Productivity**: New UI can be built without writing CSS; complex components emerge from utility composition
+- **Maintainability**: Styling is explicit and co-located with markup; no hidden CSS dependencies
+- **Scalability**: CSS doesn't grow linearly with project size; utility classes are reused across components
+- **Design tokens**: Centralized configuration ensures all spacing, colors, and typography follow the design system
+
+### Negative
+
+- **Learning curve**: Developers accustomed to traditional CSS may initially find utility-heavy markup unfamiliar
+- **Markup verbosity**: HTML can contain many class names, which may feel cluttered at first glance
+- **Abstraction discipline**: We must resist the urge to create premature component abstractions; utilities should be composed first, components extracted only when patterns repeat
+
+## References
+
+- [CSS Utility Classes and "Separation of Concerns"](https://adamwathan.me/css-utility-classes-and-separation-of-concerns/) — Adam Wathan's foundational essay on utility-first CSS
+- [TailwindCSS Documentation](https://tailwindcss.com)
