@@ -1,0 +1,38 @@
+---
+title: "Emacs Custom Completion"
+startDate: 2026-01-12T18:10:06Z
+topics: [TIL, Emacs, Completion, company]
+publish: true
+---
+
+Today I learned how to create a custom completion for company-mode.
+
+I'm gradually moving my personal knowledge management away from Obsidian into Emacs, but I want to keep the giant heap of Markdown files I've already got (so that I can use my keybindings/custom commands from programming in my Personale Knowledge Base, too).
+
+Something [[Emacs]] already does way better out-of-the box than Obsidian is full-text search (obviously) and templates work nicely, too. Really the only thing I've been missing are the wikilink behaviors:
+
+1. File Creation on <KB>Ctrl+Enter</KB> inside `[[]]`
+2. Highlighting of files in `[[]]` when the file already exists
+3. Completion for already existing files when typing inside `[[]]`
+
+The first two I've already completed some time ago (you can find them here: [mycelium.el](https://github.com/haglobah/doom/blob/edb8350bff2b2f1c068ce54c87b875d31ede5139/config/mycelium.el#L38))
+
+And today, I finally read the [doom docs](https://docs.doomemacs.org/v21.12/modules/completion/company/) (mid-helpful), [company docs](https://github.com/company-mode/company-mode/wiki/Writing-backends)+[blog post](https://docs.doomemacs.org/v21.12/modules/completion/company/) (helpful) and [Emacs completion docs](https://docs.doomemacs.org/v21.12/modules/completion/company/) (not so helpful), and then went and implemented this:
+
+```elisp
+(defun bah/mycelium-company-backend (command &optional arg &rest ignored)
+  (interactive (list 'interactive))
+  (cl-case command
+    (interactive (company-begin-backend 'bah/mycelium-company-backend))
+    (prefix (when (looking-back "\\[\\[\\([^]]*\\)" (line-beginning-position))
+              (match-string 1)))
+    (candidates (cl-remove-if-not
+                 (lambda (candidate)
+                   (string-prefix-p arg candidate t))
+                 (hash-table-keys (bah/get-project-markdown-file-names))))))
+
+(after! markdown-mode
+  (set-company-backend! 'markdown-mode #'bah/mycelium-company-backend))
+```
+
+-> [mycelium-completion.el](https://github.com/haglobah/doom/blob/edb8350bff2b2f1c068ce54c87b875d31ede5139/config/mycelium-completion.el#L1)
