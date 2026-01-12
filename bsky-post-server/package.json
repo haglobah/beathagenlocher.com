@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "author": "Beat Hagenlocher <bah@posteo.de>",
   "license": "MIT",
-  "main": "app/main.ts",
+  "main": "app/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot run index.ts"
+    "dev": "TERM=dumb bun --hot run index.ts"
   },
   "dependencies": {
     "@atproto/api": "^0.13.0",
