@@ -18,7 +18,7 @@ app
     const rt = new RichText({ text })
     await rt.detectFacets(agent)
 
-    cond(
+    return cond(
       graphemeLength(rt.text) <= 300,
       async () => {
         const payload = {
@@ -29,13 +29,15 @@ app
         inspect(payload)
         await agent.post(payload)
 
-        return c.json({ success: true })
+        const successMessage = `Successfully posted text to Bluesky`
+        console.log(successMessage)
+        return c.json({ success: true, message: successMessage })
       },
       () => {
+        const errorMessage = `Text is too long: ${graphemeLength(rt.text)} graphemes (max 300)`
+        console.error(errorMessage)
         inspect(rt.text)
-        inspect(
-          `'s grapheme count is _${graphemeLength(rt.text)}_, and with that over 300 graphemes long.`,
-        )
+        return c.json({ success: false, message: errorMessage }, 400)
       },
     )
   })
@@ -67,7 +69,7 @@ app
 
     const { data } = await agent.uploadBlob(fileBytes, { encoding: file.type })
 
-    await agent.post({
+    const resp = await agent.post({
       text: title,
       embed: {
         $type: 'app.bsky.embed.images',
@@ -80,6 +82,16 @@ app
         ],
       },
     })
+
+    if (resp.uri !== undefined) {
+      const successMessage = `Successfully posted image with title "${title}" to Bluesky (URI: ${resp.uri})`
+      console.log(successMessage)
+      return c.json({ success: true, message: successMessage })
+    } else {
+      const errorMessage = `Failed to post image with title "${title}" to Bluesky`
+      console.error(errorMessage)
+      return c.json({ success: false, message: errorMessage }, 400)
+    }
   })
 
 export default {
