@@ -1,0 +1,23 @@
+---
+title: "Emacs Unicode Input Doesn't Work Correctly: IBus Errors"
+description: ""
+growthStage: seedling
+startDate: 2026-01-16T17:55:20Z
+updated: 2026-01-16T17:55:23Z
+topics: [IBus, Emacs, Linux]
+publish: true
+---
+
+Over the last days, I finally took on a few issues that have been plaguing me on this particular system for some time.
+
+One of them: A weird bug where my [Emacs Unicode input](https://github.com/haglobah/doom/blob/6442b146ff2f1b5e635249b6b60f14db6960f693/config/keybindings.el#L3) stopped working.
+
+It looked like this:
+
+<video controls="controls" preload="auto">
+  <source src="emacs-ibus-errors.webm" type="video/webm"/>
+</video>
+
+As you can see, there is an overlay that flashes the unicode keycodes as they're typed, and then some of them result in working characters, and some don't. (The missing ones here are `–` and `—`, `U+2013` and `U+2014` respectively)
+
+Though I haven't found a proper solution yet, just restarting `ibus` via `ibus restart` makes it work from then on.
