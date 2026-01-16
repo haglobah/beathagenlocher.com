@@ -60,7 +60,7 @@ export const makeStreamshot = async (streamId: string, padding: Padding) => {
     console.log('No code snippet found')
   }
   const box = await handle!.boundingBox()
-  const pngPath = `stream/${streamId}.png`
+  const pngPath = `screenshots/stream/${streamId}.png`
   await page.screenshot({
     path: pngPath,
     clip: computeClip(box!, padding),
@@ -84,7 +84,7 @@ export const makeScreenshot = async (path: string, padding: Padding) => {
 
   const handle = await page.$(`.post`)
   const box = await handle!.boundingBox()
-  const pngPath = `${path}.png`
+  const pngPath = `screenshots/${path}.png`
   await page.screenshot({
     path: pngPath,
     clip: computeClip(box!, padding),
