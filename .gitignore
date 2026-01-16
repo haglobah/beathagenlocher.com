@@ -24,4 +24,4 @@ pnpm-debug.log*
 .idea/
 .aider*
 
-bsky-post-server/stream/*
+bsky-post-server/screenshots/*
