@@ -1,0 +1,26 @@
+---
+title: "Typing Emojis with :shortcodes: in Emacs"
+startDate: 2026-01-16T17:01:11Z
+topics: [Emacs, Doom Emacs, Emojis]
+publish: true
+---
+
+After I just properly learned/understood how completion in [[Emacs]] works, today I had my 'wait a moment' moment for knowing what to google to emoji input via `:shortcodes:` in [[Emacs]].
+
+It's as easy as _knowing_ that you need to google "emacs company emoji input"
+
+And then the thing that immediately worked was [company-emoji](https://codeberg.org/egirl/company-emoji).
+
+```elisp
+;; packages.el
+(package! company-emoji)
+```
+
+```elisp
+;; config.el
+(require 'company-emoji)
+(after! markdown-mode
+  (set-company-backend! 'markdown-mode 'company-emoji))
+```
+
+Nice to be able to easily type emojis again, finally! 🙌
