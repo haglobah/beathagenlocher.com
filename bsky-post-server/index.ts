@@ -42,7 +42,7 @@ app
     )
   })
   .post('/post/as-image', async (c) => {
-    const { title, text, link } = await c.req.json()
+    const { text, alttext, link } = await c.req.json()
 
     let pngPath
 
@@ -70,12 +70,12 @@ app
     const { data } = await agent.uploadBlob(fileBytes, { encoding: file.type })
 
     const resp = await agent.post({
-      text: title,
+      text: text,
       embed: {
         $type: 'app.bsky.embed.images',
         images: [
           {
-            alt: text,
+            alt: alttext,
             image: data.blob,
             aspectRatio: { width, height },
           },
