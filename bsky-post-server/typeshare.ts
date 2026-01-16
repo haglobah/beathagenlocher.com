@@ -77,7 +77,7 @@ export const makeScreenshot = async (path: string, padding: Padding) => {
     executablePath: execPath,
   })
   const context = await browser.newContext({
-    ...iPadMini,
+    ...customDevice,
   })
   const page = await context.newPage()
   await page.goto(`http://localhost:4321/${path}`, { waitUntil: 'networkidle' })
