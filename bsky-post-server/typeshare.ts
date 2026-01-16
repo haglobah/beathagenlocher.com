@@ -77,12 +77,20 @@ export const makeScreenshot = async (path: string, padding: Padding) => {
     executablePath: execPath,
   })
   const context = await browser.newContext({
-    ...iPhone,
+    ...iPadMini,
   })
   const page = await context.newPage()
   await page.goto(`http://localhost:4321/${path}`, { waitUntil: 'networkidle' })
 
   const handle = await page.$(`.post`)
+  const codeHandle = page.locator(`.expressive-code .frame pre`)
+  try {
+    await codeHandle.waitFor({ state: 'attached', timeout: 3000 })
+    await codeHandle.evaluate((el) => el.classList.add('wrap'))
+    console.log('Code snippet found and wrapped')
+  } catch (e) {
+    console.log('No code snippet found')
+  }
   const box = await handle!.boundingBox()
   const pngPath = `screenshots/${path}.png`
   await page.screenshot({
