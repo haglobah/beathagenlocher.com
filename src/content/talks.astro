@@ -31,20 +31,20 @@ import { components } from '../components/mdxcomponents.ts'
       </div>
     ))
   }
-  {
-    sortByUpdated(draftTalks).map((content) => (
-      <div
-        class="content-item opacity-50"
-        data-topics={JSON.stringify(content.data.topics)}
-      >
-        <WideCard
-          to={content.id}
-          title={content.data.title}
-          topics={content.data.topics}
-        >
-          {content.data.description}
-        </WideCard>
-      </div>
-    ))
-  }
+      <!-- {
+           sortByUpdated(draftTalks).map((content) => (
+           <div
+           class="content-item opacity-50"
+           data-topics={JSON.stringify(content.data.topics)}
+           >
+           <WideCard
+           to={content.id}
+           title={content.data.title}
+           topics={content.data.topics}
+           >
+           {content.data.description}
+           </WideCard>
+           </div>
+           ))
+           } -->
 </div>

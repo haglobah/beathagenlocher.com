@@ -11,7 +11,12 @@ import Knowledge from '../content/knowledge.astro'
 import Stream from '../content/stream.astro'
 import Essays from '../content/essays.astro'
 import Talks from '../content/talks.astro'
-import { allTheContent, sortByUpdated, sortByStartDate, getTopics } from '../content/content.ts'
+import {
+  allTheContent,
+  sortByUpdated,
+  sortByStartDate,
+  getTopics,
+} from '../content/content.ts'
 
 const topics = getTopics(allTheContent)
 ---
@@ -29,7 +34,9 @@ const topics = getTopics(allTheContent)
         growing slowly over time.
       </p>
       <p class="f-mt-md">
-        I write about all things <Il href="?q=Software Engineering">Software Engineering</Il>, <Il href="?q=Simplicity">Simplicity</Il>, personal stuff—and whatever else I find interesting to share.
+        I write about all things <Il href="?q=Software Engineering">Software Engineering</Il>, <Il
+          href="?q=Simplicity">Simplicity</Il
+        >, personal stuff—and whatever else I find interesting to share.
       </p>
       <p class="">
         And you may want to take a look at what I've written <Il href="thinking-out-loud"
@@ -38,7 +45,7 @@ const topics = getTopics(allTheContent)
       </p>
     </div>
     <div class="md:grid md:grid-cols-12 f-gap-xl">
-      <div class="md:col-span-12 max-w-lg mx-auto">
+      <div class="md:col-span-12 lg:col-span-6 max-w-lg mx-auto">
         <div class="f-my-md">
           <h2 class="font-light font-headline f-text-md">
             <Il href="stream" class="font-light">The Stream</Il>
@@ -50,7 +57,7 @@ const topics = getTopics(allTheContent)
             >
           </p>
         </div>
-        <ItemCutoff class="flex flex-col f-mb-2xl" after={5}>
+        <ItemCutoff class="flex flex-col f-mb-2xl" after={10}>
           <Stream />
           <div slot="after-cutoff" class="self-end inline mr-4 z-10">
             <h2 class="font-light font-headline f-text-md">
@@ -60,44 +67,38 @@ const topics = getTopics(allTheContent)
         </ItemCutoff>
       </div>
 
-      <div class="md:col-span-7">
+      <div class="md:col-span-8 lg:col-span-6">
         <div class="f-mt-md f-mb-2xl">
-          <h2 class="font-light font-headline f-text-md">
-            Notes
-          </h2>
+          <h2 class="font-light font-headline f-text-md">Notes</h2>
           <p class="italic f-text-xs">Loose thoughts still getting formed</p>
         </div>
         <div class="grid sm:grid-cols-2">
           <Notes />
         </div>
-
-        <div class="f-mt-md f-mb-2xl">
-          <h2 class="font-light font-headline f-text-md">
-            Knowledge Bits
-          </h2>
-          <p class="italic f-text-xs">What you always wanted to know</p>
-        </div>
-        <div class="grid sm:grid-cols-4 f-gap-lg">
-          <Knowledge />
-        </div>
       </div>
 
-      <div class="md:col-span-5">
+      <div class="md:col-span-4 lg:col-span-6">
         <div class="f-mt-md f-mb-2xl">
-          <h2 class="font-light font-headline f-text-md">
-            Atomic Essays
-          </h2>
+          <h2 class="font-light font-headline f-text-md">Atomic Essays</h2>
           <p class="italic f-text-xs">Short form writing capturing a single idea</p>
         </div>
-        <div class="">
+        <div class="grid lg:grid-cols-2 f-gap-lg">
           <Essays />
         </div>
       </div>
 
-      <div class="col-span-12">
-        <h2 class="font-light font-headline f-text-md">
-          Talks
-        </h2>
+      <div class="md:col-span-4 lg:col-span-6">
+        <div class="f-mt-md f-mb-2xl">
+          <h2 class="font-light font-headline f-text-md">Knowledge Bits</h2>
+          <p class="italic f-text-xs">What you always wanted to know</p>
+        </div>
+        <div class="grid sm:grid-cols-2 f-gap-lg">
+          <Knowledge />
+        </div>
+      </div>
+
+      <div class="md:col-span-12">
+        <h2 class="font-light font-headline f-text-md">Talks</h2>
         <div class="">
           <Talks />
         </div>
