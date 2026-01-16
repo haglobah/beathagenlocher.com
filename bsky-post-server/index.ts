@@ -53,7 +53,7 @@ app
     } else {
       pngPath = await makeScreenshot(slug(link), { left: 30, top: -10, right: 30, bottom: 40 })
     }
-    console.log(`created screenshot at "${pngPath}"`)
+    console.log(`created screenshot for "${link}" at "${pngPath}"`)
 
     const file = Bun.file(pngPath)
     const { width, height } = await getFileDimensions(file)
