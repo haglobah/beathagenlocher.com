@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { AtpAgent, RichText } from '@atproto/api'
 import { inspect, cond, merge, graphemeLength, getFileDimensions } from './utils'
 import { makeStreamshot, makeScreenshot } from './typeshare'
+import { slug } from 'github-slugger'
 
 const app = new Hono()
 const agent = new AtpAgent({ service: 'https://bsky.social' })
@@ -50,7 +51,7 @@ app
       const streamId = link.replace('stream#', '')
       pngPath = await makeStreamshot(streamId, { left: 10, top: 10, right: 10, bottom: 10 })
     } else {
-      pngPath = await makeScreenshot(link, { left: 30, top: -10, right: 30, bottom: 40 })
+      pngPath = await makeScreenshot(slug(link), { left: 30, top: -10, right: 30, bottom: 40 })
     }
 
     console.log(`created screenshot at "${pngPath}"`)
