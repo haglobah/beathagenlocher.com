@@ -53,10 +53,9 @@ app
     } else {
       pngPath = await makeScreenshot(slug(link), { left: 30, top: -10, right: 30, bottom: 40 })
     }
-
     console.log(`created screenshot at "${pngPath}"`)
-    const file = Bun.file(pngPath)
 
+    const file = Bun.file(pngPath)
     const { width, height } = await getFileDimensions(file)
     const fileBytes = new Uint8Array(await file.arrayBuffer())
 
@@ -77,11 +76,33 @@ app
     })
 
     if (resp.uri !== undefined) {
-      const successMessage = `Successfully posted image with title "${title}" to Bluesky (URI: ${resp.uri})`
-      console.log(successMessage)
-      return c.json({ success: true, message: successMessage })
+      const success1 = `Successfully posted image with text "${text}" to Bluesky (URI: ${resp.uri})`
+      console.log(success1)
+
+      const weblink = `https://beathagenlocher.com/${link}`
+
+      const rt = new RichText({ text: `Originally posted at ${weblink}` })
+      await rt.detectFacets(agent)
+      const r2 = await agent.post({
+        $type: 'app.bsky.feed.post',
+        text: rt.text,
+        facets: rt.facets,
+        reply: {
+          root: { uri: resp.uri, cid: resp.cid },
+          parent: { uri: resp.uri, cid: resp.cid },
+        },
+      })
+      if (r2.uri !== undefined) {
+        const success2 = `Successfully posted reply to image to Bluesky (URI: ${r2.uri})`
+        console.log(success2)
+        return c.json({ success: true, message: success1 + '\n' + success2 })
+      } else {
+        const errorMessage = `Failed to post reply with link ${link} to image with text "${text}" to Bluesky`
+        console.error(errorMessage)
+        return c.json({ success: false, message: errorMessage }, 400)
+      }
     } else {
-      const errorMessage = `Failed to post image with title "${title}" to Bluesky`
+      const errorMessage = `Failed to post image with text "${text}" to Bluesky`
       console.error(errorMessage)
       return c.json({ success: false, message: errorMessage }, 400)
     }
