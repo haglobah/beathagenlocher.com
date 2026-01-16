@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { AtpAgent, RichText } from '@atproto/api'
-import { inspect, cond, merge, graphemeLength } from './utils'
+import { inspect, cond, merge, graphemeLength, getFileDimensions } from './utils'
 import { makeStreamshot, makeScreenshot } from './typeshare'
 
 const app = new Hono()
@@ -56,16 +56,8 @@ app
     console.log(`created screenshot at "${pngPath}"`)
     const file = Bun.file(pngPath)
 
-    const header = await file.slice(0, 24).arrayBuffer()
-    const view = new DataView(header)
-
-    const width = view.getUint32(16)
-    const height = view.getUint32(20)
-
+    const { width, height } = await getFileDimensions(file)
     const fileBytes = new Uint8Array(await file.arrayBuffer())
-    // const base64 = Buffer.from(arrayBuffer).toString('base64')
-
-    // const dataUrl = `data:${file.type};base64,${base64}`
 
     const { data } = await agent.uploadBlob(fileBytes, { encoding: file.type })
 
