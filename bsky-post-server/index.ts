@@ -61,8 +61,11 @@ app
 
     const { data } = await agent.uploadBlob(fileBytes, { encoding: file.type })
 
+    const rt = new RichText({ text })
+    await rt.detectFacets(agent)
     const resp = await agent.post({
-      text: text,
+      text: rt.text,
+      facets: rt.facets,
       embed: {
         $type: 'app.bsky.embed.images',
         images: [
