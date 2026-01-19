@@ -1,0 +1,111 @@
+---
+title: "Threading Macros And Pipes"
+description: ""
+growthStage: seedling
+startDate: 2026-01-17T18:03:05Z
+updated: 2026-01-19T10:05:54Z
+topics: [Macros, Racket, Functional Programming, Simplicity, Declarative Programming]
+publish: true
+---
+
+≺≻[[Model Programs as Functions]]
+
+In functional programming, we try to model our programs around the idea of functions that take in inputs and return outputs.
+
+A webserver, for example, is just this:
+`HTTP request -webserver-> HTTP response`
+
+A compiles is this:
+`Source code -compiler-> Target Language Code (mostly Machine Code)`
+
+And a file browser window just this:
+`folder path -file browser-> folder view`
+
+When we go through with this, a big chunk (except for the part at ther boundary where effects should happen) of our program is just [[Function Composition]].
+
+When we apply this idea naively, this makes programs look like that:
+
+```js title="main.ts"
+export const main = (request) => {
+    return formatResponse(validateRequest(parseHeaders(request)))
+}
+```
+
+```elixir title="main.ex"
+def main(request) do
+  format_response(validate_request(parse_headers(request)))
+end
+```
+
+```haskell title="main.hs"
+main :: Request -> Response
+main req = formatResponse(validateRequest(parseHeaders req))
+```
+
+```racket title="main.rkt"
+(define (main request)
+ (format-response (validate-request (parse-headers request))))
+```
+
+This is okay (and still waay better that a ton of statements, I'd say), but not it loses the nice property of statements that it's not nested.  
+Also, when we try to read/understand the code, we're probably going to read it from right to left (while mentally 'piping' through the arguments in our heads).
+
+If we mentally parse the code like this either way, we can also just write it down like that:
+
+```js title="main.ts"
+import { pipe } from 'effect' // for example, but it's pretty easy to write yourself, too
+
+export const main = (request) => {
+    return pipe(request,
+                parseHeaders,
+                validateRequest,
+                formatResponse)
+}
+```
+
+```elixir title="main.ex"
+def main(request) do
+  request
+  |> parse_headers
+  |> validate_request
+  |> format_response
+end
+```
+
+```haskell title="main.hs"
+main :: Request -> Response
+main req = req & parseHeaders & validateRequest & formatResponse
+```
+
+```racket title="main.rkt"
+(require threading)
+
+(define (main request)
+ (~> request
+     parse-headers
+     validate-request
+     format-response))
+```
+
+Two more sidenotes:
+
+- I think pipelines are especially useful when paired with something like Elixir's [`IO.inspect()`](https://hexdocs.pm/elixir/IO.html#inspect/2), like this:
+
+```elixir title="main.ex"
+def main(request) do
+  request
+  |> parse_headers
+  |> IO.inspect()
+  |> validate_request
+  |> format_response
+end
+```
+
+- Pipelines need their functions to be functions of only one arg (in 'effect', for example), or they need to make a choice on where to splice the argument into the function call. Elixir always splices it into the first, while Lisps aren't decided that (decide per-case), and normally have both a `->` (inserts as the first argument), `->>` (inserts as the last argument), as well as `-as->`-variants, which you can call like this:
+
+```elisp title="example.el"
+(-as-> topic-string _
+  (string-split _ "," t " ")
+  (mapcar (lambda (topic) (concat "#" topic)) _)
+  (string-join _ " "))
+```
