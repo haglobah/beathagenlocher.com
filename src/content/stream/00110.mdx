@@ -1,0 +1,16 @@
+---
+title: "dash.el for nice list operations"
+startDate: 2026-01-17T17:38:46Z
+topics: [Emacs, Macros, Syntax, Functional Programming]
+publish: true
+---
+
+When programming in [[Elisp]] I've been using the `->` and `->>` threading [[Macros]] for quite some time.
+
+I learned to value them first in [[Racket]] ([`(require threading)`](https://docs.racket-lang.org/threading/index.html)), then in Elixir: ([`|>`](https://hexdocs.pm/elixir/enumerable-and-streams.html#the-pipe-operator)), and since then I use them wherever it makes sense ([`&`](https://hackage-content.haskell.org/package/base-4.22.0.0/docs/Data-Function.html#v:-38-) in [[Haskell]], or the [`->`](https://clojuredocs.org/clojure.core/-%3E)/[`->>`](https://clojuredocs.org/clojure.core/-%3E%3E) [Threading Macros](https://clojure.org/guides/threading_macros) in [[Clojure]], for example.
+
+And yesterday, I opened the in-Emacs docs of `->` for the first time (since I actually needed `-as->` in that situation, and wanted to see whether it exists, [which it does](https://github.com/magnars/dash.el?tab=readme-ov-file#-as--value-variable-rest-forms)) only to see it's part of a library called [dash.el](https://github.com/magnars/dash.el), which has lots of list functions with an intuitive api.
+
+Nice!
+
+In case you're _more_ confused about Threading Macros now than you were before, take a look here: [[Threading Macros And Pipes]].
