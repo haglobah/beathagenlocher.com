@@ -3,23 +3,31 @@ title: "Threading Macros And Pipes"
 description: ""
 growthStage: seedling
 startDate: 2026-01-17T18:03:05Z
-updated: 2026-01-19T10:05:54Z
+updated: 2026-01-19T22:31:34Z
 topics: [Macros, Racket, Functional Programming, Simplicity, Declarative Programming]
 publish: true
 ---
 
-≺≻[[Model Programs as Functions]]
+≺≻ [[Modeling Programs as Functions]]
 
 In functional programming, we try to model our programs around the idea of functions that take in inputs and return outputs.
 
 A webserver, for example, is just this:
-`HTTP request -webserver-> HTTP response`
 
-A compiles is this:
-`Source code -compiler-> Target Language Code (mostly Machine Code)`
+```
+HTTP request -webserver-> HTTP response
+```
+
+A compiler is this:
+
+```
+Source code -compiler-> Target Language Code
+```
 
 And a file browser window just this:
-`folder path -file browser-> folder view`
+```
+folder path -file browser-> folder view
+```
 
 When we go through with this, a big chunk (except for the part at ther boundary where effects should happen) of our program is just [[Function Composition]].
 
