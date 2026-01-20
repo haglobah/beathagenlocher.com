@@ -1,7 +1,7 @@
 import { Hono, type Context } from 'hono'
 import { AtpAgent, RichText } from '@atproto/api'
 import { inspect, cond, merge, graphemeLength, getFileDimensions } from './utils'
-import { makeStreamshot, makeScreenshot } from './typeshare'
+import { makeStreamshot, makeScreenshot, type ScreenshotResult } from './typeshare'
 import { slug } from 'github-slugger'
 
 const app = new Hono()
@@ -38,14 +38,17 @@ const postImage = async (pngPath: string, text: string, alttext: string) => {
   return resp
 }
 
-const postLinkResponse = async (c: Context, resp: { uri: string; cid: string }, text: string, link: string) => {
+const postLinkResponse = async (c: Context, resp: { uri: string; cid: string }, text: string, link: string, wasCropped: boolean) => {
   if (resp.uri !== undefined) {
     const success1 = `Successfully posted image with text "${text}" to Bluesky (URI: ${resp.uri})`
     console.log(success1)
 
     const weblink = `https://beathagenlocher.com/${link}`
+    const replyText = wasCropped
+      ? `Read the full post at ${weblink}`
+      : `Originally posted at ${weblink}`
 
-    const rt = new RichText({ text: `Originally posted at ${weblink}` })
+    const rt = new RichText({ text: replyText })
     await rt.detectFacets(agent)
     const r2 = await agent.post({
       $type: 'app.bsky.feed.post',
@@ -105,20 +108,20 @@ app
   .post('/post/as-image', async (c) => {
     const { text, alttext, link } = await c.req.json()
 
-    let pngPath
+    let result: ScreenshotResult
 
     if (link.startsWith('stream#')) {
       const streamId = link.replace('stream#', '')
-      pngPath = await makeStreamshot(streamId, { left: 10, top: 10, right: 10, bottom: 10 })
-      console.log(`created screenshot for "${link}" at "${pngPath}"`)
-      const resp = await postImage(pngPath, text, alttext)
-      return postLinkResponse(c, resp, text, link)
+      result = await makeStreamshot(streamId, { left: 10, top: 10, right: 10, bottom: 10 })
+      console.log(`created screenshot for "${link}" at "${result.pngPath}"${result.wasCropped ? ' (cropped)' : ''}`)
+      const resp = await postImage(result.pngPath, text, alttext)
+      return postLinkResponse(c, resp, text, link, result.wasCropped)
     } else {
       const slugLink = slug(link)
-      pngPath = await makeScreenshot(slugLink, { left: 30, top: -10, right: 30, bottom: 40 })
-      console.log(`created screenshot for "${slugLink}" at "${pngPath}"`)
-      const resp = await postImage(pngPath, text, alttext)
-      return postLinkResponse(c, resp, text, slugLink)
+      result = await makeScreenshot(slugLink, { left: 30, top: -10, right: 30, bottom: 40 })
+      console.log(`created screenshot for "${slugLink}" at "${result.pngPath}"${result.wasCropped ? ' (cropped)' : ''}`)
+      const resp = await postImage(result.pngPath, text, alttext)
+      return postLinkResponse(c, resp, text, slugLink, result.wasCropped)
     }
   })
 

@@ -1,4 +1,4 @@
-import { chromium, devices } from 'playwright'
+import { chromium, devices, type Page } from 'playwright'
 
 const iPhone = devices['iPhone 15']
 const iPadMini = devices['iPad Mini']
@@ -29,18 +29,52 @@ const customDevice: DeviceDescriptor = {
 type Box = { x: number; y: number; width: number; height: number }
 type Padding = { top: number; right: number; bottom: number; left: number }
 
-const computeClip = (box: Box, padding: Padding) => ({
-  x: Math.round(box!.x - padding.left),
-  y: Math.round(box!.y - padding.top),
-  width: Math.round(box!.width + padding.left + padding.right),
-  height: Math.round(box!.height + padding.top + padding.bottom),
-})
+// Height thresholds in logical pixels (before deviceScaleFactor)
+const FADE_START = 800   // Where the fade begins
+const MAX_HEIGHT = 1000  // Full max height including 200px fade zone
+
+const computeClip = (box: Box, padding: Padding, fadeStart?: number, maxHeight?: number) => {
+  const fullHeight = Math.round(box!.height + padding.top + padding.bottom)
+  const clippedHeight = maxHeight ? Math.min(fullHeight, maxHeight) : fullHeight
+  const wasCropped = fadeStart ? fullHeight > fadeStart : false
+
+  return {
+    clip: {
+      x: Math.round(box!.x - padding.left),
+      y: Math.round(box!.y - padding.top),
+      width: Math.round(box!.width + padding.left + padding.right),
+      height: clippedHeight,
+    },
+    wasCropped,
+  }
+}
 
 // TODO (Beat): Fix this, maybe with https://primamateria.github.io/blog/playwright-nixos-webdev/ ?
 const execPath =
   '/nix/store/by92qwh4grm99ydkn8d8mk2v7c8ixwy8-playwright-browsers/chromium-1181/chrome-linux/chrome'
 
-export const makeStreamshot = async (streamId: string, padding: Padding) => {
+const injectFadeOverlay = async (page: Page, clipY: number) => {
+  const fadeTop = clipY + FADE_START
+  const fadeHeight = MAX_HEIGHT - FADE_START
+  await page.evaluate(({ top, height }) => {
+    const overlay = document.createElement('div')
+    overlay.style.cssText = `
+      position: absolute;
+      top: ${top}px;
+      left: 0;
+      right: 0;
+      height: ${height}px;
+      background: linear-gradient(to bottom, transparent, gray);
+      pointer-events: none;
+      z-index: 9999;
+    `
+    document.body.appendChild(overlay)
+  }, { top: fadeTop, height: fadeHeight })
+}
+
+export type ScreenshotResult = { pngPath: string; wasCropped: boolean }
+
+export const makeStreamshot = async (streamId: string, padding: Padding): Promise<ScreenshotResult> => {
   const browser = await chromium.launch({
     executablePath: execPath,
   })
@@ -61,18 +95,24 @@ export const makeStreamshot = async (streamId: string, padding: Padding) => {
   }
   const box = await handle!.boundingBox()
   const pngPath = `screenshots/stream/${streamId}.png`
+  const { clip, wasCropped } = computeClip(box!, padding, FADE_START, MAX_HEIGHT)
+
+  if (wasCropped) {
+    await injectFadeOverlay(page, clip.y)
+  }
+
   await page.screenshot({
     path: pngPath,
-    clip: computeClip(box!, padding),
+    clip,
     fullPage: true,
   })
 
   await browser.close()
 
-  return pngPath
+  return { pngPath, wasCropped }
 }
 
-export const makeScreenshot = async (path: string, padding: Padding) => {
+export const makeScreenshot = async (path: string, padding: Padding): Promise<ScreenshotResult> => {
   const browser = await chromium.launch({
     executablePath: execPath,
   })
@@ -93,15 +133,21 @@ export const makeScreenshot = async (path: string, padding: Padding) => {
   }
   const box = await handle!.boundingBox()
   const pngPath = `screenshots/${path}.png`
+  const { clip, wasCropped } = computeClip(box!, padding, FADE_START, MAX_HEIGHT)
+
+  if (wasCropped) {
+    await injectFadeOverlay(page, clip.y)
+  }
+
   await page.screenshot({
     path: pngPath,
-    clip: computeClip(box!, padding),
+    clip,
     fullPage: true,
   })
 
   await browser.close()
 
-  return pngPath
+  return { pngPath, wasCropped }
 }
 
 // makeStreamshot('00093', { left: 10, top: 10, right: 10, bottom: 10 })
