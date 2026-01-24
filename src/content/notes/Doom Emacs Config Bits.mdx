@@ -4,7 +4,7 @@ description: "Configuration parts you might want know"
 growthStage: seedling
 startDate: 2025-10-13T18:13:59
 updated: 2025-10-13T18:14:04
-topics: [Emacs]
+topics: [Emacs, Doom Emacs, completion]
 publish: true
 ---
 
@@ -39,3 +39,41 @@ publish: true
 (map! :i "C-<backspace>" #'doom/delete-backward-word
       :i "C-<delete>" #'delete-word)
 ```
+
+# Never, ever need accidentially hit enter and complete a suggestion
+
+```elisp
+(after! company
+  (keymap-unset company-active-map "<return>" t)
+  (keymap-unset company-active-map "RET" t)
+  (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
+  (define-key company-active-map (kbd "TAB") #'company-complete-selection))
+```
+
+# Make the suggestions overlay fast enough
+
+```elisp
+(after! company
+  (setq company-idle-delay 0.1)
+  (setq company-tooltip-idle-delay 0.1)
+  (setq company-minimum-prefix-length 1))
+```
+
+# Add Emoji :shortcodes: to the suggestions overlay
+
+```elisp
+(require 'company-emoji)
+
+(after! markdown-mode
+  (set-company-backend! 'company-emoji #'bah/wikilinks-backend))
+```
+
+<Callout type="warning">
+If you're adding more than one custom suggestion per mode, you need to add both in one call:
+
+```elisp
+(after! markdown-mode
+  (set-company-backend! 'some-other 'company-emoji #'bah/wikilinks-backend))
+```
+
+</Callout>
