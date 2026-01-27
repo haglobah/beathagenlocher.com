@@ -2,6 +2,7 @@
 import { render } from 'astro:content'
 import StreamCard from '../components/StreamCard.astro'
 import UpdateCard from '../components/UpdateCard.astro'
+import NewCard from '../components/NewCard.astro'
 
 import { stream, sortByStartDate } from './content.ts'
 import contentUpdates from '../data/content-updates.json'
@@ -17,7 +18,7 @@ const renderedStream = await Promise.all(
   stream.map(async (streamlet: CollectionEntry<'stream'>) => {
     const { Content } = await render(streamlet)
     return {
-      type: 'stream' as const,
+      itemType: 'stream' as const,
       id: streamlet.id,
       date: new Date(streamlet.data.startDate),
       data: streamlet.data,
@@ -26,23 +27,23 @@ const renderedStream = await Promise.all(
   }),
 )
 
-// Transform content updates into compatible shape
-const updates = contentUpdates.map((update) => ({
-  type: 'update' as const,
-  id: `update-${update.slug}-${update.date}`,
-  date: new Date(update.date),
-  data: update,
+// Transform content updates/new items into compatible shape
+const contentItems = contentUpdates.map((item) => ({
+  itemType: item.type as 'new' | 'update',
+  id: `${item.type}-${item.slug}-${item.date}`,
+  date: new Date(item.date),
+  data: item,
 }))
 
 // Merge and sort by date (newest first)
-const combined = [...renderedStream, ...updates].sort(
+const combined = [...renderedStream, ...contentItems].sort(
   (a, b) => b.date.getTime() - a.date.getTime(),
 )
 ---
 
 {
   combined.map((item) =>
-    item.type === 'stream' ? (
+    item.itemType === 'stream' ? (
       <div
         id={item.id}
         class="content-item group/streamlet relative f-my-2xs"
@@ -61,6 +62,15 @@ const combined = [...renderedStream, ...updates].sort(
         >
           <item.Content components={components} />
         </StreamCard>
+      </div>
+    ) : item.itemType === 'new' ? (
+      <div id={item.id} class="content-item f-my-2xs">
+        <NewCard
+          title={item.data.title}
+          slug={item.data.slug}
+          collection={item.data.collection}
+          date={item.date}
+        />
       </div>
     ) : (
       <div id={item.id} class="content-item f-my-2xs">

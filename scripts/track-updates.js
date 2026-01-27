@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * Scans git history for significant content updates and adds them to content-updates.json
+ * Scans git history for new content and significant updates, adds them to content-updates.json
  *
  * Usage: node scripts/track-updates.js [--since=30] [--threshold=20] [--dry-run]
  *
  * Options:
  *   --since=N      Look back N days (default: 30)
- *   --threshold=N  Minimum lines changed to be "significant" (default: 20)
+ *   --threshold=N  Minimum lines changed to be "significant" for updates (default: 20)
  *   --dry-run      Show what would be added without writing
  */
 
@@ -15,6 +15,7 @@ import { execSync } from 'child_process'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { slug } from 'github-slugger'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
@@ -66,6 +67,58 @@ function getFileCreationDate(filePath) {
 }
 
 /**
+ * Get newly created content files from git history
+ */
+function getNewContent() {
+  const since = new Date()
+  since.setDate(since.getDate() - sinceDays)
+
+  // Get commits that added new content files
+  const logOutput = execSync(
+    `git log --since="${since.toISOString()}" --pretty=format:"%H|%aI|%s" --diff-filter=A --name-only -- "${CONTENT_DIR}/**/*.mdx"`,
+    { cwd: ROOT, encoding: 'utf-8' },
+  )
+
+  const newItems = []
+  const chunks = logOutput.split('\n\n').filter(Boolean)
+
+  for (const chunk of chunks) {
+    const lines = chunk.split('\n').filter(Boolean)
+    if (lines.length < 2) continue
+
+    const [commitInfo, ...files] = lines
+    const [hash, dateStr] = commitInfo.split('|')
+    const commitDate = new Date(dateStr)
+
+    for (const file of files) {
+      // Only track specific collections
+      const collectionMatch = file.match(
+        new RegExp(`^${CONTENT_DIR}/(${TRACKED_COLLECTIONS.join('|')})/(.+)\\.mdx$`),
+      )
+      if (!collectionMatch) continue
+
+      const collection = collectionMatch[1]
+      const link = slug(collectionMatch[2])
+
+      const title = extractTitle(file)
+      if (!title) continue
+
+      newItems.push({
+        type: 'new',
+        file,
+        slug: link,
+        collection,
+        title,
+        date: commitDate.toISOString(),
+        commitHash: hash.slice(0, 7),
+      })
+    }
+  }
+
+  return newItems
+}
+
+/**
  * Get significant updates from git history
  */
 function getSignificantUpdates() {
@@ -100,7 +153,7 @@ function getSignificantUpdates() {
       if (!collectionMatch) continue
 
       const collection = collectionMatch[1]
-      const slug = collectionMatch[2]
+      const link = slug(collectionMatch[2])
 
       // Get lines changed in this commit for this file
       try {
@@ -129,8 +182,9 @@ function getSignificantUpdates() {
         if (!title) continue
 
         updates.push({
+          type: 'update',
           file,
-          slug,
+          slug: link,
           collection,
           title,
           date: commitDate.toISOString(),
@@ -153,29 +207,42 @@ function getSignificantUpdates() {
 function main() {
   console.log(`Scanning git history (last ${sinceDays} days, threshold: ${threshold} lines)...\n`)
 
-  // Load existing updates
+  // Load existing entries
   let existing = []
   if (existsSync(UPDATES_FILE)) {
     existing = JSON.parse(readFileSync(UPDATES_FILE, 'utf-8'))
   }
 
-  // Get new updates
+  // Get new content and updates
+  const newContent = getNewContent()
   const newUpdates = getSignificantUpdates()
 
-  // Filter out duplicates (same file + date combo)
-  const existingKeys = new Set(existing.map((u) => `${u.slug}|${u.date}`))
-  const toAdd = newUpdates.filter((u) => !existingKeys.has(`${u.slug}|${u.date}`))
+  // Filter out duplicates (same type + slug + date combo)
+  const existingKeys = new Set(existing.map((u) => `${u.type}|${u.slug}|${u.date}`))
+  const toAddNew = newContent.filter((u) => !existingKeys.has(`${u.type}|${u.slug}|${u.date}`))
+  const toAddUpdates = newUpdates.filter((u) => !existingKeys.has(`${u.type}|${u.slug}|${u.date}`))
 
-  if (toAdd.length === 0) {
-    console.log('No new significant updates found.')
+  if (toAddNew.length === 0 && toAddUpdates.length === 0) {
+    console.log('No new content or significant updates found.')
     return
   }
 
-  console.log(`Found ${toAdd.length} new update(s):\n`)
-  for (const update of toAdd) {
-    console.log(`  - ${update.title} (${update.collection})`)
-    console.log(`    ${update.linesChanged} lines changed on ${update.date.split('T')[0]}`)
-    console.log(`    commit: ${update.commitHash}\n`)
+  if (toAddNew.length > 0) {
+    console.log(`Found ${toAddNew.length} new content item(s):\n`)
+    for (const item of toAddNew) {
+      console.log(`  + ${item.title} (${item.collection})`)
+      console.log(`    created on ${item.date.split('T')[0]}`)
+      console.log(`    commit: ${item.commitHash}\n`)
+    }
+  }
+
+  if (toAddUpdates.length > 0) {
+    console.log(`Found ${toAddUpdates.length} significant update(s):\n`)
+    for (const update of toAddUpdates) {
+      console.log(`  ~ ${update.title} (${update.collection})`)
+      console.log(`    ${update.linesChanged} lines changed on ${update.date.split('T')[0]}`)
+      console.log(`    commit: ${update.commitHash}\n`)
+    }
   }
 
   if (dryRun) {
@@ -184,7 +251,7 @@ function main() {
   }
 
   // Merge and sort by date (newest first)
-  const merged = [...existing, ...toAdd].sort(
+  const merged = [...existing, ...toAddNew, ...toAddUpdates].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   )
 

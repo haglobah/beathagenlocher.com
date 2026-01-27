@@ -1,11 +1,48 @@
 [
   {
+    "type": "new",
+    "file": "src/content/notes/Domain Name System.mdx",
+    "slug": "domain-name-system",
+    "collection": "notes",
+    "title": "Domain Name System",
+    "date": "2026-01-26T15:32:43.000Z",
+    "commitHash": "3df5807"
+  },
+  {
+    "type": "update",
     "file": "src/content/notes/Doom Emacs Config Bits.mdx",
-    "slug": "Doom Emacs Config Bits",
+    "slug": "doom-emacs-config-bits",
     "collection": "notes",
     "title": "(Doom) Emacs Config Bits",
     "date": "2026-01-24T16:30:45.000Z",
     "linesChanged": 40,
     "commitHash": "a99c5e4"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Threading Macros And Pipes.mdx",
+    "slug": "threading-macros-and-pipes",
+    "collection": "notes",
+    "title": "Threading Macros And Pipes",
+    "date": "2026-01-19T10:10:06.000Z",
+    "commitHash": "ca652a8"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/IBus Emacs Input Errors.mdx",
+    "slug": "ibus-emacs-input-errors",
+    "collection": "notes",
+    "title": "Emacs Unicode Input Doesn't Work Correctly: IBus Errors",
+    "date": "2026-01-16T18:29:48.000Z",
+    "commitHash": "2565c90"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Why Tailwind.mdx",
+    "slug": "why-tailwind",
+    "collection": "notes",
+    "title": "Why Tailwind",
+    "date": "2026-01-10T00:38:06.000Z",
+    "commitHash": "e3319cb"
   }
 ]
