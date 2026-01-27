@@ -1,9 +1,9 @@
 ---
-title: "Screen Freezes on Framework 16 & AMD with GNOME"
+title: "Screen Freezes on Framework 16 with AMD and GNOME"
 description: ""
 growthStage: seedling
 startDate: 2026-01-27T16:09:45Z
-updated: 2026-01-27T16:09:45Z
+updated: 2026-01-27T16:50:53Z
 topics: [GNOME, Linux, AMD, Framework, Framework 16, NixOS, Kernel Parameters]
 publish: true
 ---
@@ -22,7 +22,7 @@ It had the following characteristics:
 This is what it looked like (yep, bad video, I know 😬):
 
 <video controls="controls" preload="auto">
-  <source src="output.mp4" type="video/mp4"/>
+  <source src="amd-screen-errors.mp4" type="video/mp4"/>
 </video>
 
 All of the above mostly .. [confused me](https://www.lesswrong.com/s/zpCiuR4T343j9WkcK/p/5JDkW4MYXit2CquLs).
@@ -51,3 +51,23 @@ config.boot.kernelParams = [
   "amdgpu.dcdebugmask=0x410"
 ];
 ```
+
+
+<References>
+## Probably different
+  <ReferenceLink href="https://community.frame.work/t/screen-keeps-flickering-on-lower-brightness/70138/5">Screen keeps flickering on lower brightness - Framework Laptop 13 / Linux - Framework Community</ReferenceLink>
+  <ReferenceLink href="https://community.frame.work/t/flickering-when-using-firefox-under-kde-wayland-on-ryzen-ai-300/69599/3">Flickering when using Firefox under KDE Wayland on Ryzen AI 300 - #3 by trumee - Linux - Framework Community</ReferenceLink>
+  <ReferenceLink href="https://community.frame.work/t/framework-13-amd-7040-some-screen-flicker-still/75766">Framework 13 AMD 7040: some screen flicker still - Linux - Framework Community</ReferenceLink>
+  <ReferenceLink href="https://community.frame.work/t/responded-screen-issues-on-fedora/40772/7">[RESPONDED] Screen issues on Fedora - #7 by dimitris - Linux - Framework Community</ReferenceLink>
+
+## Maybe related
+  <ReferenceLink href="https://community.frame.work/t/screen-flickers-after-logging-in-and-at-random-times/39192">Screen flickers after logging in and at random times - Framework Laptop 13 - Framework Community</ReferenceLink>
+  <ReferenceLink href="https://discourse.nixos.org/t/nixos-hard-locks-driving-my-crazy/72210/7">NixOS hard locks driving my crazy! - Help - NixOS Discourse</ReferenceLink>
+
+## Resolved the issue
+  <ReferenceLink href="https://www.reddit.com/r/NixOS/comments/1hjruq1/graphics_corruption_on_kernel_6125_and_up/">Graphics corruption on kernel 6.12.5 and up : r/NixOS</ReferenceLink>
+  <ReferenceLink href="https://www.reddit.com/r/framework/comments/1goh7hc/anyone_else_get_this_screen_flickering_issue/">Anyone else get this screen flickering issue? : r/framework</ReferenceLink>
+  <ReferenceLink href="https://jonathanmfung.com/setting-kernel-parameters-in-nixos">Setting Kernel Parameters in NixOS</ReferenceLink>
+  <ReferenceLink href="https://gitlab.freedesktop.org/drm/amd/-/issues/3827">Making sure you're not a bot!</ReferenceLink>
+  <ReferenceLink href="https://community.frame.work/t/solved-my-screen-flickers-sometimes/26270/2">[SOLVED] My screen flickers sometimes - #2 by Anachron - Linux - Framework Community</ReferenceLink>
+</References>
