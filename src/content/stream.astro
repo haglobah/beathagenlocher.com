@@ -1,8 +1,10 @@
 ---
 import { render } from 'astro:content'
 import StreamCard from '../components/StreamCard.astro'
+import UpdateCard from '../components/UpdateCard.astro'
 
 import { stream, sortByStartDate } from './content.ts'
+import contentUpdates from '../data/content-updates.json'
 
 const topics = [
   ...new Set([stream].flatMap((collection) => collection.flatMap(({ data }) => data.topics))),
@@ -10,34 +12,65 @@ const topics = [
 
 import { components } from '../components/mdxcomponents.ts'
 
+// Render stream items
 const renderedStream = await Promise.all(
-  sortByStartDate(stream).map(async (streamlet: CollectionEntry<'stream'>) => {
+  stream.map(async (streamlet: CollectionEntry<'stream'>) => {
     const { Content } = await render(streamlet)
-    return { ...streamlet, Content }
+    return {
+      type: 'stream' as const,
+      id: streamlet.id,
+      date: new Date(streamlet.data.startDate),
+      data: streamlet.data,
+      Content,
+    }
   }),
+)
+
+// Transform content updates into compatible shape
+const updates = contentUpdates.map((update) => ({
+  type: 'update' as const,
+  id: `update-${update.slug}-${update.date}`,
+  date: new Date(update.date),
+  data: update,
+}))
+
+// Merge and sort by date (newest first)
+const combined = [...renderedStream, ...updates].sort(
+  (a, b) => b.date.getTime() - a.date.getTime(),
 )
 ---
 
 {
-  renderedStream.map((streamlet) => (
-    <div
-      id={streamlet.id}
-      class="content-item group/streamlet relative f-my-2xs"
-      data-topics={JSON.stringify(streamlet.data.topics)}
-    >
-      <a
-        href={`#${streamlet.id}`}
-        class="absolute top-3 left--8 px-1 f-text-xl font-normal opacity-0 transition-opacity group-hover/streamlet:opacity-100 duration-300 text-cornflower"
+  combined.map((item) =>
+    item.type === 'stream' ? (
+      <div
+        id={item.id}
+        class="content-item group/streamlet relative f-my-2xs"
+        data-topics={JSON.stringify(item.data.topics)}
       >
-        §
-      </a>
-      <StreamCard
-        title={streamlet.data.title}
-        topics={streamlet.data.topics}
-        date={streamlet.data.startDate}
-      >
-        <streamlet.Content components={components} />
-      </StreamCard>
-    </div>
-  ))
+        <a
+          href={`#${item.id}`}
+          class="absolute top-3 left--8 px-1 f-text-xl font-normal opacity-0 transition-opacity group-hover/streamlet:opacity-100 duration-300 text-cornflower"
+        >
+          §
+        </a>
+        <StreamCard
+          title={item.data.title}
+          topics={item.data.topics}
+          date={item.data.startDate}
+        >
+          <item.Content components={components} />
+        </StreamCard>
+      </div>
+    ) : (
+      <div id={item.id} class="content-item f-my-2xs">
+        <UpdateCard
+          title={item.data.title}
+          slug={item.data.slug}
+          collection={item.data.collection}
+          date={item.date}
+        />
+      </div>
+    ),
+  )
 }
