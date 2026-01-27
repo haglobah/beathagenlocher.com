@@ -1,0 +1,53 @@
+---
+title: "Screen Freezes on Framework 16 & AMD with GNOME"
+description: ""
+growthStage: seedling
+startDate: 2026-01-27T16:09:45Z
+updated: 2026-01-27T16:09:45Z
+topics: [GNOME, Linux, AMD, Framework, Framework 16, NixOS, Kernel Parameters]
+publish: true
+---
+
+Over the last time, I've pretty regularly had Screen Freezes that appeared out of nowhere (maybe together with faster screen movement/resource usage, but not in a reproducible way).
+
+It had the following characteristics:
+
+1. The screen froze out of nowhere
+2. Although the screen didn't show anything anymore, all input still worked (so typing went on, the mouse could still click on stuff, and so on)
+3. Among them, locking my screen via GNOME's <KB>Super-l</KB> still worked
+4. As soon as the error appeared once, it tended to appear again and again until a restart
+5. After a restart, it was good for a while
+6. It only appeared on my internal laptop screen, not on an external display
+
+This is what it looked like (yep, bad video, I know 😬):
+
+<video controls="controls" preload="auto">
+  <source src="output.mp4" type="video/mp4"/>
+</video>
+
+All of the above mostly .. [confused me](https://www.lesswrong.com/s/zpCiuR4T343j9WkcK/p/5JDkW4MYXit2CquLs).
+
+- <ListMarker>2.</ListMarker> and <ListMarker>3.</ListMarker> strongly pointed into the direction of GNOME being the problem, and maybe my session crashing in a weird way
+- <ListMarker>4.</ListMarker> and <ListMarker>5.</ListMarker> pointed into the direction of a resource exhaustion problem (but there wasn't higher resource usage at all), while
+- <ListMarker>6.</ListMarker> pointed in the direction of it being a hardware/firmware problem, or at least towards it being hardware/firmware induced.
+
+These findings left me relatively clueless, since they didn't really point towards anything specific (without also pointing away from it).
+
+So I googled.
+
+At first, I didn't really find anything, but then I came upon some other [[Framework]] users experiencing similar issues.
+
+Among them was this post: https://www.reddit.com/r/framework/comments/1goh7hc/anyone_else_get_this_screen_flickering_issue/
+
+Which pointed to an [[AMD]] power-saving technology that has pretty regular regression bugs.
+
+So I tried that fix out (and first needed to learn how to enable [[Kernel Parameters]] on [[NixOS]]), and .. I didn't have any further screen freezes since then. (Well, only whole [[GNOME session crashes on Bluetooth Headphones / Unmute]], but that's for another post)
+
+This is the fix:
+
+```nix title=hardware.nix
+config.boot.kernelParams = [
+  # https://www.reddit.com/r/framework/comments/1goh7hc/anyone_else_get_this_screen_flickering_issue/
+  "amdgpu.dcdebugmask=0x410"
+];
+```
