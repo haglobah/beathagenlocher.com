@@ -7,7 +7,7 @@
  *
  * Options:
  *   --since=N      Look back N days (default: 30)
- *   --threshold=N  Minimum lines changed to be "significant" for updates (default: 5)
+ *   --threshold=N  Minimum lines changed to be "significant" for updates (default: 10)
  *   --dry-run      Show what would be added without writing
  */
 
@@ -33,7 +33,7 @@ const getArg = (name, defaultVal) => {
 }
 const dryRun = args.includes('--dry-run')
 const sinceDays = parseInt(getArg('since', '30'), 10)
-const threshold = parseInt(getArg('threshold', '5'), 10)
+const threshold = parseInt(getArg('threshold', '10'), 10)
 
 /**
  * Extract title from MDX frontmatter
