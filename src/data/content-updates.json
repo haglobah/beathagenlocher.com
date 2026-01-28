@@ -1,6 +1,15 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Screen Freezes on Framework 16 with AMD and GNOME.mdx",
+    "slug": "screen-freezes-on-framework-16-with-amd-and-gnome",
+    "collection": "essays",
+    "title": "Screen Freezes on Framework 16 with AMD and GNOME",
+    "date": "2026-01-26T15:32:43.000Z",
+    "commitHash": "3df5807"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Domain Name System.mdx",
     "slug": "domain-name-system",
     "collection": "notes",
