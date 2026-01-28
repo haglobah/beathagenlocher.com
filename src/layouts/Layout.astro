@@ -46,7 +46,12 @@ declare global {
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="alternate" type="application/rss+xml" title="Beat Hagenlocher's RSS Feed" href="/rss.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Beat Hagenlocher's RSS Feed"
+      href="/rss.xml"
+    />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="/preflight.css" />
@@ -131,15 +136,35 @@ declare global {
     <div class="flex f-my-xl justify-center items-center gap-6">
       <MainPageIconButton class="f-w-128-164 -m-6" />
       <CommandPaletteButton />
-      <a
-        href="/rss.xml"
-        title="RSS Feed"
-        class="p-2 bg-zinc-700 hover:bg-zinc-600 text-zinc-300 rounded-full transition-colors flex items-center"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
-        </svg>
-      </a>
+      <div class="flex items-center bg-zinc-700 rounded-full">
+        <a
+          href="/me"
+          title="About"
+          class="px-3 py-2 hover:bg-zinc-600 text-zinc-300 rounded-l-full transition-colors f-text-xs font-medium"
+        >
+          About
+        </a>
+        <span class="w-px h-5 bg-zinc-500"></span>
+        <a
+          href="/rss.xml"
+          title="RSS Feed"
+          class="p-2 hover:bg-zinc-600 text-zinc-300 rounded-r-full transition-colors flex items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+          </svg>
+        </a>
+      </div>
     </div>
     <main class="f-mb-md min-h-screen">
       <slot />
