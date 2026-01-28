@@ -1,5 +1,24 @@
 [
   {
+    "type": "update",
+    "file": "src/content/essays/How I Would Structure My First Physics Semesters If I Went To University Again.mdx",
+    "slug": "how-i-would-structure-my-first-physics-semesters-if-i-went-to-university-again",
+    "collection": "essays",
+    "title": "How I Would Structure My First Physics Semesters If I Went To University Again",
+    "date": "2026-01-28T11:31:01.000Z",
+    "linesChanged": 12,
+    "commitHash": "76c1e5c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/How People Learn.mdx",
+    "slug": "how-people-learn",
+    "collection": "notes",
+    "title": "How People Learn",
+    "date": "2026-01-28T11:31:01.000Z",
+    "commitHash": "78c3ada"
+  },
+  {
     "type": "new",
     "file": "src/content/notes/Screen Freezes on Framework 16 with AMD and GNOME.mdx",
     "slug": "screen-freezes-on-framework-16-with-amd-and-gnome",
