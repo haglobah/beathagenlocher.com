@@ -1,6 +1,36 @@
 [
   {
     "type": "update",
+    "file": "src/content/essays/Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix.mdx",
+    "slug": "setting-up-a-repo-in-under-5-minutes-as-software-engineers-with-nix",
+    "collection": "essays",
+    "title": "Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix",
+    "date": "2026-01-28T15:39:48.000Z",
+    "linesChanged": 52,
+    "commitHash": "b72e7bc"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/It Took Me Years Until I Understood Web Servers—You Can Do It In 10 Minutes.mdx",
+    "slug": "it-took-me-years-until-i-understood-web-serversyou-can-do-it-in-10-minutes",
+    "collection": "essays",
+    "title": "It Took Me Years Until I Understood Web Servers—You Can Do It In 10 Minutes",
+    "date": "2026-01-28T15:11:35.000Z",
+    "linesChanged": 22,
+    "commitHash": "fc41fe5"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Window Switching Made Simple.mdx",
+    "slug": "window-switching-made-simple",
+    "collection": "essays",
+    "title": "Window Switching Made Simple",
+    "date": "2026-01-28T14:43:56.000Z",
+    "linesChanged": 18,
+    "commitHash": "2f3045d"
+  },
+  {
+    "type": "update",
     "file": "src/content/essays/How I Would Structure My First Physics Semesters If I Went To University Again.mdx",
     "slug": "how-i-would-structure-my-first-physics-semesters-if-i-went-to-university-again",
     "collection": "essays",

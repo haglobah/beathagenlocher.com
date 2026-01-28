@@ -2,12 +2,12 @@
 title: Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix
 growthStage: budding
 startDate: 2025-02-01
-updated: 2025-02-01
-topics: [Nix, Simplicity]
+updated: 2026-01-28T15:40:54Z
+topics: [Nix, Simplicity, Software Engineering, git, direnv]
 publish: true
 ---
 
-[Again](http://localhost:4321/does-your-repos-getting-started-section-take-more-than-10-minutes_-just-use-nix): What _should_ setting up a new repo look like?
+<Il href="does-your-repos-getting-started-section-take-more-than-10-minutes_-just-use-nix">Again</Il>: What _should_ setting up a new repo look like?
 
 It should be something like this:
 
@@ -18,7 +18,7 @@ It should be something like this:
 5. Then, push to `origin`, and set `origin` as upstream.
 
 ---
-Okay. Let's say I want to create a new static website project. This is my workflow: (prior to this post, hehe ^^)
+Okay. Let's say I want to create a new static website project. This is my workflow:
 
 ```shell
 > md new-website
@@ -43,3 +43,47 @@ Can't understand anything? Well, all of them are aliases/shell functions/abbrevi
 And of course, it already brings its own [devshell](https://typeshare.co/haglobah/posts/does-your-repos-getting-started-section-have-more-than-10-minutes-just-use-nix).
 
 How do you set up a new project? And do you have any suggestions for a better workflow? Let me hear in the comments!
+
+---
+
+Update (01/2026):
+
+In the meantime, I've refined my aliases.
+
+What I'm now thinking of when creating a repo is this:
+
+1. 'Create this kind of project'
+2. 'Make this version controlled'
+3. 'Make the devshell work automatically'
+4. 'Change the `flake.nix` to my liking'
+5. 'Create this repo on Github'
+
+Which makes it those commands
+
+```shell
+> np new-project devshell just
+> gim
+> ud
+> # edit flake.nix
+> gho
+```
+
+And those expand to:
+
+```shell
+> nix run github:haglobah/templater -Lv -- --to new-project devshell just
+> git init && git add . && git commit --message "Initial commit"
+> echo "use flake . -Lv" >> .envrc && direnv allow
+> # edit flake.nix
+> gh repo create new-project --private --source=. --remote=origin && git push --set-upstream origin main
+```
+
+Code for the abbreviations here: [fish.nix](https://github.com/haglobah/mynix/blob/8967900495a654575f56a372448e7852fd28c9bd/home/programs/fish.nix#L162)
+
+<Callout type="error">
+A word of warning:
+
+**Do not** use the templater script! It's a the equivalent of a sharp knife without a handle _while not being properly maintained_.
+
+It's _only_ for inspiration, **nothing else**.
+</Callout>
