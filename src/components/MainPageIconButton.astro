@@ -1,13 +1,9 @@
 ---
-const { classStyle } = Astro.props
+const { class: className } = Astro.props
 ---
 
 <a href="/" class="f-px-xs">
-  <svg
-    viewBox="0 0 100 40"
-    xmlns="http://www.w3.org/2000/svg"
-    class={classStyle}
-  >
+  <svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg" class={className}>
     <text
       x="15"
       y="20"
