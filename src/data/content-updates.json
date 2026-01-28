@@ -44,5 +44,1793 @@
     "title": "Why Tailwind",
     "date": "2026-01-10T00:38:06.000Z",
     "commitHash": "e3319cb"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Setting up a Win 11 VM on NixOS.mdx",
+    "slug": "setting-up-a-win-11-vm-on-nixos",
+    "collection": "notes",
+    "title": "Setting up a Win 11 VM on NixOS",
+    "date": "2025-12-01T02:16:56.000Z",
+    "commitHash": "ff86940"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/What You Can Learn From My Todo Management Journey.mdx",
+    "slug": "what-you-can-learn-from-my-todo-management-journey",
+    "collection": "essays",
+    "title": "What You Can Learn From My Todo Management Journey",
+    "date": "2025-11-27T18:47:26.000Z",
+    "commitHash": "c4bed85"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/kitty.mdx",
+    "slug": "kitty",
+    "collection": "notes",
+    "title": "kitty",
+    "date": "2025-11-26T19:57:15.000Z",
+    "commitHash": "96e9f1f"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/evil mode.mdx",
+    "slug": "evil-mode",
+    "collection": "notes",
+    "title": "evil mode",
+    "date": "2025-11-26T17:03:52.000Z",
+    "commitHash": "18bbfa7"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/mu4e.mdx",
+    "slug": "mu4e",
+    "collection": "notes",
+    "title": "mu4e",
+    "date": "2025-11-25T12:42:52.000Z",
+    "commitHash": "c86f81a"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Nix.mdx",
+    "slug": "nix",
+    "collection": "notes",
+    "title": "Nix",
+    "date": "2025-11-24T01:34:49.000Z",
+    "commitHash": "b7ef3e0"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Specification Language.mdx",
+    "slug": "specification-language",
+    "collection": "notes",
+    "title": "Specification Language",
+    "date": "2025-11-20T17:05:17.000Z",
+    "commitHash": "3f8087d"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/NeoVim.mdx",
+    "slug": "neovim",
+    "collection": "notes",
+    "title": "NeoVim",
+    "date": "2025-11-18T22:35:36.000Z",
+    "linesChanged": 6,
+    "commitHash": "53dbcf0"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Contacting Me.mdx",
+    "slug": "contacting-me",
+    "collection": "notes",
+    "title": "Contacting Me",
+    "date": "2025-11-17T10:41:17.000Z",
+    "linesChanged": 11,
+    "commitHash": "fa48ad2"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Computer Use Problems You Shouldn't Have.mdx",
+    "slug": "computer-use-problems-you-shouldnt-have",
+    "collection": "notes",
+    "title": "Computer Use Problems You Shouldn't Have",
+    "date": "2025-11-12T22:22:00.000Z",
+    "linesChanged": 10,
+    "commitHash": "88632d9"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/NeoVim.mdx",
+    "slug": "neovim",
+    "collection": "notes",
+    "title": "NeoVim",
+    "date": "2025-11-12T21:45:46.000Z",
+    "commitHash": "a1aafc0"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Emacs.mdx",
+    "slug": "emacs",
+    "collection": "notes",
+    "title": "Emacs",
+    "date": "2025-11-12T21:43:22.000Z",
+    "commitHash": "05b3344"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/magit.mdx",
+    "slug": "magit",
+    "collection": "notes",
+    "title": "magit",
+    "date": "2025-11-07T22:38:10.000Z",
+    "commitHash": "7be4375"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Just.mdx",
+    "slug": "just",
+    "collection": "notes",
+    "title": "Just",
+    "date": "2025-11-07T21:37:55.000Z",
+    "commitHash": "9a8f9b5"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Working with LLMs is Googling in Reverse.mdx",
+    "slug": "working-with-llms-is-googling-in-reverse",
+    "collection": "essays",
+    "title": "Writing with LLMs is Googling in Reverse",
+    "date": "2025-11-06T22:33:48.000Z",
+    "commitHash": "ccd9588"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Getting More Power by Limiting Your Options.mdx",
+    "slug": "getting-more-power-by-limiting-your-options",
+    "collection": "notes",
+    "title": "Getting More Power by Limiting Your Options",
+    "date": "2025-11-06T22:33:48.000Z",
+    "commitHash": "ccd9588"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/About Keybindings.mdx",
+    "slug": "about-keybindings",
+    "collection": "notes",
+    "title": "About Keybindings",
+    "date": "2025-10-29T09:55:09.000Z",
+    "linesChanged": 7,
+    "commitHash": "fc67e4c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/About Keybindings.mdx",
+    "slug": "about-keybindings",
+    "collection": "notes",
+    "title": "About Keybindings",
+    "date": "2025-10-27T15:27:51.000Z",
+    "commitHash": "a1ad5e5"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Better Computer Use.mdx",
+    "slug": "better-computer-use",
+    "collection": "notes",
+    "title": "Better Computer Use",
+    "date": "2025-10-27T15:27:51.000Z",
+    "commitHash": "a1ad5e5"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Learning Vim.mdx",
+    "slug": "learning-vim",
+    "collection": "notes",
+    "title": "Learning Vim",
+    "date": "2025-10-26T08:57:48.000Z",
+    "commitHash": "e110adc"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Achieving Simplicity.mdx",
+    "slug": "achieving-simplicity",
+    "collection": "notes",
+    "title": "Achieving Simplicity",
+    "date": "2025-10-19T22:46:18.000Z",
+    "commitHash": "c94f0fe"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/On Engineering, Systems and Design.mdx",
+    "slug": "on-engineering-systems-and-design",
+    "collection": "notes",
+    "title": "On Engineering, Systems and Design",
+    "date": "2025-10-19T22:46:18.000Z",
+    "commitHash": "c94f0fe"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/The Bulk of Software Development isn't Engineering.mdx",
+    "slug": "the-bulk-of-software-development-isnt-engineering",
+    "collection": "notes",
+    "title": "The Bulk of Software Development isn't Engineering",
+    "date": "2025-10-19T22:46:18.000Z",
+    "commitHash": "c94f0fe"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-10-19T22:05:05.000Z",
+    "linesChanged": 10,
+    "commitHash": "623f06d"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up A New Phone.mdx",
+    "slug": "setting-up-a-new-phone",
+    "collection": "notes",
+    "title": "Setting Up A New Phone",
+    "date": "2025-10-18T01:04:11.000Z",
+    "linesChanged": 8,
+    "commitHash": "c21585c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Contacting Me.mdx",
+    "slug": "contacting-me",
+    "collection": "notes",
+    "title": "Contacting Me",
+    "date": "2025-10-18T00:30:25.000Z",
+    "commitHash": "0c84e6f"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Life Lessions.mdx",
+    "slug": "life-lessions",
+    "collection": "notes",
+    "title": "Life Lessons",
+    "date": "2025-10-17T15:26:05.000Z",
+    "commitHash": "abd1f0e"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Working with an AI Pair: Outsource Your Mental Workload to Your Commit Messages.mdx",
+    "slug": "working-with-an-ai-pair-outsource-your-mental-workload-to-your-commit-messages",
+    "collection": "essays",
+    "title": "Working with an AI Pair: Outsource Your Mental Workload to Your Commit Messages",
+    "date": "2025-10-17T00:09:55.000Z",
+    "commitHash": "257946b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Doom Emacs Config Bits.mdx",
+    "slug": "doom-emacs-config-bits",
+    "collection": "notes",
+    "title": "(Doom) Emacs Config Bits",
+    "date": "2025-10-13T16:18:16.000Z",
+    "commitHash": "7cbaee2"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/My Keyboard Setup.mdx",
+    "slug": "my-keyboard-setup",
+    "collection": "notes",
+    "title": "My Keyboard Setup",
+    "date": "2025-10-13T00:17:06.000Z",
+    "linesChanged": 10,
+    "commitHash": "23df3e7"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/IPv6 Internet Issues.mdx",
+    "slug": "ipv6-internet-issues",
+    "collection": "notes",
+    "title": "IPv6 Internet Issues",
+    "date": "2025-10-08T23:30:49.000Z",
+    "commitHash": "474063e"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Jacky Zhao.mdx",
+    "slug": "jacky-zhao",
+    "collection": "notes",
+    "title": "Jacky Zhao",
+    "date": "2025-10-08T23:19:57.000Z",
+    "commitHash": "1355140"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Digital Garden.mdx",
+    "slug": "digital-garden",
+    "collection": "notes",
+    "title": "Digital Garden",
+    "date": "2025-10-08T22:57:05.000Z",
+    "commitHash": "dcdb90e"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Deutsche Bahn | Issues and Solutions.mdx",
+    "slug": "deutsche-bahn--issues-and-solutions",
+    "collection": "notes",
+    "title": "Deutsche Bahn | Issues and Solutions",
+    "date": "2025-10-07T23:22:06.000Z",
+    "linesChanged": 53,
+    "commitHash": "e232b35"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Microlife Review.mdx",
+    "slug": "microlife-review",
+    "collection": "notes",
+    "title": "Microlife Review",
+    "date": "2025-10-04T19:37:49.000Z",
+    "commitHash": "eba3e32"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Weekly Review.mdx",
+    "slug": "weekly-review",
+    "collection": "notes",
+    "title": "Weekly Review",
+    "date": "2025-10-04T19:37:49.000Z",
+    "commitHash": "eba3e32"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Building Communities.mdx",
+    "slug": "building-communities",
+    "collection": "notes",
+    "title": "Building Communities",
+    "date": "2025-10-04T18:42:11.000Z",
+    "linesChanged": 55,
+    "commitHash": "40689d3"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Building Communities.mdx",
+    "slug": "building-communities",
+    "collection": "notes",
+    "title": "Building Communities",
+    "date": "2025-10-02T15:43:13.000Z",
+    "linesChanged": 71,
+    "commitHash": "a80058e"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Crocker's Rules.mdx",
+    "slug": "crockers-rules",
+    "collection": "notes",
+    "title": "Crocker's Rules",
+    "date": "2025-09-13T00:05:52.000Z",
+    "commitHash": "5b8a539"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/My Work Boundaries.mdx",
+    "slug": "my-work-boundaries",
+    "collection": "notes",
+    "title": "My Work Boundaries",
+    "date": "2025-09-13T00:05:52.000Z",
+    "commitHash": "5b8a539"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Recipes.mdx",
+    "slug": "recipes",
+    "collection": "notes",
+    "title": "Recipes",
+    "date": "2025-09-12T20:03:12.000Z",
+    "commitHash": "f370118"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/LessWrong Community Weekend 2025.mdx",
+    "slug": "lesswrong-community-weekend-2025",
+    "collection": "notes",
+    "title": "LessWrong Community Weekend 2025",
+    "date": "2025-09-10T22:57:25.000Z",
+    "commitHash": "64730d1"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Writing A Web Server in Elixir.mdx",
+    "slug": "writing-a-web-server-in-elixir",
+    "collection": "talks",
+    "title": "Writing A Web Server in Elixir",
+    "date": "2025-09-08T13:50:19.000Z",
+    "linesChanged": 5,
+    "commitHash": "aeec709"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Books You Probably Want To Read.mdx",
+    "slug": "books-you-probably-want-to-read",
+    "collection": "notes",
+    "title": "Books You Probably Want To Read",
+    "date": "2025-09-07T11:58:36.000Z",
+    "linesChanged": 10,
+    "commitHash": "780f143"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-09-07T11:47:59.000Z",
+    "linesChanged": 20,
+    "commitHash": "8f55352"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-09-07T11:47:40.000Z",
+    "linesChanged": 14,
+    "commitHash": "7944702"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Computer Use Problems You Shouldn't Have.mdx",
+    "slug": "computer-use-problems-you-shouldnt-have",
+    "collection": "notes",
+    "title": "Computer Use Problems You Shouldn't Have",
+    "date": "2025-09-07T11:46:46.000Z",
+    "linesChanged": 27,
+    "commitHash": "7c0b153"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Autosave in Editors.mdx",
+    "slug": "autosave-in-editors",
+    "collection": "notes",
+    "title": "Autosave in Editors",
+    "date": "2025-09-07T11:39:34.000Z",
+    "commitHash": "2a6fbfe"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/VS Code tips and tricks.mdx",
+    "slug": "vs-code-tips-and-tricks",
+    "collection": "notes",
+    "title": "VS Code tips and tricks",
+    "date": "2025-09-07T11:29:16.000Z",
+    "commitHash": "b2fca96"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Navigating The Shell.mdx",
+    "slug": "navigating-the-shell",
+    "collection": "notes",
+    "title": "Navigating The Shell",
+    "date": "2025-09-07T11:03:39.000Z",
+    "linesChanged": 10,
+    "commitHash": "1541232"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up A New Phone.mdx",
+    "slug": "setting-up-a-new-phone",
+    "collection": "notes",
+    "title": "Setting Up A New Phone",
+    "date": "2025-09-07T10:57:58.000Z",
+    "linesChanged": 34,
+    "commitHash": "31f84a7"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Are You A Knowledge Worker_ Establish This Habit To Become More Productive.mdx",
+    "slug": "are-you-a-knowledge-worker_-establish-this-habit-to-become-more-productive",
+    "collection": "essays",
+    "title": "Are You A Knowledge Worker? Establish This Habit To Become More Productive",
+    "date": "2025-09-07T10:42:47.000Z",
+    "linesChanged": 36,
+    "commitHash": "bd26910"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-08-29T12:12:36.000Z",
+    "linesChanged": 66,
+    "commitHash": "873e4ea"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-08-25T22:54:13.000Z",
+    "linesChanged": 88,
+    "commitHash": "9b7a31a"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-08-01T00:28:55.000Z",
+    "linesChanged": 187,
+    "commitHash": "ccc5087"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-07-31T23:32:53.000Z",
+    "linesChanged": 96,
+    "commitHash": "1f0ed78"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Experiencing Graph Connections.mdx",
+    "slug": "experiencing-graph-connections",
+    "collection": "notes",
+    "title": "Experiencing Graph Connections",
+    "date": "2025-07-31T23:32:48.000Z",
+    "linesChanged": 9,
+    "commitHash": "2fa4e45"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up A New Phone.mdx",
+    "slug": "setting-up-a-new-phone",
+    "collection": "notes",
+    "title": "Setting Up A New Phone",
+    "date": "2025-07-30T23:24:42.000Z",
+    "linesChanged": 16,
+    "commitHash": "aa6d9d6"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Packing List.mdx",
+    "slug": "packing-list",
+    "collection": "notes",
+    "title": "Packing List",
+    "date": "2025-07-30T23:24:36.000Z",
+    "linesChanged": 6,
+    "commitHash": "40d52d8"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Navigating The Shell.mdx",
+    "slug": "navigating-the-shell",
+    "collection": "notes",
+    "title": "Navigating The Shell",
+    "date": "2025-07-30T23:14:36.000Z",
+    "linesChanged": 19,
+    "commitHash": "875002b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2025-07-29T00:31:39.000Z",
+    "commitHash": "95e804a"
+  },
+  {
+    "type": "new",
+    "file": "src/content/knowledge/Nix Flakes.mdx",
+    "slug": "nix-flakes",
+    "collection": "knowledge",
+    "title": "Nix Flakes",
+    "date": "2025-07-29T00:31:34.000Z",
+    "commitHash": "f0db19f"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Programming Languages as Sets of Features.mdx",
+    "slug": "programming-languages-as-sets-of-features",
+    "collection": "notes",
+    "title": "Programming Languages as Sets of Features",
+    "date": "2025-07-28T00:31:22.000Z",
+    "commitHash": "c29c177"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Experiencing Graph Connections.mdx",
+    "slug": "experiencing-graph-connections",
+    "collection": "notes",
+    "title": "Experiencing Graph Connections",
+    "date": "2025-07-27T21:50:53.000Z",
+    "commitHash": "d8867af"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Mechanical Keyboards United.mdx",
+    "slug": "mechanical-keyboards-united",
+    "collection": "notes",
+    "title": "Mechanical Keyboards United",
+    "date": "2025-07-27T21:50:43.000Z",
+    "linesChanged": 7,
+    "commitHash": "007a065"
+  },
+  {
+    "type": "new",
+    "file": "src/content/talks/Writing A Web Server in Elixir.mdx",
+    "slug": "writing-a-web-server-in-elixir",
+    "collection": "talks",
+    "title": "Writing A Web Server in Elixir",
+    "date": "2025-07-26T19:31:52.000Z",
+    "commitHash": "6ee1f87"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Fighting School Networks.mdx",
+    "slug": "fighting-school-networks",
+    "collection": "notes",
+    "title": "Fighting School Networks",
+    "date": "2025-07-26T19:27:37.000Z",
+    "commitHash": "5f1649c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Mechanical Keyboards United.mdx",
+    "slug": "mechanical-keyboards-united",
+    "collection": "notes",
+    "title": "Mechanical Keyboards United",
+    "date": "2025-07-26T17:49:26.000Z",
+    "commitHash": "e0fe9ec"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Navigating The Shell.mdx",
+    "slug": "navigating-the-shell",
+    "collection": "notes",
+    "title": "Navigating The Shell",
+    "date": "2025-07-24T15:48:30.000Z",
+    "commitHash": "4da3b6c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Setting Up A New Phone.mdx",
+    "slug": "setting-up-a-new-phone",
+    "collection": "notes",
+    "title": "Setting Up A New Phone",
+    "date": "2025-07-23T22:40:23.000Z",
+    "commitHash": "ac96706"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/DSA-2025.mdx",
+    "slug": "dsa-2025",
+    "collection": "notes",
+    "title": "dsa-2025",
+    "date": "2025-07-15T10:20:59.000Z",
+    "linesChanged": 7,
+    "commitHash": "232b760"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/DSA-2025.mdx",
+    "slug": "dsa-2025",
+    "collection": "notes",
+    "title": "dsa-2025",
+    "date": "2025-07-14T20:01:55.000Z",
+    "linesChanged": 6,
+    "commitHash": "0173810"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Books You Probably Want To Read.mdx",
+    "slug": "books-you-probably-want-to-read",
+    "collection": "notes",
+    "title": "Books You Probably Want To Read",
+    "date": "2025-07-11T20:25:09.000Z",
+    "commitHash": "0ae30d7"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/DSA-2025.mdx",
+    "slug": "dsa-2025",
+    "collection": "notes",
+    "title": "dsa-2025",
+    "date": "2025-07-11T20:25:09.000Z",
+    "commitHash": "0ae30d7"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/My Keyboard Setup.mdx",
+    "slug": "my-keyboard-setup",
+    "collection": "notes",
+    "title": "My Keyboard Setup",
+    "date": "2025-07-01T22:00:44.000Z",
+    "commitHash": "8ad08ed"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager.mdx",
+    "slug": "setting-up-email-in-doom-emacs-with-mu4e-on-nixos-with-home-manager",
+    "collection": "notes",
+    "title": "Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager",
+    "date": "2025-07-01T15:47:32.000Z",
+    "linesChanged": 23,
+    "commitHash": "0c92013"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Computer Use Problems You Shouldn't Have.mdx",
+    "slug": "computer-use-problems-you-shouldnt-have",
+    "collection": "notes",
+    "title": "Computer Use Problems You Shouldn't Have",
+    "date": "2025-07-01T15:38:42.000Z",
+    "commitHash": "6b9b063"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Works On My Machine.mdx",
+    "slug": "works-on-my-machine",
+    "collection": "notes",
+    "title": "Works On My Machine",
+    "date": "2025-07-01T15:38:42.000Z",
+    "commitHash": "6b9b063"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up Home Manager.mdx",
+    "slug": "setting-up-home-manager",
+    "collection": "notes",
+    "title": "Setting Up Home Manager",
+    "date": "2025-07-01T15:38:34.000Z",
+    "linesChanged": 14,
+    "commitHash": "aec6b54"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager.mdx",
+    "slug": "setting-up-email-in-doom-emacs-with-mu4e-on-nixos-with-home-manager",
+    "collection": "notes",
+    "title": "Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager",
+    "date": "2025-07-01T15:27:49.000Z",
+    "linesChanged": 238,
+    "commitHash": "7920454"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Ditching ClojureScript for More Simplicity.mdx",
+    "slug": "ditching-clojurescript-for-more-simplicity",
+    "collection": "essays",
+    "title": "Ditching ClojureScript for More Simplicity",
+    "date": "2025-06-30T23:38:19.000Z",
+    "commitHash": "e20329b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Choosing My Frontend Stack, Part II.mdx",
+    "slug": "choosing-my-frontend-stack-part-ii",
+    "collection": "essays",
+    "title": "Choosing My Frontend Stack, Part II",
+    "date": "2025-06-30T23:38:14.000Z",
+    "linesChanged": 18,
+    "commitHash": "e2e6f95"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Choosing My Frontend Stack.mdx",
+    "slug": "choosing-my-frontend-stack",
+    "collection": "essays",
+    "title": "Choosing My Frontend Stack",
+    "date": "2025-06-24T21:58:12.000Z",
+    "linesChanged": 45,
+    "commitHash": "11d3c99"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things I Want In A Programming Language.mdx",
+    "slug": "things-i-want-in-a-programming-language",
+    "collection": "notes",
+    "title": "Things I Want In A Programming Language",
+    "date": "2025-06-15T22:55:55.000Z",
+    "linesChanged": 5,
+    "commitHash": "785c01a"
+  },
+  {
+    "type": "update",
+    "file": "src/content/knowledge/Programming Languages/Clojure.mdx",
+    "slug": "programming-languagesclojure",
+    "collection": "knowledge",
+    "title": "Clojure",
+    "date": "2025-06-11T23:00:50.000Z",
+    "linesChanged": 13,
+    "commitHash": "dbe572d"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things I Want In A Programming Language.mdx",
+    "slug": "things-i-want-in-a-programming-language",
+    "collection": "notes",
+    "title": "Things I Want In A Programming Language",
+    "date": "2025-06-11T23:00:50.000Z",
+    "linesChanged": 37,
+    "commitHash": "dbe572d"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Battling Muscle Pain.mdx",
+    "slug": "battling-muscle-pain",
+    "collection": "notes",
+    "title": "Battling Muscle Pain",
+    "date": "2025-06-11T22:21:38.000Z",
+    "linesChanged": 11,
+    "commitHash": "941fe9c"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Battling Neck Pain.mdx",
+    "slug": "battling-neck-pain",
+    "collection": "notes",
+    "title": "Battling Neck Pain",
+    "date": "2025-06-11T22:21:38.000Z",
+    "linesChanged": 6,
+    "commitHash": "941fe9c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/How Haskell Doesn't Feel Well-engineered.mdx",
+    "slug": "how-haskell-doesnt-feel-well-engineered",
+    "collection": "notes",
+    "title": "How Haskell Doesn't Feel Well-engineered",
+    "date": "2025-06-07T19:45:00.000Z",
+    "commitHash": "99ae5aa"
+  },
+  {
+    "type": "update",
+    "file": "src/content/knowledge/Local-first Software.mdx",
+    "slug": "local-first-software",
+    "collection": "knowledge",
+    "title": "Local-first Software",
+    "date": "2025-06-07T16:19:33.000Z",
+    "linesChanged": 17,
+    "commitHash": "37c76a0"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/How To: Conference.mdx",
+    "slug": "how-to-conference",
+    "collection": "notes",
+    "title": "How To: Conference",
+    "date": "2025-05-30T22:35:41.000Z",
+    "commitHash": "54bf17d"
+  },
+  {
+    "type": "new",
+    "file": "src/content/knowledge/people/Simon Willison.mdx",
+    "slug": "peoplesimon-willison",
+    "collection": "knowledge",
+    "title": "Simon Willison",
+    "date": "2025-05-27T21:51:11.000Z",
+    "commitHash": "01bab8a"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Things I Want In A Programming Language.mdx",
+    "slug": "things-i-want-in-a-programming-language",
+    "collection": "notes",
+    "title": "Things I Want In A Programming Language",
+    "date": "2025-05-25T23:07:54.000Z",
+    "commitHash": "3cc1b8e"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/What I Wish I Knew When Learning Rescript.mdx",
+    "slug": "what-i-wish-i-knew-when-learning-rescript",
+    "collection": "notes",
+    "title": "What I Wish I Knew When Learning Rescript",
+    "date": "2025-05-25T23:07:54.000Z",
+    "commitHash": "3cc1b8e"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Thinking Out Loud.mdx",
+    "slug": "thinking-out-loud",
+    "collection": "notes",
+    "title": "About this site: Thinking Out Loud",
+    "date": "2025-05-22T00:12:00.000Z",
+    "commitHash": "4ee419e"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Work With The Garage Door Up.mdx",
+    "slug": "work-with-the-garage-door-up",
+    "collection": "notes",
+    "title": "Work With The Garage Door Up",
+    "date": "2025-05-22T00:12:00.000Z",
+    "commitHash": "4ee419e"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up Home Manager.mdx",
+    "slug": "setting-up-home-manager",
+    "collection": "notes",
+    "title": "Setting Up Home Manager",
+    "date": "2025-05-20T16:33:25.000Z",
+    "linesChanged": 155,
+    "commitHash": "08345e9"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Setting Up git.mdx",
+    "slug": "setting-up-git",
+    "collection": "notes",
+    "title": "Setting Up git",
+    "date": "2025-05-20T16:01:53.000Z",
+    "commitHash": "f2cc66b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Setting Up Home Manager.mdx",
+    "slug": "setting-up-home-manager",
+    "collection": "notes",
+    "title": "Setting Up Home Manager",
+    "date": "2025-05-18T15:54:22.000Z",
+    "commitHash": "348cfe6"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Packing List.mdx",
+    "slug": "packing-list",
+    "collection": "notes",
+    "title": "Packing List",
+    "date": "2025-05-16T08:21:24.000Z",
+    "linesChanged": 36,
+    "commitHash": "a9dc838"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Roaming the Web.mdx",
+    "slug": "roaming-the-web",
+    "collection": "notes",
+    "title": "Roaming the Web",
+    "date": "2025-05-08T22:34:16.000Z",
+    "commitHash": "33e92bd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/How I Use Git Worktrees.mdx",
+    "slug": "how-i-use-git-worktrees",
+    "collection": "notes",
+    "title": "How I Use Git Worktrees",
+    "date": "2025-05-07T16:09:11.000Z",
+    "commitHash": "d1ad133"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Battling Muscle Pain.mdx",
+    "slug": "battling-muscle-pain",
+    "collection": "notes",
+    "title": "Battling Muscle Pain",
+    "date": "2025-05-06T23:59:09.000Z",
+    "commitHash": "ce6df40"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Battling Neck Pain.mdx",
+    "slug": "battling-neck-pain",
+    "collection": "notes",
+    "title": "Battling Neck Pain",
+    "date": "2025-05-06T23:59:09.000Z",
+    "commitHash": "ce6df40"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things I regularly recommend to people.mdx",
+    "slug": "things-i-regularly-recommend-to-people",
+    "collection": "notes",
+    "title": "Things I Regularly Recommend To People",
+    "date": "2025-05-06T23:59:09.000Z",
+    "linesChanged": 7,
+    "commitHash": "ce6df40"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Frequently Needed Things | Clojure.mdx",
+    "slug": "frequently-needed-things--clojure",
+    "collection": "notes",
+    "title": "Frequently Needed Things | Clojure",
+    "date": "2025-05-04T13:56:19.000Z",
+    "linesChanged": 14,
+    "commitHash": "9d6c79a"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Project Setup Made Simple.mdx",
+    "slug": "project-setup-made-simple",
+    "collection": "notes",
+    "title": "Project Setup Made Simple",
+    "date": "2025-05-01T23:38:32.000Z",
+    "commitHash": "8b1bc7e"
+  },
+  {
+    "type": "new",
+    "file": "src/content/knowledge/people/Jonas Hietala.mdx",
+    "slug": "peoplejonas-hietala",
+    "collection": "knowledge",
+    "title": "Jonas Hietala",
+    "date": "2025-05-01T22:50:10.000Z",
+    "commitHash": "7a5a21d"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Flow.mdx",
+    "slug": "flow",
+    "collection": "notes",
+    "title": "Flow",
+    "date": "2025-04-30T00:10:23.000Z",
+    "commitHash": "74870b0"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things I regularly recommend to people.mdx",
+    "slug": "things-i-regularly-recommend-to-people",
+    "collection": "notes",
+    "title": "Things I Regularly Recommend To People",
+    "date": "2025-04-30T00:10:18.000Z",
+    "linesChanged": 32,
+    "commitHash": "42f2b12"
+  },
+  {
+    "type": "new",
+    "file": "src/content/knowledge/Ozempic.mdx",
+    "slug": "ozempic",
+    "collection": "knowledge",
+    "title": "Ozempic",
+    "date": "2025-04-24T20:06:29.000Z",
+    "commitHash": "9e3a6be"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Packing List.mdx",
+    "slug": "packing-list",
+    "collection": "notes",
+    "title": "Packing List",
+    "date": "2025-04-18T21:37:14.000Z",
+    "linesChanged": 15,
+    "commitHash": "333918e"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things to Unlearn from School.mdx",
+    "slug": "things-to-unlearn-from-school",
+    "collection": "notes",
+    "title": "Things to Unlearn from School",
+    "date": "2025-04-16T11:58:11.000Z",
+    "linesChanged": 10,
+    "commitHash": "6f25a1c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/knowledge/Programming Languages/Clojure.mdx",
+    "slug": "programming-languagesclojure",
+    "collection": "knowledge",
+    "title": "Clojure",
+    "date": "2025-04-16T11:49:41.000Z",
+    "commitHash": "8bb2ccc"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Frequently Needed Things | Clojure.mdx",
+    "slug": "frequently-needed-things--clojure",
+    "collection": "notes",
+    "title": "Frequently Needed Things | Clojure",
+    "date": "2025-04-16T11:49:41.000Z",
+    "commitHash": "8bb2ccc"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Which Functional Programming Language Should I Start With.mdx",
+    "slug": "which-functional-programming-language-should-i-start-with",
+    "collection": "notes",
+    "title": "Which Functional Programming Language Should I Start With?",
+    "date": "2025-04-15T16:34:14.000Z",
+    "linesChanged": 33,
+    "commitHash": "ae03298"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Pulling Out Implementation is Not Abstraction.mdx",
+    "slug": "pulling-out-implementation-is-not-abstraction",
+    "collection": "notes",
+    "title": "Pulling Out Implementation is not Abstracting",
+    "date": "2025-04-14T16:01:14.000Z",
+    "commitHash": "7eafb11"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Packing List.mdx",
+    "slug": "packing-list",
+    "collection": "notes",
+    "title": "Packing List",
+    "date": "2025-04-12T23:50:14.000Z",
+    "linesChanged": 73,
+    "commitHash": "0e8e7b8"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Packing List.mdx",
+    "slug": "packing-list",
+    "collection": "notes",
+    "title": "Packing List",
+    "date": "2025-03-24T23:03:26.000Z",
+    "commitHash": "682c4ed"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Simple Development Environments with Nix.mdx",
+    "slug": "simple-development-environments-with-nix",
+    "collection": "talks",
+    "title": "Simple Development Environments with Nix",
+    "date": "2025-03-21T13:10:19.000Z",
+    "linesChanged": 8,
+    "commitHash": "fa35115"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Simple Development Environments with Nix.mdx",
+    "slug": "simple-development-environments-with-nix",
+    "collection": "talks",
+    "title": "Simple Development Environments with Nix",
+    "date": "2025-03-21T13:05:31.000Z",
+    "linesChanged": 70,
+    "commitHash": "a17d1ba"
+  },
+  {
+    "type": "new",
+    "file": "src/content/knowledge/people/Leslie Lamport.mdx",
+    "slug": "peopleleslie-lamport",
+    "collection": "knowledge",
+    "title": "Leslie Lamport",
+    "date": "2025-03-21T11:38:06.000Z",
+    "commitHash": "59a801f"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Ditching Ship 30 for 30 for a digital garden so that my thoughts can grow.mdx",
+    "slug": "ditching-ship-30-for-30-for-a-digital-garden-so-that-my-thoughts-can-grow",
+    "collection": "notes",
+    "title": "Ditching Ship 30 for 30 for a digital garden so that my thoughts can grow",
+    "date": "2025-03-21T11:21:09.000Z",
+    "commitHash": "b5c19d3"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Less Headaches And Simpler Programs Using Pipes.mdx",
+    "slug": "less-headaches-and-simpler-programs-using-pipes",
+    "collection": "essays",
+    "title": "Less Headaches And Simpler Programs Using Pipes",
+    "date": "2025-03-18T16:39:52.000Z",
+    "linesChanged": 5,
+    "commitHash": "9cacbc9"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix.mdx",
+    "slug": "setting-up-a-repo-in-under-5-minutes-as-software-engineers-with-nix",
+    "collection": "essays",
+    "title": "Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix",
+    "date": "2025-03-18T16:39:52.000Z",
+    "linesChanged": 5,
+    "commitHash": "9cacbc9"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/3D Modeling with Code.mdx",
+    "slug": "3d-modeling-with-code",
+    "collection": "notes",
+    "title": "3D Modeling with Code",
+    "date": "2025-03-18T12:35:09.000Z",
+    "linesChanged": 6,
+    "commitHash": "ab94726"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Explaining Functional Programming.mdx",
+    "slug": "explaining-functional-programming",
+    "collection": "talks",
+    "title": "Explaining Functional Programming",
+    "date": "2025-03-15T12:19:13.000Z",
+    "linesChanged": 10,
+    "commitHash": "a99cf56"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Explaining Functional Programming.mdx",
+    "slug": "explaining-functional-programming",
+    "collection": "talks",
+    "title": "Explaining Functional Programming",
+    "date": "2025-03-15T11:48:48.000Z",
+    "linesChanged": 11,
+    "commitHash": "59fe5b6"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Programming, Simple.mdx",
+    "slug": "programming-simple",
+    "collection": "talks",
+    "title": "Programming, Simple",
+    "date": "2025-03-15T11:48:48.000Z",
+    "linesChanged": 7,
+    "commitHash": "59fe5b6"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Simple Development Environments with Nix.mdx",
+    "slug": "simple-development-environments-with-nix",
+    "collection": "talks",
+    "title": "Simple Development Environments with Nix",
+    "date": "2025-03-15T11:48:48.000Z",
+    "linesChanged": 26,
+    "commitHash": "59fe5b6"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things I regularly recommend to people.mdx",
+    "slug": "things-i-regularly-recommend-to-people",
+    "collection": "notes",
+    "title": "Things I Regularly Recommend To People",
+    "date": "2025-03-15T10:40:49.000Z",
+    "linesChanged": 12,
+    "commitHash": "d47900b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Are You A Knowledge Worker_ Establish This Habit To Become More Productive.mdx",
+    "slug": "are-you-a-knowledge-worker_-establish-this-habit-to-become-more-productive",
+    "collection": "essays",
+    "title": "Are You A Knowledge Worker? Establish This Habit To Become More Productive",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Does Your Repo's Getting Started Section Take More Than 10 Minutes_ Just Use Nix..mdx",
+    "slug": "does-your-repos-getting-started-section-take-more-than-10-minutes_-just-use-nix",
+    "collection": "essays",
+    "title": "Does Your Repo's Getting Started Section Take More Than 10 Minutes? Just Use Nix.",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/How I Would Structure My First Physics Semesters If I Went To University Again.mdx",
+    "slug": "how-i-would-structure-my-first-physics-semesters-if-i-went-to-university-again",
+    "collection": "essays",
+    "title": "How I Would Structure My First Physics Semesters If I Went To University Again",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/How Much Is Too Much_ The One Thing You Should Know About Drinking Water.mdx",
+    "slug": "how-much-is-too-much_-the-one-thing-you-should-know-about-drinking-water",
+    "collection": "essays",
+    "title": "How Much Is Too Much? The One Thing You Should Know About Drinking Water",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/How Taxation should work.mdx",
+    "slug": "how-taxation-should-work",
+    "collection": "essays",
+    "title": "How Taxation should work",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Less Headaches And Simpler Programs Using Pipes.mdx",
+    "slug": "less-headaches-and-simpler-programs-using-pipes",
+    "collection": "essays",
+    "title": "Less Headaches And Simpler Programs Using Pipes",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/OO and Components vs Functional Programming and .. what exactly_.mdx",
+    "slug": "oo-and-components-vs-functional-programming-and--what-exactly_",
+    "collection": "essays",
+    "title": "OO and Components vs Functional Programming and .. what exactly?",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix.mdx",
+    "slug": "setting-up-a-repo-in-under-5-minutes-as-software-engineers-with-nix",
+    "collection": "essays",
+    "title": "Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/The 2 Ways Merino T-Shirts Help You To Be More Minimalist.mdx",
+    "slug": "the-2-ways-merino-t-shirts-help-you-to-be-more-minimalist",
+    "collection": "essays",
+    "title": "The 2 Ways Merino T-Shirts Help You To Be More Minimalist",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/The 3 Strategies I Used To Remove Neck Pain From My Life.mdx",
+    "slug": "the-3-strategies-i-used-to-remove-neck-pain-from-my-life",
+    "collection": "essays",
+    "title": "The 3 Strategies I Used To Remove Neck Pain From My Life",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/This Is The Best Book I've Ever Read On Human Nature.mdx",
+    "slug": "this-is-the-best-book-ive-ever-read-on-human-nature",
+    "collection": "essays",
+    "title": "This Is The Best Book I've Ever Read On Human Nature",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Want To Learn Programming_ The 3 Pointers I Would Give To My 10-Years-Ago Self.mdx",
+    "slug": "want-to-learn-programming_-the-3-pointers-i-would-give-to-my-10-years-ago-self",
+    "collection": "essays",
+    "title": "Want To Learn Programming? The 3 Pointers I Would Give To My 10-Years-Ago Self",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Want To Start With Functional Programming_ This Is The Book You Should Read For A Smooth Entry, Clear Design, And Better Code In General.mdx",
+    "slug": "want-to-start-with-functional-programming_-this-is-the-book-you-should-read-for-a-smooth-entry-clear-design-and-better-code-in-general",
+    "collection": "essays",
+    "title": "Want To Start With Functional Programming? This Is The Book You Should Read For A Smooth Entry, Clear Design, And Better Code In General",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Why I Hate Dystopias.mdx",
+    "slug": "why-i-hate-dystopias",
+    "collection": "essays",
+    "title": "Why I Hate Dystopias",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Why Write, And Why In Public_.mdx",
+    "slug": "why-write-and-why-in-public_",
+    "collection": "essays",
+    "title": "Why Write, And Why In Public?",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Window Switching Made Simple.mdx",
+    "slug": "window-switching-made-simple",
+    "collection": "essays",
+    "title": "Window Switching Made Simple",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/3D Modeling with Code.mdx",
+    "slug": "3d-modeling-with-code",
+    "collection": "notes",
+    "title": "3D Modeling with Code",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Aspects of Problem Solving.mdx",
+    "slug": "aspects-of-problem-solving",
+    "collection": "notes",
+    "title": "Aspects of Problem Solving",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Building Communities.mdx",
+    "slug": "building-communities",
+    "collection": "notes",
+    "title": "Building Communities",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Progress is Hard Work.mdx",
+    "slug": "progress-is-hard-work",
+    "collection": "notes",
+    "title": "Progress is Hard Work",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Things I regularly recommend to people.mdx",
+    "slug": "things-i-regularly-recommend-to-people",
+    "collection": "notes",
+    "title": "Things I Regularly Recommend To People",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Things to Unlearn from School.mdx",
+    "slug": "things-to-unlearn-from-school",
+    "collection": "notes",
+    "title": "Things to Unlearn from School",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Which Functional Programming Language Should I Start With.mdx",
+    "slug": "which-functional-programming-language-should-i-start-with",
+    "collection": "notes",
+    "title": "Which Functional Programming Language Should I Start With?",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Writing is Thinking.mdx",
+    "slug": "writing-is-thinking",
+    "collection": "notes",
+    "title": "Writing is Thinking",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/talks/Explaining Functional Programming.mdx",
+    "slug": "explaining-functional-programming",
+    "collection": "talks",
+    "title": "Explaining Functional Programming",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/talks/Programming, Simple.mdx",
+    "slug": "programming-simple",
+    "collection": "talks",
+    "title": "Programming, Simple",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/talks/Simple Development Environments with Nix.mdx",
+    "slug": "simple-development-environments-with-nix",
+    "collection": "talks",
+    "title": "Simple Development Environments with Nix",
+    "date": "2025-03-15T10:09:54.000Z",
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Are You A Knowledge Worker_ Establish This Habit To Become More Productive.mdx",
+    "slug": "are-you-a-knowledge-worker_-establish-this-habit-to-become-more-productive",
+    "collection": "essays",
+    "title": "Are You A Knowledge Worker? Establish This Habit To Become More Productive",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 30,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Does Your Repo's Getting Started Section Take More Than 10 Minutes_ Just Use Nix..mdx",
+    "slug": "does-your-repos-getting-started-section-take-more-than-10-minutes_-just-use-nix",
+    "collection": "essays",
+    "title": "Does Your Repo's Getting Started Section Take More Than 10 Minutes? Just Use Nix.",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 32,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/How I Would Structure My First Physics Semesters If I Went To University Again.mdx",
+    "slug": "how-i-would-structure-my-first-physics-semesters-if-i-went-to-university-again",
+    "collection": "essays",
+    "title": "How I Would Structure My First Physics Semesters If I Went To University Again",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 37,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/How Much Is Too Much_ The One Thing You Should Know About Drinking Water.mdx",
+    "slug": "how-much-is-too-much_-the-one-thing-you-should-know-about-drinking-water",
+    "collection": "essays",
+    "title": "How Much Is Too Much? The One Thing You Should Know About Drinking Water",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 28,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/How Taxation should work.mdx",
+    "slug": "how-taxation-should-work",
+    "collection": "essays",
+    "title": "How Taxation should work",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 14,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Less Headaches And Simpler Programs Using Pipes.mdx",
+    "slug": "less-headaches-and-simpler-programs-using-pipes",
+    "collection": "essays",
+    "title": "Less Headaches And Simpler Programs Using Pipes",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 30,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/OO and Components vs Functional Programming and .. what exactly_.mdx",
+    "slug": "oo-and-components-vs-functional-programming-and--what-exactly_",
+    "collection": "essays",
+    "title": "OO and Components vs Functional Programming and .. what exactly?",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 11,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix.mdx",
+    "slug": "setting-up-a-repo-in-under-5-minutes-as-software-engineers-with-nix",
+    "collection": "essays",
+    "title": "Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 42,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/The 2 Ways Merino T-Shirts Help You To Be More Minimalist.mdx",
+    "slug": "the-2-ways-merino-t-shirts-help-you-to-be-more-minimalist",
+    "collection": "essays",
+    "title": "The 2 Ways Merino T-Shirts Help You To Be More Minimalist",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 32,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/The 3 Strategies I Used To Remove Neck Pain From My Life.mdx",
+    "slug": "the-3-strategies-i-used-to-remove-neck-pain-from-my-life",
+    "collection": "essays",
+    "title": "The 3 Strategies I Used To Remove Neck Pain From My Life",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 28,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/This Is The Best Book I've Ever Read On Human Nature.mdx",
+    "slug": "this-is-the-best-book-ive-ever-read-on-human-nature",
+    "collection": "essays",
+    "title": "This Is The Best Book I've Ever Read On Human Nature",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 25,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Want To Learn Programming_ The 3 Pointers I Would Give To My 10-Years-Ago Self.mdx",
+    "slug": "want-to-learn-programming_-the-3-pointers-i-would-give-to-my-10-years-ago-self",
+    "collection": "essays",
+    "title": "Want To Learn Programming? The 3 Pointers I Would Give To My 10-Years-Ago Self",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 33,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Want To Start With Functional Programming_ This Is The Book You Should Read For A Smooth Entry, Clear Design, And Better Code In General.mdx",
+    "slug": "want-to-start-with-functional-programming_-this-is-the-book-you-should-read-for-a-smooth-entry-clear-design-and-better-code-in-general",
+    "collection": "essays",
+    "title": "Want To Start With Functional Programming? This Is The Book You Should Read For A Smooth Entry, Clear Design, And Better Code In General",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 26,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Why I Hate Dystopias.mdx",
+    "slug": "why-i-hate-dystopias",
+    "collection": "essays",
+    "title": "Why I Hate Dystopias",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 10,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Why Write, And Why In Public_.mdx",
+    "slug": "why-write-and-why-in-public_",
+    "collection": "essays",
+    "title": "Why Write, And Why In Public?",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 24,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Window Switching Made Simple.mdx",
+    "slug": "window-switching-made-simple",
+    "collection": "essays",
+    "title": "Window Switching Made Simple",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 29,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/3D Modeling with Code.mdx",
+    "slug": "3d-modeling-with-code",
+    "collection": "notes",
+    "title": "3D Modeling with Code",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 18,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Aspects of Problem Solving.mdx",
+    "slug": "aspects-of-problem-solving",
+    "collection": "notes",
+    "title": "Aspects of Problem Solving",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 10,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Building Communities.mdx",
+    "slug": "building-communities",
+    "collection": "notes",
+    "title": "Building Communities",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 44,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Progress is Hard Work.mdx",
+    "slug": "progress-is-hard-work",
+    "collection": "notes",
+    "title": "Progress is Hard Work",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 14,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things I regularly recommend to people.mdx",
+    "slug": "things-i-regularly-recommend-to-people",
+    "collection": "notes",
+    "title": "Things I Regularly Recommend To People",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 78,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things to Unlearn from School.mdx",
+    "slug": "things-to-unlearn-from-school",
+    "collection": "notes",
+    "title": "Things to Unlearn from School",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 21,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Which Functional Programming Language Should I Start With.mdx",
+    "slug": "which-functional-programming-language-should-i-start-with",
+    "collection": "notes",
+    "title": "Which Functional Programming Language Should I Start With?",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 31,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Writing is Thinking.mdx",
+    "slug": "writing-is-thinking",
+    "collection": "notes",
+    "title": "Writing is Thinking",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 17,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Explaining Functional Programming.mdx",
+    "slug": "explaining-functional-programming",
+    "collection": "talks",
+    "title": "Explaining Functional Programming",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 98,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Programming, Simple.mdx",
+    "slug": "programming-simple",
+    "collection": "talks",
+    "title": "Programming, Simple",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 86,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Simple Development Environments with Nix.mdx",
+    "slug": "simple-development-environments-with-nix",
+    "collection": "talks",
+    "title": "Simple Development Environments with Nix",
+    "date": "2025-03-15T10:09:54.000Z",
+    "linesChanged": 142,
+    "commitHash": "c615c3b"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Es ist Zeit.mdx",
+    "slug": "es-ist-zeit",
+    "collection": "notes",
+    "title": "Es ist Zeit",
+    "date": "2025-03-07T17:17:08.000Z",
+    "commitHash": "700b128"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Navigating Through Content Space.mdx",
+    "slug": "navigating-through-content-space",
+    "collection": "notes",
+    "title": "Navigating Through Content Space",
+    "date": "2025-03-07T17:17:08.000Z",
+    "commitHash": "700b128"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/A Common Cause.mdx",
+    "slug": "a-common-cause",
+    "collection": "notes",
+    "title": "A Common Cause",
+    "date": "2025-03-01T21:08:16.000Z",
+    "commitHash": "fec7032"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/A Common Cause.mdx",
+    "slug": "a-common-cause",
+    "collection": "notes",
+    "title": "A Common Cause",
+    "date": "2025-03-01T21:08:16.000Z",
+    "linesChanged": 27,
+    "commitHash": "fec7032"
   }
 ]
