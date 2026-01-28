@@ -22,6 +22,24 @@ const ROOT = join(__dirname, '..')
 const UPDATES_FILE = join(ROOT, 'src/data/content-updates.json')
 const CONTENT_DIR = 'src/content'
 
+/**
+ * Unquote and unescape git's quoted filenames
+ * Git quotes paths with special characters and escapes them as octal (e.g., \342\200\224 for em dash)
+ */
+function unquoteGitPath(path) {
+  if (!path.startsWith('"') || !path.endsWith('"')) {
+    return path
+  }
+  // Remove surrounding quotes
+  let unquoted = path.slice(1, -1)
+  // Unescape octal sequences (e.g., \342\200\224 -> UTF-8 bytes -> character)
+  unquoted = unquoted.replace(/\\([0-7]{3})/g, (_, octal) => {
+    return String.fromCharCode(parseInt(octal, 8))
+  })
+  // Convert the Latin-1 string (byte values) to proper UTF-8
+  return Buffer.from(unquoted, 'latin1').toString('utf-8')
+}
+
 // Collections to track (excludes stream itself)
 const TRACKED_COLLECTIONS = ['notes', 'essays', 'knowledge', 'talks']
 
@@ -90,7 +108,10 @@ function getNewContent() {
     const [hash, dateStr] = commitInfo.split('|')
     const commitDate = new Date(dateStr)
 
-    for (const file of files) {
+    for (let file of files) {
+      // Handle git's quoted paths for special characters
+      file = unquoteGitPath(file)
+
       // Only track specific collections
       const collectionMatch = file.match(
         new RegExp(`^${CONTENT_DIR}/(${TRACKED_COLLECTIONS.join('|')})/(.+)\\.mdx$`),
@@ -145,7 +166,10 @@ function getSignificantUpdates() {
     // Skip commits that look like typo fixes
     if (/fix(es|ed)?\s*(typo|spelling|grammar)/i.test(message)) continue
 
-    for (const file of files) {
+    for (let file of files) {
+      // Handle git's quoted paths for special characters
+      file = unquoteGitPath(file)
+
       // Only track specific collections
       const collectionMatch = file.match(
         new RegExp(`^${CONTENT_DIR}/(${TRACKED_COLLECTIONS.join('|')})/(.+)\\.mdx$`),
