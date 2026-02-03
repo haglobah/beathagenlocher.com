@@ -1,6 +1,15 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Bun.mdx",
+    "slug": "bun",
+    "collection": "notes",
+    "title": "Bun",
+    "date": "2026-02-03T14:51:24.000Z",
+    "commitHash": "014ee34"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Auth.mdx",
     "slug": "auth",
     "collection": "notes",

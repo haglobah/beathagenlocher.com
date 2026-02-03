@@ -1,0 +1,28 @@
+---
+title: "Bun"
+description: "The all-in-one JS thingy"
+growthStage: seedling
+startDate: 2026-02-03T14:33:56Z
+updated: 2026-02-03T14:33:56Z
+topics: [bun, JavaScript, TypeScript]
+publish: true
+---
+
+# TypeScript
+
+Don't forget to install your types:
+
+```shell
+bun install @bun/types
+```
+
+And then, add them to your `tsconfig.json`:
+
+```json title=tsconfig.json
+{
+  "compilerOptions": {
+    "types": ["node", "types/bun"],
+    "skipLibCheck": true,
+    }
+}
+```
