@@ -1,0 +1,27 @@
+---
+title: "Auth"
+description: "Passwords, OAuth, OIDC, and whatever"
+growthStage: seedling
+startDate: 2026-02-03T10:49:36Z
+updated: 2026-02-03T10:49:36Z
+topics: [Auth, Authn, Authz, OAuth, OIDC, PKCE]
+publish: true
+---
+
+Over the last few days, I've plunged into finally trying to understand how all of this Auth stuff works.
+
+(The landscape of Acronyms is almost as bad as with the [CORS one](https://www.youtube.com/watch?v=0YJ-yhoJh2I))
+
+These are the videos/sites I would've liked to find from the beginning on:
+
+- [The Auth Wiki from Logto](https://auth-wiki.logto.io/), but only as a reference whenever some word is unclear (though that has duplicate pages for some reason)
+- [Illustrated Guide to OAuth and OIDC (Youtube)](https://www.youtube.com/watch?v=t18YB3xDfXI)
+- [Everything you ever wanted to know about OAuth and OICD](https://www.youtube.com/watch?v=8aCyojTIW6U) (though the mentions OAuth playground is currently broken, or so it seems)
+- [OAuth 2 Simplified (Blog Post)](https://aaronparecki.com/oauth-2-simplified/), which has been expanded into [OAuth 2 Simplified (Book)](https://www.oauth.com/oauth2-servers/getting-ready/)
+
+# Not super-intuitive stuff
+
+- A normal web client shouldn't have a client secret (makes sense if you think about it), and needs to use [[PKCE]]
+- OAuth is only about _Authorization_ (read: Authorizing the service you're currently logging in to to access some resources on another service), OpenId Connect (OIDC) adds _Authentication_ (read: telling the service you're currently logging into who you are) to this.
+- In my head, every service supporting OAuth (or OIDC, at least) also supported something called "Public Sign Up". But that's not the case, most of them actually don't (which makes sense, because _Authorization_ and _Registration_ don't even belong to the same area)
+
