@@ -1,5 +1,14 @@
 [
   {
+    "type": "new",
+    "file": "src/content/notes/Clan.mdx",
+    "slug": "clan",
+    "collection": "notes",
+    "title": "Clan",
+    "date": "2026-02-03T10:34:23.000Z",
+    "commitHash": "18269f2"
+  },
+  {
     "type": "update",
     "file": "src/content/essays/Setting Up A Repo In Under 5 Minutes As Software Engineers With Nix.mdx",
     "slug": "setting-up-a-repo-in-under-5-minutes-as-software-engineers-with-nix",
