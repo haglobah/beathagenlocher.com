@@ -7,6 +7,9 @@ setup:
 [parallel]
 dev: astro bsky-server
 
+track args="":
+    npm run track-updates -- {{ args }}
+
 astro:
     npm run dev
 

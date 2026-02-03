@@ -3,7 +3,7 @@
 /**
  * Scans git history for new content and significant updates, adds them to content-updates.json
  *
- * Usage: node scripts/track-updates.js [--since=30] [--threshold=20] [--dry-run]
+ * Usage: node scripts/track-updates.js [--since=30] [--threshold=10] [--dry-run]
  *
  * Options:
  *   --since=N      Look back N days (default: 30)
@@ -229,7 +229,9 @@ function getSignificantUpdates() {
  * Main
  */
 function main() {
-  console.log(`Scanning git history (last ${sinceDays} days, threshold: ${threshold} lines)...\n`)
+  console.log(
+    `Scanning git history (last --since=${sinceDays} days, threshold: --threshold=${threshold} lines)...\n`,
+  )
 
   // Load existing entries
   let existing = []
