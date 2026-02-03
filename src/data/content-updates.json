@@ -1,6 +1,15 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Auth.mdx",
+    "slug": "auth",
+    "collection": "notes",
+    "title": "Auth",
+    "date": "2026-02-03T14:31:13.000Z",
+    "commitHash": "86786ab"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Clan.mdx",
     "slug": "clan",
     "collection": "notes",
