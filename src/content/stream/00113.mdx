@@ -1,0 +1,49 @@
+---
+title: "Bun ❤️ sqlite"
+startDate: 2026-02-03T11:41:10Z
+topics: [TIL, bun, TypeScript, Javascript]
+publish: true
+---
+
+Today I learned that [[Bun]] has a [sqlite db driver built in](https://bun.com/docs/runtime/sqlite).
+
+That's pretty cool.
+
+```js
+import { Database } from 'bun:sqlite'
+
+const setup = () => {
+  const db = new Database('mydb.sqlite', { create: true })
+
+  const createUsers = db.query(`
+CREATE TABLE users (
+  id string PRIMARY KEY,
+  name integer NOT NULL)
+`)
+  createUsers.run()
+
+  const addUser = db.query(`
+INSERT INTO users (id, name) VALUES (?, ?)
+`)
+
+  addUser.run('qwfparstoienarst', 'beat')
+  db.close(false)
+}
+
+const main = () => {
+  const db = new Database('mydb.sqlite')
+
+  const selectUsers = db.query('select * from users')
+
+  console.log(selectUsers.all())
+
+  db.close(false)
+}
+
+// First:
+// setup()
+// Then:
+main()
+```
+
+:)
