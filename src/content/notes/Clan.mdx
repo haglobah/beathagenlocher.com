@@ -1,0 +1,49 @@
+---
+title: "Clan"
+description: "A NixOS fleet management tool"
+growthStage: seedling
+startDate: 2026-02-03T10:04:48Z
+updated: 2026-02-03T10:04:48Z
+topics: [NixOS, Clan, Infrastructure as Code, Selfhosting]
+publish: true
+---
+
+_The_ tool to manage homelabs.
+
+Provides a really nice CLI over standard [[NixOS]] stuff, like setting up a new server, `ssh`ing onto the server, handling secrets management for all of your machines, setting up users everywhere, backing up state from your machines, and so on.
+
+`Clan services` (services that span multiple machines are also pretty nice.)
+
+Secrets are handled via the `var` abstraction. This lets us write _generators_ for secrets so that they mostly already come prepackaged with the service one is using.
+
+# Useful commands
+
+```yaml
+machines: [formenos]
+```
+
+## ssh onto a machine
+
+```shell
+clan ssh formenos
+```
+
+## Show machines
+
+```shell
+clan machines list
+```
+
+## Update a machine
+
+```shell
+clan machines update formenos
+```
+
+## Show the value of a secret
+
+```shell
+clan vars list formenos
+# (pick one)
+clan vars list root-password/password
+```
