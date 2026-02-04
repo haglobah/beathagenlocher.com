@@ -8,10 +8,10 @@ setup:
 dev: astro bsky-server
 
 track args="":
-    npm run track-updates -- {{ args }}
+    bun run track-updates -- {{ args }}
 
 astro:
-    npm run dev
+    bun run dev
 
 bsky-server:
     cd bsky-post-server && bun run dev

@@ -3,12 +3,12 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "v": "astro dev --verbose",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "track-updates": "node scripts/track-updates.js"
+    "dev": "bunx --bun astro dev",
+    "v": "bunx --bun astro dev --verbose",
+    "build": "bunx --bun astro build",
+    "preview": "bunx --bun astro preview",
+    "astro": "bunx --bun astro",
+    "track-updates": "bun scripts/track-updates.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
