@@ -1,0 +1,69 @@
+---
+title: "TypeScript Macros"
+startDate: 2026-02-04T23:07:15Z
+topics: [TypeScript, Macros, Functional Programming, Immutable.js]
+publish: true
+---
+
+Today I've been playing around with [[Immutable.js]] as a library that supplies immutable collection for [[JavaScript]] and [[TypeScript]].
+
+Something that's relatively annoying at first sight (cause _verbose_) is how they handle typed Objects (_Records_).
+
+I'm not completely sure yet, but I _think_ in [[TypeScript]] you want to declare sums of products using those records something like this:
+
+```js
+import { Record } from 'immutable'
+
+type IdleT = { kind: 'Idle' }
+type Idle = Record<IdleT>
+const Idle = Record<IdleT>({ kind: 'Idle' })
+
+type TrackT = { id: string; url: string; title: string }
+type Track = Record<TrackT>
+const Track = Record<TrackT>({ id: '', url: '', title: '' })
+
+type LoadingT = { kind: 'Loading'; track: Track }
+type Loading = Record<LoadingT>
+const Loading = Record<LoadingT>({ kind: 'Loading', track: Track() })
+// ..
+
+export type State = Idle | Loading // | ..
+```
+
+This is, compared to
+
+```js
+export type Track = { id: string; url: string; title: string }
+
+type Idle = { kind: 'Idle' }
+type Loading = { kind: 'Loading'; track: Track }
+// ..
+
+
+export type State = Idle | Loading // | ..
+```
+
+quite the feat syntax-wise.
+
+It can be alleviated a bit by doing something like this:
+
+```js
+
+export const makeRecord = <T extends object>(defaults: T) => Record<T>(defaults)
+
+const Idle = makeRecord({ kind: 'Idle' as const })
+type Idle = RetureType<typeof Idle>
+```
+
+But even that is still double the code and more mental workload payed as a price for immutability.
+
+So I wondered:
+
+> Are there people writing [[Macros]] in TypeScript?
+
+And as it turns out, there are:
+
+- [ts-macros](https://github.com/GoogleFeud/ts-macros?tab=readme-ov-file)
+- [macro-ts](https://blainehansen.me/post/macro-ts/)
+
+But nope, I'm not gonna use them.
