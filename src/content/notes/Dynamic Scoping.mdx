@@ -10,7 +10,7 @@ publish: true
 
 > [[Lexical Scoping]] refers to when the location of a function's definition determines which variables you have access to. On the other hand, [[Dynamic Scoping]] uses the location of the function's invocation to determine which variables are available.
 
-```racket
+```racket title=dyn-scope.rkt
 #lang smol/dyn-scope-is-bad
 
 (defvar y 2)
@@ -22,10 +22,14 @@ publish: true
 (times-2 2)
 ```
 
+Evaluation:
+
 ```racket
 6
 4
 ```
+
+Well, this is bad.
 
 <References>
 <ReferenceLink href="https://youtu.be/b1MvKYHCdno?si=O6qEgfY2QtH_HtqG&t=2330">Programming Languages Lectures</ReferenceLink>
