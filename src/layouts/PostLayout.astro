@@ -15,12 +15,22 @@ const unpublishedStyle = unpublished ? 'opacity-60' : ''
 <div class="post f-mb-2xl f-px-sm mx-auto max-w-[65ch]">
   <div class="f-mb-2xl flex flex-col items-center gap-4">
     <StageIcon stage={frontmatter.growthStage as 'seedling' | 'budding' | 'evergreen'} />
-    {unpublished && <div class="italic text-center">This Note isn't published yet. <br>
-      It's at most half done, and it's probably confusing to read. <br>
-      It might be a good idea to come back later.<br>
-      Alternatively, you can <Il href="contacting-me">prod me to write it</Il>.</div>}
+    {
+      unpublished && (
+        <div class="italic text-center">
+          This Note isn't published yet. <br />
+          It's at most half done, and it's probably confusing to read. <br />
+          It might be a good idea to come back later.
+          <br />
+          Alternatively, you can <Il href="contacting-me">prod me to write it</Il>.
+        </div>
+      )
+    }
     <div class:list={['f-pb-sm border-b-3 border-zinc-400', unpublishedStyle]}>
       <h1 class="f-text-2xl font-light font-headline">{frontmatter.title}</h1>
+      <div class="max-w-md my-2 italic opacity-90">
+        {frontmatter.description !== '' && frontmatter.description}
+      </div>
       <div class="mt-4 flex justify-around flex-wrap-reverse gap-2">
         <span class="flex justify-center gap-3">
           Started <Ago when={frontmatter.startDate} format="" />
