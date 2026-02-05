@@ -126,6 +126,12 @@ declare global {
         ui_host: 'https://eu.i.posthog.com',
         defaults: '2025-05-24',
         person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+        session_recording: {
+          maskAllInputs: false,
+          maskInputOptions: {
+            password: true,
+          },
+        },
       })
     </script>
   </head>
