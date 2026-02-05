@@ -15,7 +15,7 @@ import expressiveCode from 'astro-expressive-code'
 
 const permalinks = getPermalinks('src/content/')
   .map((el) => {
-    let contentTitle = el.split('/')[1]
+    let contentTitle = el.split('/').pop()
     return contentTitle
   })
   .filter((el) => el)
