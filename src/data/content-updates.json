@@ -1,6 +1,24 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Dynamic Scoping.mdx",
+    "slug": "dynamic-scoping",
+    "collection": "notes",
+    "title": "Dynamic Scoping",
+    "date": "2026-02-05T10:46:12.000Z",
+    "commitHash": "21d36d7"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Macros.mdx",
+    "slug": "macros",
+    "collection": "notes",
+    "title": "Macros",
+    "date": "2026-02-05T10:46:12.000Z",
+    "commitHash": "21d36d7"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Bun.mdx",
     "slug": "bun",
     "collection": "notes",

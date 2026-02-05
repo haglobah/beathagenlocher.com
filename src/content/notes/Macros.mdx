@@ -1,0 +1,107 @@
+---
+title: "Macros"
+description: "Code that writes Code (so AI, basically)"
+growthStage: seedling
+startDate: 2026-01-17T17:41:59Z
+updated: 2026-02-05T10:32:00Z
+topics: [Lisp, Racket, Emacs, Clojure, DSLs, Common Lisp, Rust]
+publish: true
+---
+
+The idea is pretty simple:
+
+We write code, and sometimes we repeat ourselves there. So why not write code that abstracts over this repetition?
+
+That is what _Macros_ are.
+
+# C Macros
+
+The lowest sophistication level (and the worst to work with) is something like C preprocessor macros. There, you do the easiest thing possible: A string replacement over the full following program text, irrespective of anything else.
+
+So a Macro in C has this type signature:
+
+```haskell
+CMacro :: String -> String
+```
+
+---
+
+```c title=simple.c
+#define LALA "hohohoho"
+
+char laugh[] = LALA
+```
+
+->
+
+```c title=simple.c
+char laugh[] = "hohohoho"
+```
+
+A standard C Macro usage looks like this:
+
+```c title=min.c
+#define min(X, Y)  ((X) < (Y) ? (X) : (Y))
+  x = min(a, b);          →  x = ((a) < (b) ? (a) : (b));
+  y = min(1, 2);          →  y = ((1) < (2) ? (1) : (2));
+  z = min(a + 28, *p);    →  z = ((a + 28) < (*p) ? (a + 28) : (*p));
+```
+
+But since this is just doing straight string replacement, anything can happen (There's just no rules whatsoever for the expansion, so you can have unbalanced parentheses and other weird stuff).
+
+They're still powerful, and you probably want to use them in [[C]], but we can do better.
+
+# Lisp Macros
+
+Lisp Macros do better: They're not doing string replacement, but operate on the _syntax tree_.
+
+```haskell
+LispMacro :: Syntax -> Syntax
+```
+
+The also have a second pretty helpful property: They use _the same syntax as the base language_.
+So their type is actually this:
+
+```haskell
+LispMacro :: LispSyntax -> LispSyntax
+```
+
+This is what they look like:
+
+```lisp
+> (defmacro the-macro (a b)
+  `(+ ,a (* ,b 3)))
+
+> (the-macro 4 5) ;; => 19
+```
+
+This makes them way more generally useful (for example)
+
+But they, too, have a problem: They're not _hygienic_.
+
+That is, they're introducing variables into their target program that could be referenced both from the inside and outside.
+
+This possibly couples the macro source code to the location it's being used in, which, if you squint, is the one unambigiously bad (default) feature in programming languages (again): [[Dynamic Scoping]]
+
+There's an easy fix for this, however: [gensym](https://gigamonkeys.com/book/macros-defining-your-own#plugging-the-leaks)
+
+But this makes for a relatively bad default, and we shouldn't rely on programmers knowing all the ways in which they could fuck up, and then having the mental workload left to fix them.
+
+<Draft>
+
+# Scheme Macros
+
+Scheme was the first language that didn't have the problem of accidental scope leaking. They introduced _hygienic macros_.
+
+
+
+# Racket Macros
+
+[[Racket]] escalates this completely, and has facilities to define whole new languages.
+
+</Draft>
+
+# Notes
+
+- I've skipped [procedural macros](https://en.wikipedia.org/wiki/Macro_(computer_science)#Procedural_macros) (never heard of them before)
+- Damn, are those AI Memos badly scanned sometimes: https://dspace.mit.edu/bitstream/handle/1721.1/6111/AIM-057.pdf?sequence=2&isAllowed=y

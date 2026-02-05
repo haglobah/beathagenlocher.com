@@ -1,0 +1,33 @@
+---
+title: "Dynamic Scoping"
+description: "The one unambigiously bad design choice in programming languages."
+growthStage: seedling
+startDate: 2026-02-05T00:14:20Z
+updated: 2026-02-05T00:14:20Z
+topics: [Racket, Lisp, Programming Languages, Lexical Scoping]
+publish: true
+---
+
+> [[Lexical Scoping]] refers to when the location of a function's definition determines which variables you have access to. On the other hand, [[Dynamic Scoping]] uses the location of the function's invocation to determine which variables are available.
+
+```racket
+#lang smol/dyn-scope-is-bad
+
+(defvar y 2)
+(deffun (times-2 x)
+    (* y x))
+
+(let ([y 3])
+  (times-2 2))
+(times-2 2)
+```
+
+```racket
+6
+4
+```
+
+<References>
+<ReferenceLink href="https://youtu.be/b1MvKYHCdno?si=O6qEgfY2QtH_HtqG&t=2330">Programming Languages Lectures</ReferenceLink>
+<ReferenceLink href="https://www.plai.org/3/2/PLAI%20Version%203.2.2%20printing.pdf"><KB>Ctrl+f</KB> for 'dynamic scope'</ReferenceLink>
+</References>
