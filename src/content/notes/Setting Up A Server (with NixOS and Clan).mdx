@@ -1,0 +1,71 @@
+---
+title: "Setting Up A Server (with NixOS and Clan)"
+description: ""
+growthStage: seedling
+startDate: 2026-02-11T01:15:59Z
+updated: 2026-02-12T19:10:43Z
+topics: [ssh, The Internet, IP]
+publish: true
+---
+
+# 1. Getting the server
+
+As with most things, setting up a server is relatively straighforward once you know what you're doing.
+
+So, what you want is:
+
+- a machine that runs on the internet for you, awaiting your requests and which
+- you can reach from anywhere.
+
+Since both the 'is reachable' and the 'runs constantly' parts are relatively hard to provide when you're just starting out (and probably only have a laptop/phone), you want to go to someone who's _job_ is to provide these two things for this (That's called a _Hosting Provider_).
+
+For starting out, the thing you're looking for is the cheapest option of a _Virtual Private Server_ (called VPS).
+
+So for finding what you're looking for, google something like `hosting provider vps cheap reddit`, and see what's currently in store.
+
+(This should be about 5€/month)
+
+Then go onto the site of your choice, create an account, and rent the VPS you want.
+
+For Hetzner in 02/2026 (the provider I'm currently using), this is something like:
+
+- [x] Cost-optimized
+- [x] CX23
+- [x] Somewhere in the EU, preferably close to where you are
+- [x] Ubuntu (but we're gonna change that later)
+- [x] both a IPv4 and IPv6
+- [ ] your _ssh keys_ (You might be wondering: What are _those_?)
+- [x] and a name
+
+That's it.
+
+> Except for the ssh keys.
+
+## Generating ssh keys
+
+An _ssh key_ is a thing you can use to verify you're you to someone else.
+
+For now, the only thing that's important about them is that our server can let us login without a password if we have the correct ssh key available on our system.
+
+So what we need to do is generating a key pair (a private key with a matching public 'lock', confusingly also called a key), and then depositing the _public_ key  of the pair (so the _lock_) on the server.  
+With this, the server will be able to tell that we're allowed to login whenever we log in from a system that has the private key of this specific key pair.
+
+With this knowledge:
+
+<Il href="/setting-up-git#1-generating-the-ssh-key-pair">Generate the ssh key pair</Il>
+
+And then upload the public key to the hetzner.
+
+You can check that everything worked by `ssh`ing onto your server:
+
+If you're _not_ prompted for a password, everything worked.
+
+# 2. Put NixOS on the server with Clan
+
+Now for the important part. Just having a server means manual, stateful configuration, and we're not going to do that.
+
+Instead, we're going to use NixOS with Clan.
+
+Follow [Creating your first Clan](https://docs.clan.lol/main/getting-started/creating-your-first-clan/).
+
+And that's it.

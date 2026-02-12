@@ -1,0 +1,133 @@
+---
+title: "Setting Up Immich On NixOS with Clan"
+description: ""
+growthStage: seedling
+startDate: 2026-02-08T22:18:18Z
+updated: 2026-02-12T19:10:59Z
+topics: [NixOS, Clan, Immich, Hetzner Storage Box, Samba/CIFS, File System Mount]
+publish: true
+---
+
+Today, I spent some time getting my photo setup together, (and away from manually uploading them to my storage box from time to time 😬).
+
+So I've decided I'd give [[Immich]] (as a self-hostable photo solution on my server) a try.
+
+<Callout type="info">
+In case you don't know yet how to get and set up a server, take a look here: [[Setting Up A Server (with NixOS and Clan)]]
+</Callout>
+
+# Setting up Immich
+
+Setting [[Immich]] up with [[NixOS]] is relatively straightforward, at least at [first glance](https://sgt.hootr.club/blog/immich-setup/):
+
+```nix
+services.immich = {
+  enable = true;
+  host = "photos.example.ts.net";
+};
+```
+
+But since I'm not running a Tailscale network (yet, I guess?), I need to make my immich service reachable from the outside.
+
+This looks like this:
+
+```nix
+services.immich = {
+  enable = true;
+};
+
+services.caddy = {
+  enable = true;
+  virtualHosts."photos.your.domain" = {
+  extraConfig = ''
+    reverse_proxy 127.0.0.1:2283
+  '';
+  };
+};
+```
+
+<Callout type="info">
+For this to work, you need to:
+
+- own a domain
+- set a DNS A record to `photos` -> "IPv4 IP of your server", e.g. `1.12.234.45`
+
+If you don't know how to do that, take a look here: [[Setting A DNS Record On A Domain]]
+</Callout>
+
+Now we've got a machine running Immich that's reachable from the outside via a domain.
+
+Meaning: You should be able to go to `https://photos.your.domain`, and see the Immich login screen.
+
+So that's it—almost.
+
+# Mounting a storage box
+
+We've still got one problem:
+
+The machine this is running on is the smallest Hetzner VPS: powerful enough to run [[Immich]], but not large enough to host all the photos.  
+It's got only 40GB of disk space, and upgrading that gets expensive fast.  
+So you probably don't want to store photos on there.
+
+Thankfully, Hetzner also has a service called a _Storage Box_.
+
+A Storage Box has the opposite characteristics to a VPS: It's pretty cheap per TB, but you can't really run anything on it.  
+So, let's match the two.
+
+What we're going to do is the following:
+
+We will mount the storage box as a file system into the folder in which Immich is going to store its data in.
+
+For this, you need to:
+
+1. Have a Storage Box (so [rent one](https://www.hetzner.com/storage/storage-box/))
+2. Create a new sub-account (with corresponding subfolder) on it. _Save the password for this into your password manager_
+3. Mount the subfolder into our server
+
+Mounting the subfolder looks like this:
+
+<Draft>
+
+```nix
+services.immich = {
+  enable = true;
+};
+
+services.caddy = {
+  enable = true;
+  virtualHosts."photos.your.domain" = {
+  extraConfig = ''
+    reverse_proxy 127.0.0.1:2283
+  '';
+  };
+};
+environment.systemPackages = [ pkgs.cifs-utils ];
+fileSystems."/var/lib/immich" = {
+  device = "//uXXXXXX-subX.your-storagebox.de/uXXXXXX-subX";
+  fsType = "cifs";
+  options = [
+    "x-systemd.automount"
+    "noauto"
+    "x-systemd.device-timeout=5s"
+    "x-systemd.mount-timeout=5s"
+    "credentials=${config.clan.core.vars.generators.storagebox-immich-secret.files."credentials".path}"
+    "uid=immich"
+    "gid=immich"
+  ];
+};
+```
+
+- vars setup
+- add the secret to vars
+
+- issues
+  - immich can't write or read the files
+  - with disabled machine learning the server dies, and I don't know why
+
+</Draft>
+
+# Notes
+
+<References>
+<ReferenceLink href="https://forums.linuxmint.com/viewtopic.php?t=333084">Samba Storage Share </ReferenceLink>
+</References>

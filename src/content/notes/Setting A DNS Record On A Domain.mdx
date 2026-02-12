@@ -1,0 +1,27 @@
+---
+title: "Setting A DNS Record On A Domain"
+description: ""
+growthStage: seedling
+startDate: 2026-02-11T01:33:56Z
+updated: 2026-02-12T19:10:33Z
+topics: [DNS, Domain, Cloudflare]
+publish: true
+---
+
+For doing this, you first need to own a Domain.
+
+You can do this for example at Cloudflare: https://developers.cloudflare.com/registrar/get-started/register-domain/
+
+But seriously, just go with whatever "domain registar reddit" suggests when you're reading this.
+
+After having a domain registered, you can add a DNS record to this domain.
+
+Let's say you have a server with a public IP (like `1.12.234.45`), and want to have a service available on "photos.your.domain". Then you need to do this:
+
+1. Choose the A record type
+2. Set the name to "photos"
+3. Set the IPv6 address to `1.12.234.45`
+
+And that's it. :)
+
+Again for Cloudflare: https://developers.cloudflare.com/dns/manage-dns-records/how-to/create-dns-records/

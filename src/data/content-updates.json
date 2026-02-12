@@ -1,6 +1,33 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Setting A DNS Record On A Domain.mdx",
+    "slug": "setting-a-dns-record-on-a-domain",
+    "collection": "notes",
+    "title": "Setting A DNS Record On A Domain",
+    "date": "2026-02-12T19:11:39.000Z",
+    "commitHash": "5da0cb7"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Setting Up A Server (with NixOS and Clan).mdx",
+    "slug": "setting-up-a-server-with-nixos-and-clan",
+    "collection": "notes",
+    "title": "Setting Up A Server (with NixOS and Clan)",
+    "date": "2026-02-12T19:11:39.000Z",
+    "commitHash": "5da0cb7"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Setting Up Immich On NixOS with Clan.mdx",
+    "slug": "setting-up-immich-on-nixos-with-clan",
+    "collection": "notes",
+    "title": "Setting Up Immich On NixOS with Clan",
+    "date": "2026-02-12T19:11:39.000Z",
+    "commitHash": "5da0cb7"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Dynamic Scoping.mdx",
     "slug": "dynamic-scoping",
     "collection": "notes",
