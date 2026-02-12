@@ -1,0 +1,50 @@
+---
+title: "Setting Up kanidm with services.kanidm On NixOS (with Clan)"
+description: ""
+growthStage: seedling
+startDate: 2026-02-03T09:51:20Z
+updated: 2026-02-03T09:51:22Z
+topics: [Identity Management, kanidm, NixOS, clan]
+publish: false
+---
+
+Let's start with the basics:
+
+There's [Williams' walkthrough](https://www.youtube.com/watch?v=R73hvFWQ7f8)
+
+But that's all cli.
+
+Let's do better and use the `services.kanidm`.
+
+That breaks immediately, cause wrong version.
+
+Then there's two versions: with provisioning and without.
+
+That's because will doesn't like us to store passwords anywhere except for in kanidm, cause people are stupid.
+
+But we aren't, we're on [[Nix]], secret management is our thing.
+
+(Could use sops-nix/agenix, whatever, or just [vars]() from [[Clan]])
+
+So for now, let's just assume we have any secret management solution, and insert the secret like this:
+
+```nix
+"${config....}"
+```
+
+kanidm has a few non-obvious caveats in the beginning:
+There's two admin users: admin@"domain.com", and idm_admin@"domain.com"
+
+We need to supply _both_.
+
+Now that we have them, we need users.
+
+(don't want to to that via cli either, so we add them per config)
+
+This works like this:
+
+```nix
+
+services.kanidm
+
+```

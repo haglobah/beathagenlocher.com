@@ -1,6 +1,15 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Setting Up kanidm On NixOS with Clan.mdx",
+    "slug": "setting-up-kanidm-on-nixos-with-clan",
+    "collection": "notes",
+    "title": "Setting Up kanidm with services.kanidm On NixOS (with Clan)",
+    "date": "2026-02-12T19:13:30.000Z",
+    "commitHash": "c155527"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Setting A DNS Record On A Domain.mdx",
     "slug": "setting-a-dns-record-on-a-domain",
     "collection": "notes",
