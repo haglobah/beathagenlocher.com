@@ -1,16 +1,7 @@
 ---
+import AgoClient from './AgoClient'
+
 const { when, format = 'mini-now' } = Astro.props
-
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
-
-TimeAgo.setDefaultLocale(en.locale)
-TimeAgo.addLocale(en)
-
-const timeAgo = new TimeAgo('en-US')
-const ago = when ? timeAgo.format(when, format) : null
 ---
 
-<span class="font-mono text-cornflower">
-  {ago}
-</span>
+<AgoClient client:load when={when} format={format} />
