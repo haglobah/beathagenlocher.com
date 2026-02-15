@@ -1,6 +1,24 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Cognitive Debt.mdx",
+    "slug": "cognitive-debt",
+    "collection": "notes",
+    "title": "Cognitive Debt",
+    "date": "2026-02-15T17:12:24.000Z",
+    "commitHash": "3093ad5"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Setting Up Audiobookshelf on NixOS with Clan.mdx",
+    "slug": "setting-up-audiobookshelf-on-nixos-with-clan",
+    "collection": "notes",
+    "title": "Setting Up Audiobookshelf on NixOS with Clan",
+    "date": "2026-02-12T19:14:12.000Z",
+    "commitHash": "3039bd8"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Setting Up kanidm On NixOS with Clan.mdx",
     "slug": "setting-up-kanidm-on-nixos-with-clan",
     "collection": "notes",
