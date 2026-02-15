@@ -1,6 +1,15 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Harness Engineering.mdx",
+    "slug": "harness-engineering",
+    "collection": "notes",
+    "title": "Harness Engineering",
+    "date": "2026-02-15T23:35:26.000Z",
+    "commitHash": "66709a4"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Cognitive Debt.mdx",
     "slug": "cognitive-debt",
     "collection": "notes",
