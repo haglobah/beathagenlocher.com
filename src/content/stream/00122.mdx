@@ -1,0 +1,20 @@
+---
+title: "litecli"
+startDate: 2026-02-15T16:56:14Z
+topics: [TIL, sqlite]
+publish: true
+---
+
+After getting annoyed by the default sqlite Command Line Interface (it doesn't even support `arrow up` ≙ last typed command), I found [`litecli`](https://github.com/dbcli/litecli)
+
+```nix title=flake.nix
+# ...
+packages = [
+# ...
+   pkgs.litecli
+# ...
+];
+# ...
+```
+
+in every sqlite project from now on :)
