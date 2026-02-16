@@ -100,7 +100,6 @@ Key functions in `src/content/content.ts`:
 ### Analytics & Tracking
 
 The site includes:
-- Umami (privacy-friendly analytics)
 - PostHog (product analytics and session recording)
 - Custom OG image generation at `/og/[...slug].png`
 
