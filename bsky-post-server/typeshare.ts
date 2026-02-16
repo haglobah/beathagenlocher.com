@@ -43,7 +43,7 @@ const execPath =
 // Pure Functions
 // ============================================================================
 
-const computeClip = (
+export const computeClip = (
   box: Box,
   padding: Padding,
   fadeStart: number,
@@ -64,7 +64,7 @@ const computeClip = (
   }
 }
 
-const buildFadeOverlayStyle = (top: number, height: number): string => `
+export const buildFadeOverlayStyle = (top: number, height: number): string => `
   position: absolute;
   top: ${top}px;
   left: 0;
