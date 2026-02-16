@@ -1,6 +1,3 @@
-import type { BunFile } from 'bun'
-import * as util from 'util'
-
 // ============================================================================
 // Result Type - Explicit error handling
 // ============================================================================
@@ -9,14 +6,6 @@ export type Result<T, E = Error> = { ok: true; value: T } | { ok: false; error: 
 
 export const ok = <T>(value: T): Result<T, never> => ({ ok: true, value })
 export const err = <E>(error: E): Result<never, E> => ({ ok: false, error })
-
-export const mapResult = <T, U, E>(result: Result<T, E>, f: (value: T) => U): Result<U, E> =>
-  result.ok ? ok(f(result.value)) : result
-
-export const flatMapResult = <T, U, E>(
-  result: Result<T, E>,
-  f: (value: T) => Result<U, E>,
-): Result<U, E> => (result.ok ? f(result.value) : result)
 
 export const fromNullable = <T>(value: T | null | undefined, error: string): Result<T, string> =>
   value != null ? ok(value) : err(error)
@@ -83,32 +72,4 @@ export const buildReplyRef = (uri: string, cid: string): ReplyRef => ({
 export const buildReplyText = (link: string, wasCropped: boolean): string => {
   const weblink = `https://beathagenlocher.com/${link}`
   return wasCropped ? `Read the full post at ${weblink}` : `Originally posted at ${weblink}`
-}
-
-// ============================================================================
-// Validation (Pure)
-// ============================================================================
-
-export type ValidationError = { type: 'validation'; message: string }
-
-export const validateTextLength = (
-  text: string,
-  maxGraphemes: number,
-): Result<string, ValidationError> => {
-  const length = graphemeLength(text)
-  return length <= maxGraphemes
-    ? ok(text)
-    : err({
-        type: 'validation',
-        message: `Text is too long: ${length} graphemes (max ${maxGraphemes})`,
-      })
-}
-
-// ============================================================================
-// Debug (Effect - but isolated)
-// ============================================================================
-
-export const inspect = <T>(thing: T): T => {
-  console.log(util.inspect(thing, false, null, true))
-  return thing
 }

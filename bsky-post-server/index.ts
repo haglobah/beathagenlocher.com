@@ -2,115 +2,85 @@ import { Hono, type Context } from 'hono'
 import { AtpAgent, RichText } from '@atproto/api'
 import { slug } from 'github-slugger'
 import {
-  ok,
-  err,
-  type Result,
   merge,
-  validateTextLength,
+  graphemeLength,
   buildImageEmbed,
   buildReplyRef,
   buildReplyText,
   parsePngDimensions,
-  inspect,
-  type ValidationError,
 } from './utils'
 import {
-  makeStreamshot,
-  makeScreenshot,
-  type ScreenshotResult,
-  type ScreenshotError,
+  captureScreenshot,
+  buildStreamConfig,
+  buildArticleConfig,
+  type ScreenshotConfig,
 } from './typeshare'
 
 // ============================================================================
-// Types
+// Cmd — Effects as data
 // ============================================================================
 
-type PostResult = { uri: string; cid: string }
-type PostError = { type: 'post'; message: string }
-type AppError = ValidationError | ScreenshotError | PostError
-
-type PostPayload = {
-  text: string
-  facets?: unknown[]
-  embed?: object
-  reply?: object
-  $type?: string
-}
-
-type BlueskyServices = {
-  uploadBlob: (bytes: Uint8Array, encoding: string) => Promise<Result<unknown, PostError>>
-  post: (payload: PostPayload) => Promise<Result<PostResult, PostError>>
-  detectFacets: (text: string) => Promise<{ text: string; facets: unknown[] | undefined }>
-}
-
-type FileServices = {
-  readPng: (
-    path: string,
-  ) => Promise<{
-    bytes: Uint8Array
-    dimensions: { width: number; height: number }
-    encoding: string
-  }>
-}
+type Cmd =
+  | { tag: 'done' }
+  | { tag: 'detect_facets'; text: string }
+  | { tag: 'take_screenshot'; config: ScreenshotConfig }
+  | { tag: 'read_png'; path: string }
+  | { tag: 'upload_blob'; bytes: Uint8Array; encoding: string }
+  | { tag: 'post'; payload: object }
 
 // ============================================================================
-// Pure Functions - Payload Builders
+// Msg — Results from executed effects
 // ============================================================================
 
-const buildTextPostPayload = (
-  text: string,
-  detectedFacets: unknown[] | undefined,
-  userFacets: unknown[] | undefined,
-) => ({
-  text,
-  facets: merge(userFacets as unknown[] | undefined, detectedFacets),
-})
-
-const buildImagePostPayload = (text: string, facets: unknown[] | undefined, embed: object) => ({
-  text,
-  facets,
-  embed,
-})
-
-const buildReplyPostPayload = (
-  text: string,
-  facets: unknown[] | undefined,
-  parentUri: string,
-  parentCid: string,
-) => ({
-  $type: 'app.bsky.feed.post',
-  text,
-  facets,
-  reply: buildReplyRef(parentUri, parentCid),
-})
+type Msg =
+  | { tag: 'facets_detected'; text: string; facets: unknown[] | undefined }
+  | { tag: 'screenshot_taken'; pngPath: string; wasCropped: boolean }
+  | {
+      tag: 'png_read'
+      bytes: Uint8Array
+      dimensions: { width: number; height: number }
+      encoding: string
+    }
+  | { tag: 'blob_uploaded'; blob: unknown }
+  | { tag: 'posted'; uri: string; cid: string }
+  | { tag: 'failed'; error: string }
 
 // ============================================================================
-// Pure Functions - Response Builders
+// Model — Discriminated union of all states
 // ============================================================================
 
-const successResponse = (c: Context, message: string) => {
-  console.log(message)
-  return c.json({ success: true, message })
-}
-
-const errorResponse = (c: Context, message: string) => {
-  console.error(message)
-  return c.json({ success: false, message }, 400)
-}
-
-const handleResult = <T>(
-  c: Context,
-  result: Result<T, AppError>,
-  onSuccess: (value: T) => Response,
-): Response => {
-  if (result.ok) {
-    return onSuccess(result.value)
-  }
-  return errorResponse(c, result.error.message)
-}
+type Model =
+  // Text flow
+  | { tag: 'text_detecting_facets'; userFacets: unknown[] | undefined }
+  | { tag: 'text_posting' }
+  // Image flow
+  | { tag: 'img_screenshotting'; text: string; alttext: string; linkPath: string }
+  | { tag: 'img_reading_png'; text: string; alttext: string; linkPath: string; wasCropped: boolean }
+  | {
+      tag: 'img_uploading_blob'
+      text: string
+      alttext: string
+      linkPath: string
+      wasCropped: boolean
+      dimensions: { width: number; height: number }
+    }
+  | {
+      tag: 'img_detecting_facets'
+      alttext: string
+      linkPath: string
+      wasCropped: boolean
+      dimensions: { width: number; height: number }
+      blob: unknown
+    }
+  | { tag: 'img_posting_image'; linkPath: string; wasCropped: boolean }
+  | { tag: 'img_detecting_reply_facets'; imagePost: { uri: string; cid: string } }
+  | { tag: 'img_posting_reply'; imagePost: { uri: string; cid: string } }
+  // Terminal
+  | { tag: 'done'; message: string }
+  | { tag: 'failed'; error: string }
 
 // ============================================================================
-// Pure Functions - Link Parsing
+// Link Parsing
 // ============================================================================
 
 type LinkType = { kind: 'stream'; streamId: string } | { kind: 'article'; slugPath: string }
@@ -131,196 +101,300 @@ const getLinkPath = (linkType: LinkType, link: string) =>
   linkType.kind === 'stream' ? link : linkType.slugPath
 
 // ============================================================================
-// Effect Layer - Service Implementations
+// Init
 // ============================================================================
 
-const createBlueskyServices = (agent: AtpAgent): BlueskyServices => ({
-  uploadBlob: async (bytes, encoding) => {
-    try {
-      const { data } = await agent.uploadBlob(bytes, { encoding })
-      return ok(data.blob)
-    } catch (e) {
-      return err({ type: 'post', message: `Failed to upload blob: ${e}` })
-    }
-  },
+const initTextPost = (text: string, userFacets?: unknown[]): [Model, Cmd] => [
+  { tag: 'text_detecting_facets', userFacets },
+  { tag: 'detect_facets', text },
+]
 
-  post: async (payload) => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const resp = await agent.post(payload as any)
-      if (resp.uri && resp.cid) {
-        return ok({ uri: resp.uri, cid: resp.cid })
+const initImagePost = (text: string, alttext: string, link: string): [Model, Cmd] => {
+  const linkType = parseLink(link)
+  const padding = getPadding(linkType)
+  const linkPath = getLinkPath(linkType, link)
+  const config =
+    linkType.kind === 'stream'
+      ? buildStreamConfig(linkType.streamId, padding)
+      : buildArticleConfig(linkType.slugPath, padding)
+
+  return [
+    { tag: 'img_screenshotting', text, alttext, linkPath },
+    { tag: 'take_screenshot', config },
+  ]
+}
+
+// ============================================================================
+// Update — Pure state transitions
+// ============================================================================
+
+const update = (model: Model, msg: Msg): [Model, Cmd] => {
+  if (msg.tag === 'failed') {
+    return [{ tag: 'failed', error: msg.error }, { tag: 'done' }]
+  }
+
+  switch (model.tag) {
+    // --- Text flow ---
+
+    case 'text_detecting_facets': {
+      if (msg.tag !== 'facets_detected')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      const length = graphemeLength(msg.text)
+      if (length > 300) {
+        return [
+          { tag: 'failed', error: `Text is too long: ${length} graphemes (max 300)` },
+          { tag: 'done' },
+        ]
       }
-      return err({ type: 'post', message: 'Post succeeded but missing uri/cid' })
+
+      return [
+        { tag: 'text_posting' },
+        { tag: 'post', payload: { text: msg.text, facets: merge(model.userFacets, msg.facets) } },
+      ]
+    }
+
+    case 'text_posting': {
+      if (msg.tag !== 'posted')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      return [
+        { tag: 'done', message: `Successfully posted text to Bluesky (URI: ${msg.uri})` },
+        { tag: 'done' },
+      ]
+    }
+
+    // --- Image flow ---
+
+    case 'img_screenshotting': {
+      if (msg.tag !== 'screenshot_taken')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      return [
+        {
+          tag: 'img_reading_png',
+          text: model.text,
+          alttext: model.alttext,
+          linkPath: model.linkPath,
+          wasCropped: msg.wasCropped,
+        },
+        { tag: 'read_png', path: msg.pngPath },
+      ]
+    }
+
+    case 'img_reading_png': {
+      if (msg.tag !== 'png_read')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      return [
+        {
+          tag: 'img_uploading_blob',
+          text: model.text,
+          alttext: model.alttext,
+          linkPath: model.linkPath,
+          wasCropped: model.wasCropped,
+          dimensions: msg.dimensions,
+        },
+        { tag: 'upload_blob', bytes: msg.bytes, encoding: msg.encoding },
+      ]
+    }
+
+    case 'img_uploading_blob': {
+      if (msg.tag !== 'blob_uploaded')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      return [
+        {
+          tag: 'img_detecting_facets',
+          alttext: model.alttext,
+          linkPath: model.linkPath,
+          wasCropped: model.wasCropped,
+          dimensions: model.dimensions,
+          blob: msg.blob,
+        },
+        { tag: 'detect_facets', text: model.text },
+      ]
+    }
+
+    case 'img_detecting_facets': {
+      if (msg.tag !== 'facets_detected')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      const embed = buildImageEmbed(model.blob, model.alttext, model.dimensions)
+      return [
+        { tag: 'img_posting_image', linkPath: model.linkPath, wasCropped: model.wasCropped },
+        { tag: 'post', payload: { text: msg.text, facets: msg.facets, embed } },
+      ]
+    }
+
+    case 'img_posting_image': {
+      if (msg.tag !== 'posted')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      const replyText = buildReplyText(model.linkPath, model.wasCropped)
+      return [
+        { tag: 'img_detecting_reply_facets', imagePost: { uri: msg.uri, cid: msg.cid } },
+        { tag: 'detect_facets', text: replyText },
+      ]
+    }
+
+    case 'img_detecting_reply_facets': {
+      if (msg.tag !== 'facets_detected')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      return [
+        { tag: 'img_posting_reply', imagePost: model.imagePost },
+        {
+          tag: 'post',
+          payload: {
+            $type: 'app.bsky.feed.post',
+            text: msg.text,
+            facets: msg.facets,
+            reply: buildReplyRef(model.imagePost.uri, model.imagePost.cid),
+          },
+        },
+      ]
+    }
+
+    case 'img_posting_reply': {
+      if (msg.tag !== 'posted')
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
+
+      return [
+        {
+          tag: 'done',
+          message: `Successfully posted image (URI: ${model.imagePost.uri}) and reply (URI: ${msg.uri})`,
+        },
+        { tag: 'done' },
+      ]
+    }
+
+    case 'done':
+    case 'failed':
+      return [model, { tag: 'done' }]
+  }
+}
+
+// ============================================================================
+// Execute — Effect interpreter
+// ============================================================================
+
+const execute =
+  (agent: AtpAgent) =>
+  async (cmd: Cmd): Promise<Msg> => {
+    try {
+      switch (cmd.tag) {
+        case 'done':
+          throw new Error('Cannot execute terminal cmd')
+
+        case 'detect_facets': {
+          const rt = new RichText({ text: cmd.text })
+          await rt.detectFacets(agent)
+          return { tag: 'facets_detected', text: rt.text, facets: rt.facets }
+        }
+
+        case 'take_screenshot': {
+          const result = await captureScreenshot(cmd.config)
+          if (!result.ok) return { tag: 'failed', error: result.error.message }
+          return {
+            tag: 'screenshot_taken',
+            pngPath: result.value.pngPath,
+            wasCropped: result.value.wasCropped,
+          }
+        }
+
+        case 'read_png': {
+          const file = Bun.file(cmd.path)
+          const [bytes, header] = await Promise.all([
+            file.arrayBuffer().then((buf) => new Uint8Array(buf)),
+            file.slice(0, 24).arrayBuffer(),
+          ])
+          return {
+            tag: 'png_read',
+            bytes,
+            dimensions: parsePngDimensions(header),
+            encoding: file.type,
+          }
+        }
+
+        case 'upload_blob': {
+          const { data } = await agent.uploadBlob(cmd.bytes, { encoding: cmd.encoding })
+          return { tag: 'blob_uploaded', blob: data.blob }
+        }
+
+        case 'post': {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const resp = await agent.post(cmd.payload as any)
+          if (resp.uri && resp.cid) {
+            return { tag: 'posted', uri: resp.uri, cid: resp.cid }
+          }
+          return { tag: 'failed', error: 'Post succeeded but missing uri/cid' }
+        }
+      }
     } catch (e) {
-      return err({ type: 'post', message: `Failed to post: ${e}` })
+      return { tag: 'failed', error: String(e) }
     }
-  },
-
-  detectFacets: async (text) => {
-    const rt = new RichText({ text })
-    await rt.detectFacets(agent)
-    return { text: rt.text, facets: rt.facets }
-  },
-})
-
-const createFileServices = (): FileServices => ({
-  readPng: async (path) => {
-    const file = Bun.file(path)
-    const [bytes, header] = await Promise.all([
-      file.arrayBuffer().then((buf) => new Uint8Array(buf)),
-      file.slice(0, 24).arrayBuffer(),
-    ])
-    return {
-      bytes,
-      dimensions: parsePngDimensions(header),
-      encoding: file.type,
-    }
-  },
-})
+  }
 
 // ============================================================================
-// Use Cases - Orchestration Functions
+// Run — Recursive dispatch loop
 // ============================================================================
 
-const postText = async (
-  services: BlueskyServices,
-  text: string,
-  userFacets: unknown[] | undefined,
-): Promise<Result<PostResult, AppError>> => {
-  const { text: processedText, facets } = await services.detectFacets(text)
+const run = async (exec: (cmd: Cmd) => Promise<Msg>, model: Model, cmd: Cmd): Promise<Model> => {
+  if (cmd.tag === 'done') return model
 
-  const validation = validateTextLength(processedText, 300)
-  if (!validation.ok) return validation
-
-  const payload = buildTextPostPayload(processedText, facets, userFacets)
-  inspect(payload)
-  return services.post(payload)
-}
-
-const postImage = async (
-  services: BlueskyServices,
-  fileServices: FileServices,
-  pngPath: string,
-  text: string,
-  alttext: string,
-): Promise<Result<PostResult, AppError>> => {
-  const { bytes, dimensions, encoding } = await fileServices.readPng(pngPath)
-
-  const blobResult = await services.uploadBlob(bytes, encoding)
-  if (!blobResult.ok) return blobResult
-
-  const { text: processedText, facets } = await services.detectFacets(text)
-  const embed = buildImageEmbed(blobResult.value, alttext, dimensions)
-  const payload = buildImagePostPayload(processedText, facets, embed)
-
-  return services.post(payload)
-}
-
-const postReply = async (
-  services: BlueskyServices,
-  parentUri: string,
-  parentCid: string,
-  link: string,
-  wasCropped: boolean,
-): Promise<Result<PostResult, AppError>> => {
-  const replyText = buildReplyText(link, wasCropped)
-  const { text, facets } = await services.detectFacets(replyText)
-  const payload = buildReplyPostPayload(text, facets, parentUri, parentCid)
-  return services.post(payload)
-}
-
-const postImageWithReply = async (
-  services: BlueskyServices,
-  fileServices: FileServices,
-  screenshotResult: ScreenshotResult,
-  text: string,
-  alttext: string,
-  link: string,
-): Promise<Result<{ imagePost: PostResult; replyPost: PostResult }, AppError>> => {
-  const imageResult = await postImage(
-    services,
-    fileServices,
-    screenshotResult.pngPath,
-    text,
-    alttext,
-  )
-  if (!imageResult.ok) return imageResult
-
-  console.log(
-    `Successfully posted image with text "${text}" to Bluesky (URI: ${imageResult.value.uri})`,
-  )
-
-  const replyResult = await postReply(
-    services,
-    imageResult.value.uri,
-    imageResult.value.cid,
-    link,
-    screenshotResult.wasCropped,
-  )
-  if (!replyResult.ok) return replyResult
-
-  console.log(`Successfully posted reply to image to Bluesky (URI: ${replyResult.value.uri})`)
-
-  return ok({ imagePost: imageResult.value, replyPost: replyResult.value })
+  console.log(`[${model.tag}] → ${cmd.tag}`)
+  const msg = await exec(cmd)
+  const [nextModel, nextCmd] = update(model, msg)
+  return run(exec, nextModel, nextCmd)
 }
 
 // ============================================================================
-// Application Bootstrap
+// Respond — Terminal Model → HTTP Response
 // ============================================================================
 
-const createApp = (bluesky: BlueskyServices, files: FileServices) => {
-  const app = new Hono()
-
-  app.post('/post', async (c) => {
-    const { text, facets } = await c.req.json()
-    const result = await postText(bluesky, text, facets)
-
-    return handleResult(c, result, () => successResponse(c, 'Successfully posted text to Bluesky'))
-  })
-
-  app.post('/post/as-image', async (c) => {
-    const { text, alttext, link } = await c.req.json()
-    const linkType = parseLink(link)
-    const padding = getPadding(linkType)
-
-    const screenshotResult =
-      linkType.kind === 'stream'
-        ? await makeStreamshot(linkType.streamId, padding)
-        : await makeScreenshot(linkType.slugPath, padding)
-
-    if (!screenshotResult.ok) {
-      return errorResponse(c, screenshotResult.error.message)
-    }
-
-    const { pngPath, wasCropped } = screenshotResult.value
-    const linkPath = getLinkPath(linkType, link)
-    console.log(
-      `created screenshot for "${linkPath}" at "${pngPath}"${wasCropped ? ' (cropped)' : ''}`,
-    )
-
-    const result = await postImageWithReply(
-      bluesky,
-      files,
-      screenshotResult.value,
-      text,
-      alttext,
-      linkPath,
-    )
-
-    return handleResult(c, result, ({ imagePost, replyPost }) =>
-      successResponse(
-        c,
-        `Successfully posted image (URI: ${imagePost.uri}) and reply (URI: ${replyPost.uri})`,
-      ),
-    )
-  })
-
-  return app
+const respond = (c: Context, model: Model): Response => {
+  switch (model.tag) {
+    case 'done':
+      console.log(model.message)
+      return c.json({ success: true, message: model.message })
+    case 'failed':
+      console.error(model.error)
+      return c.json({ success: false, message: model.error }, 400)
+    default:
+      return c.json({ success: false, message: `Unexpected terminal state: ${model.tag}` }, 500)
+  }
 }
 
 // ============================================================================
-// Entry Point - Effects at the Boundary
+// Application
 // ============================================================================
 
 const agent = new AtpAgent({ service: 'https://bsky.social' })
@@ -329,7 +403,22 @@ await agent.login({
   password: process.env.BLUESKY_APP_SECRET!,
 })
 
-const app = createApp(createBlueskyServices(agent), createFileServices())
+const exec = execute(agent)
+const app = new Hono()
+
+app.post('/post', async (c) => {
+  const { text, facets } = await c.req.json()
+  const [model, cmd] = initTextPost(text, facets)
+  const final = await run(exec, model, cmd)
+  return respond(c, final)
+})
+
+app.post('/post/as-image', async (c) => {
+  const { text, alttext, link } = await c.req.json()
+  const [model, cmd] = initImagePost(text, alttext, link)
+  const final = await run(exec, model, cmd)
+  return respond(c, final)
+})
 
 export default {
   port: 3000,

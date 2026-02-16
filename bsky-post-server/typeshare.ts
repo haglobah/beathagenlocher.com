@@ -1,4 +1,4 @@
-import { chromium, type Page, type Browser, type ElementHandle } from 'playwright'
+import { chromium, type Page, type Browser } from 'playwright'
 import { ok, err, fromNullable, type Result } from './utils'
 
 // ============================================================================
@@ -12,7 +12,7 @@ type Clip = { x: number; y: number; width: number; height: number }
 export type ScreenshotResult = { pngPath: string; wasCropped: boolean }
 export type ScreenshotError = { type: 'screenshot'; message: string }
 
-type ScreenshotConfig = {
+export type ScreenshotConfig = {
   url: string
   selector: string
   codeSelector: string
@@ -75,7 +75,7 @@ const buildFadeOverlayStyle = (top: number, height: number): string => `
   z-index: 9999;
 `
 
-const buildStreamConfig = (streamId: string, padding: Padding): ScreenshotConfig => ({
+export const buildStreamConfig = (streamId: string, padding: Padding): ScreenshotConfig => ({
   url: 'http://localhost:4321/stream',
   selector: `[id="${streamId}"]`,
   codeSelector: `[id="${streamId}"] .expressive-code .frame pre`,
@@ -83,7 +83,7 @@ const buildStreamConfig = (streamId: string, padding: Padding): ScreenshotConfig
   padding,
 })
 
-const buildArticleConfig = (path: string, padding: Padding): ScreenshotConfig => ({
+export const buildArticleConfig = (path: string, padding: Padding): ScreenshotConfig => ({
   url: `http://localhost:4321/${path}`,
   selector: '.post',
   codeSelector: '.expressive-code .frame pre',
@@ -142,10 +142,10 @@ const getElementBox = async (
 }
 
 // ============================================================================
-// Core Screenshot Logic (Orchestration)
+// Core Screenshot Logic
 // ============================================================================
 
-const captureScreenshot = async (
+export const captureScreenshot = async (
   config: ScreenshotConfig
 ): Promise<Result<ScreenshotResult, ScreenshotError>> => {
   return withBrowser(async (browser) => {
@@ -178,19 +178,3 @@ const captureScreenshot = async (
     return ok({ pngPath: config.outputPath, wasCropped })
   })
 }
-
-// ============================================================================
-// Public API (Thin wrappers that build config and delegate)
-// ============================================================================
-
-export const makeStreamshot = (
-  streamId: string,
-  padding: Padding
-): Promise<Result<ScreenshotResult, ScreenshotError>> =>
-  captureScreenshot(buildStreamConfig(streamId, padding))
-
-export const makeScreenshot = (
-  path: string,
-  padding: Padding
-): Promise<Result<ScreenshotResult, ScreenshotError>> =>
-  captureScreenshot(buildArticleConfig(path, padding))
