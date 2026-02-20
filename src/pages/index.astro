@@ -11,12 +11,7 @@ import Knowledge from '../content/knowledge.astro'
 import Stream from '../content/stream.astro'
 import Essays from '../content/essays.astro'
 import Talks from '../content/talks.astro'
-import {
-  allTheContent,
-  sortByUpdated,
-  sortByStartDate,
-  getTopics,
-} from '../content/content.ts'
+import { allTheContent, sortByUpdated, sortByStartDate, getTopics } from '../content/content.ts'
 
 const topics = getTopics(allTheContent)
 ---
@@ -65,6 +60,14 @@ const topics = getTopics(allTheContent)
             </h2>
           </div>
         </ItemCutoff>
+
+        <div class="f-mt-md f-mb-2xl">
+          <h2 class="font-light font-headline f-text-md">Atomic Essays</h2>
+          <p class="italic f-text-xs">Short form writing capturing a single idea</p>
+        </div>
+        <div class="grid sm:grid-cols-2 f-gap-lg">
+          <Essays />
+        </div>
       </div>
 
       <div class="md:col-span-8 lg:col-span-6">
@@ -74,26 +77,6 @@ const topics = getTopics(allTheContent)
         </div>
         <div class="grid sm:grid-cols-2">
           <Notes />
-        </div>
-      </div>
-
-      <div class="md:col-span-4 lg:col-span-6">
-        <div class="f-mt-md f-mb-2xl">
-          <h2 class="font-light font-headline f-text-md">Atomic Essays</h2>
-          <p class="italic f-text-xs">Short form writing capturing a single idea</p>
-        </div>
-        <div class="grid lg:grid-cols-2 f-gap-lg">
-          <Essays />
-        </div>
-      </div>
-
-      <div class="md:col-span-4 lg:col-span-6">
-        <div class="f-mt-md f-mb-2xl">
-          <h2 class="font-light font-headline f-text-md">Knowledge Bits</h2>
-          <p class="italic f-text-xs">What you always wanted to know</p>
-        </div>
-        <div class="grid sm:grid-cols-2 f-gap-lg">
-          <Knowledge />
         </div>
       </div>
 

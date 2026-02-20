@@ -41,7 +41,7 @@ function unquoteGitPath(path) {
 }
 
 // Collections to track (excludes stream itself)
-const TRACKED_COLLECTIONS = ['notes', 'essays', 'knowledge', 'talks']
+const TRACKED_COLLECTIONS = ['notes', 'essays', 'talks']
 
 // Parse CLI args
 const args = process.argv.slice(2)
