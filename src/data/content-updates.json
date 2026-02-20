@@ -1,6 +1,65 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/JavaScript Code Snippets.mdx",
+    "slug": "javascript-code-snippets",
+    "collection": "notes",
+    "title": "JavaScript Code Snippets",
+    "date": "2026-02-20T17:16:21.000Z",
+    "commitHash": "3955988"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Local-first Software.mdx",
+    "slug": "local-first-software",
+    "collection": "notes",
+    "title": "Local-first Software",
+    "date": "2026-02-20T16:51:43.000Z",
+    "linesChanged": 17,
+    "commitHash": "0f200af"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Ozempic.mdx",
+    "slug": "ozempic",
+    "collection": "notes",
+    "title": "Ozempic",
+    "date": "2026-02-20T16:51:43.000Z",
+    "linesChanged": 11,
+    "commitHash": "0f200af"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Programming Languages/Clojure.mdx",
+    "slug": "programming-languagesclojure",
+    "collection": "notes",
+    "title": "Clojure",
+    "date": "2026-02-20T16:51:43.000Z",
+    "linesChanged": 20,
+    "commitHash": "0f200af"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/people/Jonas Hietala.mdx",
+    "slug": "peoplejonas-hietala",
+    "collection": "notes",
+    "title": "Jonas Hietala",
+    "date": "2026-02-20T16:51:43.000Z",
+    "linesChanged": 18,
+    "commitHash": "0f200af"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/people/Simon Willison.mdx",
+    "slug": "peoplesimon-willison",
+    "collection": "notes",
+    "title": "Simon Willison",
+    "date": "2026-02-20T16:51:43.000Z",
+    "linesChanged": 13,
+    "commitHash": "0f200af"
+  },
+  {
+    "type": "new",
     "file": "src/content/knowledge/Nix Flake.mdx",
     "slug": "nix-flake",
     "collection": "knowledge",
