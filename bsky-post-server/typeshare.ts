@@ -37,7 +37,7 @@ const customDevice = {
 }
 
 const execPath =
-  '/nix/store/by92qwh4grm99ydkn8d8mk2v7c8ixwy8-playwright-browsers/chromium-1181/chrome-linux/chrome'
+  '/nix/store/ax73yyqxb7h6hq4xrp59b32s7yqmlw8d-playwright-browsers/chromium-1200/chrome-linux64/chrome'
 
 // ============================================================================
 // Pure Functions
@@ -47,7 +47,7 @@ export const computeClip = (
   box: Box,
   padding: Padding,
   fadeStart: number,
-  maxHeight: number
+  maxHeight: number,
 ): { clip: Clip; wasCropped: boolean } => {
   const fullHeight = Math.round(box.height + padding.top + padding.bottom)
   const clippedHeight = Math.min(fullHeight, maxHeight)
@@ -95,9 +95,7 @@ export const buildArticleConfig = (path: string, padding: Padding): ScreenshotCo
 // Effect Runners (Isolated I/O)
 // ============================================================================
 
-const withBrowser = async <T>(
-  fn: (browser: Browser) => Promise<T>
-): Promise<T> => {
+const withBrowser = async <T>(fn: (browser: Browser) => Promise<T>): Promise<T> => {
   const browser = await chromium.launch({ executablePath: execPath })
   try {
     return await fn(browser)
@@ -131,14 +129,17 @@ const tryWrapCodeSnippet = async (page: Page, selector: string): Promise<void> =
 
 const getElementBox = async (
   page: Page,
-  selector: string
+  selector: string,
 ): Promise<Result<Box, ScreenshotError>> => {
   const handle = await page.$(selector)
   if (!handle) {
     return err({ type: 'screenshot', message: `Element not found: ${selector}` })
   }
   const box = await handle.boundingBox()
-  return fromNullable(box, `Could not get bounding box for: ${selector}`) as Result<Box, ScreenshotError>
+  return fromNullable(box, `Could not get bounding box for: ${selector}`) as Result<
+    Box,
+    ScreenshotError
+  >
 }
 
 // ============================================================================
@@ -146,7 +147,7 @@ const getElementBox = async (
 // ============================================================================
 
 export const captureScreenshot = async (
-  config: ScreenshotConfig
+  config: ScreenshotConfig,
 ): Promise<Result<ScreenshotResult, ScreenshotError>> => {
   return withBrowser(async (browser) => {
     const context = await browser.newContext(customDevice)
@@ -162,7 +163,7 @@ export const captureScreenshot = async (
       boxResult.value,
       config.padding,
       FADE_START,
-      MAX_HEIGHT
+      MAX_HEIGHT,
     )
 
     if (wasCropped) {
