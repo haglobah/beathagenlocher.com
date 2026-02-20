@@ -1,6 +1,25 @@
 [
   {
     "type": "new",
+    "file": "src/content/knowledge/Nix Flake.mdx",
+    "slug": "nix-flake",
+    "collection": "knowledge",
+    "title": "Nix Flake",
+    "date": "2026-02-20T16:34:54.000Z",
+    "commitHash": "a97844e"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Nix.mdx",
+    "slug": "nix",
+    "collection": "notes",
+    "title": "Nix",
+    "date": "2026-02-20T16:34:54.000Z",
+    "linesChanged": 15,
+    "commitHash": "a97844e"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Harness Engineering.mdx",
     "slug": "harness-engineering",
     "collection": "notes",

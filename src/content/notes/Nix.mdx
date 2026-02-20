@@ -3,7 +3,18 @@ title: "Nix"
 description: "Package Manager, Package Repo, Programming Language, and Operating System"
 growthStage: seedling
 startDate: 2025-11-24T01:26:28Z
-updated: 2025-11-24T01:26:30Z
-topics: [Nix, OS, Programming Language]
-publish: false
+updated: 2026-02-20T16:36:59Z
+topics: [Nix, OS, Programming Language, nixpkgs, NixOS, Functional Programming, Declarative Programming]
+publish: true
 ---
+
+# Install Nix
+
+The [installer on the website](https://nixos.org/download/#nix-install-linux) sucks (doesn't work with SELinux, for example), but there is a community-maintained one:
+
+```shell
+curl -fsSL https://artifacts.nixos.org/nix-installer | sh -s -- install
+```
+
+With that completed, go write your first [[Nix Flake]]
+

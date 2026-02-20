@@ -1,0 +1,153 @@
+---
+title: "Nix Flake"
+description: ""
+growthStage: seedling
+startDate: 2025-07-29T02:20:58
+updated: 2026-02-20T16:37:24Z
+topics: [Nix, Simplicity, Functional Programming]
+publish: true
+---
+
+An entry point for [[Nix]] stuff.
+
+# Writing your first flake
+
+Your flake is the entry point to your application built and run with nix.
+
+Your flake is a function from `inputs` (which consist of urls for getting package sets) to `outputs`, with outputs being one big _attribute set_.
+
+This `outputs` _attribute set_ looks something like this (very much like a [[JSON]] object):
+
+```nix
+# outputs
+{
+  apps = { ... };
+  checks = { ... };
+  devShells = { ... };
+  formatter = { ... };
+  legacyPackages = { ... };
+  nixosConfigurations = { ... };
+  nixosModules = { ... };
+  overlays = { ... };
+  packages = { ... };
+}
+```
+
+Every key in here is a special, magic key that [[Nix]] interprets in a certain way.
+
+For the minimal (non-functional) flake:
+
+```nix
+{
+  inputs = {};
+
+  outputs = {...}: {};
+}
+```
+
+all of them are empty.
+
+Through populating them, we give our [[Nix Flake]] additional capabilities.
+
+The first capability to give our [[Nix Flake]]s is normally a _development shell_.
+
+In [[Nix Language]], we create this like this:
+
+```nix title="flake.nix"
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  };
+
+  outputs = { nixpkgs, ... }: {
+    devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {};
+  };
+}
+```
+
+And run it via `nix develop` (getting it? The `devShells` output gets run by `nix develop`):
+
+```shell
+> nix develop
+(nix-shell-env)>
+```
+
+But that doesn't do anything yet.
+
+For it to do something we need to add something into the devshell:
+
+```nix title="flake.nix" del={7} ins={8-10}
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  };
+
+  outputs = { nixpkgs, ... }: {
+    devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {};
+    devShells.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.mkShell {
+        packages = [ nixpkgs.legacyPackages.x86_64-linux.hello ];
+    };
+  };
+}
+```
+
+(Run `nix develop`, and then we have the `hello` executable available.):
+
+```shell
+> nix develop
+(nix-shell-env)> hello
+Hello, world!
+```
+
+Let's clean this up a bit, and then we're done for now.  
+There's lots of repetition in the current file, and the solution to this is not as easy as inserting a `let` block.
+
+The accepted and easily extensible solution for this is [flake-parts](https://flake.parts), but their homepage is pretty hard to understand at first.
+
+We want to translate our example to this:
+
+```nix title="flake.nix"
+{
+  inputs = {
+    nixpkgs.url = "https://github.com/nixos/nixpkgs?ref=nixos-unstable";
+  };
+
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+      perSystem = { pkgs, ... }: {
+        devShells.default = pkgs.mkShell {
+          packages = [ pkgs.hello ];
+        };
+      };
+    };
+}
+```
+
+This even has the benefit that it will work on all the systems specified.
+
+<Draft>
+
+# Evaluated Flake top level
+
+You can inspect your flake like this:
+
+```shell
+nix repl .
+> :load-flake . # shorthand ':lf .'
+```
+
+```nix
+{
+  _type = "flake";
+  inputs = { ... };
+  outputs = { ... };
+  sourceInfo = { ... };
+}
+```
+
+</Draft>
+
+<References>
+<ReferenceLink href="https://www.youtube.com/watch?v=JCeYq72Sko0">vimjoyer flakes guide</ReferenceLink>
+</References>
