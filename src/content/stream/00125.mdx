@@ -1,0 +1,33 @@
+---
+title: "package.json postinstall scripts"
+startDate: 2026-02-27T09:49:44Z
+topics: [npm, JavaScript, TypeScript, bun, pnpm, TIL]
+publish: true
+---
+
+Today I learned that there's magic `pre<*>` and `post<*>` hooks inside `npm` (and everything npm-compatible):
+
+-> https://docs.npmjs.com/cli/v8/using-npm/scripts
+
+I think I would've preferred less magic-side-effect-ness, but fair, I guess.
+
+So, to run something post `install`
+
+```json
+{
+  "scripts": {
+    // ...,
+    "postinstall": "echo 'hello postinstall'",
+  }
+}
+```
+
+Caveat:
+
+For `npm`, this only works when literally running `npm install` (or `npm i`), but now when running `npm i <some-package>`.
+
+I'm even less convinced by its usefulness now.
+
+Well, that's what you get.
+
+For `bun`, both seem to work.
