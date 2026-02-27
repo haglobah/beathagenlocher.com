@@ -4,6 +4,7 @@ import MainPageIconButton from '../components/MainPageIconButton.astro'
 import CommandPalette from '../components/CommandPalette.astro'
 import CommandPaletteButton from '../components/CommandPaletteButton.astro'
 import Il from '../components/InnerLink.astro'
+import Ol from '../components/OuterLink.astro'
 
 export interface Props {
   title?: string
@@ -177,8 +178,12 @@ declare global {
     </main>
     <footer class="my-12 flex justify-center text-center">
       <span class="font-light font-sans f-text-xs text-zinc-400 italic">
+        Written by a human, all <Ol href="https://practicaltypography.com/hyphens-and-dashes.html"
+          >en and em dashes my own</Ol
+        >.
+        <br />
         Thought of something you want to share with me? <br />
-        Please <Il href="contacting-me">tell me about it</Il> :)
+        Please <Il href="contacting-me">tell me about it</Il>—I read every email.
       </span>
     </footer>
   </body>
