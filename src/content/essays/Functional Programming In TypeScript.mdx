@@ -1,59 +1,62 @@
 ---
-title: "Functional Programming In TypeScript"
-description: ""
+title: 'Functional Programming In TypeScript'
+description: ''
 growthStage: seedling
 startDate: 2026-02-27T10:08:53Z
-updated: 2026-02-27T10:08:53Z
+updated: 2026-02-27T16:02:35Z
 topics: [Functional Programming, TypeScript, Functional Software Architecture]
 publish: true
 ---
 
-Have you ever looked at a piece of code and thought: "I think this works, but I can't quite convince myself it's correct"?
+Have you ever looked at a piece of code and thought:
 
-The code's logic is relatively straightforward, but the state is smeared into a handful of boolean flags and variables that could be combined in ways that don't make sense, and you find yourself mentally tracing through every code path to make sure none of should-be-impossible combinations actually happen.
+> I _think_ this works, but I can't quite convince myself it's correct?
 
-This is.. pretty normal, because most of the code today is written like that.  
+The code's logic is relatively straightforward—but the state is smeared into a handful of boolean flags and variables that could be combined in ways that don't make sense.  
+And you find yourself mentally tracing through every code path to make sure none of the should-be-impossible combinations actually happen.
+
+This is pretty normal, because most of the code today is written like that.  
 It's also what we're going to tackle in this series, with concrete techniques you can apply today, in your existing TypeScript codebase.
 
-In this series, we'll take a small but realistic application — a web audio player — and refactor it step by step from an imperative to a functional style. Along the way, you'll learn how to make illegal states unrepresentable using algebraic data types, how to push side effects to the boundary of your application, and how to use reducers and pure functions to make state transitions explicit and testable.
+In this series, we'll take a small but realistic application—a web audio player—and refactor it step by step from an imperative to a functional style. Along the way, you'll learn how to make illegal states unrepresentable using algebraic data types, how to push side effects to the boundary of your application, and how to use reducers and pure functions to make state transitions explicit and testable.
 
-We're going to start with code that looks perfectly modern-React-normal — and then bring the hidden state and effect to the surface
+We're going to start with code that looks perfectly modern-React-normal — and then bring the hidden state and effect to the surface.
 
 # Why an Audio Player?
 
-Mostly to keep the mental workload small: You have a good mental model in your head how an audio player should work, and whatever we're going to add to it, it's still going to be relatively simple.
+Mostly to keep the mental workload small: You already have a good mental model of how an audio player should work, and whatever we're going to add to it, it's still going to be relatively simple.
 These properties make it a good example application for learning the techniques, and not the domain, of this tutorial.
 
-Also, it's still a barebones useful thing, and not the, say,  [standard](https://guide.elm-lang.org/#a-quick-sample) [counter](https://www.javascripttutorial.net/react-tutorial/react-usereducer/) example.
+Also, it's still a barebones useful thing, and not the, say, [standard](https://guide.elm-lang.org/#a-quick-sample) [counter](https://www.javascripttutorial.net/react-tutorial/react-usereducer/) example.
 
-That said, it's also _not_ the best application for showcasing the techniques used here. Since, it's a small example, it's pretty easy to convince yourself you don't actually need this (which might be true here), and this is too much additional stuff to learn for too little gain.
+That said, it's also _not_ the best application for showcasing the techniques used here. Since it's a small example, it's pretty easy to convince yourself you don't actually need this (which might be true here), and that this is too much additional stuff to learn for too little gain.
 If that's you, you might especially profit from bearing with me here: The comparative value of functional programming techniques to OO gets _bigger_ the less you understand your domain at first, and the more state you need to hold in your head while writing the code.  
-That's why this is a not-so-good example, too: I'm pretty sure you both understand the audio player right now and right away, _and_ are able hold its hidden state in your head.
+That's why this is a not-so-good example, too: I'm pretty sure you both understand the audio player right now and right away, _and_ are able to hold its hidden state in your head.
 
 ## Approach
 
-So we're starting out with writing the music in 'normal', hidden-state SolidJS style.
+So we're starting out with writing the player in 'normal', hidden-state SolidJS style.
 
 Then, we're going to take a look at hidden states, make them explicit, and transform the whole codebase to a more functional style.
 
-After this, we show avenues for improvement: When and where to utilize functional data structures, better typed records, and so on.
+After this, we show avenues for improvement: When and where to utilize functional data structures, more precisely typed records, and so on.
 
-Then we show how the pattern we're using easily generalizes to all the parts that have hidden state which is not formulated in code.
+Then we show how the pattern we're using easily generalizes to all the parts that have hidden state that isn't yet captured in code.
 
 # Imperative Audio Player
 
 For now, let's start with the example application.
 
-We want to build an Audio player for the web.
+We want to build an audio player for the web.
 
 ## Code
 
 Let's start with the barebones component:
 
-```ts
-    import { createSignal, For, Show } from 'solid-js'
-    export const ImperativeAudioPlayer = () => {
-    return (
+```ts title=ImperativeAudioPlayer.tsx showLineNumbers=true
+import { createSignal, For, Show } from 'solid-js'
+export const ImperativeAudioPlayer = () => {
+  return (
     <div style={{ padding: '20px' }}>
       <h2>Imperative Audio Player</h2>
 
@@ -75,88 +78,88 @@ Let's start with the barebones component:
         </Show>
       </div>
     </div>
-    )
-    }
+  )
+}
 ```
 
 Add in the signals:
 
-```ts
-    const [isPlaying, setIsPlaying] = createSignal(false)
-    const [isLoading, setIsLoading] = createSignal(false)
-    const [currentTrack, setCurrentTrack] = createSignal<any>(null)
-    const [currentTime, setCurrentTime] = createSignal(0)
+```ts title=ImperativeAudioPlayer.tsx
+const [isPlaying, setIsPlaying] = createSignal(false)
+const [isLoading, setIsLoading] = createSignal(false)
+const [currentTrack, setCurrentTrack] = createSignal<any>(null)
+const [currentTime, setCurrentTime] = createSignal(0)
 ```
 
 The audio element:
 
-```ts
-    const audio = new Audio()
+```ts title=ImperativeAudioPlayer.tsx
+const audio = new Audio()
 ```
 
 The callback functions for the elements:
 
-```ts
-    const playTrack = (track: any) => {
-        setCurrentTrack(track)
-        setIsLoading(true)
-        setIsPlaying(false)
+```ts title=ImperativeAudioPlayer.tsx
+const playTrack = (track: any) => {
+  setCurrentTrack(track)
+  setIsLoading(true)
+  setIsPlaying(false)
 
-        audio.src = track.url
-        audio.play().catch((err) => {
-            console.error('Playback failed', err)
-        setIsPlaying(false)
-        })
-    }
+  audio.src = track.url
+  audio.play().catch((err) => {
+    console.error('Playback failed', err)
+    setIsPlaying(false)
+  })
+}
 
-    const togglePlay = () => {
-        if (audio.paused) {
-        audio.play()
-        setIsPlaying(true)
-        } else {
-        audio.pause()
-        setIsPlaying(false)
-        }
-    }
+const togglePlay = () => {
+  if (audio.paused) {
+    audio.play()
+    setIsPlaying(true)
+  } else {
+    audio.pause()
+    setIsPlaying(false)
+  }
+}
 ```
 
 Now, there's only two things left:
 
 1. Initializing the audio element with the correct callbacks:
 
-```ts
+```ts title=ImperativeAudioPlayer.tsx
 onMount(() => {
-      audio.oncanplay = () => {
-        setIsLoading(false)
-        setIsPlaying(true)
-      }
+  audio.oncanplay = () => {
+    setIsLoading(false)
+    setIsPlaying(true)
+  }
 
-      audio.ontimeupdate = () => {
-        setCurrentTime(audio.currentTime)
-      }
-    })
+  audio.ontimeupdate = () => {
+    setCurrentTime(audio.currentTime)
+  }
+})
 ```
 
 And actually adding in tracks:
 
-```ts
-  const tracks = [
-    {
-      id: '1',
-      title: 'Lo-Fi Beats',
-      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    },
-    {
-      id: '2',
-      title: 'Synthwave',
-      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-    },
-  ]
+```ts title=ImperativeAudioPlayer.tsx
+const tracks = [
+  {
+    id: '1',
+    title: 'Lo-Fi Beats',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+  },
+  {
+    id: '2',
+    title: 'Synthwave',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+  },
+]
 ```
 
 This should complete to something like this:
 
-```ts
+```ts title=ImperativeAudioPlayer.tsx
 import { createSignal, onMount, For, Show } from 'solid-js'
 
 export const ImperativeAudioPlayer = () => {
@@ -241,13 +244,15 @@ export const ImperativeAudioPlayer = () => {
 
 # Analysis: Room for Improvement
 
-So, I don't know about you, but to me, this looks .. fine?
+So, I don't know about you, but to me, this looks fine?
 
 I _think_ I can hold all the state there is in this example in my head at the same time, and check that I'm not missing any edge cases.
 
 But the problem is, I _also_ pretty regularly think that and then get absorbed into a longer debugging session that stemmed from me _not_ being able to hold it in my head at the same time.
 
-So even if we both think right now that this probably is fine, let's go with it.
+So even if we both think right now that this probably is fine, let's go through the exercise anyway.
+
+There's a few things that come to mind.
 
 ## 1. Making Illegal States Unrepresentable
 
@@ -266,11 +271,11 @@ So only _four_ of the states are actually valid.
 
 ## 2. Pushing The Effects to the Boundary
 
-We've got another problem. Right now, we don't have any restriction/practice on where to call effectful commands (in our application right now, those are: `audio.play()`, `audio.pause()`, `audio.src = ...`, `console.log`).
+We've got another problem. Right now, we don't have any restriction/practice on where to call effectful commands (in our application right now, those are: `audio.play()`, `audio.pause()`, `audio.src = ...`, `console.error`).
 
 This enables another class of bugs: Bugs where the real-world state is disconnected from our modeled state. (Because we forget to call an effectful command at all, call it in the wrong place, etc.)
 
-To mitigate this, we want to introduce an _effect boundary_, after which no more side effects in our program are allowed. (But in TypeScript, we can't check this, and need to rely on the programmer to respect the coding standards of the project).
+To mitigate this, we want to introduce an _effect boundary_, after which no more side effects in our program are allowed. (In TypeScript, we can't enforce this statically and need to rely on convention.)
 
 Since we already specified our program as data in the first place, this is pretty easy to add.
 Whenever there are state transitions from one state to another, we probably want to call an effect.
@@ -282,4 +287,20 @@ Speaking of which:
 Right now, state transitions happen ad-hoc, inside the command-ish functions, smeared together with the side-effects.
 
 That's probably not what we want, either.  
-Preferably, those would be encoded with data, too, and we then have some function that consumes this 'state-transition-data' to produce a new state for our application.
+Preferably, those state transitions would also be encoded in data, and we then have some function that consumes this 'state-transition-data' to produce a new state for our application.
+
+Luckily, for this there's a pattern that already exists in the programming (and the frontend) world: The _reducer_ pattern.
+
+It works like this: You have a function called `reduce` that transitions from one `oldState` to a `newState`, taking in the 'state-transition-data' I just mentioned. This 'state-transition-data' is normally called an _Action_ or a _Message_.
+
+`reduce` looks like this:
+
+```ts title=ImperativeAudioPlayer.tsx
+export const reduce = (oldState: State, action: Action): State => {
+  // ...
+}
+```
+
+And that's probably enough for now.
+
+In the next post, we're going to start with the implementation.
