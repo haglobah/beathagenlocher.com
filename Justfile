@@ -4,6 +4,9 @@ help:
 setup:
     npm clean-install
 
+fmt:
+    oxfmt src/content/**/*.mdx
+
 [parallel]
 dev: astro bsky-server
 
