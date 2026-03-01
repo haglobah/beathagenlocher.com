@@ -21,16 +21,16 @@ This (that is, git) needed to happen now, and needed to work with all of the exi
 
 Basic abstraction: Maybe line, maybe top level expression, maybe module (depending on language & use case)
 
-| Moves you regularly want to make | Dimensions the basic data point needs to have |
-|--|--|
-| move a char |  |
-| move a word |  |
-| move up a paragraph/[[sexp]] |  |
-| open different file |  |
-| move up the call tree, down the call tree |  |
-| move backwards/forwards in time -> per commit (per repo) |  |
-| move backwards/forwards in time -> per commit (per file) |  |
-| move by author (what are the files someone created, has worked on recently) |  |
+| Moves you regularly want to make                                            | Dimensions the basic data point needs to have |
+| --------------------------------------------------------------------------- | --------------------------------------------- |
+| move a char                                                                 |                                               |
+| move a word                                                                 |                                               |
+| move up a paragraph/[[sexp]]                                                |                                               |
+| open different file                                                         |                                               |
+| move up the call tree, down the call tree                                   |                                               |
+| move backwards/forwards in time -> per commit (per repo)                    |                                               |
+| move backwards/forwards in time -> per commit (per file)                    |                                               |
+| move by author (what are the files someone created, has worked on recently) |                                               |
 
 There's also some things I'm naming here that feel like they make more sense as _movements_, and some I'd more regularly use as _filters_. Maybe there's an underlying theme to that and an important distinction I should make.
 
@@ -40,20 +40,21 @@ Based on those learnings, _how should we organize code_?
 
 For movies, it's
 
-| Moves you regularly want to make | Dimensions the basic data point needs to have |
-|--|--|
-| move by actor/director/producer/studio "person" |  |
-| move by time |  |
-| move by genre |  |
-| open different file |  |
-| move up the call tree, down the call tree |  |
-| move backwards/forwards in time -> per commit (per repo) |  |
-| move backwards/forwards in time -> per commit (per file) |  |
-| move by author (what are the files someone created, has worked on recently) |  |
+| Moves you regularly want to make                                            | Dimensions the basic data point needs to have |
+| --------------------------------------------------------------------------- | --------------------------------------------- |
+| move by actor/director/producer/studio "person"                             |                                               |
+| move by time                                                                |                                               |
+| move by genre                                                               |                                               |
+| open different file                                                         |                                               |
+| move up the call tree, down the call tree                                   |                                               |
+| move backwards/forwards in time -> per commit (per repo)                    |                                               |
+| move backwards/forwards in time -> per commit (per file)                    |                                               |
+| move by author (what are the files someone created, has worked on recently) |                                               |
 
 # Themes
 
 Some general themes:
+
 - Movement is always either _one step in a direction_ (next commit, previous commit, lookup definition), or some kind of zooming in/out:
   - zooming out to all the movies an actor played in
   - zooming out to all the files in the same folder/project

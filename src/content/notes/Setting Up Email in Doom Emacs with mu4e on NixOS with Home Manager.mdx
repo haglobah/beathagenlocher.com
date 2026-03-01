@@ -1,6 +1,6 @@
 ---
-title: "Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager"
-description: ""
+title: 'Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager'
+description: ''
 growthStage: budding
 startDate: 2025-05-15T10:58:37
 updated: 2025-11-25T12:37:43Z
@@ -15,6 +15,7 @@ Having an [[Email Client]] + workflow I can halfway be productive with is someth
 So I gave it another try—and immediately remembered why I've stopped the last few times.
 
 What this boils down to for me is that:
+
 1. [[Email]] itself is tech-wise insanely complex and hard to work with
 2. It comes from a very different world. _In this world_, it has [inherent and fatal flaws](https://www.youtube.com/watch?v=mrGfahzt-4Q)
 
@@ -28,7 +29,7 @@ What I want is:
 2. Decent speed
 3. Customizable keybindings
 4. Generally affordable (\<= 5$/month)
-5. Tight integration into my other workflows  
+5. Tight integration into my other workflows
 
 ## What the World looks like
 
@@ -36,16 +37,18 @@ I think you can put Email Clients in three buckets:
 
 A. free GUI apps (e.g. Thunderbird)  
 B. paid apps (e.g. Superhuman)  
-C. free Terminal clients, and their Emacs/NeoVim counterparts  (e.g. `mu`, `notmuch`)
+C. free Terminal clients, and their Emacs/NeoVim counterparts (e.g. `mu`, `notmuch`)
 
 For <ListMarker>1.</ListMarker> ("just works"-ness):
-- free GUI apps work, but those are:  
+
+- free GUI apps work, but those are:
   - barely customizable (failing <ListMarker>3.</ListMarker>)
   - and tend to be slow (failing <ListMarker>2.</ListMarker>)
 - paid apps work
 - free terminal clients just don't
 
 For <ListMarker>2.</ListMarker> and <ListMarker>3.</ListMarker>, there's:
+
 - [[TUI]]/[[Emacs]] stuff, but that fails <ListMarker>1.</ListMarker>
 - paid apps work
 - free apps don't
@@ -251,5 +254,6 @@ But that's for another time.
 Now, finally: Happy Mailing!
 
 ---
+
 In case that's helpful, this is what my full config looks like:
 https://github.com/haglobah/nix-home/blob/main/home.nix#L187

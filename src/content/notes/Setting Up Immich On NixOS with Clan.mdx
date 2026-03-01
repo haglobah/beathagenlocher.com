@@ -1,6 +1,6 @@
 ---
-title: "Setting Up Immich On NixOS with Clan"
-description: ""
+title: 'Setting Up Immich On NixOS with Clan'
+description: ''
 growthStage: seedling
 startDate: 2026-02-08T22:18:18Z
 updated: 2026-02-12T19:10:59Z
@@ -13,7 +13,8 @@ Today, I spent some time getting my photo setup together, (and away from manuall
 So I've decided I'd give [[Immich]] (as a self-hostable photo solution on my server) a try.
 
 <Callout type="info">
-In case you don't know yet how to get and set up a server, take a look here: [[Setting Up A Server (with NixOS and Clan)]]
+  In case you don't know yet how to get and set up a server, take a look here: [[Setting Up A Server
+  (with NixOS and Clan)]]
 </Callout>
 
 # Setting up Immich
@@ -53,6 +54,7 @@ For this to work, you need to:
 - set a DNS A record to `photos` -> "IPv4 IP of your server", e.g. `1.12.234.45`
 
 If you don't know how to do that, take a look here: [[Setting A DNS Record On A Domain]]
+
 </Callout>
 
 Now we've got a machine running Immich that's reachable from the outside via a domain.
@@ -129,5 +131,7 @@ fileSystems."/var/lib/immich" = {
 # Notes
 
 <References>
-<ReferenceLink href="https://forums.linuxmint.com/viewtopic.php?t=333084">Samba Storage Share </ReferenceLink>
+  <ReferenceLink href="https://forums.linuxmint.com/viewtopic.php?t=333084">
+    Samba Storage Share{' '}
+  </ReferenceLink>
 </References>

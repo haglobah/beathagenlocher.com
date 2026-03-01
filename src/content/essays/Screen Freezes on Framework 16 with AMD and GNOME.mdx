@@ -1,6 +1,6 @@
 ---
-title: "Screen Freezes on Framework 16 with AMD and GNOME"
-description: ""
+title: 'Screen Freezes on Framework 16 with AMD and GNOME'
+description: ''
 growthStage: seedling
 startDate: 2026-01-27T16:09:45Z
 updated: 2026-01-27T20:13:13Z
@@ -22,14 +22,17 @@ They had the following characteristics:
 This is what it looked like (yep, bad video, I know 🙂):
 
 <video controls="controls" preload="auto" autoplay muted loop>
-  <source src="amd-screen-errors.mp4" type="video/mp4"/>
+  <source src="amd-screen-errors.mp4" type="video/mp4" />
 </video>
 
 All of the above mostly .. [confused me](https://www.lesswrong.com/s/zpCiuR4T343j9WkcK/p/5JDkW4MYXit2CquLs).
 
-- <ListMarker>2.</ListMarker> and <ListMarker>3.</ListMarker> strongly pointed into the direction of GNOME being the problem, and maybe my session crashing in a weird way
-- <ListMarker>4.</ListMarker> and <ListMarker>5.</ListMarker> pointed into the direction of a resource exhaustion problem (but there wasn't higher resource usage at all), while
-- <ListMarker>6.</ListMarker> pointed in the direction of it being a hardware/firmware problem, or at least towards it being hardware/firmware induced.
+- <ListMarker>2.</ListMarker> and <ListMarker>3.</ListMarker> strongly pointed into the direction of
+  GNOME being the problem, and maybe my session crashing in a weird way
+- <ListMarker>4.</ListMarker> and <ListMarker>5.</ListMarker> pointed into the direction of a
+  resource exhaustion problem (but there wasn't higher resource usage at all), while
+- <ListMarker>6.</ListMarker> pointed in the direction of it being a hardware/firmware problem, or
+  at least towards it being hardware/firmware induced.
 
 These findings left me relatively clueless, since they didn't really point towards anything specific (without also pointing away from it).
 
@@ -52,7 +55,6 @@ config.boot.kernelParams = [
 ];
 ```
 
-
 <References>
 ## Probably different
   <ReferenceLink href="https://community.frame.work/t/screen-keeps-flickering-on-lower-brightness/70138/5">Screen keeps flickering on lower brightness - Framework Laptop 13 / Linux - Framework Community</ReferenceLink>
@@ -61,10 +63,16 @@ config.boot.kernelParams = [
   <ReferenceLink href="https://community.frame.work/t/responded-screen-issues-on-fedora/40772/7">[RESPONDED] Screen issues on Fedora - #7 by dimitris - Linux - Framework Community</ReferenceLink>
 
 ## Maybe related
-  <ReferenceLink href="https://community.frame.work/t/screen-flickers-after-logging-in-and-at-random-times/39192">Screen flickers after logging in and at random times - Framework Laptop 13 - Framework Community</ReferenceLink>
-  <ReferenceLink href="https://discourse.nixos.org/t/nixos-hard-locks-driving-my-crazy/72210/7">NixOS hard locks driving my crazy! - Help - NixOS Discourse</ReferenceLink>
+
+<ReferenceLink href="https://community.frame.work/t/screen-flickers-after-logging-in-and-at-random-times/39192">
+  Screen flickers after logging in and at random times - Framework Laptop 13 - Framework Community
+</ReferenceLink>
+<ReferenceLink href="https://discourse.nixos.org/t/nixos-hard-locks-driving-my-crazy/72210/7">
+  NixOS hard locks driving my crazy! - Help - NixOS Discourse
+</ReferenceLink>
 
 ## Resolved the issue
+
   <ReferenceLink href="https://www.reddit.com/r/NixOS/comments/1hjruq1/graphics_corruption_on_kernel_6125_and_up/">Graphics corruption on kernel 6.12.5 and up : r/NixOS</ReferenceLink>
   <ReferenceLink href="https://www.reddit.com/r/framework/comments/1goh7hc/anyone_else_get_this_screen_flickering_issue/">Anyone else get this screen flickering issue? : r/framework</ReferenceLink>
   <ReferenceLink href="https://jonathanmfung.com/setting-kernel-parameters-in-nixos">Setting Kernel Parameters in NixOS</ReferenceLink>

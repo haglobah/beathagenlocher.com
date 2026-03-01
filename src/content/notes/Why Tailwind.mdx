@@ -1,6 +1,6 @@
 ---
-title: "Why Tailwind"
-description: ""
+title: 'Why Tailwind'
+description: ''
 growthStage: seedling
 startDate: 2025-11-13T16:27:09Z
 updated: 2025-11-13T16:27:12Z
@@ -49,14 +49,16 @@ TailwindCSS is a utility-first CSS framework that provides:
 **With inline styles** (verbose, inconsistent, no constraints):
 
 ```html
-<div style="background-color: #f3f4f6; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+<div
+  style="background-color: #f3f4f6; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"
+>
   <h2 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 8px;">
     Product Card
   </h2>
-  <p style="font-size: 14px; color: #6b7280; line-height: 1.5;">
-    Description goes here
-  </p>
-  <button style="background-color: #3b82f6; color: white; padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer;">
+  <p style="font-size: 14px; color: #6b7280; line-height: 1.5;">Description goes here</p>
+  <button
+    style="background-color: #3b82f6; color: white; padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer;"
+  >
     Learn More
   </button>
 </div>
@@ -66,12 +68,8 @@ TailwindCSS is a utility-first CSS framework that provides:
 
 ```html
 <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
-  <h2 class="text-lg font-semibold text-gray-900 mb-2">
-    Product Card
-  </h2>
-  <p class="text-sm text-gray-500 leading-relaxed">
-    Description goes here
-  </p>
+  <h2 class="text-lg font-semibold text-gray-900 mb-2">Product Card</h2>
+  <p class="text-sm text-gray-500 leading-relaxed">Description goes here</p>
   <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
     Learn More
   </button>

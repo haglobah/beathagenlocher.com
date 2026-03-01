@@ -1,6 +1,6 @@
 ---
 title: Learning to C
-description: "A mastery guide for the ugly side of programming"
+description: 'A mastery guide for the ugly side of programming'
 growthStage: seedling
 startDate: 2025-07-29T00:52:40
 updated: 2025-09-07T13:47:35
@@ -22,6 +22,7 @@ Its goal is to supply _a lot_ of information, tasks, and real-world projects whi
 For example, this means that this guide will introduce `git` when I think the time has come (which is when you would encounter it in real life). `git`, therefore, will probably be introduced while doing a project.
 
 For this, this guide will alternate between:
+
 - Giving a high-level overview (where we're coming from, where we're going)
 - And then diving into guides/projects
 - Utilizing whatever good guide/task sheet/project description there already is.
@@ -35,6 +36,7 @@ When something irritates you, please <Il href="contacting-me">tell me about it</
 (Or, as soon as you're that advanced: Just open a pull request on GitHub ^^)
 
 Remember, this guide assumes you're smart—behave like a smart person:
+
 - Whenever you encounter a problem and have thought about it for a few minutes, _you google it_. (Good sites include StackOverflow)
 - When you don't know how something works in general, try to read its documentation (online or via _man pages_—we'll get to that)
 - When you really get stuck, _ask for help_. Ask people you know that might know the answer, or [just ask me directly](mailto:bah@posteo.de). When asking questions there's a few things to keep in mind: [1](https://dontasktoask.com/), [2](https://xyproblem.info/), and every site's got its own FAQ on asking ([StackOverflow](https://stackoverflow.com/help/how-to-ask), for example)
@@ -49,6 +51,7 @@ Expect that it will will be enough material for _months_.
 Get your hands on a [Unix](https://en.wikipedia.org/wiki/Unix) system.
 
 This means either:
+
 - [Installing WSL](https://www.youtube.com/watch?v=gTf32sX9ci0) (docs here: [https://learn.microsoft.com/en-us/windows/wsl/install](https://learn.microsoft.com/en-us/windows/wsl/install))
 - Being on macOS—already done.
 - Being on Linux—already done, too. :)
@@ -88,22 +91,35 @@ Done?
 Time for a review:
 
 <OrbitArea>
-  <OrbitPrompt question="How do you find out your current working directory?" answer="`pwd`"/>
-  <OrbitPrompt question="How do you show the contents of the current directory?" answer="`ls`"/>
-  <OrbitPrompt question="How do you show the contents of the directory `/home/beat/`?" answer="`ls /home/beat/`"/>
-  <OrbitPrompt question="How do you show the contents of the `lala` inside your current folder?" answer="`ls ./lala`"/>
-  <OrbitPrompt question="How do you show the contents of the directory one level above the one you're currently in?" answer="`ls ..`"/>
-  <OrbitPrompt question="Show all hidden files and folders." answer="`ls -a`"/>
-  <OrbitPrompt question="Change into the directory `lala`." answer="`cd lala`"/>
-  <OrbitPrompt question="Go one level up the directory tree." answer="`cd ..`"/>
-  <OrbitPrompt question="Jump to your home directory." answer="`cd ~`"/>
-  <OrbitPrompt question="Jump to the last visited directory." answer="`cd -`"/>
-  <OrbitPrompt question="Assume you don't know anymore what `ls` does (and you don't have internet). How would you find help?"
-  answer="- `ls --help`
-  - `man ls`"/>
-  <OrbitPrompt question="Let's do that for another command. How would you find out what `cp` does?"
-  answer="- `cp --help`
-  - `man cp`"/>
+  <OrbitPrompt question="How do you find out your current working directory?" answer="`pwd`" />
+  <OrbitPrompt question="How do you show the contents of the current directory?" answer="`ls`" />
+  <OrbitPrompt
+    question="How do you show the contents of the directory `/home/beat/`?"
+    answer="`ls /home/beat/`"
+  />
+  <OrbitPrompt
+    question="How do you show the contents of the `lala` inside your current folder?"
+    answer="`ls ./lala`"
+  />
+  <OrbitPrompt
+    question="How do you show the contents of the directory one level above the one you're currently in?"
+    answer="`ls ..`"
+  />
+  <OrbitPrompt question="Show all hidden files and folders." answer="`ls -a`" />
+  <OrbitPrompt question="Change into the directory `lala`." answer="`cd lala`" />
+  <OrbitPrompt question="Go one level up the directory tree." answer="`cd ..`" />
+  <OrbitPrompt question="Jump to your home directory." answer="`cd ~`" />
+  <OrbitPrompt question="Jump to the last visited directory." answer="`cd -`" />
+  <OrbitPrompt
+    question="Assume you don't know anymore what `ls` does (and you don't have internet). How would you find help?"
+    answer="- `ls --help`
+  - `man ls`"
+  />
+  <OrbitPrompt
+    question="Let's do that for another command. How would you find out what `cp` does?"
+    answer="- `cp --help`
+  - `man cp`"
+  />
 </OrbitArea>
 
 That was [Orbit](https://withorbit.com/), a tool for blending learning with text.
@@ -116,83 +132,168 @@ Done?
 Then it's review time, again:
 
 <OrbitArea>
-  <OrbitPrompt question="Create a directory called `this_dir`." answer="`mkdir this_dir`"/>
-  <OrbitPrompt question="Create two directories consecutively: `outer_dir` and `inner_dir`." answer="`mkdir -p outer_dir/inner_dir`"/>
-  <OrbitPrompt question="Create a new file (two ways)" answer="
+  <OrbitPrompt question="Create a directory called `this_dir`." answer="`mkdir this_dir`" />
+  <OrbitPrompt
+    question="Create two directories consecutively: `outer_dir` and `inner_dir`."
+    answer="`mkdir -p outer_dir/inner_dir`"
+  />
+  <OrbitPrompt
+    question="Create a new file (two ways)"
+    answer="
   - `touch newfile`
   - `nano newfile`, follwed by `Ctrl+o` & `Ctrl+x`
-  "/>
-  <OrbitPrompt question="What are the ways tools indicate 'Hold Control, then press x'?" answer="
+  "
+  />
+  <OrbitPrompt
+    question="What are the ways tools indicate 'Hold Control, then press x'?"
+    answer="
   - `Control-X`
   - `Control+X`
   - `Ctrl-X`
   - `Ctrl+X`
   - `^X`
   - `C-x`
-  "/>
-  <OrbitPrompt question="Delete a file" answer="`rm filepath`"/>
-  <OrbitPrompt question="Delete a directory" answer="`rm -r mydir`"/>
-  <OrbitPrompt question="Rename a file" answer="`mv oldname newname`"/>
-  <OrbitPrompt question="Move a file" answer="`mv filepath destination_folder/`"/>
-  <OrbitPrompt question="Copy all pdf files to `./pdfs/`" answer="`cp *.pdf ./pdfs/`"/>
+  "
+  />
+  <OrbitPrompt question="Delete a file" answer="`rm filepath`" />
+  <OrbitPrompt question="Delete a directory" answer="`rm -r mydir`" />
+  <OrbitPrompt question="Rename a file" answer="`mv oldname newname`" />
+  <OrbitPrompt question="Move a file" answer="`mv filepath destination_folder/`" />
+  <OrbitPrompt question="Copy all pdf files to `./pdfs/`" answer="`cp *.pdf ./pdfs/`" />
 </OrbitArea>
 
 And on to [4. Pipes and Filters](https://swcarpentry.github.io/shell-novice/04-pipefilter.html):
 
 <OrbitArea>
-  <OrbitPrompt question="Print a file's contents to the shell" answer="`cat file.txt`"/>
-  <OrbitPrompt question="Print a file's contents, but sort the lines" answer="`cat file.txt | sort`"/>
-  <OrbitPrompt question="Print a file's contents, but sort the lines (now they contain numbers), and take only the last five lines" answer="`cat file.txt | sort -n | tail -n 5`"/>
-  <OrbitPrompt question="Append one line to an existing file `file.txt` (not using an editor)" answer="`echo 'the new line' >> file.txt`"/>
-  <OrbitPrompt question="Show the first 10 lines of a file" answer="`head file.txt`"/>
-  <OrbitPrompt question="Show the last 3 lines of a file" answer="`tail -n 3 file.txt`"/>
-  <OrbitPrompt question="Count the number of lines in a file" answer="`wc -l file.txt`"/>
-  <OrbitPrompt question="Count the number of words in a file" answer="`wc -w file.txt`"/>
-  <OrbitPrompt question="Remove duplicate lines from sorted output" answer="`sort file.txt | uniq`"/>
-  <OrbitPrompt question="Save the output of a command to a file (overwriting)" answer="`command > output.txt`"/>
-  <OrbitPrompt question="Save the output of a command to a file (appending)" answer="`command >> output.txt`"/>
-  <OrbitPrompt question="What does the pipe operator `|` do?" answer="Takes the output of the command on the left and uses it as input for the command on the right"/>
+  <OrbitPrompt question="Print a file's contents to the shell" answer="`cat file.txt`" />
+  <OrbitPrompt
+    question="Print a file's contents, but sort the lines"
+    answer="`cat file.txt | sort`"
+  />
+  <OrbitPrompt
+    question="Print a file's contents, but sort the lines (now they contain numbers), and take only the last five lines"
+    answer="`cat file.txt | sort -n | tail -n 5`"
+  />
+  <OrbitPrompt
+    question="Append one line to an existing file `file.txt` (not using an editor)"
+    answer="`echo 'the new line' >> file.txt`"
+  />
+  <OrbitPrompt question="Show the first 10 lines of a file" answer="`head file.txt`" />
+  <OrbitPrompt question="Show the last 3 lines of a file" answer="`tail -n 3 file.txt`" />
+  <OrbitPrompt question="Count the number of lines in a file" answer="`wc -l file.txt`" />
+  <OrbitPrompt question="Count the number of words in a file" answer="`wc -w file.txt`" />
+  <OrbitPrompt
+    question="Remove duplicate lines from sorted output"
+    answer="`sort file.txt | uniq`"
+  />
+  <OrbitPrompt
+    question="Save the output of a command to a file (overwriting)"
+    answer="`command > output.txt`"
+  />
+  <OrbitPrompt
+    question="Save the output of a command to a file (appending)"
+    answer="`command >> output.txt`"
+  />
+  <OrbitPrompt
+    question="What does the pipe operator `|` do?"
+    answer="Takes the output of the command on the left and uses it as input for the command on the right"
+  />
 </OrbitArea>
 
 Continue with [5. Loops](https://swcarpentry.github.io/shell-novice/05-loop.html):
 
 <OrbitArea>
-  <OrbitPrompt question="Write a `for` loop that prints each file name in the current directory" answer="`for filename in *; do echo $filename; done`"/>
-  <OrbitPrompt question="Write a `for` loop that copies all .txt files to a backup directory" answer="`for file in *.txt; do cp $file backup/; done`"/>
-  <OrbitPrompt question="How do you reference a variable in bash?" answer="Use `$` before the variable name, like `$filename`"/>
-  <OrbitPrompt question="Write a `for` loop that processes files alice.txt and bob.txt" answer="`for file in alice.txt bob.txt; do echo $file; done`"/>
-  <OrbitPrompt question="What's the general syntax of a `for` loop in bash?" answer="`for variable in list; do commands; done`"/>
+  <OrbitPrompt
+    question="Write a `for` loop that prints each file name in the current directory"
+    answer="`for filename in *; do echo $filename; done`"
+  />
+  <OrbitPrompt
+    question="Write a `for` loop that copies all .txt files to a backup directory"
+    answer="`for file in *.txt; do cp $file backup/; done`"
+  />
+  <OrbitPrompt
+    question="How do you reference a variable in bash?"
+    answer="Use `$` before the variable name, like `$filename`"
+  />
+  <OrbitPrompt
+    question="Write a `for` loop that processes files alice.txt and bob.txt"
+    answer="`for file in alice.txt bob.txt; do echo $file; done`"
+  />
+  <OrbitPrompt
+    question="What's the general syntax of a `for` loop in bash?"
+    answer="`for variable in list; do commands; done`"
+  />
 </OrbitArea>
 
 Continue with [6. Shell Scripts](https://swcarpentry.github.io/shell-novice/06-script.html):
 
 <OrbitArea>
-  <OrbitPrompt question="What's the first line you should put in a bash script?" answer="`#!/bin/bash` (the shebang line)"/>
-  <OrbitPrompt question="How do you make a script executable?" answer="`chmod +x script.sh`"/>
-  <OrbitPrompt question="How do you access the first command line argument in a script?" answer="`$1`"/>
-  <OrbitPrompt question="How do you access the second command line argument in a script?" answer="`$2`"/>
-  <OrbitPrompt question="How do you access all command line arguments in a script?" answer="`$@`"/>
-  <OrbitPrompt question="How do you run a script called `myscript.sh` in the current directory?" answer="`./myscript.sh`"/>
-  <OrbitPrompt question="What does `$0` contain in a script?" answer="The name of the script itself"/>
+  <OrbitPrompt
+    question="What's the first line you should put in a bash script?"
+    answer="`#!/bin/bash` (the shebang line)"
+  />
+  <OrbitPrompt question="How do you make a script executable?" answer="`chmod +x script.sh`" />
+  <OrbitPrompt
+    question="How do you access the first command line argument in a script?"
+    answer="`$1`"
+  />
+  <OrbitPrompt
+    question="How do you access the second command line argument in a script?"
+    answer="`$2`"
+  />
+  <OrbitPrompt question="How do you access all command line arguments in a script?" answer="`$@`" />
+  <OrbitPrompt
+    question="How do you run a script called `myscript.sh` in the current directory?"
+    answer="`./myscript.sh`"
+  />
+  <OrbitPrompt
+    question="What does `$0` contain in a script?"
+    answer="The name of the script itself"
+  />
 </OrbitArea>
 
 Continue with [7. Finding Things](https://swcarpentry.github.io/shell-novice/07-find.html):
 
 <OrbitArea>
-  <OrbitPrompt question="Find all files with .txt extension in the current directory and subdirectories" answer="`find . -name '*.txt'`"/>
-  <OrbitPrompt question="Find all directories named 'data'" answer="`find . -type d -name 'data'`"/>
-  <OrbitPrompt question="Find all files named *.log" answer="`find . -type f -name *.md`"/>
-  <OrbitPrompt question="Search for the word 'TODO' in all `.py` files" answer="`grep 'TODO' *.py`"/>
-  <OrbitPrompt question="Count the number of lines with 'TODO' in all `.py` files" answer="`grep 'TODO' *.py | wc --lines`"/>
-  <OrbitPrompt question="Filter out all the lines that contain 'TODO' in all `.py` files" answer="`grep -v 'TODO' *.py`"/>
-  <OrbitPrompt question="Search for 'function' in all files recursively" answer="`grep --recursive 'function' .`"/>
-  <OrbitPrompt question="Search for 'error' case-insensitively" answer="`grep --ignore-case 'error' file.txt`"/>
-  <OrbitPrompt question="Show line numbers when searching with grep" answer="`grep --line-number 'pattern' file.txt`"/>
+  <OrbitPrompt
+    question="Find all files with .txt extension in the current directory and subdirectories"
+    answer="`find . -name '*.txt'`"
+  />
+  <OrbitPrompt
+    question="Find all directories named 'data'"
+    answer="`find . -type d -name 'data'`"
+  />
+  <OrbitPrompt question="Find all files named *.log" answer="`find . -type f -name *.md`" />
+  <OrbitPrompt
+    question="Search for the word 'TODO' in all `.py` files"
+    answer="`grep 'TODO' *.py`"
+  />
+  <OrbitPrompt
+    question="Count the number of lines with 'TODO' in all `.py` files"
+    answer="`grep 'TODO' *.py | wc --lines`"
+  />
+  <OrbitPrompt
+    question="Filter out all the lines that contain 'TODO' in all `.py` files"
+    answer="`grep -v 'TODO' *.py`"
+  />
+  <OrbitPrompt
+    question="Search for 'function' in all files recursively"
+    answer="`grep --recursive 'function' .`"
+  />
+  <OrbitPrompt
+    question="Search for 'error' case-insensitively"
+    answer="`grep --ignore-case 'error' file.txt`"
+  />
+  <OrbitPrompt
+    question="Show line numbers when searching with grep"
+    answer="`grep --line-number 'pattern' file.txt`"
+  />
 </OrbitArea>
 
 Aand: Done!
 
-But now, to really test your knowledge:  
+But now, to really test your knowledge:
+
 > Complete the [Twelve days of shell](https://12days.cmdchallenge.com/), and, if you're feeling adventurous, as much of the [cmdchallenge](https://cmdchallenge.com/) as you can (or want to) do.
 
 And then, on to other things.
@@ -344,13 +445,21 @@ And we've installed gcc.
 Review time :)
 
 <OrbitArea>
-  <OrbitPrompt question="What does 'installing a program' mean in the context of command line tools?" answer="Making it available for execution - so you can run the command from anywhere"/>
-  <OrbitPrompt question="What file defines a Nix development environment?" answer="`flake.nix`"/>
-  <OrbitPrompt question="How do you enter a Nix development shell?" answer="`nix develop`"/>
-  <OrbitPrompt question="How do you check if a command is available and where it's located?" answer="`which commandname`"/>
-  <OrbitPrompt question="In a Nix flake, where do you specify which packages should be available in your development shell?" answer="In the `packages = [ ... ]` list inside `devShells.default`"/>
+  <OrbitPrompt
+    question="What does 'installing a program' mean in the context of command line tools?"
+    answer="Making it available for execution - so you can run the command from anywhere"
+  />
+  <OrbitPrompt question="What file defines a Nix development environment?" answer="`flake.nix`" />
+  <OrbitPrompt question="How do you enter a Nix development shell?" answer="`nix develop`" />
+  <OrbitPrompt
+    question="How do you check if a command is available and where it's located?"
+    answer="`which commandname`"
+  />
+  <OrbitPrompt
+    question="In a Nix flake, where do you specify which packages should be available in your development shell?"
+    answer="In the `packages = [ ... ]` list inside `devShells.default`"
+  />
 </OrbitArea>
-
 
 # 2. C basics, Part I
 
@@ -359,6 +468,7 @@ Review time :)
 Okay, so now we've finally got a C compiler available. Let's write our first C program, and compile it with it.
 
 You know the drill by now:
+
 1. Open up an editor
 2. Write the program
 3. Save the file
@@ -379,7 +489,6 @@ int main() {
   return (0);
 }
 ```
-
 
 Save the file, And then, compile it:
 
@@ -405,9 +514,10 @@ When trying to read unfamiliar code, you should:
 3. Google that
 4. Try to explain the piece of code to yourself.
 
-<ListMarker>1.</ListMarker>, you need to do yourself.  
-For <ListMarker>2.</ListMarker>, [[LLM]]s can be quite helpful.  
-<ListMarker>3.</ListMarker> just needs proper googling, and <ListMarker>4.</ListMarker>, you can only do yourself (again).
+<ListMarker>1.</ListMarker>, you need to do yourself. For <ListMarker>2.</ListMarker>, [[LLM]]s can
+be quite helpful.
+<ListMarker>3.</ListMarker> just needs proper googling, and <ListMarker>4.</ListMarker>, you can
+only do yourself (again).
 
 In our example, that might mean:
 
@@ -415,7 +525,7 @@ In our example, that might mean:
 2. Asking claude what up with that, and it telling you that this tells the _C preprocessor_ to include a _header file_.
 3. Googling something among the lines of "C include statement", "C header file", "C preprocessor", "C preprocessor header file", "C header file example"
 4. And with this newfound knowledge: Trying to explain it again :)
-</Callout>
+   </Callout>
 
 Now: Well, _do that_.
 
@@ -433,10 +543,11 @@ And when you're finished: Review time! :)
 #include <stdio.h>
 
 int main() {
-  printf("Hello, World!\");
-  return (0);
+printf("Hello, World!\");
+return (0);
 }
-```'/>
+
+````'/>
 
 </OrbitArea>
 
@@ -499,7 +610,7 @@ packages = [
   # ...other packages
   pkgs.git
 ]
-```
+````
 
 </Spoiler>
 
@@ -522,8 +633,6 @@ Let's start the work on the project. First, let's create the first file: `main.c
 touch main.c
 code .
 ```
-
-
 
 # Intermezzo: Testing
 

@@ -1,5 +1,5 @@
 ---
-title: "Excluding Tailwind Classes From Being Generated"
+title: 'Excluding Tailwind Classes From Being Generated'
 startDate: 2025-12-11T17:12:53Z
 topics: [TIL, CSS, Tailwind]
 publish: true
@@ -10,7 +10,6 @@ Today I learned to exclude tailwind classes from being generated.
 It works like this:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 @source not inline("collapse"); /* excludes the `collapse` class */
 ```
-

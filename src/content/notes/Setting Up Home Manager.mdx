@@ -16,7 +16,6 @@ In this tutorial, I'm gonna show you how to set up your `HOME` with [[Home Manag
 
 First things first: Take one minute and look at the [docs](https://nix-community.github.io/home-manager/index.xhtml). They're not a tutorial, but a good reference, and it's definitely useful to have seen them once.
 
-
 ...
 
 # Chapter 1: A Basic Flake
@@ -177,44 +176,44 @@ To do that, it's time to pull in your whole `HOME` config into your flake.
 Let's do it for the `bash` files, `.bash_profile` and `.bashrc`:
 
 1. Find the files:
-    ```shell
-    $ cd ~
-    $ ls -a
-    .bash_profile .bashrc
-    ```
+   ```shell
+   $ cd ~
+   $ ls -a
+   .bash_profile .bashrc
+   ```
 2. Copy them over:
-    ```shell
-    $ cp .bash_profile .bashrc ~/nix-home/
-    ```
+   ```shell
+   $ cp .bash_profile .bashrc ~/nix-home/
+   ```
 3. Add them to `home.file`:
-    ```nix showLineNumbers startLineNumber=19 title=flake.nix
-    # ... start of flake
-    config = {
-      home.username = "beat";
-      home.homeDirectory = "/home/beat";
 
-      home.packages = [
-        pkgs.git
-        pkgs.wget
-      ];
+   ```nix showLineNumbers startLineNumber=19 title=flake.nix
+   # ... start of flake
+   config = {
+     home.username = "beat";
+     home.homeDirectory = "/home/beat";
 
-      home.file = {
-        ".bash_profile".source = ./.bash_profile;
-        ".bashrc".source = ./.bashrc;
-      };
+     home.packages = [
+       pkgs.git
+       pkgs.wget
+     ];
 
-      # DO NOT CHANGE THESE LINES
-      programs.home-manager.enable = true;
-      home.stateVersion = "25.05";
-    };
-    # ... closing braces
-    ```
+     home.file = {
+       ".bash_profile".source = ./.bash_profile;
+       ".bashrc".source = ./.bashrc;
+     };
+
+     # DO NOT CHANGE THESE LINES
+     programs.home-manager.enable = true;
+     home.stateVersion = "25.05";
+   };
+   # ... closing braces
+   ```
+
 4. And rebuild your `HOME` _while backing up the old files_:
-    ```shell
-    home-manager switch --flake ~/nix-home -b backup
-    ```
-
-
+   ```shell
+   home-manager switch --flake ~/nix-home -b backup
+   ```
 
 This general workflow works for every file in your `HOME`:
 
@@ -233,8 +232,6 @@ We mostly added a layer of declarativeness around the packages we installed whil
 
 The true power of [[Home Manager]] only comes when using _modules_. Because everything is reproducible, there are plenty of prepackaged software packets (aka. Home Manager Modules) already available.
 
-
-
 Let me show you:
 
 After
@@ -250,11 +247,20 @@ nix run home-manager/master -- init ~/nix-home-2
 ```
 
 and compare the result.
+
 </Draft>
 
 <References>
-   <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml">Home Manager Manual </ReferenceLink>
-   <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-standalone">Home Manager Manual Flakes Standalone Section </ReferenceLink>
-   <ReferenceLink href="https://nix-community.github.io/home-manager/options.xhtml">Home Manager Configuration Options</ReferenceLink>
-   <ReferenceLink href="https://www.youtube.com/watch?app=desktop&v=FcC2dzecovw" author="vimjoyer">Home Manager Tutorial</ReferenceLink>
+  <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml">
+    Home Manager Manual{' '}
+  </ReferenceLink>
+  <ReferenceLink href="https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-standalone">
+    Home Manager Manual Flakes Standalone Section{' '}
+  </ReferenceLink>
+  <ReferenceLink href="https://nix-community.github.io/home-manager/options.xhtml">
+    Home Manager Configuration Options
+  </ReferenceLink>
+  <ReferenceLink href="https://www.youtube.com/watch?app=desktop&v=FcC2dzecovw" author="vimjoyer">
+    Home Manager Tutorial
+  </ReferenceLink>
 </References>

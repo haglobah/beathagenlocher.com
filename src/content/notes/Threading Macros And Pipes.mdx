@@ -1,6 +1,6 @@
 ---
-title: "Threading Macros And Pipes"
-description: ""
+title: 'Threading Macros And Pipes'
+description: ''
 growthStage: seedling
 startDate: 2026-01-17T18:03:05Z
 updated: 2026-01-20T00:39:50Z
@@ -25,6 +25,7 @@ Source code -compiler-> Target Language Code
 ```
 
 And a file browser window is just this:
+
 ```
 folder path -file browser-> folder view
 ```
@@ -35,7 +36,7 @@ When we apply this idea naively, our programs look like this:
 
 ```js title="main.ts"
 export const main = (request) => {
-    return formatResponse(validateRequest(parseHeaders(request)))
+  return formatResponse(validateRequest(parseHeaders(request)))
 }
 ```
 
@@ -55,7 +56,7 @@ main req = formatResponse(validateRequest(parseHeaders req))
  (format-response (validate-request (parse-headers request))))
 ```
 
-This is okay (and still way better than a ton of statements, I'd say), but it loses the nice property of statements that it's not nested.  
+This is okay (and still way better than a ton of statements, I'd say), but it loses the nice property of statements that it's not nested.
 
 Also, when we try to read and understand the code, we're probably going to read it from right to left (while mentally 'piping' through the arguments in our heads).
 
@@ -65,10 +66,7 @@ If we mentally parse the code like this either way, we can also just write it do
 import { pipe } from 'effect' // for example, but it's pretty easy to write yourself, too
 
 export const main = (request) => {
-    return pipe(request,
-                parseHeaders,
-                validateRequest,
-                formatResponse)
+  return pipe(request, parseHeaders, validateRequest, formatResponse)
 }
 ```
 

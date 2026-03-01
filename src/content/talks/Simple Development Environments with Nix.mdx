@@ -4,16 +4,20 @@ description: Setting up development environments is more complex than it should 
 startDate: 2024-06-12
 updated: 2025-03-15
 growthStage: budding
-topics: ["Functional Programming", "Nix", "Simplicity", "Software Development"]
+topics: ['Functional Programming', 'Nix', 'Simplicity', 'Software Development']
 conferences:
   [
-    { name: "Tü-λ | Functional Programming Meetup Tübingen", date: "2024-08-28", location: "itdesign" },
+    {
+      name: 'Tü-λ | Functional Programming Meetup Tübingen',
+      date: '2024-08-28',
+      location: 'itdesign',
+    },
   ]
 publish: true
 ---
 
 ≺≻ [[Slidev]]  
-≺≻ [[Slidev example talks]]  
+≺≻ [[Slidev example talks]]
 
 [[David Binder]]s abstract:
 "Functional programmers cannot use the same data structures and algorithms that imperative programmers are used to. Functional data structures make it easier to reason about what our code does, but have different performance characteristics. This talk will introduce some of the basic and advanced techniques we use when we implement functional data structures efficiently."
@@ -41,6 +45,7 @@ Now, you might ask yourself: That looks like it should be possible with a bash s
 I think it's because that would need a unified interface, which we don't have (as in: Only one package manager, only one shell, ...) to be maintainable.
 
 And even if we solved that (or put in the maintenance effort):
+
 - How do we ensure that it doesn't interfere with existing packages (conflicting versions)
 
 Well, there is a unified interface like that: [[Nix]]. (And by extension, [[Guix (System)]])
@@ -77,6 +82,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://artifacts.nixos.org/nix-installe
 ```
 
 You might ask yourself: If this is so great, why isn't everybody using that already?
+
 - everything is different
 - using derivations is absolutely great, writing them is _hard_.
 - [[Nix Language]] is.. irritating.
@@ -130,6 +136,7 @@ packages.default = nixpkgs.legacyPackages."x86_64-linux".stdenv.mkDerivation {
 ```
 
 Trade-offs:
+
 - Our OSes are not made for this.
 - Writing stuff in the [[Nix Language]] is hard.
 - A bunch of new concepts: [[Nix Flake]]s, [[Nix Derivation]]s,
