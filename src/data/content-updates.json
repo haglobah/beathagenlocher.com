@@ -1,5 +1,253 @@
 [
   {
+    "type": "update",
+    "file": "src/content/notes/Nix.mdx",
+    "slug": "nix",
+    "collection": "notes",
+    "title": "Nix",
+    "date": "2026-03-02T22:10:00.000Z",
+    "linesChanged": 10,
+    "commitHash": "3dc0824"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Screen Freezes on Framework 16 with AMD and GNOME.mdx",
+    "slug": "screen-freezes-on-framework-16-with-amd-and-gnome",
+    "collection": "essays",
+    "title": "Screen Freezes on Framework 16 with AMD and GNOME",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 26,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Bun.mdx",
+    "slug": "bun",
+    "collection": "notes",
+    "title": "Bun",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 10,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Digital Garden.mdx",
+    "slug": "digital-garden",
+    "collection": "notes",
+    "title": "Digital Garden",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 32,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Dynamic Scoping.mdx",
+    "slug": "dynamic-scoping",
+    "collection": "notes",
+    "title": "Dynamic Scoping",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 12,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/How People Learn.mdx",
+    "slug": "how-people-learn",
+    "collection": "notes",
+    "title": "How People Learn",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 33,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/How To: Conference.mdx",
+    "slug": "how-to-conference",
+    "collection": "notes",
+    "title": "How To: Conference",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 13,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Immutable Data JavaScript.mdx",
+    "slug": "immutable-data-javascript",
+    "collection": "notes",
+    "title": "Immutable Data in TypeScript",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 13,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning Vim.mdx",
+    "slug": "learning-vim",
+    "collection": "notes",
+    "title": "Learning Vim",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 66,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Learning to C.mdx",
+    "slug": "learning-to-c",
+    "collection": "notes",
+    "title": "Learning to C",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 267,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/My Keyboard Setup.mdx",
+    "slug": "my-keyboard-setup",
+    "collection": "notes",
+    "title": "My Keyboard Setup",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 11,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Navigating Through Content Space.mdx",
+    "slug": "navigating-through-content-space",
+    "collection": "notes",
+    "title": "Navigating Through Content Space",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 41,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager.mdx",
+    "slug": "setting-up-email-in-doom-emacs-with-mu4e-on-nixos-with-home-manager",
+    "collection": "notes",
+    "title": "Setting Up Email in Doom Emacs with mu4e on NixOS with Home Manager",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 14,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up Home Manager.mdx",
+    "slug": "setting-up-home-manager",
+    "collection": "notes",
+    "title": "Setting Up Home Manager",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 84,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting Up Immich On NixOS with Clan.mdx",
+    "slug": "setting-up-immich-on-nixos-with-clan",
+    "collection": "notes",
+    "title": "Setting Up Immich On NixOS with Clan",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 12,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Setting up a Win 11 VM on NixOS.mdx",
+    "slug": "setting-up-a-win-11-vm-on-nixos",
+    "collection": "notes",
+    "title": "Setting up a Win 11 VM on NixOS",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 12,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Things I regularly recommend to people.mdx",
+    "slug": "things-i-regularly-recommend-to-people",
+    "collection": "notes",
+    "title": "Things I Regularly Recommend To People",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 18,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Threading Macros And Pipes.mdx",
+    "slug": "threading-macros-and-pipes",
+    "collection": "notes",
+    "title": "Threading Macros And Pipes",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 14,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Why Tailwind.mdx",
+    "slug": "why-tailwind",
+    "collection": "notes",
+    "title": "Why Tailwind",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 24,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Explaining Functional Programming.mdx",
+    "slug": "explaining-functional-programming",
+    "collection": "talks",
+    "title": "Explaining Functional Programming",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 30,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Programming, Simple.mdx",
+    "slug": "programming-simple",
+    "collection": "talks",
+    "title": "Programming, Simple",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 15,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Simple Development Environments with Nix.mdx",
+    "slug": "simple-development-environments-with-nix",
+    "collection": "talks",
+    "title": "Simple Development Environments with Nix",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 13,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Writing A Web Server in Elixir.mdx",
+    "slug": "writing-a-web-server-in-elixir",
+    "collection": "talks",
+    "title": "Writing A Web Server in Elixir",
+    "date": "2026-03-01T22:45:31.000Z",
+    "linesChanged": 12,
+    "commitHash": "62d3aee"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Functional Programming In TypeScript.mdx",
+    "slug": "functional-programming-in-typescript",
+    "collection": "essays",
+    "title": "Functional Programming In TypeScript",
+    "date": "2026-02-27T15:51:22.000Z",
+    "commitHash": "665d01c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Immutable Data JavaScript.mdx",
+    "slug": "immutable-data-javascript",
+    "collection": "notes",
+    "title": "Immutable Data in TypeScript",
+    "date": "2026-02-20T17:18:36.000Z",
+    "commitHash": "1e8d595"
+  },
+  {
     "type": "new",
     "file": "src/content/notes/JavaScript Code Snippets.mdx",
     "slug": "javascript-code-snippets",
