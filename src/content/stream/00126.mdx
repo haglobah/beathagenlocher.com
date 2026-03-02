@@ -1,0 +1,57 @@
+---
+title: 'Slidev QRCode Addon'
+startDate: 2026-03-02T23:42:12Z
+topics: [Slidev, QR Code, slides, Vue]
+publish: true
+---
+
+For presentations, I'm using [slidev](https://sli.dev), a pretty cool and versatile tool (Markdown slides with inline HTML/Vue, so you can do basically anything on your slides), which has lots of cool features.
+
+One minor annoyance: If you're using either of the QRCode addons and want to add more than one QR Code per slide deck, it breaks.
+
+Luckily, with the power of the web, this is pretty easy to fix:
+
+We can just define a component:
+
+```vue
+<template>
+  <QrcodeCanvas
+    :value="value"
+    :size="width"
+    :foreground="foreground"
+    :background="background"
+    :margin="margin"
+    level="H"
+  />
+</template>
+
+<script lang="ts" setup>
+import { QrcodeCanvas } from 'qrcode.vue'
+
+const props = withDefaults(
+  defineProps<{
+    value: string
+    width?: number
+    height?: number
+    color?: string
+    margin?: number
+  }>(),
+  {
+    width: 200,
+    color: '#000000',
+    margin: 2,
+  },
+)
+
+const foreground = props.color.startsWith('#') ? props.color : `#${props.color}`
+const background = '#FFFFFF'
+</script>
+```
+
+And use it:
+
+```vue
+<QRCode class="rounded" value="https://beathagenlocher.com/me" :width="140" :height="140" />
+```
+
+Sweet!
