@@ -1,5 +1,114 @@
 [
   {
+    "type": "new",
+    "file": "src/content/notes/(Fuzzy) Search on The Frontend.mdx",
+    "slug": "fuzzy-search-on-the-frontend",
+    "collection": "notes",
+    "title": "(Fuzzy) Search on The Frontend",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/AI Agents.mdx",
+    "slug": "ai-agents",
+    "collection": "notes",
+    "title": "AI Agents",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/AI And Formal Methods.mdx",
+    "slug": "ai-and-formal-methods",
+    "collection": "notes",
+    "title": "AI And Formal Methods",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/AI Madness.mdx",
+    "slug": "ai-madness",
+    "collection": "notes",
+    "title": "AI Madness",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Bryan Cantrill.mdx",
+    "slug": "bryan-cantrill",
+    "collection": "notes",
+    "title": "Bryan Cantrill",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Functional Programming.mdx",
+    "slug": "functional-programming",
+    "collection": "notes",
+    "title": "Functional Programming",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/LLM Usage.mdx",
+    "slug": "llm-usage",
+    "collection": "notes",
+    "title": "LLM Usage",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Monitoring.mdx",
+    "slug": "monitoring",
+    "collection": "notes",
+    "title": "Monitoring",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Oxide.mdx",
+    "slug": "oxide",
+    "collection": "notes",
+    "title": "Oxide",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Racket.mdx",
+    "slug": "racket",
+    "collection": "notes",
+    "title": "Racket (Programming Language)",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/TypeScript.mdx",
+    "slug": "typescript",
+    "collection": "notes",
+    "title": "TypeScript",
+    "date": "2026-03-03T16:39:12.000Z",
+    "commitHash": "a9a08fd"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/TypeScript.mdx",
+    "slug": "typescript",
+    "collection": "notes",
+    "title": "TypeScript",
+    "date": "2026-03-03T16:39:12.000Z",
+    "linesChanged": 28,
+    "commitHash": "a9a08fd"
+  },
+  {
     "type": "update",
     "file": "src/content/notes/Nix.mdx",
     "slug": "nix",
