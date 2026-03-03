@@ -1,0 +1,28 @@
+---
+title: 'TypeScript'
+description: ''
+growthStage: seedling
+startDate: 2026-02-27T09:40:13Z
+updated: 2026-02-27T09:40:13Z
+topics: [JavaScript, Gradual Type System]
+publish: true
+---
+
+# Correct Type Hints
+
+Don't forget to install your types:
+
+```shell
+bun install @bun/types
+```
+
+And then, add them to your `tsconfig.json`:
+
+```json title=tsconfig.json
+{
+  "compilerOptions": {
+    "types": ["node", "bun"],
+    "skipLibCheck": true
+  }
+}
+```
