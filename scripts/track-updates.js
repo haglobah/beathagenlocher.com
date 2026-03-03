@@ -40,6 +40,16 @@ function unquoteGitPath(path) {
   return Buffer.from(unquoted, 'latin1').toString('utf-8')
 }
 
+/**
+ * Slugify a content path, preserving directory separators
+ */
+function slugifyPath(path) {
+  return path
+    .split('/')
+    .map((part) => slug(part))
+    .join('/')
+}
+
 // Collections to track (excludes stream itself)
 const TRACKED_COLLECTIONS = ['notes', 'essays', 'talks']
 
@@ -119,7 +129,7 @@ function getNewContent() {
       if (!collectionMatch) continue
 
       const collection = collectionMatch[1]
-      const link = slug(collectionMatch[2])
+      const link = slugifyPath(collectionMatch[2])
 
       const title = extractTitle(file)
       if (!title) continue
@@ -177,7 +187,7 @@ function getSignificantUpdates() {
       if (!collectionMatch) continue
 
       const collection = collectionMatch[1]
-      const link = slug(collectionMatch[2])
+      const link = slugifyPath(collectionMatch[2])
 
       // Get lines changed in this commit for this file
       try {
