@@ -1,0 +1,84 @@
+---
+title: 'Async Link Fetching in Emacs'
+startDate: 2026-03-04T23:16:25Z
+topics: [TIL, Emacs, Doom Emacs]
+publish: true
+---
+
+Today I finally tackled something that has annoyed me for a while since switching most of my editing/digital gardening/second brain-writing over to Emacs.
+
+Whenever I took 30 minutes and tried to get title fetching of links to work, I couldn't get it to work in this self-allotted time. So I asked Opus to do the dumbest thing possible: Just fetch it via curl, and then apply stuff asynchronously.
+
+(The other way should work too, but I've spent way to much time on this now either way.)
+
+```elisp
+(defun flt--url-at-point ()
+  "Get URL at point, or nil."
+  (thing-at-point 'url))
+
+(defun flt--url-from-kill-ring ()
+  "Get URL from kill ring if it looks like one, or nil."
+  (let ((text (current-kill 0 t)))
+    (when (and text (string-match-p "\\`https?://" text))
+      (string-trim text))))
+
+(defun flt--get-url ()
+  "Get URL from point first, then kill ring. Nil if neither has one."
+  (or (flt--url-at-point)
+      (flt--url-from-kill-ring)))
+
+(defun flt--extract-title (html)
+  "Extract <title> content from HTML string."
+  (when (string-match "<title[^>]*>\\([^<]*\\)</title>" html)
+    (string-trim (match-string 1 html))))
+
+(defun flt--insert-markdown-link (url title marker)
+  "Replace URL at MARKER with a markdown link, or insert at MARKER."
+  (with-current-buffer (marker-buffer marker)
+    (save-excursion
+      (goto-char marker)
+      ;; If there's a raw URL at point, replace it
+      (let ((url-bounds (thing-at-point-bounds-of-url-at-point)))
+        (if url-bounds
+            (progn
+              (delete-region (car url-bounds) (cdr url-bounds))
+              (insert (format "[%s](%s)" title url)))
+          (insert (format "[%s](%s)" title url)))))))
+
+(defun flt-fetch-link-title ()
+  "Fetch the title of a URL (at point or kill ring) and insert a markdown link.
+If point is on a URL, replaces it. Otherwise inserts at point."
+  (interactive)
+  (let ((url (flt--get-url)))
+    (if (not url)
+        (message "No URL found at point or in kill ring.")
+      (let ((marker (point-marker))
+            (buf (generate-new-buffer " *flt-curl*")))
+        (message "Fetching title for %s..." url)
+        (make-process
+         :name "flt-curl"
+         :buffer buf
+         :command (list "curl" "-sL" "-m" "10"
+                        "-H" "User-Agent: Emacs"
+                        "--" url)
+         :sentinel
+         (lambda (proc _event)
+           (when (eq (process-status proc) 'exit)
+             (let ((title
+                    (with-current-buffer (process-buffer proc)
+                      (flt--extract-title (buffer-string)))))
+               (if title
+                   (progn
+                     (flt--insert-markdown-link url title marker)
+                     (message "Inserted: [%s](%s)" title url))
+                 (message "Could not extract title from %s" url)))
+             (kill-buffer (process-buffer proc))
+             (set-marker marker nil))))))))
+
+(map! :leader
+      :desc "->[title](link)" :nv "d f" #'flt-fetch-link-title)
+```
+
+And in the meantime, I also learned that _markers_ exist!
+
+So now, I can fetch link titles again, like I'm used to :)
