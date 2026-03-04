@@ -4,13 +4,45 @@ import Ol from '../components/OuterLink.astro'
 ---
 
 <footer class="mx-6 my-12 flex justify-center gap-6">
-  <img class="max-w-32 h-auto object-contain rounded-2xl" src="/portrait-beat-2026.jpg" />
+  <div class="flex flex-col justify-center">
+    <img class="max-w-32 h-auto object-contain rounded-2xl" src="/portrait-beat-2026.jpg" />
+    <div class="flex py-4 mx-auto gap-4">
+      <Ol href="https://bsky.app/profile/beathagenlocher.com" arrow={false}>
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 64 57">
+          <path
+            fill="currentColor"
+            d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"
+          >
+          </path>
+        </svg>
+      </Ol>
+      <Ol href="/rss.xml" title="RSS Feed" class="text-zinc-300 flex items-center" arrow={false}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="3"
+            d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+        </svg>
+      </Ol>
+      <Ol href="https://github.com/haglobah" arrow={false}>
+        <div class="i-carbon:logo-github w-6 h-6"></div>
+      </Ol>
+    </div>
+  </div>
   <div class="flex justify-center text-center flex-col gap-2">
     <p class="font-light font-sans f-text-xs text-zinc-400 italic">
       Written by a human, all <Ol href="https://practicaltypography.com/hyphens-and-dashes.html"
         >en and em dashes my own</Ol
       >.
     </p>
+    <p class="font-light font-sans f-text-xs text-zinc-400 italic">...</p>
     <p class="font-light font-sans f-text-xs text-zinc-400 italic">
       Thought of something you want to share with me?<br />
       Please <Il href="contacting-me">tell me about it</Il>—I read every message.
