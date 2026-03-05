@@ -59,7 +59,7 @@ Lisp Macros do better: They're not doing string replacement, but operate on the 
 LispMacro :: Syntax -> Syntax
 ```
 
-The also have a second pretty helpful property: They use _the same syntax as the base language_.
+They also have a second pretty helpful property: They use _the same syntax as the base language_.
 So their type is actually this:
 
 ```haskell
@@ -81,7 +81,7 @@ But they, too, have a problem: They're not _hygienic_.
 
 That is, they're introducing variables into their target program that could be referenced both from the inside and outside.
 
-This possibly couples the macro source code to the location it's being used in, which, if you squint, is the one unambigiously bad (default) feature in programming languages (again): [[Dynamic Scoping]]
+This possibly couples the macro source code to the location it's being used in, which, if you squint, is the one unambiguously bad (default) feature in programming languages (again): [[Dynamic Scoping]]
 
 There's an easy fix for this, however: [gensym](https://gigamonkeys.com/book/macros-defining-your-own#plugging-the-leaks)
 

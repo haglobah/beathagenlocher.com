@@ -5,7 +5,7 @@ topics: [TypeScript, Macros, Functional Programming, Immutable.js]
 publish: true
 ---
 
-Today I've been playing around with [[Immutable.js]] as a library that supplies immutable collection for [[JavaScript]] and [[TypeScript]].
+Today I've been playing around with [[Immutable.js]] as a library that supplies immutable collections for [[JavaScript]] and [[TypeScript]].
 
 Something that's relatively annoying at first sight (cause _verbose_) is how they handle typed Objects (_Records_).
 
@@ -52,10 +52,10 @@ It can be alleviated a bit by doing something like this:
 export const makeRecord = <T extends object>(defaults: T) => Record<T>(defaults)
 
 const Idle = makeRecord({ kind: 'Idle' as const })
-type Idle = RetureType<typeof Idle>
+type Idle = ReturnType<typeof Idle>
 ```
 
-But even that is still double the code and more mental workload payed as a price for immutability.
+But even that is still double the code and more mental workload paid as a price for immutability.
 
 So I wondered:
 

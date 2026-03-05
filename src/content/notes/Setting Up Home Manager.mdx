@@ -35,7 +35,7 @@ cd ~/nix-home
 code flake.nix # or whatever editor you prefer
 ```
 
-The first thing our Home Manager [[Nix Flake]] needs is a _input_ to get packages from. We're probably going to use some packages, so we need [[nixpkgs]], and then we're going to use `home-manager`, too:
+The first thing our Home Manager [[Nix Flake]] needs is an _input_ to get packages from. We're probably going to use some packages, so we need [[nixpkgs]], and then we're going to use `home-manager`, too:
 
 ```nix showLineNumbers title=flake.nix
 {
@@ -129,7 +129,7 @@ cd ~/nix-home
 nix run home-manager/master -- switch --flake .
 ```
 
-After it's done, close and reopent the terminal once. Then, do `which git` again—it should say something like this:
+After it's done, close and reopen the terminal once. Then, do `which git` again—it should say something like this:
 
 ```shell
 which git
@@ -140,7 +140,7 @@ Now you know how to add packages declaratively and reproducibly to your `HOME`. 
 
 # Intermezzo: Version Control
 
-Before we go any further, it's time give us some more safety while trying things out.
+Before we go any further, it's time to give us some more safety while trying things out.
 For that, we put our `~/nix-home` under _Version Control_.
 
 Make sure you have <Il href="setting-up-git">`git` set up</Il>.
@@ -220,7 +220,7 @@ This general workflow works for every file in your `HOME`:
 1. Take any file in your `HOME` that looks like it might serve a purpose (possibly everything in `.config`, `.bash_profile`, `.bashrc`, `.vimrc` and basically any other dotfile)
 2. Copy the file over to `~/nix-home/<the-file-path>`
 3. Add the file to `home.file`
-4. Rebuild you `HOME`
+4. Rebuild your `HOME`
 
 <Draft>
 # Chapter 3: Using modules
