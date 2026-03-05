@@ -1,6 +1,33 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/AI.mdx",
+    "slug": "ai",
+    "collection": "notes",
+    "title": "AI",
+    "date": "2026-03-05T00:03:06.000Z",
+    "commitHash": "4eedd73"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Lean.mdx",
+    "slug": "lean",
+    "collection": "notes",
+    "title": "Lean",
+    "date": "2026-03-05T00:03:06.000Z",
+    "commitHash": "4eedd73"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/SolidJS.mdx",
+    "slug": "solidjs",
+    "collection": "notes",
+    "title": "SolidJS",
+    "date": "2026-03-05T00:03:06.000Z",
+    "commitHash": "4eedd73"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/(Fuzzy) Search on The Frontend.mdx",
     "slug": "fuzzy-search-on-the-frontend",
     "collection": "notes",

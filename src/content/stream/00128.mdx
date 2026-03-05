@@ -9,7 +9,8 @@ Today I finally tackled something that has annoyed me for a while since switchin
 
 Whenever I took 30 minutes and tried to get title fetching of links to work, I couldn't get it to work in this self-allotted time. So I asked Opus to do the dumbest thing possible: Just fetch it via curl, and then apply stuff asynchronously.
 
-(The other way should work too, but I've spent way to much time on this now either way.)
+(Obviously the other, non-dumb way should work too, but I've spent way to much time on this now either way.)  
+(And apparently there's also `url-insert-file-contents`, maybe I'gonna try that some other time.)
 
 ```elisp
 (defun flt--url-at-point ()
