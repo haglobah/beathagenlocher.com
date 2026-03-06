@@ -1,0 +1,27 @@
+---
+title: 'Window Switching Made Simple | Part 2'
+description: ''
+growthStage: seedling
+startDate: 2026-03-06T09:21:19Z
+updated: 2026-03-06T09:21:19Z
+topics: [Simplicity, Automation, Flow, GNOME, Browser, Keyboard Shortcuts]
+publish: true
+---
+
+I've previously written about how I automate my computer workflows whenever I find a need for that, and window switching is among the commands I do most often at my computer.
+
+Over the last month, I found that having browser windows for separate task is pretty nice (one for videocalls, one for 'general' one, one for AI chats, one for 'work' stuff).
+
+But that was relatively hard to integrate into my current workflow:
+
+<Draft>
+- I want windows to match semantically (basically window names -> was hard on gnome)
+- Browser has current tab website title in window name, I can use that
+- But I can't string-match on it: Otherwise every website that has 'Element' in its name (looking at you, [[MDN]], will match, too).
+- So something different: Domain names are good for that, they are unique.
+- custom-tab-title with domain names in tab title -> therefore window title
+- Integrate this into shortcuts.conf
+
+-> This is what it looks like:
+
+</Draft>
