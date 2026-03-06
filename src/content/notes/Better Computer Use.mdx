@@ -3,36 +3,226 @@ title: 'Better Computer Use'
 description: 'Keyboard shortcuts & other stuff you probably want to know about'
 growthStage: seedling
 startDate: 2025-10-27T15:57:50
-updated: 2025-10-27T15:57:52
+updated: 2026-03-06T10:16:30Z
 topics: [Computer Use, Efficiency]
 publish: true
 ---
 
-### Command Bars/Command Menus
+Think about all the things you want to do on your computer.
+
+Whenever we want to do something, we have an intent.
+
+Our intent is normally as big as:
+
+- 'Write this text'
+- 'Research this fact'
+
+Or its:
+
+- 'Play this game'
+- or 'Browse the internet'
+
+Now think about how we use the computer.
+
+Our basic input methods for this are pretty limited:
+
+- we can 'move the mouse cursor'
+- 'click the mouse cursor'
+- 'use the scroll wheel'
+- 'type a key'
+
+And those actions are a good basis, but incredibly disconnected from our actual intent.
+
+Operating Systems and Applications come to the rescue there.  
+In them, keyboard shortcuts come to bear more information:
+
+- <KB>⌘-TAB</KB> becomes 'switch to the next application window'
+- <KB>Ctrl-f</KB> becomes 'search this text'
+
+And so on.
+
+I think the big improvement in usability is not only that those shortcuts make things faster, but that they _fit your intent better_.
+
+Even though it's impossible to do in text in the physical world, 'Search the whole text for occurrences of "this word"' is an actual intent we have, which we can capture well in code.
+
+So, with this out of the way:
+
+I think 'Better Computer Use' comes down to using tools that match our intent as closely as possible.
+
+Let's take the <KB>Ctrl-f</KB> example again:
+
+Let's assume you're reading through a text, want to search something in it, and didn't know about <KB>Ctrl-f</KB>. Now, the only way for doing this the old way is just actually reading the text, and if you can do that semi-well, skimming the text.  
+When you're in the middle of doing that, I come over and am like: Come on, you want to search, right—just use the search functionality baked into you application. You'd be pretty happy to use that now—and I'd argue it's because _it fits your intent better_.
+
+(And you'd probably be a a bit embarrassed that you didn't know about that yet)
+
+---
+
+Okay, but what now? What's the moral of the story?
+
+Should you now just learn all the keyboard shortcuts there are?
+
+I think there's a few morals here, depending on the roles you're in with regards to the environment:
+
+## What Does The User Want?
+
+As the user, you probably want three things:
+
+1. learn as few commands as possible
+   1. but only _for now_. You probably want to be able to do more stuff at a later point. That means you probably want the interface to both "not be too cluttered" and "allow for discovering commands".
+   1. have the any learning that need to occur feel 'easy' and 'not bothersome'
+1. have the available commands match your intent matched as closely as possible
+1. have the available commands compose well: When there's something you can't do (and which you can't find a command for, the software should still enable you do some the thing, even though maybe in decomposed steps)
+1. be as fast as possible at achieving your goal
+
+<Draft>
+
+(Not sure if this section is needed/helpful)
+
+## Designer
+
+The things that designer wants range way more depending on how much ownership for the users' wellbeing he takes (same with the dev):
+
+-
+
+The incentives of the designer are probably though:
+
+- Aesthetic appeal
+
+## Developer
+
+Again, depending on how much ownership the dev wants to take:
+
+- doesn't want to 'think hard'/overcomplicate things
+- wants to implement as few commands as possible
+- wants the user/designer to complain as little
+
+</Draft>
+
+And these make for are pretty nice constraints for UI design.
+
+What does this mean for Product Design/Development?
+
+# Product Design/Development
+
+## 1. Make Learning The Commands Easy
+
+You (as a product designer/developer) can achieve that by:
+
+- just using the same commands every other program uses/using a library that supplies these. Think: `readline` bindings on the command line, or the standard word processing commands like <KB>Ctrl-arrow</KB> for word movement, <KB>Shift-Enter</KB> for 'less than real enter', but also stuff like adding markdown support to your text box (and not using your own custom syntax).
+- Having only a fairly small number of commands (obviously). Not-so-obvious is that using the mouse is less mental workload _[Citation needed]_ (since you can already intuitively do that, and the feedback makes sense and is immediate, you can see what you click), and therefore better on 'ease of learning' than shortcut commands
+- You can learning the first few parts easy by condensing it into an onboarding tour, a guide, or such.
+
+This is what we're doing currently already. But what about:
+
+- Creating spaced repetition cards for commands (maybe in the tour, via a 'I probably want to use this at some point, make me remember this'-button?)
+- Taking in the keystrokes the user's doing, looking for repetitions that could be replaced with a single command, and suggest the new command
+- being able to describe what you're doing, and then getting a suggested command out? <Il href="#command-barscommand-menus">Cmd-K menus</Il> are pretty close for doing that (or that I can search through all the commands in Emacs, and they have sensible names), but they're not there yet: They always only have one label I need to guess when searching (or I need to read through all of them)—having a semantic search here would be pretty nice. There _are_ AI search capabilities in the command bar nowadays (https://elysiajs.com/ has one, for example), but they are only _chat intefaces_, not semantic searches over the available commands.
+
+## 2. Have The Commands Match Your Intent
+
+This is harder, I think.
+
+You can achieve learning as few commands as possible by just not having that many commands/having only all the commands a normal program uses—but often, the more general the command, the less useful it is to achieve _your current intent_. (Example: <KB>arrow-right</KB> is a command that exists basically everywhere, but you very rarely want to move 'exactly one char to the right'—but rather 'one word', or move the Canvas object 'exactly one step to the right').
+
+So generally speaking, this makes our app have more commands, and more custom commmands, both of which is in opposition to 1.
+
+But that makes it a more interesting design problem _for the specific domain you're looking at_.
+
+So:
+
+- Try to think about the ways your user can meaningfully interact with the app
+- Add in some that might function as fallbacks when the user can't find in the domain-specific commands what he's looking for
+- And _make them discoverable_: The very old way of doing this is a man page, then having a GUI with a (crazily complicated) menu bar, and nowadays it's more often keyboard shortcuts and cmd-k bars. I think they all have their niche, but I'd argue that in the default case, you should go with cmd-k bars for discoverability.
+
+<Draft>
+## 3. Make The Commands Compose Well
+
+<Callout>
+What does this even mean?
+
+In this context, it means that all commands have
+
+This means that you're—in general—able to perform a command on
+
+</Callout>
+
+A good example for this is
+
+</Draft>
+
+## 4. Be As Fast As Possible
+
+This is something crucial to forget for graphic apps: Using the mouse is convenient, but _really_ slow.
+
+But you can improve on that:
+
+- So for, enabling people to move faster over time, you probably want them to be able to use keyboard shortcuts.
+  - Optimally, they are also _configurable_.
+- Cmd-k menus are already quite fast—and they can enable users to be even faster in the future when they display the keyboard shortcut (or an option to define one) next to entry in the menu.
+- And then: Enable people to define new commands out of previously existing ones—this fits well with an approach where you suggest a command when people do some actions always in order in a very similar way. If you're doing that already, you can also just ask them whether they want to repeat the last command x times, and/or enable them to record macros they can bind to commands and/or replay.
+
+---
+
+But enough with all this app-dev talk. Let's switch back to the perspective of a the user.
+
+You're in an already existing application (take your operating system, for example). You can't change anything about the code, but you regularly want to do something 'there is no command for'.
+
+What can you do?
+
+Well, search on the internet for one. This sounds super simple and dumb, but it took me ages to not take the way I've been using the User Interface of the Desktop Enviroment, for example, for granted. Then there's something pretty well-supported like gnome tweaks, or there is just another setting that's already built-in you need to toggle (but which you didn't know about).
+
+And I see me/us _not just searching for this_ all the time, in all kinds of people: When we want to do something, are brains are just not wired for explorative 'how exactly is the best way to achieve that'-mode anymore.
+
+Then, one level higher, we can try to think about the steps we're currently taking, and then try to condense these into new workflows. For example when switching windows, I very rarely think "Oh, I need to switch to the window three windows back"—I always think "I want to switch to the browser now". As soon as we reformulated it like this, we can describe it to Claude/other people, and get ideas for tackling it.
+
+Going with the reformulation:
+
+- You very rarely want to scroll through a text by character. -> Use the mouse—but that's too slow. -> Move/Delete by word: <KB>Ctrl-arrow</KB>/<KB>Ctrl-delete</KB>/<KB>Ctrl-backspace</KB>. But even that, you mostly don't want to do: You want to jump to one specific point in the text/line. -> Use a 'jump to' feature: <KB>Ctrl-f</KB>, [[Vim]]'s `f` command, or Emacs' `C-s`.
+
+And there's a few of those.
+
+I think we should have a practice of more fine-grained sharing of intent-matching commands, but as far as I know, we don't.
+
+---
+
+Here is my list of things I regularly find myself telling people when I watch them using computers.
+
+### Please Use The Command Bars/Command Menus
 
 Many websites/tools have [command bars](https://maggieappleton.com/command-bar) nowadays.
 
-Shortcuts: <KB>Ctrl-K</KB>, but also sometimes <KB>Ctrl-Shift-P</KB>
+Shortcuts: <KB>Ctrl-K</KB> (basically everywhere on the internet, as on this website), but also sometimes <KB>Ctrl-Shift-P</KB> (in VS Code)
 
-### Moving by word
+### Please Move By Word
 
 In almost every editor there is, you can move by word with <KB>Ctrl-Right</KB> and <KB>Ctrl-Left</KB>
 
 ### Editors that use markdown
 
-<Draft>
+### Please Don't Switch Windows Like That
 
-### Window Switching
+The big part first: If you're already working mostly with your keyboard, you probably want to 'switch to the browser' and not 'switch to the window three from now'.
 
-For my favorite way of doing this, see [[Window Switching Made Simple]].
+Agreed?
+
+For my favorite way of doing this, see [[Window Switching Made Simple]], and [[Window Switching Made Simple | Part 2]].
 
 ### C-c and C-d to exit
 
-### `/` to search
+<KB>C-c</KB> and <KB>C-d</KB> generally exit any shell environment you're in.
+
+(Except for [[Vim]] and [[Emacs]]. Those are closed with <KB>Esc-:-q-!</KB> and <KB>C-x C-c</KB>, respectively)
+
+### <KB>/</KB> to search
+
+Many command line tools use a Vim-like search functionality, and the current file search in [[Vim]] is bound to <KB>/</KB>.
+
+Examples of this are [[Man Page]]s, but also [[GitHub]] and [[GitLab]].
 
 ### C-f to search
 
-</Draft>
+Basically whenever can't search with <KB>/</KB>, you can search with <KB>Ctrl-f</KB>
 
 <References>
   <ReferenceLink href="https://www.computerhope.com/tips/tip79.htm">
