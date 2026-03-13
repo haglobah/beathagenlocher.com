@@ -203,17 +203,11 @@ export default function CommentButton(): JSXElement {
 
   const isOpen = () => store.t !== 'Idle' && store.t !== 'Closed'
 
-  const updateHighlight = (active: boolean) => {
-    const p = getParagraphEl()
-    if (p instanceof HTMLElement) {
-      p.style.backgroundColor = active ? 'rgba(100, 108, 255, 0.08)' : ''
-      p.style.borderRadius = active ? '4px' : ''
-      p.style.transition = 'background-color 0.2s ease'
-    }
-  }
-
   createEffect(() => {
-    updateHighlight(isOpen())
+    const par = getParentPar()
+    if (par instanceof HTMLElement) {
+      par.classList.toggle('comment-active', isOpen())
+    }
   })
 
   const handleClickOutside = (e: MouseEvent) => {

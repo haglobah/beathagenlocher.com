@@ -3,6 +3,12 @@ import CommentButton from './CommentButton.tsx'
 ---
 
 <div class="commentable-par group relative">
-  <p class="f-my-lg max-w-[65ch]"><slot /></p>
+  <p class="f-my-lg max-w-[65ch] rounded transition-background-color duration-200 ease-in-out"><slot /></p>
   <CommentButton client:idle />
 </div>
+
+<style>
+  .commentable-par.comment-active > p {
+    background-color: rgba(100, 108, 255, 0.08);
+  }
+</style>
