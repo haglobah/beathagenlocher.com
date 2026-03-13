@@ -1,5 +1,5 @@
 import { createStore, reconcile } from 'solid-js/store'
-import { Match, Switch, type Component } from 'solid-js'
+import { Match, Switch, type JSXElement } from 'solid-js'
 
 // --- Tagged union infrastructure ---
 
@@ -183,7 +183,7 @@ const execute =
 
 // --- Component ---
 
-export default function CommentButton(): Component {
+export default function CommentButton(): JSXElement {
   let containerRef: HTMLDivElement | undefined
   const [store, setStore] = createStore<{ state: State }>({ state: State.Idle() })
 
