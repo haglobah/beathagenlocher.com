@@ -317,24 +317,26 @@ export default function CommentButton(): JSXElement {
         </Match>
 
         <Match when={isOpen() && store.t === 'Sent'}>
-          <div class="mt-2">
+          <div class="mt-2 max-w-[65ch] p-3 rounded-xl bg-spacecadet-light">
             <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
           </div>
         </Match>
 
         <Match when={isOpen() && store.t === 'Error'}>
-          <div class="mt-2 max-w-[65ch] rounded-lg border border-red-300 dark:border-red-800 bg-white dark:bg-spacecadet-light p-3">
-            <p class="text-sm text-red-600 dark:text-red-400 mb-2">{(store as Error).errorMsg}</p>
+          <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light p-3">
+            <p class="text-sm font-mono text-red-700 dark:text-red-800 mb-2">
+              {(store as Error).errorMsg}
+            </p>
             <div class="flex gap-2 justify-end">
               <button
                 onClick={() => dispatch(Msg.Reset())}
-                class="text-sm px-2 py-1 rounded text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
               >
                 Dismiss
               </button>
               <button
                 onClick={() => dispatch(Msg.Retry())}
-                class="text-sm px-3 py-1 rounded bg-cornflower-500 text-white hover:bg-cornflower-600 cursor-pointer"
+                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
               >
                 Retry
               </button>
