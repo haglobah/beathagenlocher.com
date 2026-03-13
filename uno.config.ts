@@ -20,6 +20,8 @@ export default defineConfig({
           '*.mdx',
           '**/*.astro',
           '*.astro',
+          '**/*.tsx',
+          '*.tsx',
         ],
         outFile: 'public/uno.css',
       },
@@ -29,7 +31,10 @@ export default defineConfig({
   shortcuts: [],
   theme: {
     colors: {
-      'space-cadet': '#282D3F',
+      spacecadet: {
+        light: '#333339',
+        DEFAULT: '#282D3F',
+      },
       cornflower: {
         light: '#97b6f0',
         DEFAULT: '#6E98E8',

@@ -1,9 +1,10 @@
 ---
-
+import CommentButton from './CommentButton.tsx'
 ---
 
-<ol
-  class="f-my-xs pl-4 mb-3 list-decimal list-inside marker:text-sienna-light space-y-2"
->
-  <slot />
-</ol>
+<div class="commentable-par group relative">
+  <ol class="f-my-xs pl-4 mb-3 list-decimal list-inside marker:text-sienna-light space-y-2">
+    <slot />
+  </ol>
+  <CommentButton client:idle />
+</div>

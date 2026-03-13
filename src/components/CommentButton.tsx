@@ -5,7 +5,6 @@ import { tag, createUpdater, type Tagged } from '../utils'
 
 type FormData = { comment: string; email: string }
 
-// State: open/closed is part of the state machine, not a separate signal
 type Idle = Tagged<'Idle'>
 type Closed = Tagged<'Closed', FormData>
 type Composing = Tagged<'Composing', FormData>
@@ -36,7 +35,16 @@ type SubmitFail = Tagged<'SubmitFail', { errorMsg: string }>
 type Reset = Tagged<'Reset'>
 type Retry = Tagged<'Retry'>
 
-type Msg = Toggle | Close | UpdateComment | UpdateEmail | Submit | SubmitOk | SubmitFail | Reset | Retry
+type Msg =
+  | Toggle
+  | Close
+  | UpdateComment
+  | UpdateEmail
+  | Submit
+  | SubmitOk
+  | SubmitFail
+  | Reset
+  | Retry
 
 const Msg = {
   Toggle: tag('Toggle'),
@@ -268,29 +276,29 @@ export default function CommentButton(): JSXElement {
       {/* Inline form — expands below the paragraph */}
       <Switch>
         <Match when={isOpen() && (store.t === 'Composing' || store.t === 'Submitting')}>
-          <div class="mt-2 max-w-[65ch] rounded-lg border border-cornflower-200 dark:border-cornflower-800 dark:bg-space-cadet-900 p-3">
+          <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] drop-shadow-lg p-3">
             <textarea
               value={(store as Composing | Submitting).comment}
               onInput={(e) => dispatch(Msg.UpdateComment(e.currentTarget.value))}
               onKeyDown={handleKeyDown}
               placeholder="Your comment..."
               disabled={store.t === 'Submitting'}
-              class="w-full h-24 resize-none rounded border border-gray-200 dark:border-gray-700 bg-transparent p-2 text-sm focus:outline-none focus:border-cornflower-400"
+              class="w-full min-h-24 field-sizing-content font-mono resize-none rounded bg-spacecadet-light p-2 text-sm focus:outline-none"
               autofocus
             />
-            <input
-              type="email"
-              value={(store as Composing | Submitting).email}
-              onInput={(e) => dispatch(Msg.UpdateEmail(e.currentTarget.value))}
-              placeholder="Email (optional)"
-              disabled={store.t === 'Submitting'}
-              class="w-full mt-1 rounded border border-gray-200 dark:border-gray-700 bg-transparent p-2 text-sm focus:outline-none focus:border-cornflower-400"
-            />
             <div class="mt-2 flex gap-2 justify-end">
+              <input
+                type="email"
+                value={(store as Composing | Submitting).email}
+                onInput={(e) => dispatch(Msg.UpdateEmail(e.currentTarget.value))}
+                placeholder="Email (optional)"
+                disabled={store.t === 'Submitting'}
+                class="rounded font-mono flex-1 p-2 text-sm focus:outline-none bg-zinc-700"
+              />
               <button
                 onClick={() => dispatch(Msg.Reset())}
                 disabled={store.t === 'Submitting'}
-                class="text-sm px-2 py-1 rounded text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 cursor-pointer"
               >
                 Cancel
               </button>
@@ -300,7 +308,7 @@ export default function CommentButton(): JSXElement {
                   store.t === 'Submitting' ||
                   (store as Composing | Submitting).comment.trim().length === 0
                 }
-                class="text-sm px-3 py-1 rounded bg-cornflower-500 text-white hover:bg-cornflower-600 disabled:op-50 cursor-pointer"
+                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 disabled:op-50 cursor-pointer"
               >
                 {store.t === 'Submitting' ? 'Sending...' : 'Send'}
               </button>
@@ -315,7 +323,7 @@ export default function CommentButton(): JSXElement {
         </Match>
 
         <Match when={isOpen() && store.t === 'Error'}>
-          <div class="mt-2 max-w-[65ch] rounded-lg border border-red-300 dark:border-red-800 bg-white dark:bg-space-cadet-900 p-3">
+          <div class="mt-2 max-w-[65ch] rounded-lg border border-red-300 dark:border-red-800 bg-white dark:bg-spacecadet-light p-3">
             <p class="text-sm text-red-600 dark:text-red-400 mb-2">{(store as Error).errorMsg}</p>
             <div class="flex gap-2 justify-end">
               <button
