@@ -1,32 +1,23 @@
-import { createStore, reconcile } from 'solid-js/store'
-import { Match, Switch, type JSXElement } from 'solid-js'
-
-// --- Tagged union infrastructure ---
-
-type Tagged<K extends string, T extends object = Record<string, never>> = { readonly t: K } & {
-  readonly [P in keyof T]: T[P]
-}
-
-const tag =
-  <K extends string>(t: K) =>
-  <T extends object = Record<string, never>>(data?: T): Tagged<K, T> =>
-    ({ t, ...data }) as Tagged<K, T>
+import { createEffect, onCleanup, onMount, Match, Switch, type JSXElement } from 'solid-js'
+import { tag, createUpdater, type Tagged } from '../utils'
 
 // --- Domain types ---
 
 type FormData = { comment: string; email: string }
 
-// State: each variant carries exactly the data it needs
+// State: open/closed is part of the state machine, not a separate signal
 type Idle = Tagged<'Idle'>
+type Closed = Tagged<'Closed', FormData>
 type Composing = Tagged<'Composing', FormData>
 type Submitting = Tagged<'Submitting', FormData>
 type Sent = Tagged<'Sent'>
 type Error = Tagged<'Error', FormData & { errorMsg: string }>
 
-type State = Idle | Composing | Submitting | Sent | Error
+type State = Idle | Closed | Composing | Submitting | Sent | Error
 
 const State = {
   Idle: tag('Idle'),
+  Closed: (comment: string, email: string): Closed => tag('Closed')({ comment, email }),
   Composing: (comment: string, email: string): Composing => tag('Composing')({ comment, email }),
   Submitting: (comment: string, email: string): Submitting => tag('Submitting')({ comment, email }),
   Sent: tag('Sent'),
@@ -35,7 +26,8 @@ const State = {
 } as const
 
 // Messages: what happened
-type StartComposing = Tagged<'StartComposing'>
+type Toggle = Tagged<'Toggle'>
+type Close = Tagged<'Close'>
 type UpdateComment = Tagged<'UpdateComment', { comment: string }>
 type UpdateEmail = Tagged<'UpdateEmail', { email: string }>
 type Submit = Tagged<'Submit'>
@@ -44,18 +36,11 @@ type SubmitFail = Tagged<'SubmitFail', { errorMsg: string }>
 type Reset = Tagged<'Reset'>
 type Retry = Tagged<'Retry'>
 
-type Msg =
-  | StartComposing
-  | UpdateComment
-  | UpdateEmail
-  | Submit
-  | SubmitOk
-  | SubmitFail
-  | Reset
-  | Retry
+type Msg = Toggle | Close | UpdateComment | UpdateEmail | Submit | SubmitOk | SubmitFail | Reset | Retry
 
 const Msg = {
-  StartComposing: tag('StartComposing'),
+  Toggle: tag('Toggle'),
+  Close: tag('Close'),
   UpdateComment: (comment: string): UpdateComment => tag('UpdateComment')({ comment }),
   UpdateEmail: (email: string): UpdateEmail => tag('UpdateEmail')({ email }),
   Submit: tag('Submit'),
@@ -67,24 +52,37 @@ const Msg = {
 
 // Commands: what should happen
 type None = Tagged<'None'>
-type PostComment = Tagged<'PostComment', FormData & { paragraphEl: Element | null }>
+type PostComment = Tagged<'PostComment', FormData>
 type AutoReset = Tagged<'AutoReset'>
 
 type Cmd = None | PostComment | AutoReset
 
 const Cmd = {
   None: tag('None'),
-  PostComment: (comment: string, email: string, paragraphEl: Element | null): PostComment =>
-    tag('PostComment')({ comment, email, paragraphEl }),
+  PostComment: (comment: string, email: string): PostComment =>
+    tag('PostComment')({ comment, email }),
   AutoReset: tag('AutoReset'),
 } as const
 
 // --- Pure update ---
 
-const update = (state: State, msg: Msg, paragraphEl: Element | null): [State, Cmd] => {
+const update = (state: State, msg: Msg): [State, Cmd] => {
   switch (msg.t) {
-    case 'StartComposing':
-      return [State.Composing('', ''), Cmd.None()]
+    case 'Toggle':
+      switch (state.t) {
+        case 'Idle':
+          return [State.Composing('', ''), Cmd.None()]
+        case 'Closed':
+          return [State.Composing(state.comment, state.email), Cmd.None()]
+        case 'Composing':
+          return [State.Closed(state.comment, state.email), Cmd.None()]
+        default:
+          return [state, Cmd.None()]
+      }
+
+    case 'Close':
+      if (state.t === 'Composing') return [State.Closed(state.comment, state.email), Cmd.None()]
+      return [state, Cmd.None()]
 
     case 'UpdateComment':
       if (state.t === 'Composing') return [State.Composing(msg.comment, state.email), Cmd.None()]
@@ -98,7 +96,7 @@ const update = (state: State, msg: Msg, paragraphEl: Element | null): [State, Cm
       if (state.t === 'Composing' && state.comment.trim().length > 0)
         return [
           State.Submitting(state.comment, state.email),
-          Cmd.PostComment(state.comment, state.email, paragraphEl),
+          Cmd.PostComment(state.comment, state.email),
         ]
       return [state, Cmd.None()]
 
@@ -141,12 +139,12 @@ async function hashParagraphId(text: string): Promise<string> {
   )
 }
 
-const execute =
-  (dispatch: (msg: Msg) => void) =>
-  (cmd: Cmd): void => {
+const makeExecutor =
+  (getParagraphEl: () => Element | null) =>
+  (cmd: Cmd, dispatch: (msg: Msg) => void): void => {
     switch (cmd.t) {
       case 'PostComment': {
-        const paragraphText = cmd.paragraphEl?.textContent ?? ''
+        const paragraphText = getParagraphEl()?.textContent ?? ''
         ;(async () => {
           try {
             const paragraphId = await hashParagraphId(paragraphText)
@@ -185,14 +183,38 @@ const execute =
 
 export default function CommentButton(): JSXElement {
   let containerRef: HTMLDivElement | undefined
-  const [store, setStore] = createStore<{ state: State }>({ state: State.Idle() })
 
-  const getParagraphEl = () => containerRef?.closest('.commentable-par')?.querySelector('p') ?? null
+  const getParentPar = () => containerRef?.closest('.commentable-par') ?? null
+  const getParagraphEl = () => getParentPar()?.querySelector('p') ?? null
 
-  const dispatch = (msg: Msg): void => {
-    const [newState, cmd] = update(store.state, msg, getParagraphEl())
-    setStore(reconcile({ state: newState }))
-    execute(dispatch)(cmd)
+  const [store, dispatch] = createUpdater<State, Msg, Cmd>(
+    update,
+    State.Idle() as State,
+    makeExecutor(getParagraphEl),
+  )
+
+  const isOpen = () => store.t !== 'Idle' && store.t !== 'Closed'
+
+  const updateHighlight = (active: boolean) => {
+    const p = getParagraphEl()
+    if (p instanceof HTMLElement) {
+      p.style.backgroundColor = active ? 'rgba(100, 108, 255, 0.08)' : ''
+      p.style.borderRadius = active ? '4px' : ''
+      p.style.transition = 'background-color 0.2s ease'
+    }
+  }
+
+  createEffect(() => {
+    updateHighlight(isOpen())
+  })
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (!isOpen()) return
+    const target = e.target as Node
+    const parent = getParentPar()
+    if (parent && !parent.contains(target)) {
+      dispatch(Msg.Close())
+    }
   }
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -202,64 +224,72 @@ export default function CommentButton(): JSXElement {
     }
     if (e.key === 'Escape') {
       e.preventDefault()
-      dispatch(Msg.Reset())
+      dispatch(Msg.Close())
     }
   }
 
-  const s = () => store.state
+  onMount(() => {
+    document.addEventListener('click', handleClickOutside)
+    onCleanup(() => {
+      document.removeEventListener('click', handleClickOutside)
+    })
+  })
 
   return (
-    <div ref={containerRef} class="absolute -left-10 top-1 hidden md:block">
-      <Switch>
-        <Match when={s().t === 'Idle'}>
-          <button
-            onClick={() => dispatch(Msg.StartComposing())}
-            class="op-0 group-hover:op-40 hover:!op-100 transition-opacity cursor-pointer text-cornflower-400 bg-transparent border-none p-0"
-            aria-label="Comment on this paragraph"
-            title="Comment on this paragraph"
+    <div ref={containerRef}>
+      {/* Flag button — absolute positioned to the left of the paragraph */}
+      <div class="absolute -left-10 top-1 hidden md:block">
+        <button
+          onClick={() => dispatch(Msg.Toggle())}
+          class="op-0 group-hover:op-40 hover:!op-100 transition-opacity cursor-pointer text-cornflower-400 bg-transparent border-none p-0"
+          classList={{ '!op-100': isOpen() }}
+          aria-label="Comment on this paragraph"
+          title="Comment on this paragraph"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="transparent"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="transparent"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <g transform="translate(24,0) scale(-1,1)">
-                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-                <line x1="4" y1="22" x2="4" y2="15" />
-              </g>
-            </svg>
-          </button>
-        </Match>
+            <g transform="translate(24,0) scale(-1,1)">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+              <line x1="4" y1="22" x2="4" y2="15" />
+            </g>
+          </svg>
+        </button>
+      </div>
 
-        <Match when={s().t === 'Composing' || s().t === 'Submitting'}>
-          <div class="absolute left-0 top-0 z-50 w-72 rounded-lg border border-cornflower-200 dark:border-cornflower-800 bg-white dark:bg-space-cadet-900 p-3 shadow-lg">
+      {/* Inline form — expands below the paragraph */}
+      <Switch>
+        <Match when={isOpen() && (store.t === 'Composing' || store.t === 'Submitting')}>
+          <div class="mt-2 max-w-[65ch] rounded-lg border border-cornflower-200 dark:border-cornflower-800 dark:bg-space-cadet-900 p-3">
             <textarea
-              value={(s() as Composing | Submitting).comment}
+              value={(store as Composing | Submitting).comment}
               onInput={(e) => dispatch(Msg.UpdateComment(e.currentTarget.value))}
               onKeyDown={handleKeyDown}
               placeholder="Your comment..."
-              disabled={s().t === 'Submitting'}
+              disabled={store.t === 'Submitting'}
               class="w-full h-24 resize-none rounded border border-gray-200 dark:border-gray-700 bg-transparent p-2 text-sm focus:outline-none focus:border-cornflower-400"
               autofocus
             />
             <input
               type="email"
-              value={(s() as Composing | Submitting).email}
+              value={(store as Composing | Submitting).email}
               onInput={(e) => dispatch(Msg.UpdateEmail(e.currentTarget.value))}
               placeholder="Email (optional)"
-              disabled={s().t === 'Submitting'}
+              disabled={store.t === 'Submitting'}
               class="w-full mt-1 rounded border border-gray-200 dark:border-gray-700 bg-transparent p-2 text-sm focus:outline-none focus:border-cornflower-400"
             />
             <div class="mt-2 flex gap-2 justify-end">
               <button
                 onClick={() => dispatch(Msg.Reset())}
-                disabled={s().t === 'Submitting'}
+                disabled={store.t === 'Submitting'}
                 class="text-sm px-2 py-1 rounded text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
               >
                 Cancel
@@ -267,24 +297,26 @@ export default function CommentButton(): JSXElement {
               <button
                 onClick={() => dispatch(Msg.Submit())}
                 disabled={
-                  s().t === 'Submitting' ||
-                  (s() as Composing | Submitting).comment.trim().length === 0
+                  store.t === 'Submitting' ||
+                  (store as Composing | Submitting).comment.trim().length === 0
                 }
                 class="text-sm px-3 py-1 rounded bg-cornflower-500 text-white hover:bg-cornflower-600 disabled:op-50 cursor-pointer"
               >
-                {s().t === 'Submitting' ? 'Sending...' : 'Send'}
+                {store.t === 'Submitting' ? 'Sending...' : 'Send'}
               </button>
             </div>
           </div>
         </Match>
 
-        <Match when={s().t === 'Sent'}>
-          <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
+        <Match when={isOpen() && store.t === 'Sent'}>
+          <div class="mt-2">
+            <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
+          </div>
         </Match>
 
-        <Match when={s().t === 'Error'}>
-          <div class="absolute left-0 top-0 z-50 w-72 rounded-lg border border-red-300 dark:border-red-800 bg-white dark:bg-space-cadet-900 p-3 shadow-lg">
-            <p class="text-sm text-red-600 dark:text-red-400 mb-2">{(s() as Error).errorMsg}</p>
+        <Match when={isOpen() && store.t === 'Error'}>
+          <div class="mt-2 max-w-[65ch] rounded-lg border border-red-300 dark:border-red-800 bg-white dark:bg-space-cadet-900 p-3">
+            <p class="text-sm text-red-600 dark:text-red-400 mb-2">{(store as Error).errorMsg}</p>
             <div class="flex gap-2 justify-end">
               <button
                 onClick={() => dispatch(Msg.Reset())}
