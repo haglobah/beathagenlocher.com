@@ -2,7 +2,7 @@ import Ol from './OuterLink.astro'
 import Il from './InnerLink.astro'
 import I from './InnerAutoLink.astro'
 import InnerLinkEmpty from './InnerLinkEmpty.astro'
-import Par from './Par.astro'
+import CommentablePar from './CommentablePar.astro'
 import Heading from './Heading.astro'
 import Heading2 from './Heading2.astro'
 import Heading3 from './Heading3.astro'
@@ -45,5 +45,5 @@ export const components = {
   ol: OrderedList,
   li: ListItem,
   blockquote: BlockQuote,
-  p: Par,
+  p: CommentablePar,
 }

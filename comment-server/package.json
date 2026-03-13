@@ -1,0 +1,19 @@
+{
+  "name": "comment-server",
+  "description": "Paragraph comment server — emails comments via Resend",
+  "version": "1.0.0",
+  "author": "Beat Hagenlocher <bah@posteo.de>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "TERM=dumb bun --hot run index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "hono": "^4.0.0",
+    "resend": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.2"
+  }
+}

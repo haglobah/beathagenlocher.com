@@ -8,7 +8,7 @@ fmt:
     oxfmt src/content/**/*.mdx
 
 [parallel]
-dev: astro bsky-server
+dev: astro bsky-server comment-server
 
 track args="":
     npm run track-updates -- {{ args }}
@@ -18,6 +18,9 @@ astro:
 
 bsky-server:
     cd bsky-post-server && bun run dev
+
+comment-server:
+    cd comment-server && bun run dev
 
 open cmd="":
     #!/usr/bin/env bash
