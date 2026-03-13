@@ -49,9 +49,10 @@ const PAGE_URL_PREFIX = 'https://beathagenlocher.com/'
 export const validatePayload = (p: CommentPayload): string | undefined => {
   if (!p.comment || p.comment.trim().length === 0) return 'Comment is empty'
   if (p.comment.length > 5000) return 'Comment exceeds 5000 characters'
-  if (!p.pageUrl.startsWith(PAGE_URL_PREFIX)) return `Invalid page URL: must start with ${PAGE_URL_PREFIX}`
+  // if (!p.pageUrl.startsWith(PAGE_URL_PREFIX)) return `Invalid page URL: must start with ${PAGE_URL_PREFIX}`
   if (!PARAGRAPH_ID_RE.test(p.paragraphId)) return `Invalid paragraph ID: ${p.paragraphId}`
-  if (p.email !== undefined && p.email.length > 0 && !EMAIL_RE.test(p.email)) return `Invalid email: ${p.email}`
+  if (p.email !== undefined && p.email.length > 0 && !EMAIL_RE.test(p.email))
+    return `Invalid email: ${p.email}`
   return undefined
 }
 
@@ -64,7 +65,7 @@ export const buildSubject = (p: CommentPayload): string =>
 
 export const buildBody = (p: CommentPayload): string =>
   [
-    `Page: ${p.pageUrl}`,
+    `Page: ${p.pageUrl}#${p.paragraphId}`,
     `Paragraph (${p.paragraphId}): ${p.paragraphText}`,
     p.email ? `From: ${p.email}` : '',
     '',
@@ -100,7 +101,10 @@ export const update = (
   switch (model.tag) {
     case 'validating': {
       if (msg.tag !== 'payload_valid')
-        return [{ tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` }, { tag: 'done' }]
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
 
       return [
         { tag: 'sending_email', payload: msg.payload },
@@ -116,7 +120,10 @@ export const update = (
 
     case 'sending_email': {
       if (msg.tag !== 'email_sent')
-        return [{ tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` }, { tag: 'done' }]
+        return [
+          { tag: 'failed', error: `Unexpected msg ${msg.tag} in ${model.tag}` },
+          { tag: 'done' },
+        ]
 
       return [
         { tag: 'done', message: `Comment received for ${model.payload.pageUrl}` },
