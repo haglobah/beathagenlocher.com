@@ -214,7 +214,7 @@ export default function CommentButton(): JSXElement {
         <Match when={s().t === 'Idle'}>
           <button
             onClick={() => dispatch(Msg.StartComposing())}
-            class="op-0 group-hover:op-40 hover:!op-100 transition-opacity cursor-pointer text-cornflower-400"
+            class="op-0 group-hover:op-40 hover:!op-100 transition-opacity cursor-pointer text-cornflower-400 bg-transparent border-none p-0"
             aria-label="Comment on this paragraph"
             title="Comment on this paragraph"
           >
@@ -223,13 +223,16 @@ export default function CommentButton(): JSXElement {
               width="18"
               height="18"
               viewBox="0 0 24 24"
-              fill="none"
+              fill="transparent"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              <g transform="translate(24,0) scale(-1,1)">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                <line x1="4" y1="22" x2="4" y2="15" />
+              </g>
             </svg>
           </button>
         </Match>
