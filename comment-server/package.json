@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "TERM=dumb bun --hot run index.ts",
+    "deploy": "wrangler deploy --minify",
     "test": "bun test"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
     "resend": "^4.0.0"
   },
   "devDependencies": {
-    "@types/bun": "^1.3.2"
+    "@types/bun": "^1.3.2",
+    "wrangler": "^4.73.0"
   }
 }
