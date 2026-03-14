@@ -279,7 +279,8 @@ export default function CommentManager(): JSXElement {
                 onKeyDown={handleKeyDown}
                 placeholder="Your comment..."
                 disabled={store.t === 'Submitting'}
-                class="w-full min-h-24 field-sizing-content font-mono resize-none rounded bg-spacecadet-light p-2 text-sm focus:outline-none"
+                style="field-sizing: content"
+                class="w-full min-h-24 font-mono resize-none rounded bg-spacecadet-light p-2 text-sm focus:outline-none"
                 autofocus
               />
               <div class="mt-2 flex gap-2 justify-end">
