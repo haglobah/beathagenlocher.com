@@ -1,4 +1,13 @@
-import { createEffect, createSignal, onCleanup, onMount, Match, Show, Switch, type JSXElement } from 'solid-js'
+import {
+  createEffect,
+  createSignal,
+  onCleanup,
+  onMount,
+  Match,
+  Show,
+  Switch,
+  type JSXElement,
+} from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { tag, createUpdater, type Tagged } from '../utils'
 
@@ -134,7 +143,7 @@ const update = (state: State, msg: Msg): [State, Cmd] => {
 // --- Effect executor ---
 
 const COMMENT_SERVER_URL = import.meta.env.DEV
-  ? 'http://localhost:3001'
+  ? 'http://localhost:3007'
   : 'https://comments.beathagenlocher.com'
 
 async function hashParagraphId(text: string): Promise<string> {

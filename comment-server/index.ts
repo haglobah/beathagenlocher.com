@@ -130,6 +130,6 @@ app.post('/comment', async (c) => {
 })
 
 export default {
-  port: 3001,
+  port: 3007,
   fetch: app.fetch,
 }
