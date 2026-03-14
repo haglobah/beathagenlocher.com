@@ -1,10 +1,10 @@
 ---
-import CommentButton from './CommentButton.tsx'
+import CommentButton from './CommentButton.astro'
 ---
 
 <div class="commentable-par group relative">
   <ul class="f-my-xs pl-8 mb-3 list-disc list-outside marker:text-sienna-light space-y-3">
     <slot />
   </ul>
-  <CommentButton client:idle />
+  <CommentButton />
 </div>
