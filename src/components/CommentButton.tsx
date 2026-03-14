@@ -240,7 +240,7 @@ export default function CommentButton(): JSXElement {
   })
 
   return (
-    <div ref={containerRef}>
+    <span ref={containerRef}>
       {/* Flag button — absolute positioned to the left of the paragraph */}
       <div class="absolute -left-10 top-1 hidden md:block">
         <button
@@ -340,6 +340,6 @@ export default function CommentButton(): JSXElement {
           </div>
         </Match>
       </Switch>
-    </div>
+    </span>
   )
 }
