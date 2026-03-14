@@ -132,7 +132,9 @@ const update = (state: State, msg: Msg): [State, Cmd] => {
 
 // --- Effect executor ---
 
-const COMMENT_SERVER_URL = import.meta.env.PUBLIC_COMMENT_SERVER_URL ?? 'http://localhost:3001'
+const COMMENT_SERVER_URL = import.meta.env.DEV
+  ? 'http://localhost:3001'
+  : 'https://comments.beathagenlocher.com'
 
 async function hashParagraphId(text: string): Promise<string> {
   const encoded = new TextEncoder().encode(text)
