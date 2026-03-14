@@ -1,12 +1,31 @@
----
-import CommentButton from './CommentButton.tsx'
----
-
 <span class="commentable-par inline group relative">
   <p class="f-my-lg max-w-[65ch] rounded transition-background-color duration-200 ease-in-out">
     <slot />
   </p>
-  <CommentButton client:idle />
+  <div class="absolute -left-10 top-1 hidden md:block">
+    <button
+      class="comment-trigger op-0 group-hover:op-40 hover:!op-100 transition-opacity cursor-pointer text-cornflower-400 bg-transparent border-none p-0"
+      aria-label="Comment on this paragraph"
+      title="Comment on this paragraph"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="transparent"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <g transform="translate(24,0) scale(-1,1)">
+          <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+          <line x1="4" y1="22" x2="4" y2="15" />
+        </g>
+      </svg>
+    </button>
+  </div>
 </span>
 
 <style>

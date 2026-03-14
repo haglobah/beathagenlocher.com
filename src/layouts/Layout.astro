@@ -4,6 +4,7 @@ import MainPageIconButton from '../components/MainPageIconButton.astro'
 import CommandPalette from '../components/CommandPalette.astro'
 import CommandPaletteButton from '../components/CommandPaletteButton.astro'
 import Footer from '../components/Footer.astro'
+import CommentManager from '../components/CommentManager.tsx'
 
 export interface Props {
   title?: string
@@ -176,6 +177,7 @@ declare global {
       <slot />
     </main>
     <Footer />
+    <CommentManager client:idle />
   </body>
 </html>
 

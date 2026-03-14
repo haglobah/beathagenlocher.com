@@ -1,4 +1,5 @@
-import { createEffect, onCleanup, onMount, Match, Switch, type JSXElement } from 'solid-js'
+import { createEffect, createSignal, onCleanup, onMount, Match, Show, Switch, type JSXElement } from 'solid-js'
+import { Portal } from 'solid-js/web'
 import { tag, createUpdater, type Tagged } from '../utils'
 
 // --- Domain types ---
@@ -150,11 +151,12 @@ async function hashParagraphId(text: string): Promise<string> {
 }
 
 const makeExecutor =
-  (getParagraphEl: () => Element | null) =>
+  (getActivePar: () => Element | null) =>
   (cmd: Cmd, dispatch: (msg: Msg) => void): void => {
     switch (cmd.t) {
       case 'PostComment': {
-        const paragraphText = getParagraphEl()?.textContent ?? ''
+        const paragraphEl = getActivePar()?.querySelector('p')
+        const paragraphText = paragraphEl?.textContent ?? ''
         ;(async () => {
           try {
             const paragraphId = await hashParagraphId(paragraphText)
@@ -191,33 +193,52 @@ const makeExecutor =
 
 // --- Component ---
 
-export default function CommentButton(): JSXElement {
-  let containerRef: HTMLDivElement | undefined
-
-  const getParentPar = () => containerRef?.closest('.commentable-par') ?? null
-  const getParagraphEl = () => getParentPar()?.querySelector('p') ?? null
+export default function CommentManager(): JSXElement {
+  const [activePar, setActivePar] = createSignal<Element | null>(null)
 
   const [store, dispatch] = createUpdater<State, Msg, Cmd>(
     update,
     State.Idle() as State,
-    makeExecutor(getParagraphEl),
+    makeExecutor(() => activePar()),
   )
 
   const isOpen = () => store.t !== 'Idle' && store.t !== 'Closed'
 
+  // Highlight the active paragraph
   createEffect(() => {
-    const par = getParentPar()
+    const par = activePar()
     if (par instanceof HTMLElement) {
       par.classList.toggle('comment-active', isOpen())
     }
   })
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (!isOpen()) return
-    const target = e.target as Node
-    const parent = getParentPar()
-    if (parent && !parent.contains(target)) {
-      dispatch(Msg.Close())
+  // Event delegation: listen for clicks on any .comment-trigger button
+  const handleClick = (e: MouseEvent) => {
+    const trigger = (e.target as Element).closest('.comment-trigger')
+    if (trigger) {
+      const par = trigger.closest('.commentable-par')
+      if (!par) return
+
+      // Clicking a different paragraph: reset and switch
+      if (par !== activePar()) {
+        const prev = activePar()
+        if (prev instanceof HTMLElement) prev.classList.remove('comment-active')
+        setActivePar(par)
+        // Reset state machine for the new paragraph
+        if (store.t !== 'Idle') dispatch(Msg.Reset())
+        dispatch(Msg.Toggle())
+      } else {
+        dispatch(Msg.Toggle())
+      }
+      return
+    }
+
+    // Click outside: close the form
+    if (isOpen()) {
+      const par = activePar()
+      if (par && !par.contains(e.target as Node)) {
+        dispatch(Msg.Close())
+      }
     }
   }
 
@@ -233,113 +254,84 @@ export default function CommentButton(): JSXElement {
   }
 
   onMount(() => {
-    document.addEventListener('click', handleClickOutside)
-    onCleanup(() => {
-      document.removeEventListener('click', handleClickOutside)
-    })
+    document.addEventListener('click', handleClick)
+    onCleanup(() => document.removeEventListener('click', handleClick))
   })
 
   return (
-    <span ref={containerRef}>
-      {/* Flag button — absolute positioned to the left of the paragraph */}
-      <div class="absolute -left-10 top-1 hidden md:block">
-        <button
-          onClick={() => dispatch(Msg.Toggle())}
-          class="op-0 group-hover:op-40 hover:!op-100 transition-opacity cursor-pointer text-cornflower-400 bg-transparent border-none p-0"
-          classList={{ '!op-100': isOpen() }}
-          aria-label="Comment on this paragraph"
-          title="Comment on this paragraph"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="transparent"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <g transform="translate(24,0) scale(-1,1)">
-              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-              <line x1="4" y1="22" x2="4" y2="15" />
-            </g>
-          </svg>
-        </button>
-      </div>
-
-      {/* Inline form — expands below the paragraph */}
-      <Switch>
-        <Match when={isOpen() && (store.t === 'Composing' || store.t === 'Submitting')}>
-          <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] drop-shadow-lg p-3">
-            <textarea
-              value={(store as Composing | Submitting).comment}
-              onInput={(e) => dispatch(Msg.UpdateComment(e.currentTarget.value))}
-              onKeyDown={handleKeyDown}
-              placeholder="Your comment..."
-              disabled={store.t === 'Submitting'}
-              class="w-full min-h-24 field-sizing-content font-mono resize-none rounded bg-spacecadet-light p-2 text-sm focus:outline-none"
-              autofocus
-            />
-            <div class="mt-2 flex gap-2 justify-end">
-              <input
-                type="email"
-                value={(store as Composing | Submitting).email}
-                onInput={(e) => dispatch(Msg.UpdateEmail(e.currentTarget.value))}
-                placeholder="Email (optional)"
+    <Show when={activePar() && isOpen()}>
+      <Portal mount={activePar()!}>
+        <Switch>
+          <Match when={store.t === 'Composing' || store.t === 'Submitting'}>
+            <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] drop-shadow-lg p-3">
+              <textarea
+                value={(store as Composing | Submitting).comment}
+                onInput={(e) => dispatch(Msg.UpdateComment(e.currentTarget.value))}
+                onKeyDown={handleKeyDown}
+                placeholder="Your comment..."
                 disabled={store.t === 'Submitting'}
-                class="rounded font-mono flex-1 p-2 text-sm focus:outline-none bg-zinc-700"
+                class="w-full min-h-24 field-sizing-content font-mono resize-none rounded bg-spacecadet-light p-2 text-sm focus:outline-none"
+                autofocus
               />
-              <button
-                onClick={() => dispatch(Msg.Reset())}
-                disabled={store.t === 'Submitting'}
-                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 cursor-pointer"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => dispatch(Msg.Submit())}
-                disabled={
-                  store.t === 'Submitting' ||
-                  (store as Composing | Submitting).comment.trim().length === 0
-                }
-                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 disabled:op-50 cursor-pointer"
-              >
-                {store.t === 'Submitting' ? 'Sending...' : 'Send'}
-              </button>
+              <div class="mt-2 flex gap-2 justify-end">
+                <input
+                  type="email"
+                  value={(store as Composing | Submitting).email}
+                  onInput={(e) => dispatch(Msg.UpdateEmail(e.currentTarget.value))}
+                  placeholder="Email (optional)"
+                  disabled={store.t === 'Submitting'}
+                  class="rounded font-mono flex-1 p-2 text-sm focus:outline-none bg-zinc-700"
+                />
+                <button
+                  onClick={() => dispatch(Msg.Reset())}
+                  disabled={store.t === 'Submitting'}
+                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => dispatch(Msg.Submit())}
+                  disabled={
+                    store.t === 'Submitting' ||
+                    (store as Composing | Submitting).comment.trim().length === 0
+                  }
+                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 disabled:op-50 cursor-pointer"
+                >
+                  {store.t === 'Submitting' ? 'Sending...' : 'Send'}
+                </button>
+              </div>
             </div>
-          </div>
-        </Match>
+          </Match>
 
-        <Match when={isOpen() && store.t === 'Sent'}>
-          <div class="mt-2 max-w-[65ch] p-3 rounded-xl bg-spacecadet-light">
-            <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
-          </div>
-        </Match>
-
-        <Match when={isOpen() && store.t === 'Error'}>
-          <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light p-3">
-            <p class="text-sm font-mono text-red-700 dark:text-red-800 mb-2">
-              {(store as Error).errorMsg}
-            </p>
-            <div class="flex gap-2 justify-end">
-              <button
-                onClick={() => dispatch(Msg.Reset())}
-                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
-              >
-                Dismiss
-              </button>
-              <button
-                onClick={() => dispatch(Msg.Retry())}
-                class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
-              >
-                Retry
-              </button>
+          <Match when={store.t === 'Sent'}>
+            <div class="mt-2 max-w-[65ch] p-3 rounded-xl bg-spacecadet-light">
+              <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
             </div>
-          </div>
-        </Match>
-      </Switch>
-    </span>
+          </Match>
+
+          <Match when={store.t === 'Error'}>
+            <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light p-3">
+              <p class="text-sm font-mono text-red-700 dark:text-red-800 mb-2">
+                {(store as Error).errorMsg}
+              </p>
+              <div class="flex gap-2 justify-end">
+                <button
+                  onClick={() => dispatch(Msg.Reset())}
+                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
+                >
+                  Dismiss
+                </button>
+                <button
+                  onClick={() => dispatch(Msg.Retry())}
+                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          </Match>
+        </Switch>
+      </Portal>
+    </Show>
   )
 }
