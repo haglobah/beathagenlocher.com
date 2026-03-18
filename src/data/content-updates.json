@@ -1,6 +1,81 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/Fluid Type Scales.mdx",
+    "slug": "fluid-type-scales",
+    "collection": "notes",
+    "title": "Fluid (Type) Scales",
+    "date": "2026-03-18T11:35:42.000Z",
+    "commitHash": "060a7cf"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/UnoCSS.mdx",
+    "slug": "unocss",
+    "collection": "notes",
+    "title": "UnoCSS",
+    "date": "2026-03-18T11:35:42.000Z",
+    "commitHash": "060a7cf"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Wasm.mdx",
+    "slug": "wasm",
+    "collection": "notes",
+    "title": "Wasm",
+    "date": "2026-03-18T11:35:42.000Z",
+    "commitHash": "060a7cf"
+  },
+  {
+    "type": "new",
+    "file": "src/content/notes/Lean and WASM.mdx",
+    "slug": "lean-and-wasm",
+    "collection": "notes",
+    "title": "Lean and WASM",
+    "date": "2026-03-09T18:42:10.000Z",
+    "commitHash": "77d1609"
+  },
+  {
+    "type": "update",
+    "file": "src/content/talks/Writing A Web Server in Elixir.mdx",
+    "slug": "writing-a-web-server-in-elixir",
+    "collection": "talks",
+    "title": "Writing A Web Server in Elixir",
+    "date": "2026-03-09T09:38:13.000Z",
+    "linesChanged": 12,
+    "commitHash": "1337d0c"
+  },
+  {
+    "type": "update",
+    "file": "src/content/notes/Better Computer Use.mdx",
+    "slug": "better-computer-use",
+    "collection": "notes",
+    "title": "Better Computer Use",
+    "date": "2026-03-06T11:56:10.000Z",
+    "linesChanged": 208,
+    "commitHash": "2e99c3c"
+  },
+  {
+    "type": "new",
+    "file": "src/content/essays/Window Switching Made Simple | Part 2.mdx",
+    "slug": "window-switching-made-simple--part-2",
+    "collection": "essays",
+    "title": "Window Switching Made Simple | Part 2",
+    "date": "2026-03-06T11:55:59.000Z",
+    "commitHash": "fdace3e"
+  },
+  {
+    "type": "update",
+    "file": "src/content/essays/Window Switching Made Simple.mdx",
+    "slug": "window-switching-made-simple",
+    "collection": "essays",
+    "title": "Window Switching Made Simple",
+    "date": "2026-03-06T11:55:59.000Z",
+    "linesChanged": 10,
+    "commitHash": "fdace3e"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/AI.mdx",
     "slug": "ai",
     "collection": "notes",
