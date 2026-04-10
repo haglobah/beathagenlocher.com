@@ -1,0 +1,31 @@
+---
+title: 'GNOME Wayland Desktop Portal/Nautilus/Screen Sharing Issues'
+startDate: 2026-04-10T14:49:17Z
+topics: [GNOME, Linux, Wayland, Desktop]
+publish: true
+---
+
+Over the last week, I learned that it's possible to have multiple desktop portals (_implementations_, I guess?) for Wayland active, and even specify which one to choose for which to choose which one.
+
+This is what this looks like:
+
+```nix title="home.nix"
+# ...
+    xdg.portal = {
+      enable = true;
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-gnome
+      ];
+      config.common = {
+        # for files, mainly, since my nautilus takes ages to load
+        default = "gtk";
+         # screen sharing doesn't work otherwise on GNOME
+        "org.freedesktop.impl.portal.ScreenCast" = "gnome";
+        "org.freedesktop.impl.portal.RemoteDesktop" = "gnome";
+      };
+    };
+# ...
+```
+
+[Link to the config](https://github.com/haglobah/noldor/blob/7ca9a4eca72715f98b3afb56cedd73299fca2a40/home/home.nix#L188)
