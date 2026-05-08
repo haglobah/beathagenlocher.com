@@ -33,6 +33,7 @@
             nodejs_24
             bun
             typescript-language-server
+            astro-language-server
             oxfmt
             just
             playwright-test
