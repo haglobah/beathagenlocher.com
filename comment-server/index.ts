@@ -117,6 +117,14 @@ app.use(
   }),
 )
 
+app.onError((err, c) => {
+  console.error('Unhandled error:', err instanceof Error ? err.stack ?? err.message : err)
+  return c.json(
+    { success: false, message: err instanceof Error ? err.message : 'Internal error' },
+    500,
+  )
+})
+
 app.post('/comment', async (c) => {
   const ip = c.req.header('x-forwarded-for') ?? c.req.header('x-real-ip') ?? 'unknown'
   if (isRateLimited(ip)) {
@@ -124,6 +132,12 @@ app.post('/comment', async (c) => {
   }
 
   const payload = (await c.req.json()) as CommentPayload
+  console.log('Received comment payload:', {
+    pageUrl: payload?.pageUrl,
+    paragraphId: payload?.paragraphId,
+    commentLength: payload?.comment?.length,
+    hasEmail: Boolean(payload?.email),
+  })
   const [model, cmd] = init(payload)
   const final = await run(model, cmd)
   return respond(c, final)
