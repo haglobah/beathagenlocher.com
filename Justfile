@@ -22,6 +22,12 @@ bsky-server:
 comment-server:
     cd comment-server && bun run dev
 
+deploy:
+    cd comment-server && npx wrangler deploy
+
+tail:
+    cd comment-server && npx wrangler tail
+
 open cmd="":
     #!/usr/bin/env bash
     url="http://localhost:4321"

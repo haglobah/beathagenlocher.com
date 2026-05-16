@@ -31,11 +31,13 @@ POST /comment
 ```
 
 **Validation**
+
 - `comment` required, non-empty, ≤ 5000 chars
 - `paragraphId` matches `^p-[a-f0-9]{8}$`
 - `email` optional; if present, must look like an email
 
 **Responses**
+
 - `200` — `{ success: true, message }`
 - `400` — `{ success: false, message }` (validation or send failure)
 - `429` — rate limited (5 requests / minute / IP, in-memory sliding window)
