@@ -55,6 +55,12 @@ describe('validatePayload', () => {
     expect(result).toContain('Invalid page URL')
   })
 
+  test('accepts localhost page URL (dev)', () => {
+    expect(
+      validatePayload({ ...validPayload, pageUrl: 'http://localhost:4321/some-note' }),
+    ).toBeUndefined()
+  })
+
   test('rejects invalid paragraph ID', () => {
     const result = validatePayload({ ...validPayload, paragraphId: 'bad-id' })
     expect(result).toContain('Invalid paragraph ID')
@@ -87,6 +93,16 @@ describe('buildBody', () => {
   test('includes email when present', () => {
     const body = buildBody({ ...validPayload, email: 'reader@example.com' })
     expect(body).toContain('From: reader@example.com')
+  })
+
+  test('notes when no reply-to email was submitted', () => {
+    const body = buildBody(validPayload)
+    expect(body).toContain('From: (no reply-to email submitted)')
+  })
+
+  test('notes when reply-to email is an empty string', () => {
+    const body = buildBody({ ...validPayload, email: '' })
+    expect(body).toContain('From: (no reply-to email submitted)')
   })
 })
 

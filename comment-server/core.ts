@@ -45,11 +45,13 @@ export type Model =
 const PARAGRAPH_ID_RE = /^p-[a-f0-9]{8}$/
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PAGE_URL_PREFIX = 'https://beathagenlocher.com/'
+const DEV_PAGE_URL_PREFIX = 'http://localhost:'
 
 export const validatePayload = (p: CommentPayload): string | undefined => {
   if (!p.comment || p.comment.trim().length === 0) return 'Comment is empty'
   if (p.comment.length > 5000) return 'Comment exceeds 5000 characters'
-  // if (!p.pageUrl.startsWith(PAGE_URL_PREFIX)) return `Invalid page URL: must start with ${PAGE_URL_PREFIX}`
+  if (!p.pageUrl.startsWith(PAGE_URL_PREFIX) && !p.pageUrl.startsWith(DEV_PAGE_URL_PREFIX))
+    return `Invalid page URL: must start with ${PAGE_URL_PREFIX}`
   if (!PARAGRAPH_ID_RE.test(p.paragraphId)) return `Invalid paragraph ID: ${p.paragraphId}`
   if (p.email !== undefined && p.email.length > 0 && !EMAIL_RE.test(p.email))
     return `Invalid email: ${p.email}`
@@ -67,14 +69,12 @@ export const buildBody = (p: CommentPayload): string =>
   [
     `Page: ${p.pageUrl}#${p.paragraphId}`,
     `Paragraph (${p.paragraphId}): ${p.paragraphText}`,
-    p.email ? `From: ${p.email}` : '',
+    p.email ? `From: ${p.email}` : 'From: (no reply-to email submitted)',
     '',
     '---',
     '',
     p.comment,
-  ]
-    .filter((line) => line !== '' || true)
-    .join('\n')
+  ].join('\n')
 
 // ============================================================================
 // Init
