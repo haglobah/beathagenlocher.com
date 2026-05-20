@@ -146,29 +146,16 @@ const COMMENT_SERVER_URL = import.meta.env.DEV
   ? 'http://localhost:3007'
   : 'https://comments.beathagenlocher.com'
 
-async function hashParagraphId(text: string): Promise<string> {
-  const encoded = new TextEncoder().encode(text)
-  const hashBuffer = await crypto.subtle.digest('SHA-256', encoded)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  return (
-    'p-' +
-    hashArray
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('')
-      .slice(0, 8)
-  )
-}
-
 const makeExecutor =
   (getActivePar: () => Element | null) =>
   (cmd: Cmd, dispatch: (msg: Msg) => void): void => {
     switch (cmd.t) {
       case 'PostComment': {
-        const paragraphEl = getActivePar()?.querySelector('p')
-        const paragraphText = paragraphEl?.textContent ?? ''
+        const par = getActivePar()
+        const paragraphId = par?.id ?? ''
+        const paragraphText = par?.textContent?.trim() ?? ''
         ;(async () => {
           try {
-            const paragraphId = await hashParagraphId(paragraphText)
             const payload = {
               pageUrl: window.location.href.split('#')[0],
               paragraphId,

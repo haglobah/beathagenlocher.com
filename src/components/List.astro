@@ -1,10 +1,11 @@
 ---
-import CommentButton from './CommentButton.astro'
+import Commentable from './Commentable.astro'
 ---
 
-<div class="commentable-par group relative">
-  <ul class="f-my-xs pl-8 mb-3 list-disc list-outside marker:text-sienna-light space-y-3">
-    <slot />
-  </ul>
-  <CommentButton />
-</div>
+<Commentable
+  as="div"
+  inner="ul"
+  innerClass="f-my-xs pl-8 mb-3 list-disc list-outside marker:text-sienna-light space-y-3"
+>
+  <slot />
+</Commentable>

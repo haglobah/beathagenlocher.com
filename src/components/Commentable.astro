@@ -1,0 +1,31 @@
+---
+import CommentButton from './CommentButton.astro'
+import { hashParagraphId, htmlToText } from '../lib/paragraphId'
+
+interface Props {
+  as?: 'span' | 'div'
+  inner?: 'p' | 'ul' | 'ol'
+  wrapperClass?: string
+  innerClass?: string
+}
+
+const { as = 'span', inner = 'p', wrapperClass = '', innerClass = '' } = Astro.props
+
+const html = await Astro.slots.render('default')
+const id = hashParagraphId(htmlToText(html))
+
+const Wrapper = as
+const Inner = inner
+---
+
+<Wrapper id={id} class:list={['commentable-par group relative', wrapperClass]}>
+  <Inner
+    class:list={[
+      'rounded transition-background-color duration-200 ease-in-out group-[.comment-active]:bg-[rgba(100,108,255,0.08)]',
+      innerClass,
+    ]}
+  >
+    <Fragment set:html={html} />
+  </Inner>
+  <CommentButton />
+</Wrapper>

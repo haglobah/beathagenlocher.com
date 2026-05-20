@@ -1,16 +1,12 @@
 ---
-import CommentButton from './CommentButton.astro'
+import Commentable from './Commentable.astro'
 ---
 
-<span class="commentable-par inline group relative">
-  <p class="f-my-lg max-w-[65ch] rounded transition-background-color duration-200 ease-in-out">
-    <slot />
-  </p>
-  <CommentButton />
-</span>
-
-<style>
-  .commentable-par.comment-active > p {
-    background-color: rgba(100, 108, 255, 0.08);
-  }
-</style>
+<Commentable
+  as="span"
+  inner="p"
+  wrapperClass="inline"
+  innerClass="f-my-lg max-w-[65ch]"
+>
+  <slot />
+</Commentable>
