@@ -22,8 +22,17 @@ import ListItem from '../components/ListItem.astro'
             >active group</Ol
           >
         </h2>
+        <h2 class="f-text-lg text-zinc-200">
+          Project Lead <span class="font-light">@</span><Ol href="https://aisafetytuebingen.com"
+            >AI Safety Tübingen</Ol
+          >
+        </h2>
       </div>
       <Section title="About Me" class="overflow-y-auto">
+        <Par>
+          An EA and Rationalist applying career capital across software engineering, teaching,
+          design and ops to have an impact on the world's most pressing problems.
+        </Par>
         <Par>
           Human being on a quest to learn and do good in the world—both as much as possible.
         </Par>
@@ -83,57 +92,92 @@ import ListItem from '../components/ListItem.astro'
       <Section title="Skills & Abilities">
         <ol class="group/list">
           <WideCard
-            description="Programming Languages"
-            topics={['TypeScript', 'Clojure', 'Elixir', 'Racket', 'Haskell', 'C', 'Nix', 'Rust']}
-          />
+            description="Software Engineering"
+            topics={['Software Architecture', 'Functional Programming', 'Local-first Software']}
+          >
+            <div>
+              <span class="text-zinc-300 font-medium">Frontend:</span> TypeScript · SolidJS · TailwindCSS
+              · UnoCSS · Phoenix LiveView · ClojureScript
+            </div>
+            <div>
+              <span class="text-zinc-300 font-medium">Backend:</span> Clojure · Elixir · Haskell · SQL
+              · PostgreSQL
+            </div>
+            <div>
+              <span class="text-zinc-300 font-medium">Also:</span> Racket · C · Rust · Nix · NixOS · Docker
+              · Git
+            </div>
+          </WideCard>
           <WideCard
-            description="Programming"
+            description="Design Thinking & User Experience"
             topics={[
-              'Git',
-              'Docker',
-              'NixOS',
-              'Software Architecture',
-              'Functional Programming',
-              'Local-first Software',
-              'Phoenix LiveView',
-              'Tailwind CSS',
-              'UnoCSS',
-              'PostgreSQL',
-            ]}
-          />
-          <WideCard
-            description="Organizational Development"
-            topics={[
-              'Sociocracy',
-              'The Lean Startup',
-              'Start With Why',
-              'Reinventing Organizations',
-            ]}
-          />
-          <WideCard
-            description="Design"
-            topics={[
+              'Customer Development',
+              'Web Design',
               'Design Thinking',
               'Systems Practice',
-              'Designing Your Life',
-              'Customer Development',
+              'The Mom Test',
+              'The Heart of Innovation',
             ]}
-          />
+          >
+            Customer Development Interviews and Design Thinking at <Ol
+              href="https://web.archive.org/web/20240828091410/https://www.rootlinks.ch/"
+              >rootlinks</Ol
+            >, <Ol href="https://zelium.io">zelium</Ol>, and <Ol href="https://humane.tools"
+              >humane.tools</Ol
+            >.
+            <div class="f-mt-xs">
+              Design samples: <Ol href="https://beathagenlocher.com">beathagenlocher.com</Ol>, <Ol
+                href="https://todos.humane.tools">todos.humane.tools</Ol
+              >, <Ol href="https://haglobah.github.io/Mastering-42">Mastering 42</Ol>.
+            </div>
+          </WideCard>
+          <WideCard description="Growth" topics={['PostHog', 'Plausible']}>
+            Analytics (event tracking, funnels, user paths) to understand my readers' needs on my <Ol
+              href="https://beathagenlocher.com">digital garden</Ol
+            > and to drive a website redesign at <Ol href="https://active-group.de"
+              >active group GmbH</Ol
+            >.
+          </WideCard>
+          <WideCard
+            description="Writing & Teaching"
+            topics={['Style: Towards Clarity and Grace', 'Practical Typography']}
+          >
+            In my <Ol href="https://beathagenlocher.com">digital garden</Ol>, for <Ol
+              href="https://funktionale-programmierung.de/en/2026/03/04/fp-by-example-refactoring-typescript-explicit-model.html"
+              >work</Ol
+            >, and in <Ol href="https://www.schuelerakademien.de/deutsche-schuelerakademie"
+              >Schülerakademie</Ol
+            > courses.
+          </WideCard>
+          <!-- <WideCard -->
+          <!--   description="Organizational Development" -->
+          <!--   topics={[ -->
+          <!--     'Sociocracy', -->
+          <!--     'The Lean Startup', -->
+          <!--     'Start With Why', -->
+          <!--     'Reinventing Organizations', -->
+          <!--   ]} -->
+          <!-- /> -->
         </ol>
       </Section>
       <Section title="Experience">
         <ol class="group/list">
           <WideCard
             title="AI Safety Fellowship"
-            description="Feb 2026 – Now"
+            description="Feb 2026–Now"
             org="AI Safety Tübingen"
             href="https://aisafetytuebingen.com/"
             pos="Project Lead"
             topics={['Operations']}
-          />
+          >
+            <div slot="context">A 3-month fellowship for 20 fellows with stipends and housing.</div>
+            Making decisions under uncertainty: finding mentors, organizing housing, estimating a budget,
+            gathering support from stakeholders like the ELLIS Institute/the Max Planck Institute, writing
+            the grant application for Coefficient Giving.
+          </WideCard>
           <WideCard
             title="humane.tools"
-            description="Jan 2026 – Now"
+            description="Jan 2026–Now"
             org=""
             pos="Founder"
             href="https://humane.tools"
@@ -147,11 +191,15 @@ import ListItem from '../components/ListItem.astro'
               'Design',
             ]}
           >
-            <div slot="context">Tools, made for Humans.</div>
+            <div slot="context">
+              Tools, made for Humans—a <Ol href="https://todos.humane.tools">todo app</Ol> and a Spaced
+              Repetition System.
+            </div>
+            Built the todo app from scratch, iterating through learnings from Customer Development Interviews.
           </WideCard>
           <WideCard
             title="Tü.λ | Functional Programming Meetup Tübingen"
-            description="Summer 2024 – Now"
+            description="Summer 2024–Now"
             org=""
             href="https://tu-lambda.github.io/"
             pos="Meetup Host"
@@ -159,7 +207,7 @@ import ListItem from '../components/ListItem.astro'
           />
           <WideCard
             title="active group GmbH"
-            description="May 2024 – Now"
+            description="May 2024–Now"
             org=""
             pos="Software Architect"
             href="https://active-group.de"
@@ -176,7 +224,11 @@ import ListItem from '../components/ListItem.astro'
               'Emacs',
               'nvim',
             ]}
-          />
+          >
+            Writing software for German industrial clients: a Clojure monitoring platform for a
+            factory, and a user-facing map application with a SolidJS/TypeScript frontend and a
+            Clojure backend.
+          </WideCard>
           <WideCard
             title="Deutsche Schülerakademie"
             description="Summer 2025 | 17 Days"
@@ -192,7 +244,7 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="zelium.io"
-            description="Sep 2023 – May 2024"
+            description="Sep 2023–May 2024"
             org=""
             href="https://zelium.io"
             pos="Startup Dude"
@@ -221,7 +273,7 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="Software Development"
-            description="Feb 2021 – Mar 2023"
+            description="Feb 2021–Mar 2023"
             org="Hacker School"
             href="https://hacker-school.de"
             pos="Working Student"
@@ -247,7 +299,7 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="rootlinks"
-            description="June 2021 – Mar 2022"
+            description="June 2021–Mar 2022"
             org=""
             href="https://web.archive.org/web/20240828091410/https://www.rootlinks.ch/"
             pos="Working Member"
@@ -269,7 +321,7 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="Software Architecture"
-            description="Mar – May 2020"
+            description="Mar–May 2020"
             org="active group GmbH"
             href="https://active-group.de"
             pos="Intern"
@@ -280,7 +332,7 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="Innovation Hacking"
-            description="Dec 2019 – Mar 2020"
+            description="Dec 2019–Mar 2020"
             org="TNG Technology Consulting"
             href="https://tngtech.com"
             pos="Intern"
@@ -323,7 +375,7 @@ import ListItem from '../components/ListItem.astro'
         <ol class="group/section">
           <WideCard
             title="Common Core"
-            description="Mar 2022 – Sep 2023"
+            description="Mar 2022–Sep 2023"
             org="42 Heilbronn"
             imageSrc=""
             href="https://42heilbronn.de"
@@ -341,7 +393,7 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="BSc Physics"
-            description="Sep 2020 – Feb 2022"
+            description="Sep 2020–Feb 2022"
             org="ETH Zürich"
             imageSrc=""
             pos=""
@@ -352,7 +404,7 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="Studium generale et sociale"
-            description="Oct 2018 – July 2019"
+            description="Oct 2018–July 2019"
             org="Leibniz Kolleg Tübingen"
             imageSrc=""
             href="https://uni-tuebingen.de/einrichtungen/verwaltung/stabsstellen/leibniz-kolleg/das-leibniz-kolleg/"
@@ -361,7 +413,7 @@ import ListItem from '../components/ListItem.astro'
           />
           <WideCard
             title="Carlo-Schmid-Gymnasium Tübingen"
-            description="2010 – 2018"
+            description="2010–2018"
             org=""
             imageSrc=""
             href="https://csg-tuebingen.de"
