@@ -1,6 +1,15 @@
 [
   {
     "type": "new",
+    "file": "src/content/notes/The Road To Wisdom.mdx",
+    "slug": "the-road-to-wisdom",
+    "collection": "notes",
+    "title": "The Road To Wisdom",
+    "date": "2026-05-28T13:57:55.000Z",
+    "commitHash": "beedb2a"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/Fluid Type Scales.mdx",
     "slug": "fluid-type-scales",
     "collection": "notes",
