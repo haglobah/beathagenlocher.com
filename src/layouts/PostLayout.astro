@@ -4,6 +4,7 @@ import ReadingProgressBar from '../components/ReadingProgressBar.astro'
 import Heading from '../components/Heading.astro'
 import Ago from '../components/Ago.astro'
 import Il from '../components/InnerLink.astro'
+import Badge from '../components/Badge.astro'
 
 const { frontmatter, headings } = Astro.props
 
@@ -40,6 +41,15 @@ const unpublishedStyle = unpublished ? 'opacity-60' : ''
         </span>
       </div>
     </div>
+    {
+      frontmatter.topics !== '' && (
+        <div class="flex flex-wrap">
+          {frontmatter.topics.map((topic) => (
+            <Badge topic={topic} />
+          ))}
+        </div>
+      )
+    }
   </div>
   <div class:list={['mx-auto break-words', unpublishedStyle]}>
     <slot />
