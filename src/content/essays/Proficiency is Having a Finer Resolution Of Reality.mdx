@@ -1,0 +1,69 @@
+---
+title: 'Having a Finer Resolution Of Reality is a Good Proxy For Proficiency'
+description: ''
+growthStage: seedling
+startDate: 2026-05-31T23:21:36Z
+updated: 2026-05-31T23:21:36Z
+topics: [Rationality]
+publish: false
+---
+
+Over the last few weeks, I have regularly thought of this, and I think it's a good mental model to have. So here goes:
+
+---
+
+Some years ago, I watched an amazing talk by [Shriram Krishnamurthi](https://cs.brown.edu/people/sk/): [On the Expressive Power of Programming Languages | Shriram Krishnamurthi](https://www.youtube.com/watch?v=43XaZEn2aLc)
+
+In it, Shriram goes deep into a paper about Programming Languge Theory, which uses a particular way to think about expressiveness in programming languages, which is:
+
+For all features:
+
+The feature adds expressiveness to a programming language
+<=>
+through adding the feature, some previous programs change their meaning
+<=>
+through adding the feature, I can come up with a previous program that didn't terminate (or threw an error) before, but now does.
+
+So what does it mean then for a programming language to be equally expressive?
+
+Programming languages are equally expressive if, for all of their features, and for all of the programs we could write in them using those features, we cannot find a program that terminates in one of those programming languages, and doesn't in the other programming language.
+
+One programming language is more expressive than the other if one can find such a program.
+
+This enables us to create hierarchy of languages.
+
+For example, a language that has only floating point numbers is less expressive than a language that has both floating point numbers and integers. (In the second, we could tell the terms `1` and `1.0` apart, in the first we can't).
+
+To coin a term: The second of those programming languages has a **higher resolution** than the other.
+
+---
+
+Even more years ago, I read an amazing blog post by Paul Graham: Beating the Averages.
+
+This blog posts mentions a concept I have been quoting a lot when talking about Programming Languages, but it's also one you can see in other places (if you squint a bit):
+
+> The Blub Paradox
+
+It goes like this:
+
+> When people are able to think in the features of programming language, say Blub, and they compare programming languages, there's only two possibilities: They can clearly see that the other language is inferior (cause it doesn't have _this great feature_, and they need to work around not having it), or they think-feel the other language is weird, because they can't think in that language (yet).
+
+Understanding that makes it pretty easy to sort programming languages according to a hierarchy (Technically only programming language _features_, to be precise, with programming languages just being sets of features).
+
+---
+
+And I think both of them can be combined into a general mental model for gauging proficiency.
+
+In a similar train of thought:
+
+_Whenever_ you think-feel something's weird and you don't have an obvious explanation for it (—and you are a good rationalist, and therefore not susceptible to not [noticing your confusion](https://www.lesswrong.com/posts/5JDkW4MYXit2CquLs/your-strength-as-a-rationalist)), what you're experiencing is the feeling you have when you have a lower resolution of reality.
+
+---
+
+So, what should you take away from this?
+
+One: This is a good proxy for establishing proficiency, and rankings of proficiency between people: Just tell them to explain concepts. Ask a person how they see something, and compare their resolution of a field with yours. If they have a higher resolution of reality
+
+Two, you can use this to point out things: Like "Oh, I see. When you say that, you're implicitly assuming that 1 and 1.0 are equal, but in this case, they're not—cause in here, we cannot disambiguate"
+
+And three, you can actively pursue your weirdness feeling to get more proficient in a field. Whenever I'm out woodworking with a friend of mine and I noticed I'm confused, I can just ask him why he did do something I couldn't pinpoint the usefulness for—and almost always I've learned something new, and increased my proficiency in the field.
