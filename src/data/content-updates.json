@@ -1,6 +1,15 @@
 [
   {
     "type": "new",
+    "file": "src/content/essays/The Ultimate Keyboard.mdx",
+    "slug": "the-ultimate-keyboard",
+    "collection": "essays",
+    "title": "The Ultimate Keyboard",
+    "date": "2026-07-22T22:41:48.000Z",
+    "commitHash": "240f97c"
+  },
+  {
+    "type": "new",
     "file": "src/content/notes/The Road To Wisdom.mdx",
     "slug": "the-road-to-wisdom",
     "collection": "notes",
