@@ -1,0 +1,21 @@
+---
+import BookCard from '../components/BookCard.astro'
+import { books } from './content.ts'
+
+const shelfNames = [...new Set(books.flatMap((book) => book.data.shelves))]
+---
+
+{
+  shelfNames.map((shelf) => (
+    <section class="f-mb-xl">
+      <h2 class="font-light font-headline f-text-md f-mb-sm">{shelf}</h2>
+      <div class="grid sm:grid-cols-2 f-gap-lg f-mt-md">
+        {books
+          .filter((book) => book.data.shelves.includes(shelf))
+          .map((book) => (
+            <BookCard book={book} />
+          ))}
+      </div>
+    </section>
+  ))
+}

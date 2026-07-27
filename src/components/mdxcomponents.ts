@@ -20,6 +20,7 @@ import OrbitPrompt from './OrbitPrompt.astro'
 import Callout from './Callout.astro'
 import Spoiler from './Spoiler.astro'
 import KB from './Keybinding.astro'
+import Book from './BookCard.astro'
 
 export const components = {
   I,
@@ -34,6 +35,7 @@ export const components = {
   Callout,
   Spoiler,
   KB,
+  Book,
 
   a: Ol,
   innerlink: Il,

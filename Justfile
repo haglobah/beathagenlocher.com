@@ -13,6 +13,9 @@ dev: astro bsky-server comment-server
 track args="":
     npm run track-updates -- {{ args }}
 
+books:
+    npm run sync-books
+
 astro:
     npm run dev
 

@@ -1,0 +1,73 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+import { Image } from 'astro:assets'
+
+import Il from './InnerLink.astro'
+import CardHeader from './WideCard/CardHeader.astro'
+
+interface Props {
+  // Pass an entry directly (listing pages) or an id to look up (MDX pages).
+  book?: CollectionEntry<'books'>
+  id?: string
+}
+
+const { book: bookProp, id } = Astro.props
+
+let book = bookProp
+if (!book && id) {
+  const books = await getCollection('books')
+  book = books.find((entry) => entry.id === id)
+  if (!book) {
+    throw new Error(`<BookCard id="${id}" /> does not match any book in src/content/books/`)
+  }
+}
+if (!book) {
+  throw new Error('<BookCard /> needs either a `book` entry or an `id`')
+}
+
+const { title, authors, cover } = book.data
+---
+
+<div class="f-mb-xl">
+  <div
+    class="group relative grid f-pb-xs transition-all sm:grid-cols-8 sm:f-gap-xs lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
+  >
+    <!-- Background element -->
+    <div
+      class="absolute f-left--16--24 f-right-2-12 f-top--16--24 f-bottom-0-0 z-0 rounded-md transition duration-300 ease-in-out lg:block lg:group-hover:bg-[rgb(51,51,57)] lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] group-hover:drop-shadow-lg"
+    >
+    </div>
+
+    {
+      cover ? (
+        <Image
+          src={cover}
+          alt={`Cover of ${title}`}
+          width={160}
+          class="w-20 f-mb-xs rounded hover:drop-shadow sm:order-1 sm:col-span-2 sm:translate-y-1"
+          loading="lazy"
+        />
+      ) : (
+        <div
+          class="w-20 f-mb-xs rounded hover:drop-shadow sm:order-1 sm:col-span-2 sm:translate-y-1 aspect-[2/3] bg-gradient-to-br from-cornflower/50 to-spacecadet flex items-center justify-center font-headline text-zinc-200 f-text-md"
+          aria-hidden="true"
+        >
+          {title.charAt(0)}
+        </div>
+      )
+    }
+
+    <div class="z-10 sm:col-span-6 order-0 sm:order-2 relative">
+      <div class="f-mb-xs">
+        <h3 class="font-medium leading-snug text-zinc-200 max-w-[80%]">
+          <Il href={book.id}>
+            <CardHeader title={title} org="" />
+          </Il>
+        </h3>
+        <div class="font-light text-zinc-200 f-text-xs">
+          <span>{authors.join(', ')}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

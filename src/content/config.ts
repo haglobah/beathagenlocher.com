@@ -103,18 +103,22 @@ const quotesCollection = defineCollection({
 //     }),
 // });
 
-// const booksCollection = defineCollection({
-//   loader: file("src/content/books.json"),
-//   schema: ({ image }) =>
-//     z.object({
-//       title: z.string(),
-//       subtitle: z.string().optional(),
-//       author: z.string(),
-//       cover: image(),
-//       link: z.string().url(),
-//       id: z.number(),
-//     }),
-// });
+const booksCollection = defineCollection({
+  loader: glob({ pattern: ['**/*.mdx'], base: './src/content/books' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      authors: z.array(z.string()),
+      bookId: z.string(),
+      isbn13: z.string().optional(),
+      shelves: z.array(z.string()).default([]),
+      cover: image().optional(),
+      order: z.number(),
+      startDate: z.coerce.date(),
+      updated: z.coerce.date(),
+      publish: z.boolean().default(true),
+    }),
+})
 
 // const antibooksCollection = defineCollection({
 //   loader: file("src/content/antibooks.json"),
@@ -175,7 +179,7 @@ export const collections = {
   talks: talksCollection,
   quotes: quotesCollection,
   // podcasts: podcastsCollection,
-  // books: booksCollection,
+  books: booksCollection,
   // antibooks: antibooksCollection,
   stream: streamCollection,
 }

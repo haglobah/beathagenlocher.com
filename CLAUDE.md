@@ -42,6 +42,7 @@ The site is organized around Astro's content collections defined in `src/content
 - **talks** - Conference talks with metadata about venues and dates
 - **stream** - Short-form stream posts
 - **quotes** - Quotes from JSON file
+- **books** - The book library, synced from Zeneca (`just books` runs `scripts/sync-books.ts`). Frontmatter is machine-generated once; the MDX body is hand-written notes and is never overwritten by a re-sync. Covers live in `src/assets/books/`. Filenames must avoid glob characters (`?*[]{}()!`) — the Astro glob loader silently fails on them.
 
 Each collection has specific schemas with fields like `title`, `startDate`, `updated`, `topics`, `growthStage`, and `publish` flags.
 

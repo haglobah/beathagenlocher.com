@@ -8,6 +8,9 @@ export const draftEssays = await getCollection('essays', ({ data }) => !data.pub
 export const publishedTalks = await getCollection('talks', ({ data }) => data.publish)
 export const draftTalks = await getCollection('talks', ({ data }) => !data.publish)
 export const stream = await getCollection('stream', ({ data }) => data.publish)
+export const books = (await getCollection('books', ({ data }) => data.publish)).sort(
+  (a, b) => a.data.order - b.data.order,
+)
 
 export const allTheContent = [
   publishedNotes,

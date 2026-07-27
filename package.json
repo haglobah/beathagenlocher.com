@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "track-updates": "node scripts/track-updates.js"
+    "track-updates": "node scripts/track-updates.js",
+    "sync-books": "bun scripts/sync-books.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",

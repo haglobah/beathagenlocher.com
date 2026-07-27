@@ -10,9 +10,11 @@ import Notes from '../content/notes.astro'
 import Stream from '../content/stream.astro'
 import Essays from '../content/essays.astro'
 import Talks from '../content/talks.astro'
-import { allTheContent, sortByUpdated, sortByStartDate, getTopics } from '../content/content.ts'
+import BookCard from '../components/BookCard.astro'
+import { allTheContent, books, sortByUpdated, sortByStartDate, getTopics } from '../content/content.ts'
 
 const topics = getTopics(allTheContent)
+const featuredBooks = books.slice(0, 6)
 ---
 
 <Layout title="Beat Hagenlochers Digital Garden">
@@ -76,6 +78,23 @@ const topics = getTopics(allTheContent)
         </div>
         <div class="grid sm:grid-cols-2">
           <Notes />
+        </div>
+      </div>
+
+      <div class="md:col-span-12">
+        <div class="f-mt-md f-mb-2xl">
+          <h2 class="font-light font-headline f-text-md">
+            <Il href="library" class="font-light">The Library</Il>
+          </h2>
+          <p class="italic f-text-xs">Books on my shelves, some with notes attached</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 f-gap-lg">
+          {featuredBooks.map((book) => <BookCard book={book} />)}
+        </div>
+        <div class="flex justify-end f-mt-sm f-mb-2xl">
+          <h2 class="font-light font-headline f-text-md">
+            <Il href="library" arrow={'left'} class="font-light">The Library</Il>
+          </h2>
         </div>
       </div>
 

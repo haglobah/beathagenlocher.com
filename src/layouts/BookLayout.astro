@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import ReadingProgressBar from '../components/ReadingProgressBar.astro'
+import Badge from '../components/Badge.astro'
+import Ol from '../components/OuterLink.astro'
+
+interface Props {
+  book: CollectionEntry<'books'>
+}
+
+const { book } = Astro.props
+const { title, authors, shelves, cover, bookId } = book.data
+---
+
+<ReadingProgressBar />
+<div class="post f-mb-2xl f-px-sm mx-auto max-w-[65ch]">
+  <div class="f-mb-2xl f-p-md flex gap-6 rounded-lg">
+    {
+      cover ? (
+        <Image
+          src={cover}
+          alt={`Cover of ${title}`}
+          width={320}
+          class="w-32 sm:w-48 shrink-0 rounded shadow-lg aspect-[2/3] object-cover"
+        />
+      ) : (
+        <div
+          class="w-32 sm:w-48 shrink-0 rounded shadow-lg aspect-[2/3] flex items-center justify-center font-headline text-zinc-200 f-text-xl"
+          aria-hidden="true"
+        >
+          {title.charAt(0)}
+        </div>
+      )
+    }
+    <div class="flex flex-col justify-start m-4 f-gap-2xs min-w-0 h-full">
+      <h1 class="f-text-xl font-light font-headline leading-tight">{title}</h1>
+      <div class="text-zinc-400 f-text-xs">{authors.join(', ')}</div>
+      {
+        shelves.length > 0 && (
+          <div class="flex flex-wrap f-mt-2xs">
+            {shelves.map((shelf) => (
+              <Badge topic={shelf} size="f-text-2xs" />
+            ))}
+          </div>
+        )
+      }
+      {}
+      <!-- <div class="f-text-xs f-mt-xs"> -->
+      <!--   <Ol href={`https://books.google.com/books?id=${bookId}`}>Google Books</Ol> -->
+      <!-- </div> -->
+    </div>
+  </div>
+  <div class="mx-auto break-words">
+    <slot />
+  </div>
+</div>
