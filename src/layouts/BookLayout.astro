@@ -5,13 +5,15 @@ import type { CollectionEntry } from 'astro:content'
 import ReadingProgressBar from '../components/ReadingProgressBar.astro'
 import Badge from '../components/Badge.astro'
 import Ol from '../components/OuterLink.astro'
+import RecommendationDots from '../components/RecommendationDots.astro'
+import ClampWrapper from '../components/ClampWrapper.astro'
 
 interface Props {
   book: CollectionEntry<'books'>
 }
 
 const { book } = Astro.props
-const { title, authors, shelves, cover, bookId } = book.data
+const { title, authors, shelves, cover, bookId, description, recommendations } = book.data
 ---
 
 <ReadingProgressBar />
@@ -46,12 +48,29 @@ const { title, authors, shelves, cover, bookId } = book.data
           </div>
         )
       }
+      {
+        recommendations > 0 && (
+          <div class="f-mt-2xs">
+            <RecommendationDots count={recommendations} />
+            <div class="text-zinc-400 f-text-2xs f-mt-2xs">
+              ~ {recommendations} recommendation{recommendations === 1 ? '' : 's'} so far
+            </div>
+          </div>
+        )
+      }
       {}
       <!-- <div class="f-text-xs f-mt-xs"> -->
       <!--   <Ol href={`https://books.google.com/books?id=${bookId}`}>Google Books</Ol> -->
       <!-- </div> -->
     </div>
   </div>
+  {
+    description && (
+      <div class="f-mb-xl">
+        <p class="italic opacity-90 f-text-sm">{description}</p>
+      </div>
+    )
+  }
   <div class="mx-auto break-words">
     <slot />
   </div>

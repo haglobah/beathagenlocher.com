@@ -109,10 +109,12 @@ const booksCollection = defineCollection({
     z.object({
       title: z.string(),
       authors: z.array(z.string()),
+      description: z.string().optional(),
       bookId: z.string(),
       isbn13: z.string().optional(),
       shelves: z.array(z.string()).default([]),
       cover: image().optional(),
+      recommendations: z.number().int().min(0).default(0),
       order: z.number(),
       startDate: z.coerce.date(),
       updated: z.coerce.date(),

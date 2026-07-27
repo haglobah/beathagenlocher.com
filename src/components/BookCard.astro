@@ -4,6 +4,7 @@ import { Image } from 'astro:assets'
 
 import Il from './InnerLink.astro'
 import CardHeader from './WideCard/CardHeader.astro'
+import RecommendationDots from './RecommendationDots.astro'
 
 interface Props {
   // Pass an entry directly (listing pages) or an id to look up (MDX pages).
@@ -25,7 +26,7 @@ if (!book) {
   throw new Error('<BookCard /> needs either a `book` entry or an `id`')
 }
 
-const { title, authors, cover } = book.data
+const { title, authors, cover, recommendations } = book.data
 ---
 
 <div class="f-mb-xl">
@@ -67,6 +68,7 @@ const { title, authors, cover } = book.data
         <div class="font-light text-zinc-200 f-text-xs">
           <span>{authors.join(', ')}</span>
         </div>
+        <RecommendationDots count={recommendations} class="f-mt-2xs" />
       </div>
     </div>
   </div>

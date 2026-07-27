@@ -37,6 +37,11 @@ describe('mergeShelves', () => {
     const books = mergeShelves([{ name: 'A', desc: '', books: [zeneca({ thumbnail: null })] }])
     expect(books[0].coverUrl).toBeNull()
   })
+
+  test('carries the publisher description along', () => {
+    const books = mergeShelves([{ name: 'A', desc: '', books: [zeneca()] }])
+    expect(books[0].description).toBe('How to talk to customers.')
+  })
 })
 
 describe('coverUrl', () => {
@@ -70,22 +75,33 @@ describe('bookMdx', () => {
     expect(mdx).toStartWith('---\n')
     expect(mdx).toContain('title: "The Mom Test"')
     expect(mdx).toContain('authors:\n  - "Rob Fitzpatrick"')
+    expect(mdx).toContain('description: "How to talk to customers."')
     expect(mdx).toContain('bookId: "abc123"')
     expect(mdx).toContain('isbn13: "9781492180746"')
     expect(mdx).toContain('shelves:\n  - "Business"')
     expect(mdx).toContain('cover: "../../assets/books/the-mom-test.jpg"')
+    expect(mdx).toContain('recommendations: 0')
     expect(mdx).toContain('startDate: 2026-07-27')
     expect(mdx).toContain('updated: 2026-07-27')
     expect(mdx).toContain('publish: true')
   })
 
-  test('omits cover and isbn13 when the book has none', () => {
+  test('omits cover, isbn13, and description when the book has none', () => {
     const bare = mergeShelves([
-      { name: 'A', desc: '', books: [zeneca({ thumbnail: null, 'isbn-13': null })] },
+      { name: 'A', desc: '', books: [zeneca({ thumbnail: null, 'isbn-13': null, description: null })] },
     ])[0]
     const mdx = bookMdx(bare, '2026-07-27')
     expect(mdx).not.toContain('cover:')
     expect(mdx).not.toContain('isbn13:')
+    expect(mdx).not.toContain('description:')
+  })
+
+  test('escapes newlines and quotes in descriptions', () => {
+    const tricky = mergeShelves([
+      { name: 'A', desc: '', books: [zeneca({ description: 'Line "one"\nLine two' })] },
+    ])[0]
+    const mdx = bookMdx(tricky, '2026-07-27')
+    expect(mdx).toContain('description: "Line \\"one\\"\\nLine two"')
   })
 
   test('quotes titles containing YAML-hostile characters', () => {

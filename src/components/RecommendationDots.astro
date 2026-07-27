@@ -1,0 +1,33 @@
+---
+import { dotGroups } from './recommendation-dots.ts'
+
+interface Props {
+  count: number
+  class?: string
+}
+
+const { count, class: className = '' } = Astro.props
+const label = `Recommended to friends ${count} time${count === 1 ? '' : 's'}`
+const { hundreds, tens, ones } = dotGroups(count)
+---
+
+{
+  count > 0 && (
+    <div
+      class:list={['flex items-center flex-wrap gap-1.5', className]}
+      title={label}
+      role="img"
+      aria-label={label}
+    >
+      {Array.from({ length: hundreds }).map(() => (
+        <span class="size-3.5 rounded-full bg-sienna inline-block" />
+      ))}
+      {Array.from({ length: tens }).map(() => (
+        <span class="size-2.5 rounded-full bg-sienna inline-block" />
+      ))}
+      {Array.from({ length: ones }).map(() => (
+        <span class="size-1.5 rounded-full bg-sienna inline-block" />
+      ))}
+    </div>
+  )
+}

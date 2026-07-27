@@ -19,6 +19,7 @@ export interface Book {
   bookId: string
   title: string
   authors: string[]
+  description: string | null
   isbn13: string | null
   shelves: string[]
   coverUrl: string | null
@@ -43,6 +44,7 @@ export const mergeShelves = (shelves: ZenecaShelf[]): Book[] => {
           bookId: zeneca.id,
           title: zeneca.title,
           authors: zeneca.authors ?? [],
+          description: zeneca.description ?? null,
           isbn13: zeneca['isbn-13'] ?? null,
           shelves: [shelf.name],
           coverUrl: zeneca.thumbnail ? coverUrl(zeneca.id) : null,
@@ -70,10 +72,12 @@ export const bookMdx = (book: Book, date: string): string => {
   const lines = [
     `title: ${JSON.stringify(book.title)}`,
     `authors:${yamlList(book.authors)}`,
+    ...(book.description ? [`description: ${JSON.stringify(book.description)}`] : []),
     `bookId: ${JSON.stringify(book.bookId)}`,
     ...(book.isbn13 ? [`isbn13: ${JSON.stringify(book.isbn13)}`] : []),
     `shelves:${yamlList(book.shelves)}`,
     ...(book.coverUrl ? [`cover: "../../assets/books/${coverFileName(book.title)}"`] : []),
+    'recommendations: 0',
     `order: ${book.order}`,
     `startDate: ${date}`,
     `updated: ${date}`,
