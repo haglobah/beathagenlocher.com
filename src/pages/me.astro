@@ -18,14 +18,7 @@ import ListItem from '../components/ListItem.astro'
       <div class="f-mt-xs">
         <h1 class="f-text-2xl leading-tighter tracking-wide text-zinc-200">Beat Hagenlocher</h1>
         <h2 class="f-text-lg text-zinc-200">
-          Software Architect <span class="font-light">@</span><Ol href="https://active-group.de"
-            >active group</Ol
-          >
-        </h2>
-        <h2 class="f-text-lg text-zinc-200">
-          Project Lead <span class="font-light">@</span><Ol href="https://aisafetytuebingen.com"
-            >AI Safety Tübingen</Ol
-          >
+          Founder <span class="font-light">@</span><Ol href="https://surplus.dev">surplus.dev</Ol>
         </h2>
       </div>
       <Section title="About Me" class="overflow-y-auto f-text-sm">
@@ -163,14 +156,24 @@ import ListItem from '../components/ListItem.astro'
       <Section title="Experience">
         <ol class="group/list">
           <WideCard
-            title="AI Safety Fellowship"
-            description="Feb 2026–Now"
-            org="AI Safety Tübingen"
-            href="https://aisafetytuebingen.com/"
-            pos="Project Lead"
-            topics={['Operations']}
+            title="Surplus"
+            description="Aug 2026—now"
+            org="Mox SF"
+            href="https://surplus.dev/"
+            pos="Participating Founder"
+            topics={[
+              'Founding',
+              'Software Engineering',
+              'Software Architecture',
+              'User Testing',
+              'Analytics',
+            ]}
           >
-            <div slot="context">A 3-month fellowship for 20 fellows with stipends and housing.</div>
+            <div slot="context">
+              A 3-month startup accelerator program for generating public good (aka. <span
+                class="italic">surplus</span
+              >)
+            </div>
             Making decisions under uncertainty: finding mentors, organizing housing, estimating a budget,
             gathering support from stakeholders like the ELLIS Institute/the Max Planck Institute, writing
             the grant application for Coefficient Giving.
@@ -192,10 +195,22 @@ import ListItem from '../components/ListItem.astro'
             ]}
           >
             <div slot="context">
-              Tools, made for Humans—a <Ol href="https://todos.humane.tools">todo app</Ol> and a Spaced
-              Repetition System.
+              Tools, made for Humans—a <Ol href="https://todos.humane.tools">todo app</Ol> and soon more.
             </div>
             Built the todo app from scratch, iterating through learnings from Customer Development Interviews.
+          </WideCard>
+          <WideCard
+            title="AI Safety Fellowship"
+            description="Feb 2026–Aug 2026"
+            org="AI Safety Tübingen"
+            href="https://aisafetytuebingen.com/"
+            pos="Project Lead | Grantwriting"
+            topics={['Operations']}
+          >
+            <div slot="context">A 3-month fellowship for 20 fellows with stipends and housing.</div>
+            Making decisions under uncertainty: finding mentors, organizing housing, estimating a budget,
+            gathering support from stakeholders like the ELLIS Institute/the Max Planck Institute, writing
+            the grant application for Coefficient Giving.
           </WideCard>
           <WideCard
             title="Tü.λ | Functional Programming Meetup Tübingen"
@@ -207,7 +222,7 @@ import ListItem from '../components/ListItem.astro'
           />
           <WideCard
             title="active group GmbH"
-            description="May 2024–Now"
+            description="May 2024–Jul 2026"
             org=""
             pos="Software Architect"
             href="https://active-group.de"
@@ -231,16 +246,17 @@ import ListItem from '../components/ListItem.astro'
           </WideCard>
           <WideCard
             title="Deutsche Schülerakademie"
-            description="Summer 2025 | 17 Days"
+            description="Summer 2022, 2025, 2026 | 17 Days"
             org=""
             href="https://schuelerakademien.de/deutsche-schuelerakademie"
             pos="Course Instructor"
-            topics={['Science', 'Teaching']}
+            topics={['Science', 'Teaching', 'Computer Science', 'Psychology', 'Learning']}
           >
             <div slot="context">
               A 17-day summer program for high-achieving students ages 16 to 19.
             </div>
-            Designed and taught a 50-hour university-level course about empirical methods and science.
+            Designed and taught 50-hour university-level courses: On the science of learning (2022), empirical
+            methods & science (2025), and on nand2tetris (2026).
           </WideCard>
           <WideCard
             title="zelium.io"
@@ -281,21 +297,6 @@ import ListItem from '../components/ListItem.astro'
           >
             Developed courses and the accompanying course website; introduced a knowledge base
             system.
-          </WideCard>
-          <WideCard
-            title="Deutsche Schülerakademie"
-            description="Summer 2022 | 17 Days"
-            org=""
-            href="https://schuelerakademien.de/deutsche-schuelerakademie"
-            pos="Course Instructor"
-            topics={['Learning', 'Teaching']}
-          >
-            <div slot="context">
-              A 17-day summer program for high-achieving students ages 16 to 19.
-            </div>
-            Designed and taught a 50-hour university-level course called <span class="italic"
-              >How People Learn</span
-            >.
           </WideCard>
           <WideCard
             title="rootlinks"
