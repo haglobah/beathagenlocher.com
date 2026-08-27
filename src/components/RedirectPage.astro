@@ -1,0 +1,25 @@
+---
+// Static stub served at an old slug after content was renamed. GitHub Pages
+// can't send real 301s, so the meta refresh forwards visitors and the
+// canonical link tells search engines where the page went.
+interface Props {
+  redirectTo: string
+  title: string
+}
+
+const { redirectTo, title } = Astro.props
+const canonical = new URL(redirectTo, Astro.site)
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{`Redirecting to ${title}`}</title>
+    <meta http-equiv="refresh" content={`0;url=${redirectTo}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+  </head>
+  <body>
+    <p>This page has moved to <a href={redirectTo}>{title}</a>.</p>
+  </body>
+</html>

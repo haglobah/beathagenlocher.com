@@ -24,6 +24,7 @@
     "astro-seo": "^0.8.4",
     "flexsearch": "^0.8.212",
     "fuse.js": "^7.1.0",
+    "gray-matter": "^4.0.3",
     "javascript-time-ago": "^2.6.2",
     "linkedom": "^0.18.12",
     "lodash": "^4.17.23",

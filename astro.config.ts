@@ -6,12 +6,20 @@ import mdx from '@astrojs/mdx'
 import solidJs from '@astrojs/solid-js'
 import wikiLinkPlugin from './src/plugins/portal-wiki-link'
 import { getPermalinks } from './src/plugins/portal-wiki-link'
+import { getContentAliases } from './src/plugins/aliases'
 import { slug } from 'github-slugger'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 import sitemap from '@astrojs/sitemap'
 
 import expressiveCode from 'astro-expressive-code'
+
+// Old slugs of renamed content; they get redirect stub pages, so wiki links
+// pointing at old names still resolve, but the stubs stay out of the sitemap.
+const aliasSlugs = getContentAliases('src/content/')
+const aliasUrls = new Set(
+  aliasSlugs.map((el) => `https://beathagenlocher.com/${el}/`),
+)
 
 const permalinks = getPermalinks('src/content/')
   .map((el) => {
@@ -20,6 +28,7 @@ const permalinks = getPermalinks('src/content/')
   })
   .filter((el) => el)
   .map((el) => slug(el))
+  .concat(aliasSlugs)
 
 // https://astro.build/config
 export default defineConfig({
@@ -36,7 +45,9 @@ export default defineConfig({
   integrations: [
     solidJs(),
     UnoCSS(),
-    sitemap(),
+    sitemap({
+      filter: (page) => !aliasUrls.has(page),
+    }),
     expressiveCode({
       themes: ['catppuccin-mocha'],
       plugins: [pluginLineNumbers()],

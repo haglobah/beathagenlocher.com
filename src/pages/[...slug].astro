@@ -1,20 +1,55 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content'
 import { render } from 'astro:content'
+import { slug as slugify } from 'github-slugger'
 
 import Layout from '../layouts/Layout.astro'
 import PostLayout from '../layouts/PostLayout.astro'
 import BookLayout from '../layouts/BookLayout.astro'
+import RedirectPage from '../components/RedirectPage.astro'
 
 type Props =
   | { entry: CollectionEntry<'books'>; type: 'book' }
   | { entry: CollectionEntry<'essays' | 'notes' | 'talks'>; type: 'essay' | 'note' | 'talk' }
+  | { type: 'redirect'; redirectTo: string; title: string }
 
 export async function getStaticPaths() {
   const essays = await getCollection('essays')
   const notes = await getCollection('notes')
   const talks = await getCollection('talks')
   const books = await getCollection('books')
+
+  // Old slugs listed in `aliases` frontmatter become redirect stubs pointing
+  // at the entry's current URL. Collisions with real pages or other aliases
+  // fail the build instead of silently shadowing a page.
+  const allEntries = [...essays, ...notes, ...talks, ...books]
+  const canonicalIds = new Set(allEntries.map((entry) => entry.id))
+  const aliasOwners = new Map<string, string>()
+  const redirects = allEntries.flatMap((entry) =>
+    (entry.data.aliases ?? []).map((alias) => {
+      const aliasSlug = slugify(alias)
+      if (canonicalIds.has(aliasSlug)) {
+        throw new Error(
+          `Alias "${alias}" of "${entry.id}" collides with the existing page /${aliasSlug}`,
+        )
+      }
+      const owner = aliasOwners.get(aliasSlug)
+      if (owner && owner !== entry.id) {
+        throw new Error(
+          `Alias "${alias}" is claimed by both "${owner}" and "${entry.id}"`,
+        )
+      }
+      aliasOwners.set(aliasSlug, entry.id)
+      return {
+        params: { slug: aliasSlug },
+        props: {
+          type: 'redirect',
+          redirectTo: `/${entry.id}`,
+          title: entry.data.title,
+        } as const,
+      }
+    }),
+  )
 
   return [
     ...books.map((entry) => ({
@@ -33,27 +68,30 @@ export async function getStaticPaths() {
       params: { slug: entry.id },
       props: { entry, type: 'talk' } as const,
     })),
+    ...redirects,
   ]
 }
 
-const { entry, type } = Astro.props
-const { Content, headings } = await render(entry)
-
-const frontmatter = entry.data
+const props = Astro.props
+const rendered = props.type === 'redirect' ? null : await render(props.entry)
+const Content = rendered?.Content
+const headings = rendered?.headings
 
 import { components } from '../components/mdxcomponents.ts'
 ---
 
 {
-  type === 'book' ? (
-    <Layout title={frontmatter.title}>
-      <BookLayout book={entry}>
+  props.type === 'redirect' ? (
+    <RedirectPage redirectTo={props.redirectTo} title={props.title} />
+  ) : props.type === 'book' ? (
+    <Layout title={props.entry.data.title}>
+      <BookLayout book={props.entry}>
         <Content components={components} />
       </BookLayout>
     </Layout>
   ) : (
-    <Layout title={frontmatter.title}>
-      <PostLayout frontmatter={frontmatter} headings={headings}>
+    <Layout title={props.entry.data.title}>
+      <PostLayout frontmatter={props.entry.data} headings={headings}>
         <Content components={components} />
       </PostLayout>
     </Layout>

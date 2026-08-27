@@ -61,6 +61,7 @@ const talksCollection = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
+      aliases: z.array(z.string()).optional(),
       startDate: z.coerce.date(),
       updated: z.coerce.date(),
       // type: z.literal("talk"),
@@ -110,6 +111,7 @@ const booksCollection = defineCollection({
       title: z.string(),
       authors: z.array(z.string()),
       description: z.string().optional(),
+      aliases: z.array(z.string()).optional(),
       bookId: z.string(),
       isbn13: z.string().optional(),
       shelves: z.array(z.string()).default([]),
