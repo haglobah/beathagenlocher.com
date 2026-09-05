@@ -94,6 +94,7 @@ The `getPermalinks()` function scans `src/content/` to build a list of valid lin
 ### Content Utilities
 
 Key functions in `src/content/content.ts`:
+
 - `sortByUpdated()`, `sortByStartDate()` - Sort content by dates
 - `publishedNotes`, `draftNotes`, etc. - Pre-filtered collections
 - `getTopics()` - Extract and count topics across collections
@@ -101,12 +102,14 @@ Key functions in `src/content/content.ts`:
 ### Analytics & Tracking
 
 The site includes:
+
 - PostHog (product analytics and session recording)
 - Custom OG image generation at `/og/[...slug].png`
 
 ## Development Environment
 
 Uses Nix flakes for reproducible development environment (defined in `flake.nix`):
+
 - Node.js 24
 - Bun runtime
 - TypeScript language server
@@ -121,11 +124,11 @@ Content files are MDX in `src/content/[collection]/` with frontmatter:
 
 ```mdx
 ---
-title: "My Title"
+title: 'My Title'
 startDate: 2025-01-27
 updated: 2025-01-27
-topics: ["programming", "web"]
-growthStage: "budding"
+topics: ['programming', 'web']
+growthStage: 'budding'
 publish: true
 ---
 
@@ -145,6 +148,7 @@ Use `publish: false` to keep content in draft state.
 ## Building & Deployment
 
 The site builds to `dist/` and is deployed to `beathagenlocher.com` (indicated by `public/CNAME`). The build process:
+
 1. Collects all content from collections
 2. Generates static pages for each content entry
 3. Creates search index JSON
