@@ -3,31 +3,40 @@
 ---
 
 <div class="sticky flex top-0 left-0 z-500 inline-flex w-full">
-  <span id="reading-done-bar" class="h-[5px] bg-cornflower" style="width: 0%;"
-  ></span>
-  <span id="reading-active-bar" class="h-[5px] bg-sienna" style="width: 0%;"
-  ></span>
+  <span id="reading-done-bar" class="h-[5px] bg-cornflower" style="width: 0%;"></span>
+  <span id="reading-active-bar" class="h-[5px] bg-sienna" style="width: 0%;"></span>
   <span></span>
 </div>
 
 <script>
-  window.onload = () => {
-    const post = document.querySelector('.post')
-    const doneBar = document.querySelector('#reading-done-bar')
-    const activeBar = document.querySelector('#reading-active-bar')
+  function initializeProgress() {
+    const post = document.querySelector<HTMLElement>('.post')
+    const doneBar = document.querySelector<HTMLElement>('#reading-done-bar')
+    const activeBar = document.querySelector<HTMLElement>('#reading-active-bar')
+    if (!post || !doneBar || !activeBar) return
 
-    const fullPostHeight = post.clientHeight + post.offsetTop
-    const currentViewHeight = window.innerHeight
+    const updateProgress = () => {
+      const height = post.clientHeight + post.offsetTop
+      const viewportShare = height > 0 ? Math.min(window.innerHeight / height, 1) : 1
+      const distance = Math.max(height - window.innerHeight, 0)
+      const progress = distance > 0 ? Math.min(Math.max(window.scrollY / distance, 0), 1) : 0
+      activeBar.style.width = `${viewportShare * 100}%`
+      doneBar.style.width = `${progress * (1 - viewportShare) * 100}%`
+    }
 
-    const distance = fullPostHeight - currentViewHeight
-    const viewportPercentageOfPost = (currentViewHeight / fullPostHeight) * 100
-
-    activeBar.style.width = `${viewportPercentageOfPost}%`
-
-    window.addEventListener('scroll', () => {
-      const progress =
-        (window.scrollY / distance) * (100 - viewportPercentageOfPost)
-      doneBar.style.width = `${progress}%`
-    })
+    updateProgress()
+    window.addEventListener('scroll', updateProgress, { passive: true })
+    window.addEventListener('resize', updateProgress)
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('scroll', updateProgress)
+        window.removeEventListener('resize', updateProgress)
+      },
+      { once: true },
+    )
   }
+
+  if (document.readyState === 'complete') initializeProgress()
+  else window.addEventListener('load', initializeProgress, { once: true })
 </script>
