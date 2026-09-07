@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config'
 import { visualizer } from 'rollup-plugin-visualizer'
 import UnoCSS from 'unocss/astro'
 import mdx from '@astrojs/mdx'
+import { unified } from '@astrojs/markdown-remark'
 import solidJs from '@astrojs/solid-js'
 import wikiLinkPlugin from './src/plugins/portal-wiki-link'
 import { getPermalinks } from './src/plugins/portal-wiki-link'
@@ -42,20 +43,10 @@ export default defineConfig({
       }),
     ],
   },
-  integrations: [
-    solidJs(),
-    UnoCSS(),
-    sitemap({
-      filter: (page) => !aliasUrls.has(page),
-    }),
-    expressiveCode({
-      themes: ['catppuccin-mocha'],
-      plugins: [pluginLineNumbers()],
-      defaultProps: {
-        showLineNumbers: false,
-      },
-    }),
-    mdx({
+  // Astro 7 defaults to the `satteri` processor, which does not run remark
+  // plugins. The wiki link plugin needs the unified pipeline; MDX inherits it.
+  markdown: {
+    processor: unified({
       remarkPlugins: [
         [
           wikiLinkPlugin,
@@ -74,10 +65,25 @@ export default defineConfig({
           },
         ],
       ],
-      shikiConfig: {
-        theme: 'catppuccin-latte',
-        wrap: true,
+    }),
+    shikiConfig: {
+      theme: 'catppuccin-latte',
+      wrap: true,
+    },
+  },
+  integrations: [
+    solidJs(),
+    UnoCSS(),
+    sitemap({
+      filter: (page) => !aliasUrls.has(page),
+    }),
+    expressiveCode({
+      themes: ['catppuccin-mocha'],
+      plugins: [pluginLineNumbers()],
+      defaultProps: {
+        showLineNumbers: false,
       },
     }),
+    mdx(),
   ],
 })

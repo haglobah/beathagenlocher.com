@@ -57,9 +57,10 @@ declare global {
     <meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="/preflight.css" />
     <link rel="stylesheet" href="/style.css" />
-    <script type="module" src="https://js.withorbit.com/orbit-web-component.js"></script>
+    <script is:inline type="module" src="https://js.withorbit.com/orbit-web-component.js"></script>
     <!-- Privacy-friendly analytics by Umami -->
     <script
+      is:inline
       defer
       src="https://cloud.umami.is/script.js"
       data-website-id="7fe00dc9-cc97-4277-a8d8-5db47e9c3408"></script>
@@ -77,7 +78,7 @@ declare global {
       }}
     />
     <!-- Posthog -->
-    <script>
+    <script is:inline>
       !(function (t, e) {
         var o, n, p, r
         e.__SV ||

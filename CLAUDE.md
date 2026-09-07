@@ -34,7 +34,7 @@ The development server runs on `localhost:4321`.
 
 ### Content Collections System
 
-The site is organized around Astro's content collections defined in `src/content/config.ts`:
+The site is organized around Astro's content collections defined in `src/content.config.ts`:
 
 - **notes** - Personal notes with growth stages (seedling/budding/evergreen)
 - **essays** - Long-form articles with featured flags and cover images

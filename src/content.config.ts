@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content'
+import { defineCollection } from 'astro:content'
+import { z } from 'astro/zod'
 import { glob, file } from 'astro/loaders'
 
 const growthStageEnum = z.enum(['seedling', 'budding', 'evergreen'])
@@ -12,7 +13,6 @@ const notesCollection = defineCollection({
       aliases: z.array(z.string()).optional(),
       startDate: z.coerce.date(),
       updated: z.coerce.date(),
-      // type: z.literal("note"),
       topics: z.array(z.string()).default([]),
       growthStage: growthStageEnum,
       publish: z.boolean().default(false),
@@ -28,7 +28,6 @@ const essaysCollection = defineCollection({
       description: z.string().optional(),
       updated: z.coerce.date(),
       startDate: z.coerce.date(),
-      // type: z.literal("essay"),
       cover: image().optional(),
       topics: z.array(z.string()).default([]),
       growthStage: growthStageEnum,
@@ -39,22 +38,6 @@ const essaysCollection = defineCollection({
     }),
 })
 
-// const patternsCollection = defineCollection({
-//   loader: glob({ pattern: "**/*.md", base: "./src/content/patterns" }),
-//   schema: () =>
-//     z.object({
-//       title: z.string(),
-//       description: z.string(),
-//       updated: z.coerce.date(),
-//       startDate: z.coerce.date(),
-//       type: z.literal("pattern"),
-//       topics: z.array(z.string()).optional(),
-//       growthStage: z.string(),
-//       publish: z.boolean().optional(),
-//       toc: z.boolean().optional(),
-//     }),
-// });
-
 const talksCollection = defineCollection({
   loader: glob({ pattern: ['**/*.mdx'], base: './src/content/talks' }),
   schema: ({ image }) =>
@@ -64,7 +47,6 @@ const talksCollection = defineCollection({
       aliases: z.array(z.string()).optional(),
       startDate: z.coerce.date(),
       updated: z.coerce.date(),
-      // type: z.literal("talk"),
       topics: z.array(z.string()),
       growthStage: growthStageEnum,
       conferences: z.array(
@@ -89,21 +71,6 @@ const quotesCollection = defineCollection({
     }),
 })
 
-// const podcastsCollection = defineCollection({
-//   loader: file("src/content/podcasts.json"),
-//   schema: ({ image }) =>
-//     z.object({
-//       podcastName: z.string(),
-//       episodeName: z.string(),
-//       updated: z.coerce.date(),
-//       url: z.string().url(),
-//       coverImage: image(),
-//       topics: z.array(z.string()).optional(),
-//       id: z.number(),
-//       growthStage: z.string().default("evergreen"),
-//     }),
-// });
-
 const booksCollection = defineCollection({
   loader: glob({ pattern: ['**/*.mdx'], base: './src/content/books' }),
   schema: ({ image }) =>
@@ -124,29 +91,6 @@ const booksCollection = defineCollection({
     }),
 })
 
-// const antibooksCollection = defineCollection({
-//   loader: file("src/content/antibooks.json"),
-//   schema: ({ image }) =>
-//     z.object({
-//       title: z.string(),
-//       subtitle: z.string().optional(),
-//       author: z.string(),
-//       cover: image(),
-//       link: z.string().url(),
-//       id: z.number(),
-//     }),
-// });
-
-// const nowCollection = defineCollection({
-//   loader: glob({ pattern: "**/*.md", base: "./src/content/now" }),
-//   schema: z.object({
-//     title: z.string(),
-//     date: z.coerce.date(),
-//     type: z.literal("now"),
-//     publish: z.boolean().default(false),
-//   }),
-// });
-
 const streamCollection = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/stream' }),
   schema: () =>
@@ -155,35 +99,14 @@ const streamCollection = defineCollection({
       startDate: z.coerce.date(),
       topics: z.array(z.string()).optional(),
       publish: z.boolean(),
-      // external: z
-      //   .object({
-      //     title: z.string(),
-      //     url: z.string().url(),
-      //     author: z.string().optional(),
-      //   })
-      //   .optional(),
-      // citation: z
-      //   .object({
-      //     title: z.string(),
-      //     authors: z.array(z.string()),
-      //     journal: z.string(),
-      //     year: z.number(),
-      //     url: z.string().optional(),
-      //   })
-      //   .optional(),
     }),
 })
 
-// This key should match your collection directory name in "src/content"
 export const collections = {
-  // now: nowCollection,
   notes: notesCollection,
   essays: essaysCollection,
-  // patterns: patternsCollection,
   talks: talksCollection,
   quotes: quotesCollection,
-  // podcasts: podcastsCollection,
   books: booksCollection,
-  // antibooks: antibooksCollection,
   stream: streamCollection,
 }
