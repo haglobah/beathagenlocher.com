@@ -23,10 +23,7 @@ const instructionTextBaseClasses =
     id="selected-topics-container"
     class="relative shrink-0 grow f-mt-sm f-min-h-lg border border-dashed border-zinc-700 rounded-xl f-p-sm"
   >
-    <div
-      id="selected-topics"
-      class="flex flex-wrap gap-2 f-min-h-lg items-center w-[90%]"
-    >
+    <div id="selected-topics" class="flex flex-wrap gap-2 f-min-h-lg items-center w-[90%]">
       <!-- Selected topic elements will be moved here -->
       <span id="selected-placeholder" class="text-zinc-500 italic f-text-xs"
         >Selected filters will appear here...</span
@@ -44,15 +41,9 @@ const instructionTextBaseClasses =
   </div>
 
   <!-- Instruction text container -->
-  <div
-    id="instruction-text-container"
-    class="f-my-sm f-mx-2xs flex justify-start gap-8 f-text-xs"
-  >
+  <div id="instruction-text-container" class="f-my-sm f-mx-2xs flex justify-start gap-8 f-text-xs">
     <!-- Text that appears when topics can be removed -->
-    <div
-      id="has-selection-text"
-      class:list={[instructionTextBaseClasses, 'opacity-0 text-center']}
-    >
+    <div id="has-selection-text" class:list={[instructionTextBaseClasses, 'opacity-0 text-center']}>
       Click topic <span
         class="i-heroicons:arrow-up-20-solid inline-block relative mx-1 size-5 text-cornflower"
       ></span> to remove
@@ -92,147 +83,86 @@ const instructionTextBaseClasses =
 
 <script>
   import { selectedTopics, toggleTopic, clearTopics } from '../store.ts'
-  const filterWrapper = document.getElementById('topic-filter')
 
-  const selectedContainer = document.getElementById('selected-topics')
-  const availableContainer = document.getElementById('available-topics')
-  const clearButton = document.getElementById('clear-topics')
-  const availableTopics = document.getElementById('available-topics')
-  const notAllSelectionText = document.getElementById('not-all-selection-text')
-  const hasSelectionText = document.getElementById('has-selection-text')
-  const selectedPlaceholder = document.getElementById('selected-placeholder')
+  function initializeTopics() {
+    const root = document.getElementById('topic-filter')
+    if (!root) return
+    const filterWrapper: HTMLElement = root
 
-  // Store references to all topic elements by their topic name and original order
-  const topicElements = new Map()
-  const originalOrder = []
-  document.querySelectorAll('.topic-wrapper').forEach((wrapper, index) => {
-    const topic = wrapper.dataset.topic
-    if (topic) {
-      topicElements.set(topic, wrapper)
-      originalOrder.push(topic)
-
-      // Add click listener ONCE to each original element
-      wrapper.addEventListener('click', () => {
-        toggleTopic(topic)
-      })
-      // Add keyboard accessibility
-      wrapper.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault() // Prevent spacebar scrolling
-          toggleTopic(topic)
-        }
-      })
+    function requiredElement(id: string): HTMLElement {
+      const element = filterWrapper.querySelector<HTMLElement>(`#${id}`)
+      if (!element) throw new Error(`Topic filter is missing #${id}`)
+      return element
     }
-  })
 
-  const totalTopicsCount = topicElements.size
+    const selectedContainer = requiredElement('selected-topics')
+    const availableContainer = requiredElement('available-topics')
+    const clearButton = requiredElement('clear-topics')
+    const notAllSelectionText = requiredElement('not-all-selection-text')
+    const hasSelectionText = requiredElement('has-selection-text')
+    const selectedPlaceholder = requiredElement('selected-placeholder')
 
-  // Update UI declaratively based on store state
-  function updateUI(selected) {
-    // Receive state directly from subscribe
-    const currentlySelected = new Set(selected)
+    const topics = Array.from(filterWrapper.querySelectorAll<HTMLElement>('.topic-wrapper')).map(
+      (element) => {
+        const name = element.dataset.topic
+        if (!name) throw new Error('Topic filter badge is missing its topic')
+        element.addEventListener('click', () => toggleTopic(name))
+        element.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            toggleTopic(name)
+          }
+        })
+        return { name, element }
+      },
+    )
 
-    // Helper function to insert element at correct position based on original order
-    function insertInOrder(container, element, topic) {
-      const topicIndex = originalOrder.indexOf(topic)
-      const existingElements = Array.from(container.children).filter((child) =>
-        child.classList.contains('topic-wrapper'),
-      )
+    function setVisible(element: HTMLElement, visible: boolean) {
+      element.classList.toggle('opacity-100', visible)
+      element.classList.toggle('opacity-0', !visible)
+    }
 
-      let insertPosition = 0
-      for (const existingElement of existingElements) {
-        const existingTopic = existingElement.dataset.topic
-        const existingIndex = originalOrder.indexOf(existingTopic)
-        if (existingIndex < topicIndex) {
-          insertPosition++
-        } else {
-          break
-        }
+    function updateUI(selected: readonly string[]) {
+      const selection = new Set(selected)
+      // Walk backwards so each moved badge can be inserted before its known successor.
+      let nextSelected: HTMLElement | null = null
+      let nextAvailable: HTMLElement | null = null
+      for (let index = topics.length - 1; index >= 0; index--) {
+        const { name, element } = topics[index]
+        const isSelected = selection.has(name)
+        const container = isSelected ? selectedContainer : availableContainer
+        const next = isSelected ? nextSelected : nextAvailable
+        if (element.parentElement !== container) container.insertBefore(element, next)
+        element.setAttribute('aria-pressed', String(isSelected))
+        if (isSelected) nextSelected = element
+        else nextAvailable = element
       }
 
-      if (insertPosition >= existingElements.length) {
-        container.appendChild(element)
-      } else {
-        container.insertBefore(element, existingElements[insertPosition])
+      const count = topics.filter(({ name }) => selection.has(name)).length
+      const hasSelection = count > 0
+      selectedPlaceholder.style.display = hasSelection ? 'none' : 'inline'
+      setVisible(hasSelectionText, hasSelection)
+      setVisible(notAllSelectionText, count < topics.length)
+      setVisible(clearButton, hasSelection)
+      clearButton.classList.toggle('pointer-events-auto', hasSelection)
+      clearButton.classList.toggle('pointer-events-none', !hasSelection)
+      for (const className of [
+        'fixed',
+        'top-0',
+        'overflow-hidden',
+        'shadow-2xl',
+        'bg-zinc-800',
+        'z-50',
+      ]) {
+        filterWrapper.classList.toggle(className, hasSelection)
       }
+      availableContainer.classList.toggle('max-h-[140px]', hasSelection)
     }
 
-    // Move elements to the correct container in order
-    topicElements.forEach((element, topic) => {
-      const isSelected = currentlySelected.has(topic)
-      const currentParent = element.parentElement
-
-      if (isSelected && currentParent !== selectedContainer) {
-        insertInOrder(selectedContainer, element, topic)
-      } else if (!isSelected && currentParent !== availableContainer) {
-        insertInOrder(availableContainer, element, topic)
-      }
-    })
-
-    // Update instruction text and clear button visibility using Tailwind classes
-    const selectedCount = selected.length
-
-    // Placeholder visibility (using style.display is fine here as it's not animated)
-    selectedPlaceholder.style.display = selectedCount === 0 ? 'inline' : 'none'
-
-    // Instruction texts opacity
-    if (selectedCount > 0) {
-      hasSelectionText.classList.remove('opacity-0')
-      hasSelectionText.classList.add('opacity-100')
-    } else {
-      hasSelectionText.classList.remove('opacity-100')
-      hasSelectionText.classList.add('opacity-0')
-    }
-
-    if (selectedCount < totalTopicsCount) {
-      notAllSelectionText.classList.remove('opacity-0')
-      notAllSelectionText.classList.add('opacity-100')
-    } else {
-      notAllSelectionText.classList.remove('opacity-100')
-      notAllSelectionText.classList.add('opacity-0')
-    }
-
-    // Clear button visibility (using opacity and pointer-events classes)
-    if (selectedCount > 0) {
-      clearButton.classList.remove('opacity-0', 'pointer-events-none')
-      clearButton.classList.add('opacity-100', 'pointer-events-auto')
-    } else {
-      clearButton.classList.remove('opacity-100', 'pointer-events-auto')
-      clearButton.classList.add('opacity-0', 'pointer-events-none')
-    }
-
-    // Fixed filter bar when selection active
-    if (filterWrapper) {
-      if (selectedCount > 0) {
-        filterWrapper.classList.add(
-          'fixed',
-          'top-0',
-          'overflow-hidden',
-          'shadow-2xl',
-          'bg-zinc-800',
-          'z-50',
-        )
-        availableTopics.classList.add('max-h-[140px]')
-      } else {
-        filterWrapper.classList.remove(
-          'fixed',
-          'top-0',
-          'overflow-hidden',
-          'shadow-2xl',
-          'bg-zinc-800',
-          'z-50',
-        )
-        availableTopics.classList.remove('max-h-[140px]')
-      }
-    }
+    clearButton.addEventListener('click', clearTopics)
+    const unsubscribe = selectedTopics.subscribe(updateUI)
+    document.addEventListener('astro:before-swap', unsubscribe, { once: true })
   }
 
-  if (clearButton) {
-    clearButton.addEventListener('click', () => {
-      clearTopics()
-    })
-  }
-
-  const unsubscribe = selectedTopics.subscribe(updateUI)
-  updateUI(selectedTopics.get())
+  initializeTopics()
 </script>
