@@ -2,8 +2,8 @@
   description = "A project with a devshell.";
 
   inputs = {
+    flake-parts.url = "flake:flake-parts";
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*.tar.gz";
-    playwright.url = "github:pietdevries94/playwright-web-flake";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -11,17 +11,7 @@
       imports = [];
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
       perSystem = { config, self', inputs', pkgs, system, ... }: {
-        _module.args.pkgs = import inputs.nixpkgs {
-          inherit system;
-          overlays = [
-            (final: prev: {
-              packages = with inputs.playwright.packages.${system}; [
-                playwright-test
-                playwright-driver
-              ];
-            })
-          ];
-        };
+        _module.args.pkgs = import inputs.nixpkgs { inherit system; };
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
         # system.
