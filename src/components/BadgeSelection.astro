@@ -1,24 +1,17 @@
 ---
 export interface Props {
-  topics: string[]
+  topics: readonly TopicCount[]
   size?: string
 }
 const { topics: allTopics, size } = Astro.props
+import type { TopicCount } from '../content/helpers'
 import Badge from './Badge.astro'
 import Button from './Button.astro'
 import { slug as slugger } from 'github-slugger'
 
-const sortedTopics = allTopics
-  .sort((a, b) => a[0].localeCompare(b[0]))
-  .sort((a, b) => b[1] - a[1])
-
-const topicsWithSlugs = sortedTopics.map((topic) => {
-  return {
-    name: topic[0],
-    count: topic[1],
-    slug: slugger(topic),
-  }
-})
+const topicsWithSlugs = [...allTopics]
+  .sort(([nameA, countA], [nameB, countB]) => countB - countA || nameA.localeCompare(nameB))
+  .map(([name, count]) => ({ name, count, slug: slugger(name) }))
 
 const instructionTextBaseClasses =
   'text-zinc-400 f-px-xs flex items-center transition-opacity duration-300 ease-in-out'

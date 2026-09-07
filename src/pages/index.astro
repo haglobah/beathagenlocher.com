@@ -11,9 +11,8 @@ import Stream from '../content/stream.astro'
 import Essays from '../content/essays.astro'
 import Talks from '../content/talks.astro'
 import BookCard from '../components/BookCard.astro'
-import { allTheContent, books, sortByUpdated, sortByStartDate, getTopics } from '../content/content.ts'
+import { books } from '../content/content.ts'
 
-const topics = getTopics(allTheContent)
 const featuredBooks = books.slice(0, 6)
 ---
 

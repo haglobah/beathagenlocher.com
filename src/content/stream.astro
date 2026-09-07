@@ -4,23 +4,19 @@ import StreamCard from '../components/StreamCard.astro'
 import UpdateCard from '../components/UpdateCard.astro'
 import NewCard from '../components/NewCard.astro'
 
-import { stream, sortByStartDate } from './content.ts'
+import { stream } from './content.ts'
 import contentUpdates from '../data/content-updates.json'
-
-const topics = [
-  ...new Set([stream].flatMap((collection) => collection.flatMap(({ data }) => data.topics))),
-]
 
 import { components } from '../components/mdxcomponents.ts'
 
 // Render stream items
 const renderedStream = await Promise.all(
-  stream.map(async (streamlet: CollectionEntry<'stream'>) => {
+  stream.map(async (streamlet) => {
     const { Content } = await render(streamlet)
     return {
       itemType: 'stream' as const,
       id: streamlet.id,
-      date: new Date(streamlet.data.startDate),
+      date: streamlet.data.startDate,
       data: streamlet.data,
       Content,
     }
@@ -55,11 +51,7 @@ const combined = [...renderedStream, ...contentItems].sort(
         >
           §
         </a>
-        <StreamCard
-          title={item.data.title}
-          topics={item.data.topics}
-          date={item.data.startDate}
-        >
+        <StreamCard title={item.data.title} topics={item.data.topics} date={item.data.startDate}>
           <item.Content components={components} />
         </StreamCard>
       </div>
