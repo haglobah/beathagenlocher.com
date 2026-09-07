@@ -1,6 +1,8 @@
 ---
 export interface Props {
   topic: string
+  count?: number
+  size?: string
 }
 
 const { topic, count, size = 'f-text-xs' } = Astro.props

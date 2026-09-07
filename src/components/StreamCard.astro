@@ -1,5 +1,11 @@
 ---
-const { title, topics, date } = Astro.props
+interface Props {
+  title?: string
+  topics?: readonly string[]
+  date: globalThis.Date
+}
+
+const { title, topics = [], date } = Astro.props
 
 import Badge from './Badge.astro'
 import Date from './Date.astro'
@@ -21,7 +27,7 @@ import Date from './Date.astro'
   </div>
   <div class="f-mx-4-8 flex">
     {
-      topics !== '' && (
+      topics.length > 0 && (
         <div class="flex flex-wrap">
           {topics.map((topic) => (
             <Badge topic={topic} size="f-text-2xs" />

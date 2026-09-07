@@ -2,7 +2,7 @@
 import CommentButton from './CommentButton.astro'
 import { hashParagraphId, htmlToText } from '../lib/paragraphId'
 
-interface Props {
+export interface Props {
   as?: 'span' | 'div'
   inner?: 'p' | 'ul' | 'ol'
   wrapperClass?: string

@@ -35,9 +35,7 @@ export async function getStaticPaths() {
       }
       const owner = aliasOwners.get(aliasSlug)
       if (owner && owner !== entry.id) {
-        throw new Error(
-          `Alias "${alias}" is claimed by both "${owner}" and "${entry.id}"`,
-        )
+        throw new Error(`Alias "${alias}" is claimed by both "${owner}" and "${entry.id}"`)
       }
       aliasOwners.set(aliasSlug, entry.id)
       return {
@@ -73,26 +71,24 @@ export async function getStaticPaths() {
 }
 
 const props = Astro.props
-const rendered = props.type === 'redirect' ? null : await render(props.entry)
-const Content = rendered?.Content
-const headings = rendered?.headings
+const page = props.type === 'redirect' ? props : { ...props, ...(await render(props.entry)) }
 
 import { components } from '../components/mdxcomponents.ts'
 ---
 
 {
-  props.type === 'redirect' ? (
-    <RedirectPage redirectTo={props.redirectTo} title={props.title} />
-  ) : props.type === 'book' ? (
-    <Layout title={props.entry.data.title}>
-      <BookLayout book={props.entry}>
-        <Content components={components} />
+  page.type === 'redirect' ? (
+    <RedirectPage redirectTo={page.redirectTo} title={page.title} />
+  ) : page.type === 'book' ? (
+    <Layout title={page.entry.data.title}>
+      <BookLayout book={page.entry}>
+        <page.Content components={components} />
       </BookLayout>
     </Layout>
   ) : (
-    <Layout title={props.entry.data.title}>
-      <PostLayout frontmatter={props.entry.data} headings={headings}>
-        <Content components={components} />
+    <Layout title={page.entry.data.title}>
+      <PostLayout frontmatter={page.entry.data}>
+        <page.Content components={components} />
       </PostLayout>
     </Layout>
   )

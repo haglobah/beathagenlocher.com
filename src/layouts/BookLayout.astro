@@ -4,16 +4,14 @@ import type { CollectionEntry } from 'astro:content'
 
 import ReadingProgressBar from '../components/ReadingProgressBar.astro'
 import Badge from '../components/Badge.astro'
-import Ol from '../components/OuterLink.astro'
 import RecommendationDots from '../components/RecommendationDots.astro'
-import ClampWrapper from '../components/ClampWrapper.astro'
 
 interface Props {
   book: CollectionEntry<'books'>
 }
 
 const { book } = Astro.props
-const { title, authors, shelves, cover, bookId, description, recommendations } = book.data
+const { title, authors, shelves, cover, description, recommendations } = book.data
 ---
 
 <ReadingProgressBar />

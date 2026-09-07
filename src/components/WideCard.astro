@@ -1,4 +1,17 @@
 ---
+interface Props {
+  title?: string
+  pos?: string
+  org?: string
+  href?: string
+  to?: string
+  description?: string
+  when?: Date | number
+  links?: Array<{ text: string; href: string }>
+  topics?: readonly string[]
+  imageSrc?: string
+}
+
 const {
   title = '',
   pos = '',
@@ -8,7 +21,7 @@ const {
   description = '',
   when,
   links = [],
-  topics = '',
+  topics = [],
   imageSrc = '',
 } = Astro.props
 
@@ -18,7 +31,6 @@ import Ol from './OuterLink.astro'
 import Il from './InnerLink.astro'
 
 import CardHeader from './WideCard/CardHeader.astro'
-import Org from './WideCard/Org.astro'
 import Ago from './Ago.astro'
 ---
 
@@ -82,9 +94,7 @@ import Ago from './Ago.astro'
             <div class="font-light text-zinc-200">
               <span>{pos}</span>
             </div>
-            <div class="absolute top-0 right-0">
-              <Ago when={when} />
-            </div>
+            <div class="absolute top-0 right-0">{when !== undefined && <Ago when={when} />}</div>
           </div>
         )
       }
@@ -100,7 +110,7 @@ import Ago from './Ago.astro'
       {links && links.length > 0 && <RelevantLinks {links} />}
 
       {
-        topics !== '' && (
+        topics.length > 0 && (
           <div class="flex flex-wrap">
             {topics.map((topic) => (
               <Badge topic={topic} />

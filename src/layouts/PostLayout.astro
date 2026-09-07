@@ -1,12 +1,17 @@
 ---
 import StageIcon from '../components/StageIcon.astro'
 import ReadingProgressBar from '../components/ReadingProgressBar.astro'
-import Heading from '../components/Heading.astro'
 import Ago from '../components/Ago.astro'
 import Il from '../components/InnerLink.astro'
 import Badge from '../components/Badge.astro'
 
-const { frontmatter, headings } = Astro.props
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  frontmatter: CollectionEntry<'essays' | 'notes' | 'talks'>['data']
+}
+
+const { frontmatter } = Astro.props
 
 const unpublished = frontmatter.publish === false
 const unpublishedStyle = unpublished ? 'opacity-60' : ''
@@ -15,7 +20,7 @@ const unpublishedStyle = unpublished ? 'opacity-60' : ''
 <ReadingProgressBar />
 <div class="post f-mb-2xl f-px-sm mx-auto max-w-[65ch]">
   <div class="f-mb-2xl flex flex-col items-center gap-4">
-    <StageIcon stage={frontmatter.growthStage as 'seedling' | 'budding' | 'evergreen'} />
+    <StageIcon stage={frontmatter.growthStage} />
     {
       unpublished && (
         <div class="italic text-center">
@@ -34,15 +39,15 @@ const unpublishedStyle = unpublished ? 'opacity-60' : ''
       </div>
       <div class="mt-4 flex justify-around flex-wrap-reverse gap-2">
         <span class="flex justify-center gap-3">
-          Started <Ago when={frontmatter.startDate} format="" />
+          Started <Ago when={frontmatter.startDate} format="round" />
         </span>
         <span class="flex justify-center gap-3">
-          Last edited<Ago when={frontmatter.updated} format="" />
+          Last edited<Ago when={frontmatter.updated} format="round" />
         </span>
       </div>
     </div>
     {
-      frontmatter.topics !== '' && (
+      frontmatter.topics.length > 0 && (
         <div class="flex flex-wrap">
           {frontmatter.topics.map((topic) => (
             <Badge topic={topic} />

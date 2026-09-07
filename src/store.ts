@@ -1,10 +1,10 @@
 import { atom, computed } from 'nanostores'
 
 // Store for selected topics
-export const selectedTopics = atom([])
+export const selectedTopics = atom<readonly string[]>([])
 
 // Toggle a topic selection
-export function toggleTopic(topic) {
+export function toggleTopic(topic: string) {
   const currentTopics = selectedTopics.get()
 
   if (currentTopics.includes(topic)) {
@@ -27,7 +27,7 @@ export const shouldShowContent = computed(selectedTopics, (topics) => {
   if (topics.length === 0) return () => true
 
   // Otherwise, check if content has at least one of the selected topics
-  return (contentTopics) => {
+  return (contentTopics: readonly string[]) => {
     return contentTopics.some((topic) => topics.includes(topic))
   }
 })

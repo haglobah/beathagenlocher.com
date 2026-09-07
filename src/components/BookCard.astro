@@ -6,24 +6,12 @@ import Il from './InnerLink.astro'
 import CardHeader from './WideCard/CardHeader.astro'
 import RecommendationDots from './RecommendationDots.astro'
 
-interface Props {
-  // Pass an entry directly (listing pages) or an id to look up (MDX pages).
-  book?: CollectionEntry<'books'>
-  id?: string
-}
+type Props = { book: CollectionEntry<'books'>; id?: never } | { id: string; book?: never }
 
-const { book: bookProp, id } = Astro.props
-
-let book = bookProp
-if (!book && id) {
-  const books = await getCollection('books')
-  book = books.find((entry) => entry.id === id)
-  if (!book) {
-    throw new Error(`<BookCard id="${id}" /> does not match any book in src/content/books/`)
-  }
-}
+const props = Astro.props
+const book = props.book ?? (await getCollection('books')).find((entry) => entry.id === props.id)
 if (!book) {
-  throw new Error('<BookCard /> needs either a `book` entry or an `id`')
+  throw new Error(`<BookCard id="${props.id}" /> does not match any book in src/content/books/`)
 }
 
 const { title, authors, cover, recommendations } = book.data

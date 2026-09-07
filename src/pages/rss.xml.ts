@@ -13,6 +13,8 @@ function stripMDXComponents(text: string) {
 }
 
 export async function GET(context: APIContext) {
+  if (!context.site) throw new Error('RSS requires a site URL in astro.config.mjs')
+
   const notes = await getCollection('notes', ({ data }) => data.publish)
   const essays = await getCollection('essays', ({ data }) => data.publish)
   const talks = await getCollection('talks', ({ data }) => data.publish)
@@ -20,8 +22,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: 'Beat Hagenlocher',
-    description:
-      'A digital garden exploring programming, minimalism and learning',
+    description: 'A digital garden exploring programming, minimalism and learning',
     site: context.site,
     items: [
       ...notes.map((post) => ({
@@ -45,7 +46,7 @@ export async function GET(context: APIContext) {
       ...stream.map((post) => ({
         title: post.data.title || 'A Streamlet',
         pubDate: post.data.startDate,
-        description: stripMarkdown(stripMDXComponents(post.body!)),
+        description: stripMarkdown(stripMDXComponents(post.body ?? '')),
         link: `/stream/#${post.id}`,
       })),
     ].sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf()),

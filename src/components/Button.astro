@@ -1,13 +1,7 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
-// use a `type`
 type Props = HTMLAttributes<'button'>
-
-// or extend with an `interface`
-interface Props extends HTMLAttributes<'button'> {
-  myProp?: boolean
-}
 
 const { class: className, ...rest } = Astro.props
 ---

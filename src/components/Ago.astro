@@ -1,5 +1,11 @@
 ---
 import AgoClient from './AgoClient'
+import type { FormatStyleName } from 'javascript-time-ago'
+
+interface Props {
+  when: Date | number
+  format?: FormatStyleName
+}
 
 const { when, format = 'mini-now' } = Astro.props
 ---

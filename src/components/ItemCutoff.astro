@@ -4,10 +4,7 @@ import Highlight from './Highlight.astro'
 const { class: classList, after } = Astro.props
 ---
 
-<div
-  class:list={['item-cutoff-container relative', classList]}
-  data-after={after}
->
+<div class:list={['item-cutoff-container relative', classList]} data-after={after}>
   <slot />
   <slot name="after-cutoff" />
   <div
@@ -22,17 +19,12 @@ const { class: classList, after } = Astro.props
 </div>
 
 <script>
-  const itemContainer = document.querySelector('.item-cutoff-container')
-  const items = Array.from(itemContainer.children)
-  const after = itemContainer.dataset.after
-
-  items.forEach((item, index) => {
-    if (item.classList.contains('content-item')) {
-      if (index < after) {
-        item.classList.remove('hidden')
-      } else {
-        item.classList.add('hidden')
-      }
-    }
-  })
+  for (const container of document.querySelectorAll<HTMLElement>('.item-cutoff-container')) {
+    const after = Number(container.dataset.after)
+    if (!Number.isInteger(after) || after < 0)
+      throw new Error('ItemCutoff requires a non-negative integer after')
+    Array.from(container.children).forEach((item, index) => {
+      if (item.classList.contains('content-item')) item.classList.toggle('hidden', index >= after)
+    })
+  }
 </script>
