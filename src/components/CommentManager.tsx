@@ -9,194 +9,28 @@ import {
   type JSXElement,
 } from 'solid-js'
 import { Portal } from 'solid-js/web'
-import { tag, createUpdater, type Tagged } from '../utils'
-
-// --- Domain types ---
-
-type FormData = { comment: string; email: string }
-
-type Idle = Tagged<'Idle'>
-type Closed = Tagged<'Closed', FormData>
-type Composing = Tagged<'Composing', FormData>
-type Submitting = Tagged<'Submitting', FormData>
-type Sent = Tagged<'Sent'>
-type Error = Tagged<'Error', FormData & { errorMsg: string }>
-
-type State = Idle | Closed | Composing | Submitting | Sent | Error
-
-const State = {
-  Idle: tag('Idle'),
-  Closed: (comment: string, email: string): Closed => tag('Closed')({ comment, email }),
-  Composing: (comment: string, email: string): Composing => tag('Composing')({ comment, email }),
-  Submitting: (comment: string, email: string): Submitting => tag('Submitting')({ comment, email }),
-  Sent: tag('Sent'),
-  Error: (comment: string, email: string, errorMsg: string): Error =>
-    tag('Error')({ comment, email, errorMsg }),
-} as const
-
-// Messages: what happened
-type Toggle = Tagged<'Toggle'>
-type Close = Tagged<'Close'>
-type UpdateComment = Tagged<'UpdateComment', { comment: string }>
-type UpdateEmail = Tagged<'UpdateEmail', { email: string }>
-type Submit = Tagged<'Submit'>
-type SubmitOk = Tagged<'SubmitOk'>
-type SubmitFail = Tagged<'SubmitFail', { errorMsg: string }>
-type Reset = Tagged<'Reset'>
-type Retry = Tagged<'Retry'>
-
-type Msg =
-  | Toggle
-  | Close
-  | UpdateComment
-  | UpdateEmail
-  | Submit
-  | SubmitOk
-  | SubmitFail
-  | Reset
-  | Retry
-
-const Msg = {
-  Toggle: tag('Toggle'),
-  Close: tag('Close'),
-  UpdateComment: (comment: string): UpdateComment => tag('UpdateComment')({ comment }),
-  UpdateEmail: (email: string): UpdateEmail => tag('UpdateEmail')({ email }),
-  Submit: tag('Submit'),
-  SubmitOk: tag('SubmitOk'),
-  SubmitFail: (errorMsg: string): SubmitFail => tag('SubmitFail')({ errorMsg }),
-  Reset: tag('Reset'),
-  Retry: tag('Retry'),
-} as const
-
-// Commands: what should happen
-type None = Tagged<'None'>
-type PostComment = Tagged<'PostComment', FormData>
-type AutoReset = Tagged<'AutoReset'>
-
-type Cmd = None | PostComment | AutoReset
-
-const Cmd = {
-  None: tag('None'),
-  PostComment: (comment: string, email: string): PostComment =>
-    tag('PostComment')({ comment, email }),
-  AutoReset: tag('AutoReset'),
-} as const
-
-// --- Pure update ---
-
-const update = (state: State, msg: Msg): [State, Cmd] => {
-  switch (msg.t) {
-    case 'Toggle':
-      switch (state.t) {
-        case 'Idle':
-          return [State.Composing('', ''), Cmd.None()]
-        case 'Closed':
-          return [State.Composing(state.comment, state.email), Cmd.None()]
-        case 'Composing':
-          return [State.Closed(state.comment, state.email), Cmd.None()]
-        default:
-          return [state, Cmd.None()]
-      }
-
-    case 'Close':
-      if (state.t === 'Composing') return [State.Closed(state.comment, state.email), Cmd.None()]
-      return [state, Cmd.None()]
-
-    case 'UpdateComment':
-      if (state.t === 'Composing') return [State.Composing(msg.comment, state.email), Cmd.None()]
-      return [state, Cmd.None()]
-
-    case 'UpdateEmail':
-      if (state.t === 'Composing') return [State.Composing(state.comment, msg.email), Cmd.None()]
-      return [state, Cmd.None()]
-
-    case 'Submit':
-      if (state.t === 'Composing' && state.comment.trim().length > 0)
-        return [
-          State.Submitting(state.comment, state.email),
-          Cmd.PostComment(state.comment, state.email),
-        ]
-      return [state, Cmd.None()]
-
-    case 'SubmitOk':
-      return [State.Sent(), Cmd.AutoReset()]
-
-    case 'SubmitFail':
-      if (state.t === 'Submitting')
-        return [State.Error(state.comment, state.email, msg.errorMsg), Cmd.None()]
-      return [state, Cmd.None()]
-
-    case 'Reset':
-      return [State.Idle(), Cmd.None()]
-
-    case 'Retry':
-      if (state.t === 'Error') return [State.Composing(state.comment, state.email), Cmd.None()]
-      return [state, Cmd.None()]
-
-    default: {
-      const _exhaustive: never = msg
-      return _exhaustive
-    }
-  }
-}
-
-// --- Effect executor ---
-
-const COMMENT_SERVER_URL = import.meta.env.DEV
-  ? 'http://localhost:3007'
-  : 'https://comments.beathagenlocher.com'
-
-const makeExecutor =
-  (getActivePar: () => Element | null) =>
-  (cmd: Cmd, dispatch: (msg: Msg) => void): void => {
-    switch (cmd.t) {
-      case 'PostComment': {
-        const par = getActivePar()
-        const paragraphId = par?.id ?? ''
-        const paragraphText = par?.textContent?.trim() ?? ''
-        ;(async () => {
-          try {
-            const payload = {
-              pageUrl: window.location.href.split('#')[0],
-              paragraphId,
-              paragraphText: paragraphText.slice(0, 200),
-              comment: cmd.comment,
-              ...(cmd.email ? { email: cmd.email } : {}),
-            }
-            const resp = await fetch(`${COMMENT_SERVER_URL}/comment`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload),
-            })
-            if (!resp.ok) {
-              const data = await resp.json().catch(() => ({ message: 'Request failed' }))
-              throw new Error(data.message ?? `HTTP ${resp.status}`)
-            }
-            dispatch(Msg.SubmitOk())
-          } catch (e) {
-            dispatch(Msg.SubmitFail(e instanceof Error ? e.message : String(e)))
-          }
-        })()
-        break
-      }
-      case 'AutoReset':
-        setTimeout(() => dispatch(Msg.Reset()), 2000)
-        break
-      case 'None':
-        break
-    }
-  }
+import { createUpdater } from '../utils'
+import * as Comment from './commentMachine'
 
 // --- Component ---
 
 export default function CommentManager(): JSXElement {
   const [activePar, setActivePar] = createSignal<Element | null>(null)
 
-  const [store, dispatch] = createUpdater<State, Msg, Cmd>(
-    update,
-    State.Idle() as State,
-    makeExecutor(() => activePar()),
+  const [store, dispatch] = createUpdater<Comment.State, Comment.Msg, Comment.Cmd>(
+    Comment.update,
+    Comment.State.Idle(),
+    Comment.execute({
+      endpoint: import.meta.env.DEV
+        ? (import.meta.env.PUBLIC_COMMENT_SERVER_URL ?? 'http://localhost:3007')
+        : 'https://comments.beathagenlocher.com',
+      fetch: (...args) => fetch(...args),
+      schedule: (callback, delay) => setTimeout(callback, delay),
+    }),
   )
+  const form = () => Comment.selectForm(store)
+  const failure = () => Comment.selectFailure(store)
+  const submit = () => dispatch(Comment.Msg.Submit(crypto.randomUUID()))
 
   const isOpen = () => store.t !== 'Idle' && store.t !== 'Closed'
 
@@ -210,21 +44,30 @@ export default function CommentManager(): JSXElement {
 
   // Event delegation: listen for clicks on any .comment-trigger button
   const handleClick = (e: MouseEvent) => {
-    const trigger = (e.target as Element).closest('.comment-trigger')
+    if (!(e.target instanceof Element)) return
+    const trigger = e.target.closest('.comment-trigger')
     if (trigger) {
       const par = trigger.closest('.commentable-par')
       if (!par) return
 
-      // Clicking a different paragraph: reset and switch
-      if (par !== activePar()) {
+      if (par !== activePar() || store.t === 'Idle') {
         const prev = activePar()
         if (prev instanceof HTMLElement) prev.classList.remove('comment-active')
         setActivePar(par)
-        // Reset state machine for the new paragraph
-        if (store.t !== 'Idle') dispatch(Msg.Reset())
-        dispatch(Msg.Toggle())
+        dispatch(
+          Comment.Msg.Select({
+            interactionId: crypto.randomUUID(),
+            pageUrl: window.location.href.split('#')[0],
+            paragraphId: par.id,
+            paragraphText:
+              par
+                .querySelector(':scope > p, :scope > ul, :scope > ol')
+                ?.textContent?.trim()
+                .slice(0, 200) ?? '',
+          }),
+        )
       } else {
-        dispatch(Msg.Toggle())
+        dispatch(Comment.Msg.Toggle())
       }
       return
     }
@@ -232,8 +75,8 @@ export default function CommentManager(): JSXElement {
     // Click outside: close the form
     if (isOpen()) {
       const par = activePar()
-      if (par && !par.contains(e.target as Node)) {
-        dispatch(Msg.Close())
+      if (par && !par.contains(e.target)) {
+        dispatch(Comment.Msg.Close())
       }
     }
   }
@@ -241,11 +84,11 @@ export default function CommentManager(): JSXElement {
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       e.preventDefault()
-      dispatch(Msg.Submit())
+      submit()
     }
     if (e.key === 'Escape') {
       e.preventDefault()
-      dispatch(Msg.Close())
+      dispatch(Comment.Msg.Close())
     }
   }
 
@@ -255,80 +98,85 @@ export default function CommentManager(): JSXElement {
   })
 
   return (
-    <Show when={activePar() && isOpen()}>
-      <Portal mount={activePar()!}>
-        <Switch>
-          <Match when={store.t === 'Composing' || store.t === 'Submitting'}>
-            <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] drop-shadow-lg p-3">
-              <textarea
-                value={(store as Composing | Submitting).comment}
-                onInput={(e) => dispatch(Msg.UpdateComment(e.currentTarget.value))}
-                onKeyDown={handleKeyDown}
-                placeholder="Your comment..."
-                disabled={store.t === 'Submitting'}
-                style="field-sizing: content"
-                class="w-full min-h-24 font-mono resize-none rounded bg-spacecadet-light p-2 text-sm focus:outline-none"
-                autofocus
-              />
-              <div class="mt-2 flex gap-2 justify-end">
-                <input
-                  type="email"
-                  value={(store as Composing | Submitting).email}
-                  onInput={(e) => dispatch(Msg.UpdateEmail(e.currentTarget.value))}
-                  placeholder="Email (optional)"
-                  disabled={store.t === 'Submitting'}
-                  class="rounded font-mono flex-1 p-2 text-sm focus:outline-none bg-zinc-700"
-                />
-                <button
-                  onClick={() => dispatch(Msg.Reset())}
-                  disabled={store.t === 'Submitting'}
-                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => dispatch(Msg.Submit())}
-                  disabled={
-                    store.t === 'Submitting' ||
-                    (store as Composing | Submitting).comment.trim().length === 0
-                  }
-                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 disabled:op-50 cursor-pointer"
-                >
-                  {store.t === 'Submitting' ? 'Sending...' : 'Send'}
-                </button>
-              </div>
-            </div>
-          </Match>
+    <Show when={isOpen() && activePar()}>
+      {(paragraph) => (
+        <Portal mount={paragraph()}>
+          <Switch>
+            <Match when={form()}>
+              {(form) => (
+                <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] drop-shadow-lg p-3">
+                  <textarea
+                    value={form().draft.comment}
+                    onInput={(e) => dispatch(Comment.Msg.UpdateComment(e.currentTarget.value))}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Your comment..."
+                    disabled={store.t === 'Submitting'}
+                    style="field-sizing: content"
+                    class="w-full min-h-24 font-mono resize-none rounded bg-spacecadet-light p-2 text-sm focus:outline-none"
+                    autofocus
+                  />
+                  <div class="mt-2 flex gap-2 justify-end">
+                    <input
+                      type="email"
+                      value={form().draft.email}
+                      onInput={(e) => dispatch(Comment.Msg.UpdateEmail(e.currentTarget.value))}
+                      placeholder="Email (optional)"
+                      disabled={store.t === 'Submitting'}
+                      class="rounded font-mono flex-1 p-2 text-sm focus:outline-none bg-zinc-700"
+                    />
+                    <button
+                      onClick={() => dispatch(Comment.Msg.Dismiss())}
+                      disabled={store.t === 'Submitting'}
+                      class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => submit()}
+                      disabled={
+                        store.t === 'Submitting' || form().draft.comment.trim().length === 0
+                      }
+                      class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 text-zinc-300 disabled:op-50 cursor-pointer"
+                    >
+                      {store.t === 'Submitting' ? 'Sending...' : 'Send'}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Match>
 
-          <Match when={store.t === 'Sent'}>
-            <div class="mt-2 max-w-[65ch] p-3 rounded-xl bg-spacecadet-light">
-              <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
-            </div>
-          </Match>
-
-          <Match when={store.t === 'Error'}>
-            <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light p-3">
-              <p class="text-sm font-mono text-red-700 dark:text-red-800 mb-2">
-                {(store as Error).errorMsg}
-              </p>
-              <div class="flex gap-2 justify-end">
-                <button
-                  onClick={() => dispatch(Msg.Reset())}
-                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
-                >
-                  Dismiss
-                </button>
-                <button
-                  onClick={() => dispatch(Msg.Retry())}
-                  class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
-                >
-                  Retry
-                </button>
+            <Match when={store.t === 'Sent'}>
+              <div class="mt-2 max-w-[65ch] p-3 rounded-xl bg-spacecadet-light">
+                <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
               </div>
-            </div>
-          </Match>
-        </Switch>
-      </Portal>
+            </Match>
+
+            <Match when={failure()}>
+              {(failure) => (
+                <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light p-3">
+                  <p class="text-sm font-mono text-red-700 dark:text-red-800 mb-2">
+                    {failure().reason}
+                  </p>
+                  <div class="flex gap-2 justify-end">
+                    <button
+                      onClick={() => dispatch(Comment.Msg.Dismiss())}
+                      class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
+                    >
+                      Dismiss
+                    </button>
+                    <button
+                      onClick={() => dispatch(Comment.Msg.Retry())}
+                      class="text-sm p-2 rounded bg-zinc-700 hover:bg-zinc-600 cursor-pointer"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Match>
+          </Switch>
+        </Portal>
+      )}
     </Show>
   )
 }
