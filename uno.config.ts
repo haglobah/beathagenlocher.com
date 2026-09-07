@@ -29,6 +29,9 @@ export default defineConfig({
   },
   transformers: [transformerDirectives()],
   shortcuts: [],
+  // Drop the '-b' token UnoCSS picks up from shell flags in MDX code blocks.
+  // It otherwise emits '.-b{border-width:-1px}', which browsers reject.
+  blocklist: ['-b'],
   theme: {
     colors: {
       spacecadet: {
