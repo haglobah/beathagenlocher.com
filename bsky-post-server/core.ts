@@ -105,14 +105,19 @@ export const initTextPost = (text: string, userFacets?: unknown[]): [Model, Cmd]
   { tag: 'detect_facets', text },
 ]
 
-export const initImagePost = (text: string, alttext: string, link: string): [Model, Cmd] => {
+export const initImagePost = (
+  text: string,
+  alttext: string,
+  link: string,
+  siteUrl: string,
+): [Model, Cmd] => {
   const linkType = parseLink(link)
   const padding = getPadding(linkType)
   const linkPath = getLinkPath(linkType, link)
   const config =
     linkType.kind === 'stream'
-      ? buildStreamConfig(linkType.streamId, padding)
-      : buildArticleConfig(linkType.slugPath, padding)
+      ? buildStreamConfig(siteUrl, linkType.streamId, padding)
+      : buildArticleConfig(siteUrl, linkType.slugPath, padding)
 
   return [
     { tag: 'img_screenshotting', text, alttext, linkPath },

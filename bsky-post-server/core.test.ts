@@ -85,7 +85,7 @@ describe('initTextPost', () => {
 
 describe('initImagePost', () => {
   test('stream link produces screenshot cmd for stream page', () => {
-    const [model, cmd] = initImagePost('text', 'alt', 'stream#abc')
+    const [model, cmd] = initImagePost('text', 'alt', 'stream#abc', 'http://localhost:4321')
     expect(model.tag).toBe('img_screenshotting')
     if (model.tag === 'img_screenshotting') {
       expect(model.text).toBe('text')
@@ -99,14 +99,14 @@ describe('initImagePost', () => {
   })
 
   test('article link produces screenshot cmd for article page', () => {
-    const [model, cmd] = initImagePost('text', 'alt', 'My Article')
+    const [model, cmd] = initImagePost('text', 'alt', 'My Article', 'http://localhost:20001')
     expect(model.tag).toBe('img_screenshotting')
     if (model.tag === 'img_screenshotting') {
       expect(model.linkPath).toBe('my-article')
     }
     expect(cmd.tag).toBe('take_screenshot')
     if (cmd.tag === 'take_screenshot') {
-      expect(cmd.config.url).toBe('http://localhost:4321/my-article')
+      expect(cmd.config.url).toBe('http://localhost:20001/my-article')
     }
   })
 })
@@ -453,7 +453,7 @@ describe('full text flow', () => {
 
 describe('full image flow', () => {
   test('init → screenshot → png_read → blob → facets → post → reply_facets → reply → done', () => {
-    const [m0, c0] = initImagePost('hello img', 'alt', 'stream#s1')
+    const [m0, c0] = initImagePost('hello img', 'alt', 'stream#s1', 'http://localhost:4321')
     expect(m0.tag).toBe('img_screenshotting')
     expect(c0.tag).toBe('take_screenshot')
 

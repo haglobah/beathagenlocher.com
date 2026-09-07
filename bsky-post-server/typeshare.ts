@@ -75,16 +75,24 @@ export const buildFadeOverlayStyle = (top: number, height: number): string => `
   z-index: 9999;
 `
 
-export const buildStreamConfig = (streamId: string, padding: Padding): ScreenshotConfig => ({
-  url: 'http://localhost:4321/stream',
+export const buildStreamConfig = (
+  siteUrl: string,
+  streamId: string,
+  padding: Padding,
+): ScreenshotConfig => ({
+  url: `${siteUrl}/stream`,
   selector: `[id="${streamId}"]`,
   codeSelector: `[id="${streamId}"] .expressive-code .frame pre`,
   outputPath: `screenshots/stream/${streamId}.png`,
   padding,
 })
 
-export const buildArticleConfig = (path: string, padding: Padding): ScreenshotConfig => ({
-  url: `http://localhost:4321/${path}`,
+export const buildArticleConfig = (
+  siteUrl: string,
+  path: string,
+  padding: Padding,
+): ScreenshotConfig => ({
+  url: `${siteUrl}/${path}`,
   selector: '.post',
   codeSelector: '.expressive-code .frame pre',
   outputPath: `screenshots/${path}.png`,

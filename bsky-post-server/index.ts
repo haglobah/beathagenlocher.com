@@ -113,6 +113,7 @@ await agent.login({
 })
 
 const exec = execute(agent)
+const siteUrl = process.env.SITE_URL ?? 'http://localhost:4321'
 const app = new Hono()
 
 app.post('/post', async (c) => {
@@ -124,12 +125,12 @@ app.post('/post', async (c) => {
 
 app.post('/post/as-image', async (c) => {
   const { text, alttext, link } = await c.req.json()
-  const [model, cmd] = initImagePost(text, alttext, link)
+  const [model, cmd] = initImagePost(text, alttext, link, siteUrl)
   const final = await run(exec, model, cmd)
   return respond(c, final)
 })
 
 export default {
-  port: 3000,
+  port: Number(process.env.PORT ?? 3000),
   fetch: app.fetch,
 }

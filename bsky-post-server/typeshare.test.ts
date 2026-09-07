@@ -112,27 +112,27 @@ describe('buildStreamConfig', () => {
   const padding = { top: 10, right: 10, bottom: 10, left: 10 }
 
   test('targets the stream page', () => {
-    const config = buildStreamConfig('abc', padding)
+    const config = buildStreamConfig('http://localhost:4321', 'abc', padding)
     expect(config.url).toBe('http://localhost:4321/stream')
   })
 
   test('selector targets the stream ID', () => {
-    const config = buildStreamConfig('my-stream-id', padding)
+    const config = buildStreamConfig('http://localhost:4321', 'my-stream-id', padding)
     expect(config.selector).toBe('[id="my-stream-id"]')
   })
 
   test('code selector targets expressive-code inside the stream element', () => {
-    const config = buildStreamConfig('abc', padding)
+    const config = buildStreamConfig('http://localhost:4321', 'abc', padding)
     expect(config.codeSelector).toBe('[id="abc"] .expressive-code .frame pre')
   })
 
   test('output path is under screenshots/stream/', () => {
-    const config = buildStreamConfig('abc', padding)
+    const config = buildStreamConfig('http://localhost:4321', 'abc', padding)
     expect(config.outputPath).toBe('screenshots/stream/abc.png')
   })
 
   test('padding is passed through', () => {
-    const config = buildStreamConfig('abc', padding)
+    const config = buildStreamConfig('http://localhost:4321', 'abc', padding)
     expect(config.padding).toEqual(padding)
   })
 })
@@ -145,27 +145,27 @@ describe('buildArticleConfig', () => {
   const padding = { top: -10, right: 30, bottom: 40, left: 30 }
 
   test('targets the article page by slug path', () => {
-    const config = buildArticleConfig('my-article', padding)
+    const config = buildArticleConfig('http://localhost:4321', 'my-article', padding)
     expect(config.url).toBe('http://localhost:4321/my-article')
   })
 
   test('selector targets .post', () => {
-    const config = buildArticleConfig('my-article', padding)
+    const config = buildArticleConfig('http://localhost:4321', 'my-article', padding)
     expect(config.selector).toBe('.post')
   })
 
   test('code selector targets expressive-code globally', () => {
-    const config = buildArticleConfig('my-article', padding)
+    const config = buildArticleConfig('http://localhost:4321', 'my-article', padding)
     expect(config.codeSelector).toBe('.expressive-code .frame pre')
   })
 
   test('output path is under screenshots/', () => {
-    const config = buildArticleConfig('my-article', padding)
+    const config = buildArticleConfig('http://localhost:4321', 'my-article', padding)
     expect(config.outputPath).toBe('screenshots/my-article.png')
   })
 
   test('padding is passed through', () => {
-    const config = buildArticleConfig('x', padding)
+    const config = buildArticleConfig('http://localhost:4321', 'x', padding)
     expect(config.padding).toEqual(padding)
   })
 })
