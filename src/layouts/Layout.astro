@@ -19,8 +19,8 @@ const { title, desc, type, coverImage } = Astro.props
 const currentPath = Astro.url.pathname
 const contentId = currentPath.split('/').filter(Boolean).join('/')
 
-// Use localhost URL in development, production URL otherwise
-const baseUrl = import.meta.env.DEV ? 'http://localhost:4321' : Astro.site
+// Use the dev server's own origin in development, production URL otherwise
+const baseUrl = import.meta.env.DEV ? Astro.url.origin : Astro.site
 
 // Construct OG image URL - now just using the content ID directly
 const ogImageURL = type ? new URL(`/og/${contentId}.png`, baseUrl) : new URL(`/og.png`, baseUrl)

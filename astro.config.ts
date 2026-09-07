@@ -35,7 +35,11 @@ const permalinks = getPermalinks('src/content/')
 export default defineConfig({
   devToolbar: { enabled: false },
   site: 'https://beathagenlocher.com',
+  // `just dev` derives PORT per checkout (scripts/dev-ports.ts). A busy port
+  // must fail, not silently move: other servers are told this exact port.
+  server: { port: Number(process.env.PORT ?? 4321) },
   vite: {
+    server: { strictPort: true },
     plugins: [
       visualizer({
         emitFile: true,
