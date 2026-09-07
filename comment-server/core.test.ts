@@ -1,178 +1,159 @@
 import { describe, test, expect } from 'bun:test'
-import {
-  type CommentPayload,
-  type Model,
-  type Msg,
-  validatePayload,
-  buildSubject,
-  buildBody,
-  init,
-  update,
-} from './core'
+import fc from 'fast-check'
+import { type Model, type Msg, parseComment, buildSubject, buildBody, init, update } from './core'
 
-const validPayload: CommentPayload = {
+const validPayload = {
   pageUrl: 'https://beathagenlocher.com/some-note',
   paragraphId: 'p-abcd1234',
   paragraphText: 'This is the paragraph text.',
   comment: 'Great point!',
 }
-
 const config = { from: 'comments@beathagenlocher.com', to: 'beat@example.com' }
 
-// ============================================================================
-// Validation
-// ============================================================================
+const parsed = (raw: unknown) => {
+  const result = parseComment(raw)
+  if (result.tag === 'error') throw new Error(result.error.message)
+  return result.value
+}
 
-describe('validatePayload', () => {
-  test('accepts valid payload', () => {
-    expect(validatePayload(validPayload)).toBeUndefined()
-  })
+const error = (raw: unknown) => {
+  const result = parseComment(raw)
+  if (result.tag === 'ok') throw new Error('Expected invalid input')
+  return result.error.message
+}
 
-  test('accepts valid payload with email', () => {
-    expect(validatePayload({ ...validPayload, email: 'reader@example.com' })).toBeUndefined()
-  })
-
-  test('accepts valid payload with empty email', () => {
-    expect(validatePayload({ ...validPayload, email: '' })).toBeUndefined()
-  })
-
-  test('rejects empty comment', () => {
-    expect(validatePayload({ ...validPayload, comment: '' })).toBe('Comment is empty')
-  })
-
-  test('rejects whitespace-only comment', () => {
-    expect(validatePayload({ ...validPayload, comment: '   ' })).toBe('Comment is empty')
-  })
-
-  test('rejects comment over 5000 chars', () => {
-    expect(validatePayload({ ...validPayload, comment: 'a'.repeat(5001) })).toBe(
-      'Comment exceeds 5000 characters',
-    )
-  })
-
-  test('rejects invalid page URL', () => {
-    const result = validatePayload({ ...validPayload, pageUrl: 'https://evil.com/page' })
-    expect(result).toContain('Invalid page URL')
-  })
-
-  test('accepts localhost page URL (dev)', () => {
-    expect(
-      validatePayload({ ...validPayload, pageUrl: 'http://localhost:4321/some-note' }),
-    ).toBeUndefined()
-  })
-
-  test('rejects invalid paragraph ID', () => {
-    const result = validatePayload({ ...validPayload, paragraphId: 'bad-id' })
-    expect(result).toContain('Invalid paragraph ID')
-  })
-
-  test('rejects invalid email', () => {
-    const result = validatePayload({ ...validPayload, email: 'not-an-email' })
-    expect(result).toContain('Invalid email')
-  })
-})
-
-// ============================================================================
-// Email builders
-// ============================================================================
-
-describe('buildSubject', () => {
-  test('formats subject from page URL', () => {
-    expect(buildSubject(validPayload)).toBe('Comment on /some-note')
-  })
-})
-
-describe('buildBody', () => {
-  test('includes all fields', () => {
-    const body = buildBody(validPayload)
-    expect(body).toContain('Page: https://beathagenlocher.com/some-note')
-    expect(body).toContain('Paragraph (p-abcd1234): This is the paragraph text.')
-    expect(body).toContain('Great point!')
-  })
-
-  test('includes email when present', () => {
-    const body = buildBody({ ...validPayload, email: 'reader@example.com' })
-    expect(body).toContain('From: reader@example.com')
-  })
-
-  test('notes when no reply-to email was submitted', () => {
-    const body = buildBody(validPayload)
-    expect(body).toContain('From: (no reply-to email submitted)')
-  })
-
-  test('notes when reply-to email is an empty string', () => {
-    const body = buildBody({ ...validPayload, email: '' })
-    expect(body).toContain('From: (no reply-to email submitted)')
-  })
-})
-
-// ============================================================================
-// Init
-// ============================================================================
-
-describe('init', () => {
-  test('returns validating model and validate_payload cmd', () => {
-    const [model, cmd] = init(validPayload)
-    expect(model.tag).toBe('validating')
-    expect(cmd.tag).toBe('validate_payload')
-  })
-})
-
-// ============================================================================
-// Update — Happy path
-// ============================================================================
-
-describe('update — happy path', () => {
-  test('validating + payload_valid → sending_email + send_email', () => {
-    const model: Model = { tag: 'validating', payload: validPayload }
-    const msg: Msg = { tag: 'payload_valid', payload: validPayload }
-    const [next, cmd] = update(model, msg, config)
-
-    expect(next.tag).toBe('sending_email')
-    expect(cmd.tag).toBe('send_email')
-    if (cmd.tag === 'send_email') {
-      expect(cmd.from).toBe(config.from)
-      expect(cmd.to).toBe(config.to)
+describe('parseComment', () => {
+  test('accepts valid payload, optional email, empty email and localhost URLs', () => {
+    for (const raw of [
+      validPayload,
+      { ...validPayload, email: 'reader@example.com' },
+      { ...validPayload, email: '' },
+      { ...validPayload, pageUrl: 'http://localhost:4321/note' },
+    ]) {
+      expect(parsed(raw)).toEqual(raw)
     }
   })
 
-  test('sending_email + email_sent → done', () => {
-    const model: Model = { tag: 'sending_email', payload: validPayload }
-    const msg: Msg = { tag: 'email_sent' }
-    const [next, cmd] = update(model, msg, config)
+  test.each(
+    [
+      null,
+      false,
+      42,
+      'text',
+      [],
+      {},
+      { ...validPayload, comment: 42 },
+      { ...validPayload, pageUrl: null },
+      { ...validPayload, paragraphId: 123 },
+      { ...validPayload, paragraphText: null },
+      { ...validPayload, email: 123 },
+      { ...validPayload, email: null },
+    ].map((raw) => [raw]),
+  )('rejects invalid JSON shape: %j', (raw) => {
+    expect(parseComment(raw).tag).toBe('error')
+  })
 
-    expect(next.tag).toBe('done')
-    expect(cmd.tag).toBe('done')
+  test('requires every text field and rejects malformed content', () => {
+    for (const key of ['pageUrl', 'paragraphId', 'paragraphText', 'comment']) {
+      expect(
+        parseComment(Object.fromEntries(Object.entries(validPayload).filter(([k]) => k !== key)))
+          .tag,
+      ).toBe('error')
+    }
+    expect(error({ ...validPayload, comment: '' })).toBe('Comment is empty')
+    expect(error({ ...validPayload, comment: '  ' })).toBe('Comment is empty')
+    expect(error({ ...validPayload, comment: 'x'.repeat(5001) })).toContain('5000')
+    expect(error({ ...validPayload, pageUrl: 'https://evil.com/' })).toContain('Invalid page URL')
+    expect(error({ ...validPayload, paragraphId: 'bad-id' })).toContain('Invalid paragraph ID')
+    expect(error({ ...validPayload, email: 'invalid' })).toContain('Invalid email')
+  })
+
+  test('accepts the length limit and empty paragraph text', () => {
+    expect(
+      parsed({ ...validPayload, comment: 'x'.repeat(5000), paragraphText: '' }).comment.length,
+    ).toBe(5000)
+  })
+
+  test('is total for arbitrary JSON and successful parses round-trip', () => {
+    fc.assert(
+      fc.property(fc.jsonValue(), (raw) => {
+        const result = parseComment(raw)
+        if (result.tag === 'ok')
+          expect(parseComment(JSON.parse(JSON.stringify(result.value)))).toEqual(result)
+        else expect(result.error.message.length).toBeGreaterThan(0)
+      }),
+    )
+  })
+
+  test('constructs a fresh payload containing only domain fields', () => {
+    const raw = { ...validPayload, extra: 'ignored' }
+    const payload = parsed(raw)
+    raw.comment = ''
+    expect(payload).toEqual(validPayload)
   })
 })
 
-// ============================================================================
-// Update — Failure handling
-// ============================================================================
+describe('email builders', () => {
+  test('formats subject and body', () => {
+    const payload = parsed(validPayload)
+    expect(buildSubject(payload)).toBe('Comment on /some-note')
+    expect(buildBody(payload)).toContain('Page: https://beathagenlocher.com/some-note#p-abcd1234')
+    expect(buildBody(payload)).toContain('Paragraph (p-abcd1234): This is the paragraph text.')
+    expect(buildBody(payload)).toContain('Great point!')
+    expect(buildBody(payload)).toContain('From: (no reply-to email submitted)')
+    expect(buildBody(parsed({ ...validPayload, email: '' }))).toContain(
+      'From: (no reply-to email submitted)',
+    )
+    expect(buildBody(parsed({ ...validPayload, email: 'reader@example.com' }))).toContain(
+      'From: reader@example.com',
+    )
+  })
+})
 
-describe('update — failures', () => {
-  test('failed msg from any state → failed model', () => {
-    const model: Model = { tag: 'validating', payload: validPayload }
-    const msg: Msg = { tag: 'failed', error: 'Something broke' }
-    const [next, cmd] = update(model, msg, config)
-
-    expect(next.tag).toBe('failed')
-    if (next.tag === 'failed') expect(next.error).toBe('Something broke')
-    expect(cmd.tag).toBe('done')
+describe('delivery machine', () => {
+  test('starts delivery directly and records success', () => {
+    const payload = parsed(validPayload)
+    const [model, cmd] = init(payload, config)
+    expect(model).toEqual({ tag: 'sending_email', payload })
+    expect(cmd).toEqual({
+      tag: 'send_email',
+      ...config,
+      subject: buildSubject(payload),
+      body: buildBody(payload),
+    })
+    expect(update(model, { tag: 'email_sent' })).toEqual([
+      { tag: 'done', message: `Comment received for ${payload.pageUrl}` },
+      { tag: 'done' },
+    ])
   })
 
-  test('unexpected msg in validating → failed', () => {
-    const model: Model = { tag: 'validating', payload: validPayload }
-    const msg: Msg = { tag: 'email_sent' }
-    const [next] = update(model, msg, config)
-
-    expect(next.tag).toBe('failed')
+  test('records delivery failure', () => {
+    const [model] = init(parsed(validPayload), config)
+    expect(update(model, { tag: 'failed', error: 'Unavailable' })).toEqual([
+      { tag: 'failed', error: 'Unavailable' },
+      { tag: 'done' },
+    ])
   })
 
-  test('terminal states are idempotent', () => {
-    const doneModel: Model = { tag: 'done', message: 'ok' }
-    const [next, cmd] = update(doneModel, { tag: 'email_sent' }, config)
-    expect(next.tag).toBe('done')
-    expect(cmd.tag).toBe('done')
+  test('terminal states remain terminal for arbitrary late messages', () => {
+    const terminal: fc.Arbitrary<Exclude<Model, { tag: 'sending_email' }>> = fc.oneof(
+      fc.string().map((message) => ({ tag: 'done' as const, message })),
+      fc.string().map((error) => ({ tag: 'failed' as const, error })),
+    )
+    const messages: fc.Arbitrary<Msg> = fc.oneof(
+      fc.constant({ tag: 'email_sent' as const }),
+      fc.string().map((error) => ({ tag: 'failed' as const, error })),
+    )
+    fc.assert(
+      fc.property(terminal, fc.array(messages), (initial, messages) => {
+        let model = initial
+        for (const message of messages) {
+          const [next, cmd] = update(model, message)
+          expect(next).toEqual(initial)
+          expect(cmd).toEqual({ tag: 'done' })
+          model = next
+        }
+      }),
+    )
   })
 })
