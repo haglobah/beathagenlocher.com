@@ -1,17 +1,21 @@
-# Ports are derived from this checkout's path, so worktrees never collide.
-astro_port := `node scripts/dev-ports.ts astro`
-bsky_port := `node scripts/dev-ports.ts bsky`
-comment_port := `node scripts/dev-ports.ts comment`
-astro_url := "http://localhost:" + astro_port
-# Names: this project's proxy listens on proxy_port and maps <name>.localhost to
-# the ports above. Worktrees get a branch prefix. The first server to start
-# brings the proxy up, the last one to stop takes it down.
+# Names and ports come from portless (github:haglobah/portless, in the dev
+# shell). Its proxy listens on proxy_port and maps <name>.localhost to the
+# ports below; worktrees get a branch prefix. The first server to start brings
+# the proxy up, the last one to stop takes it down.
 proxy_port := "8099"
-site_host := `node scripts/devproxy/host.ts beathagenlocher.com`
+site_host := `portless host`
+# One block of consecutive ports per checkout, chosen by hashing site_host and
+# moved to the next free block on a collision. Add a service here and its port
+# is the next one in the block.
+services := "astro bsky comment"
+astro_port := shell('portless port "$1" astro $2', site_host, services)
+bsky_port := shell('portless port "$1" bsky $2', site_host, services)
+comment_port := shell('portless port "$1" comment $2', site_host, services)
+astro_url := "http://localhost:" + astro_port
 site_url := "http://" + site_host + ":" + proxy_port
 bsky_url := "http://bsky." + site_host + ":" + proxy_port
 comment_url := "http://comments." + site_host + ":" + proxy_port
-with_route := "node " + justfile_directory() + "/scripts/devproxy/with-route.ts --proxy-port " + proxy_port
+with_route := "portless with-route --proxy-port " + proxy_port
 
 help:
     just --list
@@ -24,7 +28,7 @@ ports:
 
 # Run this project's proxy in the foreground (normally started by just dev)
 proxy:
-    DEVPROXY_PORT={{proxy_port}} node scripts/devproxy/server.ts
+    PORTLESS_PORT={{proxy_port}} portless serve
 
 setup:
     npm clean-install

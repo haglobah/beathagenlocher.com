@@ -4,6 +4,7 @@
   inputs = {
     flake-parts.url = "flake:flake-parts";
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*.tar.gz";
+    portless.url = "github:haglobah/portless";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -27,6 +28,7 @@
             oxfmt
             just
             playwright-test
+            inputs'.portless.packages.default
           ];
           shellHook = ''
             export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
