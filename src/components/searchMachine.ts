@@ -9,6 +9,9 @@ export type SearchResult = {
   body: string
   topics: string[]
   published: boolean
+  startDate?: string
+  updated?: string
+  readingMinutes?: number
 }
 
 export type Item =
@@ -153,6 +156,15 @@ export function parseSearchIndex(
       item.url.startsWith('/') &&
       !item.url.startsWith('//') &&
       !/[\\\x00-\x20]/.test(item.url) &&
+      ['startDate', 'updated'].every(
+        (key) =>
+          item[key] === undefined ||
+          (typeof item[key] === 'string' && Number.isFinite(Date.parse(item[key]))),
+      ) &&
+      (item.readingMinutes === undefined ||
+        (typeof item.readingMinutes === 'number' &&
+          Number.isInteger(item.readingMinutes) &&
+          item.readingMinutes > 0)) &&
       typeof item.published === 'boolean' &&
       Array.isArray(item.topics) &&
       item.topics.every((topic) => typeof topic === 'string')

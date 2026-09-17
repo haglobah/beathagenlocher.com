@@ -1,3 +1,4 @@
+import { readingMinutes } from '../../components/reading-dots'
 import { getCollection } from 'astro:content'
 import type { SearchResult } from '../../components/searchMachine'
 
@@ -17,7 +18,10 @@ export async function GET() {
       url: `/${entry.id}`,
       body: entry.body ?? '',
       topics: entry.data.topics,
+      updated: entry.data.updated.toISOString(),
+      readingMinutes: entry.collection === 'talks' ? undefined : readingMinutes(entry.body ?? ''),
       published: entry.data.publish,
+      startDate: entry.data.startDate.toISOString(),
     })),
     ...stream.map((entry) => ({
       id: entry.id,
@@ -28,6 +32,7 @@ export async function GET() {
       body: entry.body ?? '',
       topics: entry.data.topics ?? [],
       published: entry.data.publish,
+      startDate: entry.data.startDate.toISOString(),
     })),
     ...books.map((entry) => ({
       id: entry.id,
@@ -37,7 +42,9 @@ export async function GET() {
       url: `/${entry.id}`,
       body: entry.body ?? '',
       topics: entry.data.shelves,
+      updated: entry.data.updated.toISOString(),
       published: entry.data.publish,
+      startDate: entry.data.startDate.toISOString(),
     })),
   ]
 

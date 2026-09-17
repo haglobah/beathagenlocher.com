@@ -1,15 +1,11 @@
 ---
+import { formatContentDate } from './contentDate'
+
 const { date } = Astro.props
 ---
 
 <span class="font-mono text-cornflower-light">
   <time datetime={date.toISOString()}>
-    {
-      date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    }
+    {formatContentDate(date)}
   </time>
 </span>

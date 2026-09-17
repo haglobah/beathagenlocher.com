@@ -1,4 +1,5 @@
 // @unocss-include
+import { previewMetadata } from './searchPreview'
 import * as Search from './searchMachine'
 import { $commandItems } from '../store/commandPalette'
 
@@ -61,6 +62,7 @@ export function mountPalette(document: Document) {
       heading.append(node('div', 'text-lg font-medium text-zinc-100 mb-2', content.title))
       if (content.description)
         heading.append(node('div', 'text-sm text-zinc-400 mb-3', content.description))
+      heading.append(previewMetadata(document, content))
       const topics = node('div', 'flex flex-wrap gap-2 mt-3')
       for (const topic of content.topics) {
         const wrapper = node('div', 'f-text-xs')
