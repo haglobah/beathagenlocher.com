@@ -22,5 +22,5 @@ export default function AgoClient(props: AgoClientProps) {
     onCleanup(() => clearInterval(interval))
   })
 
-  return <span class="font-mono text-cornflower">{ago()}</span>
+  return <span class="font-mono f-text-xs tabular-nums whitespace-nowrap text-cornflower">{ago()}</span>
 }

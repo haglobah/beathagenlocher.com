@@ -4,7 +4,7 @@ import { formatContentDate } from './contentDate'
 const { date } = Astro.props
 ---
 
-<span class="font-mono text-cornflower-light">
+<span class="font-mono f-text-xs tabular-nums text-cornflower-light">
   <time datetime={date.toISOString()}>
     {formatContentDate(date)}
   </time>

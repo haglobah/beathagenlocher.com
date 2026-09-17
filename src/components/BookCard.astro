@@ -19,7 +19,7 @@ const { title, authors, cover, recommendations } = book.data
 
 <div class="f-mb-xl">
   <div
-    class="group relative grid f-pb-xs transition-all sm:grid-cols-8 sm:f-gap-xs lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
+    class="group group/book relative grid f-pb-xs transition-all sm:grid-cols-8 sm:f-gap-xs lg:hover:!opacity-100 lg:group-hover/list:opacity-50"
   >
     <!-- Background element -->
     <div
@@ -56,7 +56,19 @@ const { title, authors, cover, recommendations } = book.data
         <div class="font-light text-zinc-200 f-text-xs">
           <span>{authors.join(', ')}</span>
         </div>
-        <RecommendationDots count={recommendations} class="f-mt-2xs" />
+        {
+          recommendations > 0 && (
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1 f-mt-2xs">
+              <RecommendationDots count={recommendations} />
+              <span
+                aria-hidden="true"
+                class="text-zinc-400 f-text-xs tabular-nums opacity-0 transition-opacity duration-150 group-hover/book:opacity-100 group-focus-within/book:opacity-100 motion-reduce:transition-none"
+              >
+                {recommendations} recommendation{recommendations === 1 ? '' : 's'}
+              </span>
+            </div>
+          )
+        }
       </div>
     </div>
   </div>
