@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { binaryDots, readingMinutes } from './reading-dots.ts'
+import { binaryDots, binaryRows, readingMinutes } from './reading-dots.ts'
 
 const words = (n: number) => Array.from({ length: n }, (_, i) => `word${i}`).join(' ')
 
@@ -47,5 +47,34 @@ describe('binaryDots', () => {
   test('the minimum width is configurable', () => {
     expect(binaryDots(3, 2)).toEqual([true, true])
     expect(binaryDots(3, 6)).toEqual([false, false, false, false, true, true])
+  })
+})
+
+describe('binaryRows', () => {
+  test('lays eight bits out as two rows of four, high nibble first', () => {
+    expect(binaryRows(0)).toEqual([
+      [false, false, false, false],
+      [false, false, false, false],
+    ])
+    expect(binaryRows(5)).toEqual([
+      [false, false, false, false],
+      [false, true, false, true],
+    ])
+    expect(binaryRows(42)).toEqual([
+      [false, false, true, false],
+      [true, false, true, false],
+    ])
+    expect(binaryRows(255)).toEqual([
+      [true, true, true, true],
+      [true, true, true, true],
+    ])
+  })
+
+  test('adds a full row when the minutes need more than eight bits', () => {
+    expect(binaryRows(256)).toEqual([
+      [false, false, false, true],
+      [false, false, false, false],
+      [false, false, false, false],
+    ])
   })
 })

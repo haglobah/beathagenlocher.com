@@ -1,5 +1,5 @@
 ---
-import { binaryDots } from './reading-dots.ts'
+import { binaryRows } from './reading-dots.ts'
 
 interface Props {
   minutes: number
@@ -11,7 +11,7 @@ interface Props {
 
 const { minutes, label = 'hover', class: className = '' } = Astro.props
 const text = `${minutes} min read`
-const dots = binaryDots(minutes)
+const rows = binaryRows(minutes)
 ---
 
 <span
@@ -20,16 +20,18 @@ const dots = binaryDots(minutes)
   role="img"
   aria-label={text}
 >
-  <span class="inline-flex items-center gap-1" aria-hidden="true">
+  <span class="inline-grid grid-cols-4 gap-1" aria-hidden="true">
     {
-      dots.map((on) => (
-        <span
-          class:list={[
-            'size-2 rounded-full inline-block bg-cornflower transition-opacity duration-300',
-            on ? 'opacity-100' : 'opacity-50',
-          ]}
-        />
-      ))
+      rows
+        .flat()
+        .map((on) => (
+          <span
+            class:list={[
+              'size-2 rounded-full inline-block bg-cornflower transition-opacity duration-300',
+              on ? 'opacity-100' : 'opacity-50',
+            ]}
+          />
+        ))
     }
   </span>
   {

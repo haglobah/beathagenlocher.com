@@ -20,3 +20,14 @@ export function binaryDots(minutes: number, minWidth = 4): boolean[] {
     .split('')
     .map((bit) => bit === '1')
 }
+
+// Eight bits as two rows of four, high nibble on top. Reads past 255 minutes
+// grow by whole rows so the grid stays rectangular.
+export function binaryRows(minutes: number, rowWidth = 4, minRows = 2): boolean[][] {
+  const bits = binaryDots(minutes, rowWidth * minRows)
+  const width = Math.ceil(bits.length / rowWidth) * rowWidth
+  const padded = [...Array<boolean>(width - bits.length).fill(false), ...bits]
+  return Array.from({ length: width / rowWidth }, (_, row) =>
+    padded.slice(row * rowWidth, (row + 1) * rowWidth),
+  )
+}
