@@ -10,6 +10,7 @@ interface Props {
   links?: Array<{ text: string; href: string }>
   topics?: readonly string[]
   imageSrc?: string
+  readingMinutes?: number
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   links = [],
   topics = [],
   imageSrc = '',
+  readingMinutes,
 } = Astro.props
 
 import RelevantLinks from './RelevantLinks.astro'
@@ -32,6 +34,7 @@ import Il from './InnerLink.astro'
 
 import CardHeader from './WideCard/CardHeader.astro'
 import Ago from './Ago.astro'
+import ReadingDots from './ReadingDots.astro'
 ---
 
 <div class="f-mb-xl">
@@ -95,6 +98,11 @@ import Ago from './Ago.astro'
               <span>{pos}</span>
             </div>
             <div class="absolute top-0 right-0">{when !== undefined && <Ago when={when} />}</div>
+            {readingMinutes !== undefined && (
+              <div class="mt-1">
+                <ReadingDots minutes={readingMinutes} />
+              </div>
+            )}
           </div>
         )
       }

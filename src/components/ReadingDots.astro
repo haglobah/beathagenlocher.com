@@ -1,0 +1,49 @@
+---
+import { binaryDots } from './reading-dots.ts'
+
+interface Props {
+  minutes: number
+  // 'hover' keeps the number hidden until the enclosing `group` (the list card) is hovered,
+  // 'always' prints it next to the dots (post header).
+  label?: 'hover' | 'always'
+  class?: string
+}
+
+const { minutes, label = 'hover', class: className = '' } = Astro.props
+const text = `${minutes} min read`
+const dots = binaryDots(minutes)
+---
+
+<span
+  class:list={['relative inline-flex items-center gap-2', className]}
+  title={label === 'hover' ? text : undefined}
+  role="img"
+  aria-label={text}
+>
+  <span class="inline-flex items-center gap-1" aria-hidden="true">
+    {
+      dots.map((on) => (
+        <span
+          class:list={[
+            'size-2 rounded-full inline-block bg-cornflower transition-opacity duration-300',
+            on ? 'opacity-100' : 'opacity-50',
+          ]}
+        />
+      ))
+    }
+  </span>
+  {
+    label === 'always' ? (
+      <span class="f-text-xs whitespace-nowrap" aria-hidden="true">
+        {text}
+      </span>
+    ) : (
+      <span
+        class="absolute left-full ml-2 f-text-2xs whitespace-nowrap text-zinc-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
+        aria-hidden="true"
+      >
+        {text}
+      </span>
+    )
+  }
+</span>

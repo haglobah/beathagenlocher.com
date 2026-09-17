@@ -74,6 +74,10 @@ const props = Astro.props
 const page = props.type === 'redirect' ? props : { ...props, ...(await render(props.entry)) }
 
 import { components } from '../components/mdxcomponents.ts'
+import { readingMinutes } from '../components/reading-dots.ts'
+
+const minutes =
+  page.type === 'essay' || page.type === 'note' ? readingMinutes(page.entry.body ?? '') : undefined
 ---
 
 {
@@ -87,7 +91,7 @@ import { components } from '../components/mdxcomponents.ts'
     </Layout>
   ) : (
     <Layout title={page.entry.data.title}>
-      <PostLayout frontmatter={page.entry.data}>
+      <PostLayout frontmatter={page.entry.data} readingMinutes={minutes}>
         <page.Content components={components} />
       </PostLayout>
     </Layout>

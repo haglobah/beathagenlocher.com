@@ -2,6 +2,7 @@
 import WideCard from '../components/WideCard.astro'
 
 import { publishedNotes, sortByUpdated } from './content.ts'
+import { readingMinutes } from '../components/reading-dots.ts'
 ---
 
 {
@@ -12,6 +13,7 @@ import { publishedNotes, sortByUpdated } from './content.ts'
         title={content.data.title}
         topics={content.data.topics}
         when={content.data.updated}
+        readingMinutes={readingMinutes(content.body ?? '')}
       >
         {content.data.description}
       </WideCard>
