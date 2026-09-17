@@ -1,11 +1,27 @@
 import { defineCollection } from 'astro:content'
 import { z } from 'astro/zod'
 import { glob, file } from 'astro/loaders'
+import { fileURLToPath } from 'node:url'
+import { deriveContentHistory, type ContentEvent } from '../scripts/content-history'
+import { withContentHistory, contentEventsLoader } from '../scripts/content-history-loader'
+import { baselineCommit } from './data/content-history-baseline.json'
+import historicalEvents from './data/content-updates.json'
+
+// One consistent history snapshot per content sync. Restart dev after committing.
+const history = deriveContentHistory({
+  root: fileURLToPath(new URL('../', import.meta.url)),
+  baselineCommit,
+  historicalEvents: historicalEvents as ContentEvent[],
+})
+const readHistory = () => history
 
 const growthStageEnum = z.enum(['seedling', 'budding', 'evergreen'])
 
 const notesCollection = defineCollection({
-  loader: glob({ pattern: ['**/*.mdx'], base: './src/content/notes' }),
+  loader: withContentHistory(
+    glob({ pattern: ['**/*.mdx'], base: './src/content/notes' }),
+    readHistory,
+  ),
   schema: () =>
     z.object({
       title: z.string(),
@@ -21,7 +37,10 @@ const notesCollection = defineCollection({
 })
 
 const essaysCollection = defineCollection({
-  loader: glob({ pattern: ['**/*.mdx'], base: './src/content/essays' }),
+  loader: withContentHistory(
+    glob({ pattern: ['**/*.mdx'], base: './src/content/essays' }),
+    readHistory,
+  ),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -102,7 +121,22 @@ const streamCollection = defineCollection({
     }),
 })
 
+const contentEventsCollection = defineCollection({
+  loader: contentEventsLoader(readHistory),
+  schema: z.object({
+    type: z.enum(['new', 'update']),
+    file: z.string(),
+    slug: z.string(),
+    collection: z.string(),
+    title: z.string(),
+    date: z.string(),
+    commitHash: z.string(),
+    linesChanged: z.number().optional(),
+  }),
+})
+
 export const collections = {
+  contentEvents: contentEventsCollection,
   notes: notesCollection,
   essays: essaysCollection,
   talks: talksCollection,

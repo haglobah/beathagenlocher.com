@@ -1,11 +1,16 @@
 ---
-import { render } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import StreamCard from '../components/StreamCard.astro'
 import UpdateCard from '../components/UpdateCard.astro'
 import NewCard from '../components/NewCard.astro'
 
-import { stream } from './content.ts'
-import contentUpdates from '../data/content-updates.json'
+import { stream, publishedNotes, publishedEssays, publishedTalks } from './content.ts'
+import { resolveContentEvents } from '../../scripts/content-history-loader'
+
+const contentUpdates = resolveContentEvents(
+  (await getCollection('contentEvents')).map((entry) => entry.data),
+  [...publishedNotes, ...publishedEssays, ...publishedTalks],
+)
 
 import { components } from '../components/mdxcomponents.ts'
 
