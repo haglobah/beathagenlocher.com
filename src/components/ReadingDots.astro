@@ -34,12 +34,15 @@ const dots = binaryDots(minutes)
   </span>
   {
     label === 'always' ? (
-      <span class="f-text-xs whitespace-nowrap" aria-hidden="true">
+      <span
+        class="font-mono f-text-xs tabular-nums whitespace-nowrap text-cornflower"
+        aria-hidden="true"
+      >
         {text}
       </span>
     ) : (
       <span
-        class="absolute left-full ml-2 f-text-2xs whitespace-nowrap text-zinc-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
+        class="absolute left-full ml-2 font-mono f-text-2xs tabular-nums whitespace-nowrap text-cornflower opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none"
         aria-hidden="true"
       >
         {text}
