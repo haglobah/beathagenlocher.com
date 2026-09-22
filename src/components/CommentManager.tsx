@@ -104,7 +104,7 @@ export default function CommentManager(): JSXElement {
           <Switch>
             <Match when={form()}>
               {(form) => (
-                <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] drop-shadow-lg p-3">
+                <div class="mt-2 max-w-[72ch] rounded-xl bg-spacecadet-light shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] drop-shadow-lg p-3">
                   <textarea
                     value={form().draft.comment}
                     onInput={(e) => dispatch(Comment.Msg.UpdateComment(e.currentTarget.value))}
@@ -146,14 +146,14 @@ export default function CommentManager(): JSXElement {
             </Match>
 
             <Match when={store.t === 'Sent'}>
-              <div class="mt-2 max-w-[65ch] p-3 rounded-xl bg-spacecadet-light">
+              <div class="mt-2 max-w-[72ch] p-3 rounded-xl bg-spacecadet-light">
                 <span class="text-sm text-green-600 dark:text-green-400">Sent!</span>
               </div>
             </Match>
 
             <Match when={failure()}>
               {(failure) => (
-                <div class="mt-2 max-w-[65ch] rounded-xl bg-spacecadet-light p-3">
+                <div class="mt-2 max-w-[72ch] rounded-xl bg-spacecadet-light p-3">
                   <p class="text-sm font-mono text-red-700 dark:text-red-800 mb-2">
                     {failure().reason}
                   </p>
