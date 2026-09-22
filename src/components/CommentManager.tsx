@@ -61,7 +61,7 @@ export default function CommentManager(): JSXElement {
             paragraphId: par.id,
             paragraphText:
               par
-                .querySelector(':scope > p, :scope > ul, :scope > ol')
+                .querySelector(':scope > [data-comment-content]')
                 ?.textContent?.trim()
                 .slice(0, 200) ?? '',
           }),

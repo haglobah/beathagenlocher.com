@@ -1,5 +1,7 @@
 ---
+import { linkContent } from '../lib/linkContent'
 const { href, arrow = true, class: className = 'font-medium' } = Astro.props
+const html = linkContent(await Astro.slots.render('default'))
 ---
 
 <a
@@ -14,7 +16,7 @@ const { href, arrow = true, class: className = 'font-medium' } = Astro.props
     class:list={[
       'cursor-pointer group-hover/innerlink:text-sienna-light transition duration-300 ease-in-out',
       className,
-    ]}><slot /></span
+    ]}><Fragment set:html={html} /></span
   >{
     arrow === true && (
       <span class="i-heroicons:arrow-right-20-solid relative left-[0.1em] top-[0.2em] text-sienna group-hover/innerlink:text-sienna-light transition-all duration-300 ease-in-out -rotate-45 inline-block group-hover/innerlink:translate-y-[0.08em] group-hover/innerlink:rotate-0 size-[1.2em]" />

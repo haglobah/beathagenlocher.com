@@ -62,7 +62,7 @@ import ListItem from '../components/ListItem.astro'
       </Section>
       <div class="flex justify-start f-gap-md lg:pt-4">
         <Ol href="https://github.com/haglobah" arrow={false}>
-          <div class="i-carbon:logo-github f-w-xl f-h-xl"></div>
+          <span class="i-carbon:logo-github f-w-xl f-h-xl"></span>
         </Ol>
         <Ol href="https://bsky.app/profile/beathagenlocher.com" arrow={false}>
           <svg class="f-w-xl f-h-xl" fill="none" viewBox="0 0 64 57">
@@ -74,16 +74,16 @@ import ListItem from '../components/ListItem.astro'
           </svg>
         </Ol>
         <Ol href="https://linkedin.com/in/beat-hagenlocher/" arrow={false}>
-          <div class="i-carbon:logo-linkedin f-w-xl f-h-xl"></div>
+          <span class="i-carbon:logo-linkedin f-w-xl f-h-xl"></span>
         </Ol>
         <Ol href="mailto:bah@posteo.de" arrow={false}>
-          <div class="i-heroicons:envelope-solid f-w-xl f-h-xl"></div>
+          <span class="i-heroicons:envelope-solid f-w-xl f-h-xl"></span>
         </Ol>
       </div>
     </header>
     <div class="f-pt-xl lg:w-1/2 lg:f-py-xl">
       <Section title="Skills & Abilities">
-        <ol class="group/list">
+        <div class="group/list">
           <WideCard
             description="Software Engineering"
             topics={['Software Architecture', 'Functional Programming', 'Local-first Software']}
@@ -151,10 +151,10 @@ import ListItem from '../components/ListItem.astro'
           <!--     'Reinventing Organizations', -->
           <!--   ]} -->
           <!-- /> -->
-        </ol>
+        </div>
       </Section>
       <Section title="Experience">
-        <ol class="group/list">
+        <div class="group/list">
           <WideCard
             title="Surplus"
             description="Aug 2026—now"
@@ -348,10 +348,10 @@ import ListItem from '../components/ListItem.astro'
           >
             Developed AI Agents for Blobby Volley VR. Represented TNG at the TNG booth at OOP 2020.
           </WideCard>
-        </ol>
+        </div>
       </Section>
       <Section title="Projects">
-        <ol class="group/section">
+        <div class="group/section">
           <WideCard
             title="Mastering 42"
             description="Apr 2022–Sep 2023"
@@ -377,10 +377,10 @@ import ListItem from '../components/ListItem.astro'
             The final project of the Common Core at 42: A web app for playing Pong (with chatting,
             accounts)—still has some rough edges.
           </WideCard>
-        </ol>
+        </div>
       </Section>
       <Section title="Education">
-        <ol class="group/section">
+        <div class="group/section">
           <WideCard
             title="Common Core"
             description="Apr 2022–Sep 2023"
@@ -431,7 +431,7 @@ import ListItem from '../components/ListItem.astro'
             <p>Final grade: 1.0</p>
             <p>Received a prize for the best Abitur in Chemistry.</p>
           </WideCard>
-        </ol>
+        </div>
       </Section>
       <footer
         id="colophon"

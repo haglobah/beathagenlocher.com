@@ -1,11 +1,7 @@
 ---
-import Commentable from './Commentable.astro'
+const { class: className, ...attributes } = Astro.props
 ---
 
-<Commentable
-  as="div"
-  inner="ol"
-  innerClass="f-my-xs pl-8 mb-3 list-decimal list-outside marker:text-sienna-light space-y-2"
->
+<ol {...attributes} class:list={['f-my-xs pl-8 mb-3 list-decimal list-outside marker:text-sienna-light space-y-2', className]}>
   <slot />
-</Commentable>
+</ol>

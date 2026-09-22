@@ -14,6 +14,7 @@ import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import sitemap from '@astrojs/sitemap'
 
 import expressiveCode from 'astro-expressive-code'
+import { validCodeMarkup } from './src/plugins/valid-code-markup'
 
 // Old slugs of renamed content; they get redirect stub pages, so wiki links
 // pointing at old names still resolve, but the stubs stay out of the sitemap.
@@ -83,7 +84,7 @@ export default defineConfig({
     }),
     expressiveCode({
       themes: ['catppuccin-mocha'],
-      plugins: [pluginLineNumbers()],
+      plugins: [pluginLineNumbers(), validCodeMarkup()],
       defaultProps: {
         showLineNumbers: false,
       },

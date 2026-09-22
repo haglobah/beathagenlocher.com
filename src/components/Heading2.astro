@@ -4,15 +4,30 @@ import { slug } from 'github-slugger'
 
 const headingHtml = await Astro.slots.render('default')
 const { document } = parseHTML(headingHtml)
-const theID = slug(document.toString())
+const { id, class: className, ...attributes } = Astro.props
+const theID = id ?? slug(document.toString())
+const isFootnoteLabel = theID === 'footnote-label'
 const theLink = `#${theID}`
 ---
 
-<h2 id={theID} class="font-light font-headline f-text-lg f-mt-lg f-mb-md group/heading2 relative">
-  <a
-    href={theLink}
-    class="absolute top--1 left--8 px-1 f-text-xl font-normal opacity-0 transition-opacity group-hover/heading2:opacity-100 duration-300 text-cornflower"
-    >§</a
-  >
+<h2
+  {...attributes}
+  id={theID}
+  class:list={[
+    className,
+    !isFootnoteLabel &&
+      'font-light font-headline f-text-lg f-mt-lg f-mb-md group/heading2 relative',
+  ]}
+>
+  {
+    !isFootnoteLabel && (
+      <a
+        href={theLink}
+        class="absolute top--1 left--8 px-1 f-text-xl font-normal opacity-0 transition-opacity group-hover/heading2:opacity-100 duration-300 text-cornflower"
+      >
+        §
+      </a>
+    )
+  }
   <Fragment set:html={document} />
 </h2>

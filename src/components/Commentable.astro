@@ -3,13 +3,13 @@ import CommentButton from './CommentButton.astro'
 import { hashParagraphId, htmlToText } from '../lib/paragraphId'
 
 export interface Props {
-  as?: 'span' | 'div'
-  inner?: 'p' | 'ul' | 'ol'
+  as?: 'div'
+  inner?: 'p' | 'div'
   wrapperClass?: string
   innerClass?: string
 }
 
-const { as = 'span', inner = 'p', wrapperClass = '', innerClass = '' } = Astro.props
+const { as = 'div', inner = 'p', wrapperClass = '', innerClass = '' } = Astro.props
 
 const html = await Astro.slots.render('default')
 const id = hashParagraphId(htmlToText(html))
@@ -18,10 +18,11 @@ const Wrapper = as
 const Inner = inner
 ---
 
-<Wrapper id={id} class:list={['commentable-par group relative', wrapperClass]}>
+<Wrapper id={id} class:list={['commentable-par relative', wrapperClass]}>
   <Inner
+    data-comment-content
     class:list={[
-      'rounded transition-background-color duration-200 ease-in-out group-[.comment-active]:bg-[rgba(100,108,255,0.08)]',
+      'rounded transition-background-color duration-200 ease-in-out',
       'relative md:after:content-[""] md:after:absolute md:after:right-full md:after:top-0 md:after:bottom-0 md:after:w-12',
       innerClass,
     ]}
@@ -30,3 +31,13 @@ const Inner = inner
   </Inner>
   <CommentButton />
 </Wrapper>
+
+<style is:global>
+  .commentable-par.comment-active > [data-comment-content] {
+    background-color: rgba(100, 108, 255, 0.08);
+  }
+  .commentable-par:hover:not(:has(.commentable-par:hover)) > .comment-control .comment-trigger,
+  .commentable-par:focus-within:not(:has(.commentable-par:focus-within)) > .comment-control .comment-trigger {
+    opacity: 0.4;
+  }
+</style>

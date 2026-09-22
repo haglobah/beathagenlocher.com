@@ -4,12 +4,12 @@ import Ol from './OuterLink.astro'
 const { author, ...props } = Astro.props
 ---
 
-<span class="reference-link block f-my-md">
+<div class="reference-link block f-my-md">
   <Ol {...props}>
     <slot />
   </Ol>
   {author && <span class="block text-zinc-400">{author}</span>}
-</span>
+</div>
 
 <style>
   .reference-link :global(p) {

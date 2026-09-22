@@ -1,29 +1,11 @@
 .spoiler {
-  width: max-content;
-  inline-size: fit-content;
-  display: inline;
-  padding: 0 0.1rem;
-  color: #f9f9f9;
-  background-color: #f9f9f9;
+  margin-block: 1rem;
 }
 
-.spoiler:hover {
-  color: var(--font-clr);
-  transition-property: color;
-  transition-duration: 0.2s;
-}
-
-.spoiler > input[type='checkbox'] {
-  position: absolute;
-  width: 0;
-  height: 0;
-  visibility: hidden;
-}
-
-.spoiler > label {
+.spoiler > summary {
+  width: fit-content;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  background-color: #3f3f46;
   cursor: pointer;
-}
-
-input:checked + label {
-  color: var(--font-clr);
 }
