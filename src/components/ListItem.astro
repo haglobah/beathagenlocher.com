@@ -1,15 +1,33 @@
 ---
+import { parseHTML } from 'linkedom'
+import Commentable from './Commentable.astro'
 
+const { class: className, ...attributes } = Astro.props
+const html = (await Astro.slots.render('default')) ?? ''
+const { document } = parseHTML(`<div id="item-root">${html}</div>`)
+const root = document.getElementById('item-root')!
+// The item owns its paragraphs' controls; nested list items retain their own.
+for (const wrapper of root.querySelectorAll('.commentable-par')) {
+  if (wrapper.closest('li')) continue
+  const paragraph = wrapper.querySelector(':scope > p')
+  if (paragraph) wrapper.replaceWith(paragraph)
+}
 ---
 
 <li
-  class="[&_input]:i-carbon:checkbox [&_input]:relative [&_input]:top-[5px] [&_input]:right-1 [&_input]:size-5 [&_input:checked]:i-carbon:checkbox-checked [&_input:disabled]:opacity-80 [&_input:disabled]:cursor-not-allowed"
+  {...attributes}
+  class:list={[
+    className,
+    '[&_input[type=checkbox]]:i-carbon:checkbox [&_input[type=checkbox]]:relative [&_input[type=checkbox]]:top-[5px] [&_input[type=checkbox]]:right-1 [&_input[type=checkbox]]:size-5 [&_input[type=checkbox]:checked]:i-carbon:checkbox-checked [&_input[type=checkbox]:disabled]:opacity-80 [&_input[type=checkbox]:disabled]:cursor-not-allowed',
+  ]}
 >
-  <slot />
+  <Commentable inner="div">
+    <Fragment set:html={root.innerHTML} />
+  </Commentable>
 </li>
 
 <style>
-  li:has(> input) {
+  li:has(> .commentable-par > [data-comment-content] > input) {
     @apply list-none relative;
   }
 </style>
