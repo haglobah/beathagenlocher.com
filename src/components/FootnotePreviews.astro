@@ -1,0 +1,75 @@
+<script>
+  import { setupFootnotePreviews } from './footnotePreviews'
+  setupFootnotePreviews()
+</script>
+
+<style is:global>
+  .footnote-link {
+    color: #a5b4fc;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    scroll-margin-block: 5rem;
+  }
+  .footnote-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  [data-footnotes] {
+    margin-top: 3rem;
+    border-top: 1px solid #52525b;
+    padding-top: 1rem;
+  }
+  [data-footnotes] > ol {
+    list-style: decimal outside;
+    padding-left: 1.5rem;
+  }
+  [data-footnotes] li::marker {
+    color: #ecb1a2;
+  }
+  [data-footnotes] li > .commentable-par {
+    display: block;
+  }
+  [data-footnotes] li > .commentable-par > [data-comment-content] > p {
+    margin-block: 0;
+  }
+  [data-footnotes] li + li {
+    margin-top: 1rem;
+  }
+  [data-footnotes] li {
+    scroll-margin-block: 3rem;
+  }
+  .footnote-preview {
+    position: fixed;
+    z-index: 100;
+    width: min(24rem, calc(100vw - 24px));
+    max-height: min(24rem, calc(100dvh - 24px));
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 1rem 1.125rem;
+    border-radius: 0.75rem;
+    background: #27272a;
+    color: #e4e4e7;
+    box-shadow:
+      0 0 0 1px #ffffff20,
+      0 8px 24px #0005,
+      0 24px 48px #0003;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
+  .footnote-preview p {
+    margin: 0.5rem 0;
+  }
+  .footnote-preview p:first-child {
+    margin-top: 0;
+  }
+  .footnote-preview p:last-child {
+    margin-bottom: 0;
+  }
+  .footnote-preview pre {
+    overflow-x: auto;
+  }
+</style>

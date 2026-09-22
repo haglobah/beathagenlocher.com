@@ -1,4 +1,5 @@
 import Ol from './OuterLink.astro'
+import FootnoteSection from './FootnoteSection.astro'
 import Il from './InnerLink.astro'
 import I from './InnerAutoLink.astro'
 import InnerLinkEmpty from './InnerLinkEmpty.astro'
@@ -37,6 +38,7 @@ export const components = {
   KB,
   Book,
 
+  section: FootnoteSection,
   a: Ol,
   innerlink: Il,
   innerlinkempty: InnerLinkEmpty,
