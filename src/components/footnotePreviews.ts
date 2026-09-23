@@ -1,10 +1,14 @@
+import * as Footnote from './footnoteMachine'
+
 /** Enhance native footnote anchors; navigation still works without JavaScript. */
 export function setupFootnotePreviews() {
   for (const reference of document.querySelectorAll<HTMLAnchorElement>('a[data-footnote-ref]')) {
-    const href = reference.getAttribute('href')
-    if (!href?.startsWith('#')) continue
-    const note = document.getElementById(decodeURIComponent(href.slice(1)))
-    if (!note) continue
+    const target = Footnote.parseTarget(reference)
+    if (target.t === 'Invalid') {
+      console.warn(target.reason, reference)
+      continue
+    }
+    const note = target.note
 
     const preview = document.createElement('div')
     preview.className = 'footnote-preview'
@@ -24,56 +28,29 @@ export function setupFootnotePreviews() {
     })
     preview.append(...Array.from(content.childNodes))
     document.body.append(preview)
-    const description = reference.getAttribute('aria-describedby')
-    let closeTimer: ReturnType<typeof setTimeout>
-
-    function position() {
-      const anchor = reference.getBoundingClientRect()
-      const box = preview.getBoundingClientRect()
-      const margin = 12
-      const below = anchor.bottom + 8
-      const above = anchor.top - box.height - 8
-      preview.style.left = `${Math.max(margin, Math.min(anchor.left - 12, window.innerWidth - box.width - margin))}px`
-      preview.style.top = `${Math.max(margin, Math.min(below + box.height <= window.innerHeight - margin ? below : above, window.innerHeight - box.height - margin))}px`
-    }
-    function show() {
-      clearTimeout(closeTimer)
-      preview.hidden = false
-      reference.setAttribute(
-        'aria-describedby',
-        [description, preview.id].filter(Boolean).join(' '),
-      )
-      position()
-    }
-    function hide() {
-      clearTimeout(closeTimer)
-      preview.hidden = true
-      if (description) reference.setAttribute('aria-describedby', description)
-      else reference.removeAttribute('aria-describedby')
-    }
-    function scheduleClose() {
-      clearTimeout(closeTimer)
-      closeTimer = setTimeout(() => {
-        if (!reference.matches(':hover, :focus') && !preview.matches(':hover, :focus-within'))
-          hide()
-      }, 150)
+    let state: Footnote.State = Footnote.State.Closed()
+    const execute = Footnote.execute(reference, preview)
+    const dispatch = (msg: Footnote.Msg): void => {
+      const [next, commands] = Footnote.update(state, msg)
+      state = next
+      commands.forEach((command) => execute(command, dispatch))
     }
     reference.addEventListener('pointerenter', (event) => {
-      if (event.pointerType !== 'touch') show()
+      if (event.pointerType !== 'touch') dispatch(Footnote.Msg.Show())
     })
-    reference.addEventListener('focus', show)
-    reference.addEventListener('click', hide)
-    reference.addEventListener('pointerleave', scheduleClose)
-    reference.addEventListener('blur', scheduleClose)
-    preview.addEventListener('pointerenter', () => clearTimeout(closeTimer))
-    preview.addEventListener('pointerleave', scheduleClose)
-    preview.addEventListener('focusin', () => clearTimeout(closeTimer))
-    preview.addEventListener('focusout', scheduleClose)
+    reference.addEventListener('focus', () => dispatch(Footnote.Msg.Show()))
+    reference.addEventListener('click', () => dispatch(Footnote.Msg.Dismiss()))
+    reference.addEventListener('pointerleave', () => dispatch(Footnote.Msg.Leave()))
+    reference.addEventListener('blur', () => dispatch(Footnote.Msg.Leave()))
+    preview.addEventListener('pointerenter', () => dispatch(Footnote.Msg.KeepOpen()))
+    preview.addEventListener('pointerleave', () => dispatch(Footnote.Msg.Leave()))
+    preview.addEventListener('focusin', () => dispatch(Footnote.Msg.KeepOpen()))
+    preview.addEventListener('focusout', () => dispatch(Footnote.Msg.Leave()))
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && !preview.hidden) {
-        if (preview.contains(document.activeElement)) reference.focus()
-        hide()
-      }
+      if (event.key === 'Escape')
+        dispatch(
+          Footnote.Msg.Escape(preview.contains(document.activeElement) ? 'Preview' : 'Elsewhere'),
+        )
     })
     document.addEventListener('pointerdown', (event) => {
       if (
@@ -81,17 +58,9 @@ export function setupFootnotePreviews() {
         !preview.contains(event.target) &&
         !reference.contains(event.target)
       )
-        hide()
+        dispatch(Footnote.Msg.Dismiss())
     })
-    window.addEventListener('resize', () => {
-      if (!preview.hidden) position()
-    })
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!preview.hidden) position()
-      },
-      { passive: true },
-    )
+    window.addEventListener('resize', () => dispatch(Footnote.Msg.Reposition()))
+    window.addEventListener('scroll', () => dispatch(Footnote.Msg.Reposition()), { passive: true })
   }
 }

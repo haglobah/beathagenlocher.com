@@ -20,7 +20,11 @@ try {
   fixtureCreated = true
   server = spawn(
     'node',
-    ['--input-type=module', '-e', `import { dev } from 'astro'; await dev({server:{port:${port}}})`],
+    [
+      '--input-type=module',
+      '-e',
+      `import { dev } from 'astro'; await dev({server:{port:${port}}})`,
+    ],
     { env: { ...process.env, ASTRO_DEV_BACKGROUND: '1' }, stdio: ['ignore', 'pipe', 'pipe'] },
   )
   server.stdout.on('data', (data) => {
@@ -92,6 +96,36 @@ try {
   assert.equal(await external.getAttribute('target'), '_blank')
   assert.equal(await external.getAttribute('rel'), 'noreferrer')
   assert.equal(await external.locator('span').count(), 2)
+  const secondRef = page.locator('[data-footnote-ref]').nth(1)
+  const secondPreview = page.locator('.footnote-preview').nth(1)
+  await ref.focus()
+  await secondRef.hover()
+  assert.equal(
+    await page.locator('.footnote-preview:visible').count(),
+    2,
+    'Focused and hovered references have independent previews',
+  )
+  await page.mouse.move(0, 0)
+  await page.waitForTimeout(250)
+  assert.ok(
+    await page.locator('.footnote-preview').first().isVisible(),
+    'Focus retains the first preview after pointer departure',
+  )
+  assert.ok(!(await secondPreview.isVisible()), 'Unfocused preview closes after pointer departure')
+  await page.locator('.footnote-preview').first().getByRole('link').first().focus()
+  await page.keyboard.press('Escape')
+  assert.ok(
+    await ref.evaluate((el) => el === document.activeElement),
+    'Escape from preview content restores reference focus',
+  )
+  assert.equal(
+    await page.locator('.footnote-preview:visible').count(),
+    0,
+    'Restoring focus must not reopen the dismissed preview',
+  )
+  await page.evaluate(() => window.dispatchEvent(new Event('resize')))
+  assert.equal(await page.locator('.footnote-preview:visible').count(), 0)
+  await ref.evaluate((el) => el.blur())
   await ref.hover()
   const preview = page.locator('.footnote-preview').first()
   await preview.waitFor({ state: 'visible' })

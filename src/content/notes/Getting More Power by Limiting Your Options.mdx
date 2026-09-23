@@ -1,5 +1,5 @@
 ---
-title: 'Getting More Powerful by Limiting Your Options'
+title: 'Becoming More Powerful by Limiting Your Options'
 description: 'Simplicity is Power'
 growthStage: seedling
 startDate: 2025-11-06T23:32:57
@@ -10,94 +10,114 @@ publish: true
 
 There's an interesting property of systems that rarely gets talked about:
 
-Often, _limiting your options actually increases your capability to do stuff_ (≙ your power).
+Often, _limiting the options of things you can do in a system actually increases your capability to do stuff with/in the system_ (≙ the power of the system).
 
-This is very, very opposed to a thing I regularly _see_ people doing: Just adding options to doing something.
+This is very much the opposite to what see that people do when they have a problem: They're just _adding_ options.
 
 I'm not sure how intuitive this is, but it is a thing I've seen people get wrong, so let's talk about it.
 
 ---
 
-The thing that originally made me think about this is the trajectory of features programming languages have.
+What made me originally think about this is the features we mostly use(d) in programming languages over time.
 
-The features most used in mainstream programming languages roughly transformed from 'everything is possible' (machine code) to restricted access to registers and jumps, but with access to pointers; (C), to restricting access to pointers (e.g. Java) to restricting access to all mutation (functional programming).
+Those sets of features went from
 
-(Yes, I know about the separate Lambda Calculus/Lisp/Haskell timeline, but I'm talking about mainstream—and those features only made it into the mainstream after Java happened.)
+- 'everything is possible' in machine code
+- to restricted access to registers and jumps, but with access to pointers in C
+- to restricting access to pointers, e.g. in Java
+- to restricting access to all mutation in functional programming (this last shift is still ongoing, but so far it's looking good).[^1][^2]
 
-And the result of this restriction was that people nowadays are way, way more capable to write big and complex programs that have lots of functionality the people of the past only could dream about, and I think it's to a large because they reduced their leeway to do things on a different layer of the stack.[^1]
+And the result of these increasing restrictions on what programs can do _locally_ is we were able to achieve better results _globally_. Nowadays[^3] we are writing bigger and more complex programs than people have in the past in a fraction of the time. This is obviously due to factors except the features programming languages give you: Think better libraries, more functionality inside the OS and the Browser, better protocols to use, and so on—but I think it's _also_ to a large extent because people programming languages restricted the users on which features to use.
+(Or rather, that programming languages that did that became more generally used (because they were more powerful?) (which should be kind of counterintuitive, because their features are _less_ powerful, in a sense))
+
+themselves to only utilizing a subset of features of the actual machine language in their programming languages.
+(And if you squint a bit, you'll notice that basically half of the other improvements are actually the same kind of improvement: Protocols and libraries are, and the 'standardizing-functionality' parts of enlarging the OS or the Browser surface (like adding wasm) are, too.)
 
 And with time, I've started to notice many more things that can be viewed through that lens.
 
----
-
-And I went with that. But this is a thing that's happening in so many other different domains:
-
-## 1. Things that work that way, and work well
-
 - Language: Language only works because speakers limited themselves to a fixed set of sounds they use, and that let's both keep them in their head, and make them legible to others
-  - and on a higher level, a <Il href="stream#00073">lingua franca</Il> is like that: We humans limit us to only one language we use to do almost everything in a particular topic
-- currency is like that: instead of trading in any good, we trade for one, common, agreed-upon good.
+  - and on a higher level, a <Il href="stream#00073">lingua franca</Il> is like that: It's incredibly useful to limit us to only one language for everything
+- Currency is like that: instead of trading in any good, we trade for one, common, agreed-upon good.
   - Again on a higher level, a reserve currency is like that: By only limiting yourself to currency issued by a certain bank or country, everyone gets a medium of exchange to agree on, everyone benefits (and yes, the issuer of the reserve currency tends to benefit most)
-- minimalism!
-  - just owning very little makes _so_ _many_ things in life easier, it's hard to even describe
-  - like not owning a car means just you need to never think about parking space, repairing it, going to a gas station, ...
+- Minimalism!
+  - owning only few items makes lots of other things easier: like not owning a car (and with that grealy limiting your optionality for things) means you need to never think about parking space, repairing it, going to a gas station, ...
 
-## 1.5. Things that work that way, and don't work well (I think?) (aka. things where our options are already way too limited)
+I think in general we're thinking about this taking-options-away thing too seldomly.
+But following the [rule of equal and opposite advice](https://slatestarcodex.com/2014/03/24/should-you-reverse-any-advice-you-hear/), we can also take it too far.
 
-- zoning laws are the perfect example for this: Instead of allowing anyone to build anything anywhere, they prescribe certain areas where only some types of buildings can be built. (Is that sensible?)
+- having only one language for all humans for everything might be bad
+- reducing the number of items below ~200 sounds like more work than it buys you
+- not using cars, bikes, motorcycles and trains all at the same time sounds unnecessarily hard
+- owning nothing sounds pretty hard (but now that I think of it, I also see myself generating okay ideas for that, so it may be challenging in a good way?—Anyway..)
 
-## 2. Things where we should limit the options to acquire more power
+E.g. taking away one more of the few remaining and bad options for a thing you actually want to do is probably on average a bad idea (then, you might even want to add some?).
 
-- basically everything regarding regulation and law?
-  here, my perception is that there's often way, way too much different things one could do and apply for, and that greatly limits the efficacy of the system in total—but that's often also the actual intent of the designers of the system or at least a desired side effect, so who knows
-  - specifically the building code
+And I've got some confusion brought with me, too. What about things like government regulation?
 
-# When to use this
+- like limiting the substances people are allowed to put into food/beverages doesn't sound 'more powerful', but rather potentially more annoying for the customer or for the producer in the short term, and potentially worse for both in the long term (when more hardship getting a product on the market ≙ fewer products on the market ≙ fewer competion ≙ worse products at higher cost)
+- same for the building code
+- What about zoning laws. They definitely limit options, but they seem kinda bad in general?
+
+I think here, the framework doesn't fit as clearly. Maybe the 'power' aspect only comes if people are able to build on that, and at least I as a natural person am not able to build on the state of improved regulation here. (I guess it might make the life of city administrators easier?)
+
+But enough of that. When could and should we actually use this?
+
+## When (I think) I use this
 
 I think the biggest personal usecase for this might be actually making decisions.
 I know that I suffer a lot less from decision fatigue than people around me, and I also know people were confused when I told them about this.
 
-So basically whenever something feels overwhelming, and I feel tempted to add an additional step/option/whatever to something (which has big negative externalities in complexity, but only in the long run, so it doesn't feel that way _right now_ when I'm making the decision), I take a step back and think whether I could actually achieve a better result by limiting my options (and maybe then improving my choices inside of those limited options).
+Whenever something feels overwhelming, and I feel tempted to add an additional step/option/whatever to something (which has big negative externalities in complexity, but only in the long run, so it doesn't feel that way _right now_ when I'm making the decision), I take a step back and think whether I could actually achieve a better result by limiting my options (and maybe then improving my choices inside of those limited options).
 
 Random examples that come to mind are:
 
-- choosing things in new supermarkets (just go with only organic for first)
+- choosing things in new supermarkets (just go with only organic/without added sugar for first)
 - buying clothing (pick the nicest fabric and ignore everything else)
 - doing any of the next tasks on my todo list (there, I cheat and tackle them by prioritization)
 
-I think that this is also a pretty nice general heuristic:
+Examples where people _should_ do that but don't:
 
-Often you don't even need to look at all of the options before deciding anything
+- hiring processes!
+  - it's suuper easy to add a round without improving anything, while feeling like you might have improved something, while adding crazy externalities to the process.
+- well, making decisions
+  When the decision isn't surrounded by lots of clarity, people tend to just postpone the decision. And if the unclarity is actually the limiting factor for them not tackling the decision, this is just dumb.
 
-Take language:
-There, we effectively limit the amount of sound to a few handful
-Did you notice?
-All of that was just a different way to describe the process of abstraction—but this is something that's very hard to do like that.
+This might only be me, but I think we individually and we as the world generally err more on the too many options side.
 
-<Draft>
+So the question for you (and for us when looking at any system) is now:
 
-### 1. Programming languages
+Can I limit my options?, and:
+Would that make things better?
 
-- C is just assembly with access to raw registers removed
-- OO programming is just imperative programming without access to pointers
-- functional programming is just programming without mutation
+If yes, please go for it.
 
-### 2. Spoken Languages
+And only if the answer is an obvious 'No', add an option/thing to the system.
 
-Carving only a few out of all of the possible sound combinations enables us to speak a common tongue.
+So to summarize:
 
-A <Il href="stream#00073">lingua franca</Il> is like that: We humans limit us to only one language we use to do almost everything in a particular topic
-
-### 3. Currency
-
-</Draft>
+> Fewer options (generally) imply simplicity, and simplicity (generally) makes you more powerful.
 
 ---
 
-The underlying principle behind this is that all of these are instances of a thing from software engineering: **Interfaces**
+## P.S.
+
+(~60% confidence, something I noticed while writing this:)
+I think this is just a description of the process of abstraction? Like I'm literally taking away options/things, and then have something I can work better with (even though I'm not naming the new thing in the end.)
+But I hope you now have an idea on how to use this mental model—and I guess you wouldn't
+All of that was just a different way to describe the process of abstraction—but this is something that's very hard to do like that.
+
+Oh, and building on that, for the software engineers between us:
+
+I guess this ('fewer options ≙ simpler things ≙ more power when building on top'), is also why
+
+{/* If limiting your options actually gives you power, functions+data+interfaces/typeclasses work so great together, and other things that don't abstract as much, and add more cruft aren't, like regular, class-based */}
+
+The underlying principle behind this is that all of these are instances of a thing from software engineering: **Interfaces**/**Typeclasses**.
 
 There, you consciously limit yourself to only using a very limited subset of all the available options at the benefit of simplicity—and I think this is what underlies this here:
 
-> Simplicity is Power.
+[^1]: Yes, kind of an oversimplification, but I think still accurate.
 
-[^1]: I've actually never met anyone that didn't agree with me on this, so if you do, please tell why where I'm wrong!
+[^2]: For my PL nerds out there: Yes, I know about the separate Lambda Calculus/Lisp/Haskell/... timeline, but I'm talking about mainstream—and those features only made it into the mainstream after Java happened.
+
+[^3]: Let's ignore LLM things for now, so nowadays ≙ ~2022
