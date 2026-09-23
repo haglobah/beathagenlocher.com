@@ -4,7 +4,8 @@ import { writeFile, unlink } from 'node:fs/promises'
 import { spawn, execFileSync } from 'node:child_process'
 import { chromium } from 'playwright'
 
-const fixture = new URL('../src/pages/footnote-check-fixture.mdx', import.meta.url)
+const fixtureName = `footnote-check-fixture-${process.pid}`
+const fixture = new URL(`../src/pages/${fixtureName}.mdx`, import.meta.url)
 const port = 14330
 let browser
 let server
@@ -28,7 +29,7 @@ try {
   server.stderr.on('data', (data) => {
     logs += data
   })
-  const url = `http://localhost:${port}/footnote-check-fixture`
+  const url = `http://localhost:${port}/${fixtureName}`
   let ready = false
   for (let i = 0; i < 120; i++) {
     if (server.exitCode !== null) throw new Error(logs)
@@ -82,6 +83,11 @@ try {
     'Footnote target ID must survive list rendering',
   )
   assert.equal(await page.locator('#footnote-label').count(), 1)
+  const heading = page.locator('h2#footnote-label')
+  assert.ok(await heading.isVisible(), 'The footnote section heading is visible')
+  assert.match(await heading.getAttribute('class'), /font-headline/)
+  assert.doesNotMatch(await heading.getAttribute('class'), /\bsr-only\b/)
+  assert.equal(await heading.locator('a[href="#footnote-label"]').count(), 1)
   const external = page.getByRole('link', { name: 'External link', exact: true })
   assert.equal(await external.getAttribute('target'), '_blank')
   assert.equal(await external.getAttribute('rel'), 'noreferrer')
