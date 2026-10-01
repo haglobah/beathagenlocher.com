@@ -59,7 +59,8 @@ export default defineConfig({
     }
   },
   presets: [
-    presetIcons(),
+    // Icons are empty spans; inline elements ignore width/height.
+    presetIcons({ extraProperties: { display: 'inline-block' } }),
     presetWebFonts({
       provider: 'google',
       fonts: {
