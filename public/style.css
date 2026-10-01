@@ -1,3 +1,8 @@
+/* Desktop nav height; the about page sizes its left column against it. */
+:root {
+  --nav-h: 7.5rem;
+}
+
 .spoiler {
   margin-block: 1rem;
 }

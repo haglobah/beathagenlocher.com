@@ -8,20 +8,30 @@ import Par from '../components/Par.astro'
 import WideCard from '../components/WideCard.astro'
 import List from '../components/List.astro'
 import ListItem from '../components/ListItem.astro'
+import QRCode from 'qrcode'
+
+const aboutUrl = new URL('/me', Astro.site ?? 'https://beathagenlocher.com').href
+// Dark modules on a light tile: some scanners fail on inverted codes.
+const aboutQr = await QRCode.toString(aboutUrl, {
+  type: 'svg',
+  margin: 2,
+  errorCorrectionLevel: 'M',
+  color: { dark: '#27272a', light: '#d4d4d8' },
+})
 ---
 
 <Layout title="Beat Hagenlocher">
   <div class="f-mx-xs lg:flex lg:justify-between lg:f-gap-4xl lg:f-px-xl">
     <header
-      class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:f-mr-4xl lg:flex-col lg:justify-between lg:f-py-2xl"
+      class="lg:sticky lg:top-0 lg:flex lg:h-[calc(100dvh-var(--nav-h))] lg:w-1/2 lg:f-mr-4xl lg:flex-col lg:justify-between lg:pb-4"
     >
-      <div class="f-mt-xs">
+      <div class="f-mt-xs lg:mt-0">
         <h1 class="f-text-2xl leading-tighter tracking-wide text-zinc-200">Beat Hagenlocher</h1>
         <h2 class="f-text-lg text-zinc-200">
           Founder <span class="font-light">@</span><Ol href="https://surplus.dev">surplus.dev</Ol>
         </h2>
       </div>
-      <Section title="About Me" class="overflow-y-auto f-text-sm">
+      <Section title="About Me" class="overflow-y-auto f-text-sm lg:[&>div]:my-2 lg:[&_p]:f-my-xs">
         <Par>
           I want to <Il href="me/?q=Effective Altruism">do good better</Il>, and be <Il
             href="me/?q=Rationality">less wrong</Il
@@ -60,25 +70,36 @@ import ListItem from '../components/ListItem.astro'
           the summer.
         </Par>
       </Section>
-      <div class="flex justify-start f-gap-md lg:pt-4">
-        <Ol href="https://github.com/haglobah" arrow={false}>
-          <span class="i-carbon:logo-github f-w-xl f-h-xl"></span>
-        </Ol>
-        <Ol href="https://bsky.app/profile/beathagenlocher.com" arrow={false}>
-          <svg class="f-w-xl f-h-xl" fill="none" viewBox="0 0 64 57">
-            <path
-              fill="currentColor"
-              d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"
-            >
-            </path>
-          </svg>
-        </Ol>
-        <Ol href="https://linkedin.com/in/beat-hagenlocher/" arrow={false}>
-          <span class="i-carbon:logo-linkedin f-w-xl f-h-xl"></span>
-        </Ol>
-        <Ol href="mailto:bah@posteo.de" arrow={false}>
-          <span class="i-heroicons:envelope-solid f-w-xl f-h-xl"></span>
-        </Ol>
+      <div class="flex items-center f-gap-xl">
+        <div class="flex justify-start f-gap-md">
+          <Ol href="https://github.com/haglobah" arrow={false}>
+            <span class="i-carbon:logo-github f-w-xl f-h-xl"></span>
+          </Ol>
+          <Ol href="https://bsky.app/profile/beathagenlocher.com" arrow={false}>
+            <svg class="f-w-xl f-h-xl" fill="none" viewBox="0 0 64 57">
+              <path
+                fill="currentColor"
+                d="M13.873 3.805C21.21 9.332 29.103 20.537 32 26.55v15.882c0-.338-.13.044-.41.867-1.512 4.456-7.418 21.847-20.923 7.944-7.111-7.32-3.819-14.64 9.125-16.85-7.405 1.264-15.73-.825-18.014-9.015C1.12 23.022 0 8.51 0 6.55 0-3.268 8.579-.182 13.873 3.805ZM50.127 3.805C42.79 9.332 34.897 20.537 32 26.55v15.882c0-.338.13.044.41.867 1.512 4.456 7.418 21.847 20.923 7.944 7.111-7.32 3.819-14.64-9.125-16.85 7.405 1.264 15.73-.825 18.014-9.015C62.88 23.022 64 8.51 64 6.55c0-9.818-8.578-6.732-13.873-2.745Z"
+              >
+              </path>
+            </svg>
+          </Ol>
+          <Ol href="https://x.com/haglobah" arrow={false}>
+            <span class="i-carbon:logo-x f-w-xl f-h-xl"></span>
+          </Ol>
+          <Ol href="https://linkedin.com/in/beat-hagenlocher/" arrow={false}>
+            <span class="i-carbon:logo-linkedin f-w-xl f-h-xl"></span>
+          </Ol>
+          <Ol href="mailto:bah@posteo.de" arrow={false}>
+            <span class="i-heroicons:envelope-solid f-w-xl f-h-xl"></span>
+          </Ol>
+        </div>
+        <div
+          class="w-28 h-28 lg:w-24 lg:h-24 shrink-0 overflow-hidden rounded-xl [&>svg]:block [&>svg]:w-full [&>svg]:h-full"
+          role="img"
+          aria-label={`QR code linking to ${aboutUrl}`}
+          set:html={aboutQr}
+        />
       </div>
     </header>
     <div class="f-pt-xl lg:w-1/2 lg:f-py-xl">

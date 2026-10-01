@@ -142,7 +142,7 @@ declare global {
     class="font-sans font-normal f-text-sm bg-zinc-800 text-zinc-300 leading-[1.6] antialiased selection:bg-sienna-light selection:text-zinc-800 max-w-screen-xl mx-auto scroll-smooth"
   >
     <CommandPalette placeholder="Search commands and content..." />
-    <div class="flex f-my-xl justify-center items-center gap-6">
+    <div class="flex f-my-xl lg:my-0 lg:h-[var(--nav-h)] justify-center items-center gap-6">
       <MainPageIconButton class="f-w-128-164 -m-6" />
       <CommandPaletteButton />
       <div class="flex items-center bg-zinc-700 rounded-full">
@@ -152,6 +152,14 @@ declare global {
           class="hidden xs:block px-3 py-2 hover:bg-zinc-600 text-zinc-300 rounded-l-full transition-colors f-text-xs font-medium"
         >
           About
+        </a>
+        <span class="hidden xs:block w-px h-5 bg-zinc-500"></span>
+        <a
+          href="/contacting-me"
+          title="Contact"
+          class="hidden xs:block px-3 py-2 hover:bg-zinc-600 text-zinc-300 transition-colors f-text-xs font-medium"
+        >
+          Contact
         </a>
         <span class="hidden xs:block w-px h-5 bg-zinc-500"></span>
         <a
